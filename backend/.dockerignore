@@ -1,0 +1,22 @@
+env/
+
+# General OS-specific files
+.DS_Store
+Thumbs.db
+
+# Environment & configuration files
+.env
+
+# Python-specific files and folders
+__pycache__/
+*.pyc
+*.pyo
+venv/
+
+# Node.js-specific files and folders (Frontend)
+node_modules/
+*.log
+
+# Other lock files
+package-lock.json
+yarn.lock

@@ -1,0 +1,9 @@
+flask
+flask-CORS 
+flask-jwt-extended 
+python-dotenv 
+sqlalchemy
+flask_sqlalchemy
+flask_jwt_extended
+werkzeug
+sentence_transformers
