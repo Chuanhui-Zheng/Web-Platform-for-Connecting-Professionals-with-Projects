@@ -4,7 +4,9 @@ capstone-project-2024-t3-3900h13ajemma created by GitHub Classroom
 NOTES:
 
 python -m venv env
+
 env/Scripts/activate
+
 pip install -r requirements.txt
 
 
