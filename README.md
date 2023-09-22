@@ -9,6 +9,7 @@ env/Scripts/activate
 
 pip install -r requirements.txt
 
+npm install vite
 
 !npm run dev in /frontend to run frontend
 
