@@ -22,3 +22,6 @@
 1. Create .env file in same directory as .env.template
 2. Copy content inside .env.template
 3. Set FLASK_SECRET_KEY field to any string (e.g. JEMMA)
+
+
+<!-- expanded-history-pass-002: clearer Markdown structure and handoff detail for the Markdown documentation surface. -->
