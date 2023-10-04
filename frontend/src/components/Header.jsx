@@ -10,7 +10,7 @@ function Header() {
         <Box sx={{ flexGrow: 1 }}>
             <CssBaseline />
             <AppBar position="sticky" sx={{backgroundColor: "#344649"}}>
-            <Toolbar sx={{justifyContent: "center"}}>
+            <Toolbar sx={{justifyContent: "space-between"}}>
             <Typography
                 variant="h5"
                 onClick={() => { navigate('/') }}
@@ -20,7 +20,7 @@ function Header() {
             {/* { localStorage.getItem('token') ? ( */} 
             <>
             <Box>
-            <Button name="companyDashboard" color="inherit" onClick={() => { navigate('companydashboard') }} sx={{ textTransform: 'none' }}>Company Dashboard</Button>
+                <Button name="companyDashboard" color="inherit" onClick={() => { navigate('companydashboard') }} sx={{ textTransform: 'none' }}>Company Dashboard</Button>
                 <Button name="proDashbaord" color="inherit" onClick={() => { navigate('prodashbaord') }} sx={{ textTransform: 'none' }}>Professional Dashboard</Button>
                 <Button name="allProjects" color="inherit" onClick={() => { navigate('allprojects') }} sx={{ textTransform: 'none' }}>Browse Projects</Button>
                 <Button name="aboutus" color="inherit" onClick={() => { navigate('aboutus') }} sx={{ textTransform: 'none' }}>About Us</Button>
