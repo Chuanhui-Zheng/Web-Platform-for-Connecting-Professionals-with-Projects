@@ -10,7 +10,7 @@ function Header() {
         <Box sx={{ flexGrow: 1 }}>
             <CssBaseline />
             <AppBar position="sticky" sx={{backgroundColor: "#344649"}}>
-            <Toolbar sx={{justifyContent: "space-between"}}>
+            <Toolbar sx={{justifyContent: "space-between",  "@media (min-width: 0px)": { paddingRight: "25px", paddingLeft: "25px" },}}>
             <Typography
                 variant="h5"
                 onClick={() => { navigate('/') }}
