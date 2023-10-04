@@ -18,32 +18,32 @@ import NotFound from "./pages/NotFound"
 
 
 function Logout() {
-  localStorage.clear()
-  return <Navigate to="/" />
+    localStorage.clear()
+    return <Navigate to="/" />
 }
 
 function RegisterAndLogout() {
-  localStorage.clear()
-  return <Register />
+    localStorage.clear()
+    return <Register />
 }
 
 function App() {
   return (
     <BrowserRouter>
-      {/* <NavBar /> */}
-      <Header />
-      {/* <br/> */}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/logout" element={<Logout />} />
-        <Route path="/register" element={<RegisterAndLogout />} />
-        <Route path="/companydashboard" element={<CompanyDashboard />} />
-        <Route path="/userdashboard" element={<ProfessionalDashboard />} />
-        <Route path="/allprojects" element={<AllProjects />} />
-        <Route path="/aboutus" element={<AboutUs />} />
-        <Route path="*" element={<NotFound />}></Route>
-      </Routes>
+        {/* <NavBar /> */}
+        <Header />
+        {/* <br/> */}
+        <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/register" element={<RegisterAndLogout />} />
+            <Route path="/companydashboard" element={<CompanyDashboard />} />
+            <Route path="/prodashbaord" element={<ProfessionalDashboard />} />
+            <Route path="/allprojects" element={<AllProjects />} />
+            <Route path="/aboutus" element={<AboutUs />} />
+            <Route path="*" element={<NotFound />}></Route>
+        </Routes>
     </BrowserRouter>
   );
 }
