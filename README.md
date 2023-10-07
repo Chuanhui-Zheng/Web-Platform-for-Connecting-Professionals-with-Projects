@@ -1,36 +1,24 @@
-# capstone-project-2024-t3-3900h13ajemma
-capstone-project-2024-t3-3900h13ajemma created by GitHub Classroom
+# Steps to Setup:
+1. Go to backend folder (cd backend)
+2. Open virtual environment using
+   - python -m venv env
+   - source env/Scripts/activate
+4. Run "pip3 install -r requirements.txt" (windows) 
+3. Run "flask shell"
+4. Now within flask shell:
+ - run "db.create_all()"
+5. Return to main directory (cd ..)
+6. docker-compose up --build
 
-NOTES:
+# To view the database:
+1. Install "SQLite Viewer"
+2. Go to /backend/instance/db.sqlite3
 
-python -m venv env
+# To clear or initialise database:
+1. Go to /backend directory
+2. bash db_controller.sh <clear/init/test>
 
-env/Scripts/activate
-
-pip install -r requirements.txt
-
-npm install vite
-
-!npm run dev in /frontend to run frontend
-
-!python manage.py runserver in /backend to run backend
-
-urls for frontend in frontend/src/App.jsx
-- protected means you need an access token (be logged in)
-
-pages contain page functionality
-styles contain HTML/CSS (visual)
-
-#to-do
-
-/backend/api/serializers.py 
-- change noteserializer to projectserializer
-
-/backend/api/views.py 
-- change views to project views
-
-/backend/urls.py 
-- update views changed
-
-/backend/models.py 
-- update models to projects
+# ENV File
+1. Create .env file in same directory as .env.template
+2. Copy content inside .env.template
+3. Set FLASK_SECRET_KEY field to any string (e.g. JEMMA)

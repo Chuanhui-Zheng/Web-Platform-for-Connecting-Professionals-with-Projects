@@ -1,21 +1,32 @@
-import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
-
-// import NavBar from './components/NavBar';
 import Header from './components/Header';
-
-
-import Login from "./pages/Login"
-import Register from "./pages/Register"
+import Login from "./pages/Auth/Login"
+import Register from "./pages/Auth/Register"
 import Home from "./pages/Home"
-import ProfessionalDashboard from "./pages/ProfessionalDashboard"
-import CompanyDashboard from "./pages/CompanyDashboard"
-import AllProjects from "./pages/AllProjects"
+import AllProjects from "./pages/ProjectPages/AllProjects"
 import AboutUs from "./pages/AboutUs"
-import NotFound from "./pages/NotFound"
-// import ProtectedRoute from "./components/ProtectedRoute"
+import NotFound from "./pages/ErrorPages/NotFound"
+import CreateProject from './pages/ProjectPages/CreateProject';
+import ProjectDetail from './pages/ProjectPages/ProjectDetail';
+import ProfilePage from './pages/ProfilePages/ProfilePage';
+import Dashboard from './pages/Dashboard/Dashboard';
+import ReviewPage from "./pages/RatingPages/ReviewPage";
+import { PageContainer } from '@toolpad/core/PageContainer';
+import './styles/App.css';
+import './styles/Polish.css';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-
+const theme = createTheme({  
+  palette: {
+    primary: { main: '#3b7c84' },
+    secondary: { main: '#f29465' },
+    text: { primary: '#173b42', secondary: '#617579' },
+  },
+  typography: {
+    fontFamily: 
+      '"Poppins", sans-serif',
+  },
+});
 
 function Logout() {
     localStorage.clear()
@@ -27,24 +38,45 @@ function RegisterAndLogout() {
     return <Register />
 }
 
+/**
+ * App component for Projector platform.
+ * 
+ * @returns 
+ */
 function App() {
   return (
-    <BrowserRouter>
-        {/* <NavBar /> */}
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
         <Header />
-        {/* <br/> */}
-        <Routes>
+        <PageContainer 
+          className="container" 
+          maxWidth={false} 
+          sx={{
+            width: "100%", 
+            height:"calc(100vh - 80px)",
+            margin: "0px", 
+            paddingRight: { xs: "16px", sm: "25px", md: "60px" }, 
+            paddingLeft: { xs: "16px", sm: "25px", md: "60px" },
+            paddingTop: { xs: "100px", sm: "60px", md: "60px" },
+          }}
+        >
+          <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/register" element={<RegisterAndLogout />} />
-            <Route path="/companydashboard" element={<CompanyDashboard />} />
-            <Route path="/prodashbaord" element={<ProfessionalDashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard/createproject" element={<CreateProject />} />
             <Route path="/allprojects" element={<AllProjects />} />
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="*" element={<NotFound />}></Route>
-        </Routes>
-    </BrowserRouter>
+            <Route path="/profile/:userId" element={<ProfilePage />} />
+            <Route path="/projectdetail/:projectID" element={<ProjectDetail />} />
+            <Route path="/project/:projectId/rate" element={<ReviewPage />} />
+          </Routes>
+        </PageContainer>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
