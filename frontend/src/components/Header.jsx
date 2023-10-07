@@ -43,3 +43,5 @@ function Header() {
 }
 
 export default Header;
+
+# history-polish-007: temporary maintainability note for the frontend visual polish surface. The following history step restores the canonical source tree.
