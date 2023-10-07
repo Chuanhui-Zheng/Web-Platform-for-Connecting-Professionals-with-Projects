@@ -1,4 +1,6 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
 // import { Box, Button, AppProvider, PageContainer, Paper, useTheme, useDemoRouter, Typography, } from '@mui/material';
 import { Box, Button, Paper, useTheme } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
@@ -10,6 +12,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { PageContainer } from '@toolpad/core/PageContainer';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { useDemoRouter } from '@toolpad/core/internals';
+
+import ProjectCard from '../components/Professional/Dashboard/ProjectCard.jsx';
+
 // import Form from "../components/Form"
 const titleStyle = {
     display: 'flex',
@@ -19,6 +24,14 @@ const titleStyle = {
     margin: '0px'
     // padding: '25px'
 };
+
+const projectTitleStyle = {
+    margin: '0px',
+    padding: '0px',
+    fontSize: '18px',
+    color: '#344649'
+};
+
 
 const NAVIGATION = [
     { segment: '', title: 'Dashboard' },
@@ -39,7 +52,7 @@ function CompanyDashboard() {
 //         // </div>
 //     );
 // }
-
+    const navigate = useNavigate();
     const router = useDemoRouter('/companydashboard');
     const theme = useTheme();
 
@@ -50,12 +63,10 @@ function CompanyDashboard() {
             <div>
                 <h1>Dashboard</h1>
             </div>
-            <Button variant="contained">+ Create Project</Button>     
+            <Button variant="contained" onClick={() => { navigate('createproject') }}> + Create Project</Button>     
         </Box>    
         {/* <Paper className="Paper">
             <PageContainer className="container" sx={{ backgroundColour: 'black' }}>Current Projects</PageContainer>
-
-
 
         </Paper> */}
         <Accordion defaultExpanded>
@@ -63,12 +74,14 @@ function CompanyDashboard() {
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1-content"
                 id="panel1-header"
+                sx={{margin: '0px'}}
                 >
-                <h2 color="#344649">Active Projects</h2>
+                <div style={projectTitleStyle}>Active Projects</div>
             </AccordionSummary>
             <AccordionDetails>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                malesuada lacus ex, sit amet blandit leo lobortis eget.
+                {ProjectCard('Project Name 1', "aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfafdfdfdfdsfdsfdswaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")}
+                {ProjectCard('Project Name 2', "aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfafdfdfdfdsfdsfdswaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")}
+                {ProjectCard('Project Name 3', "aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfafdfdfdfdsfdsfdswaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")}
             </AccordionDetails>
         </Accordion>
         <Accordion>
@@ -77,11 +90,13 @@ function CompanyDashboard() {
                 aria-controls="panel1-content"
                 id="panel1-header"
                 >
-                <h2>Applied Projects</h2>
+                <div style={projectTitleStyle}>Pending Projects</div>
             </AccordionSummary>
             <AccordionDetails>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                malesuada lacus ex, sit amet blandit leo lobortis eget.
+            {ProjectCard('Project Name 1', "aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfafdfdfdfdsfdsfdswaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")}
+            {ProjectCard('Project Name 2', "aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfafdfdfdfdsfdsfdswaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")}
+            {ProjectCard('Project Name 3', "aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfafdfdfdfdsfdsfdswaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")}
+           
             </AccordionDetails>
         </Accordion>
         <Accordion>
@@ -90,11 +105,12 @@ function CompanyDashboard() {
                 aria-controls="panel1-content"
                 id="panel1-header"
                 >
-                <h2>Completed Projects</h2>
+                <div style={projectTitleStyle}>Completed Projects</div>
             </AccordionSummary>
             <AccordionDetails>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                malesuada lacus ex, sit amet blandit leo lobortis eget.
+                {ProjectCard('Project Name 1', "aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfafdfdfdfdsfdsfdswaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")}
+                {ProjectCard('Project Name 2', "aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfafdfdfdfdsfdsfdswaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")}
+                {ProjectCard('Project Name 3', "aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfafdfdfdfdsfdsfdswaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")}
             </AccordionDetails>
         </Accordion>
 

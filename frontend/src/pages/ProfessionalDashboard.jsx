@@ -12,24 +12,10 @@ const ProfessionalDashboard = () => {
         {TitleCard('Certifications', '4/5')}
         <div className={styles.dashboardProjects}>
           <h1>Current Projects</h1>
-          {ProjectCard('a', "aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfa \
-            aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdf\
-            aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdf\
-            asdaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdf\
-            aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdf\
-            asd")}
-            {ProjectCard('a', "aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfa \
-            aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdf\
-            aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdf\
-            asdaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdf\
-            aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdf\
-            asd")}
-            {ProjectCard('a', "aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfa \
-            aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdf\
-            aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdf\
-            asdaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdf\
-            aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdf\
-            asd")}
+          {ProjectCard('Project Name 1', "aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfafdfdfdfdsfdsfdswaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")}
+        {ProjectCard('Project Name 2', "aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfafdfdfdfdsfdsfdswaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")}
+        {ProjectCard('Project Name 3', "aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfafdfdfdfdsfdsfdswaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")}
+           
         </div>
         <div className={styles.dashboardProjects}>
           <h1>Past Projects</h1>
