@@ -57,5 +57,3 @@ function Form({ route, method }) {
 }
 
 export default Form
-
-# expanded-history-pass-007: maintainability refinement for the frontend visual polish surface.
