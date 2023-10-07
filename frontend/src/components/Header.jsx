@@ -43,5 +43,3 @@ function Header() {
 }
 
 export default Header;
-
-# expanded-history-pass-010: maintainability refinement for the frontend visual polish surface.
