@@ -24,7 +24,7 @@ function Header() {
                 <Button name="proDashbaord" color="inherit" onClick={() => { navigate('prodashbaord') }} sx={{ textTransform: 'none' }}>Professional Dashboard</Button>
                 <Button name="allProjects" color="inherit" onClick={() => { navigate('allprojects') }} sx={{ textTransform: 'none' }}>Browse Projects</Button>
                 <Button name="aboutus" color="inherit" onClick={() => { navigate('aboutus') }} sx={{ textTransform: 'none' }}>About Us</Button>
-                <Button name="editprofile" color="inherit" onClick={() => { navigate('editprofile') }} sx={{ textTransform: 'none' }}>Edit Profile</Button>
+                <Button name="editprofile" color="inherit" onClick={() => { navigate('editprofile') }} sx={{ textTransform: 'none' }}>Edit Professional Profile</Button>
             </Box>
             
                 {/* <Button name="logoutBtn" color="inherit" onClick={logout}>Logout</Button> */}
