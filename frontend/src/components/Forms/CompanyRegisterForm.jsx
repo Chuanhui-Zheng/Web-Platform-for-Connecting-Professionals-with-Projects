@@ -122,7 +122,7 @@ function CompanyRegisterForm() {
         variant="contained"
         startIcon={<CloudUploadIcon />}
       >
-        Upload files
+        Upload Company Logo
         <VisuallyHiddenInput
             type="file"
             accept="image/*"

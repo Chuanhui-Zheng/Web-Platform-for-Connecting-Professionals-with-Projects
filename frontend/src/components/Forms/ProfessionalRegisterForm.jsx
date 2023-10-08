@@ -157,7 +157,7 @@ function ProfessionalRegisterForm() {
         variant="contained"
         startIcon={<CloudUploadIcon />}
       >
-        Upload files
+        Upload Profile Photo
         <VisuallyHiddenInput
           type="file"
           accept="image/*"
