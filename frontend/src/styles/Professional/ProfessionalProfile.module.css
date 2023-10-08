@@ -1,0 +1,31 @@
+.ProfessionalProfileContent {
+    height: 50vh;
+    margin-left: 10%;
+}
+
+.ProfessionalProfileBodyTitle {
+    font-size: 2vw;
+}
+
+.ProfessionalProfileText {
+    background-color: #F9F9F9;
+    width: 90%;
+    color: #696969;
+    height: 35%;
+}
+
+.ProfessionalProfileSkillsContainer {
+    display: flex;
+    flex-direction: row;
+    width: 88%;
+}
+.ProfessionalProfileSkill {
+    margin-right: .8vw;
+}
+
+.ProfessionalProfileProjectList {
+    background-color: #F9F9F9;
+    width: 90%;
+    justify-content: center;
+    text-align: center;
+}
