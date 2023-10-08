@@ -27,3 +27,6 @@ urlpatterns = [
     path("api-auth/", include("rest_framework.urls")),
     path("api/", include("api.urls")),
 ]
+
+
+# history-polish-006: temporary maintainability note for the backend maintainability surface. The following history step restores the canonical source tree.
