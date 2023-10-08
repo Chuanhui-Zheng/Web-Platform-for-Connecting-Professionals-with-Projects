@@ -16,7 +16,7 @@ const EditProfessionalProfile = (props) => {
   const [qualification, setNewQualification] = React.useState('');
   const [skills, setNewSkills] = React.useState('');
   const [linkedin, setNewLinkedin] = React.useState('');
-  const [otherLinks, setOtherLinks] = React.useState('');
+  const [otherLinks, setNewOtherLinks] = React.useState('');
   
   const navigate = useNavigate();
 
@@ -93,30 +93,30 @@ const EditProfessionalProfile = (props) => {
             </div>
             <div className="row">
                 <label className="formlabel">Tell Us About Yourself</label>
-                <input className="lineInput" type="text" value={nio} onChange={(e) => setNewKeyResponsibilities(e.target.value)}/>
+                <input className="lineInput" type="text" value={bio} onChange={(e) => setNewBio(e.target.value)}/>
             </div>
             <div className="split-row">
                 <div>
-                    <label className="formlabel">Project Name</label>
-                    <input className="formInput" type="text" value={projectName} onChange={(e) => setNewProjectName(e.target.value)} />
+                    <label className="formlabel">Qualifications</label>
+                    <input className="formInput" type="text" value={qualification} onChange={(e) => setNewQualification(e.target.value)} />
                 </div>
                 <div>
                     <label className="formlabel" htmlFor="contactEmail">Contact Email</label>
-                    <input className="formInput" type="text" value={contactEmail} onChange={(e) => setNewContactEmail(e.target.value)}/>
+                    <input className="formInput" type="text" value={education} onChange={(e) => setNewEducation(e.target.value)}/>
                 </div>
             </div>
             <div className="row">
-                <label className="formlabel">Key Responsiblities</label>
-                <input className="lineInput" type="text" value={keyResponsibilites} onChange={(e) => setNewKeyResponsibilities(e.target.value)}/>
+                <label className="formlabel">Linkedin</label>
+                <input className="lineInput" type="text" value={linkedin} onChange={(e) => setNewLinkedin(e.target.value)}/>
             </div>
             <div className="row">
-                <label className="formlabel">Key Responsiblities</label>
-                <input className="lineInput" type="text" value={keyResponsibilites} onChange={(e) => setNewKeyResponsibilities(e.target.value)}/>
+                <label className="formlabel">Other Professional Link</label>
+                <input className="lineInput" type="text" value={otherLinks} onChange={(e) => setNewOtherLinks(e.target.value)}/>
             </div>
         </div>
 
     
-      Edit Profile!<br />
+      {/* Edit Profile!<br />
       Full Name: <input type="text" placeholder={fullName} onChange={(e) => setNewFullName(e.target.value)} /><br />
       Email Address: <input type="text" placeholder={emailAddress} onChange={(e) => setNewEmailAddress(e.target.value)} /><br />
       Phone Number: <input type="text" placeholder={phoneNumber} onChange={(e) => setNewPhoneNumber(e.target.value)} /><br />
@@ -125,7 +125,7 @@ const EditProfessionalProfile = (props) => {
       Qualification: <input type="text" placeholder={qualification} onChange={(e) => setNewQualification(e.target.value)} /><br />
       Skills: <input type="text" placeholder={skills} onChange={(e) => setNewSkills(e.target.value)} /><br />
       Linkedin: <input type="text" placeholder={linkedin} onChange={(e) => setNewLinkedin(e.target.value)} /><br />
-      Other Links: <input type="text" placeholder={otherLinks} onChange={(e) => setOtherLinks(e.target.value)} /><br />
+      Other Links: <input type="text" placeholder={otherLinks} onChange={(e) => setOtherLinks(e.target.value)} /><br /> */}
      
       <button onClick={() => editProfessionalProfile({
         fullName: fullName,
