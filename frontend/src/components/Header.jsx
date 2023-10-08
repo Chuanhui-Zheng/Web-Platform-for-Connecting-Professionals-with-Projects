@@ -1,10 +1,38 @@
 import * as React from 'react';
 import { AppBar, Box, Button, Typography, Toolbar, CssBaseline } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import Avatar from '@mui/material/Avatar';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import PersonAdd from '@mui/icons-material/PersonAdd';
+import Settings from '@mui/icons-material/Settings';
+import Logout from '@mui/icons-material/Logout';
 
 function Header() {
     console.log('header')
     const navigate = useNavigate();
+    const [token, setToken] = React.useState(localStorage.getItem('ACCESS_TOKEN') || '');
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    React.useEffect(() => {
+        const glob = localStorage.getItem('token');
+        setToken(glob);
+    }, [token]);
+    
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -30,12 +58,91 @@ function Header() {
                 {/* <Button name="logoutBtn" color="inherit" onClick={logout}>Logout</Button> */}
             {/* </>) : ( */}
             {/* <> */}
-            <Box>
-                <><Button name="registerBtn" color="green" onClick={() => { navigate('register') } }>Register</Button></>
-                <Button name="loginBtn" sx={{backgroundColor: "#F29465"}} onClick={() => { navigate('login') }}>Login</Button>
+            
+            {token ?  (<>
+                <Box>
+                <><Button name="notifBtn" color="green"> <NotificationsNoneIcon></NotificationsNoneIcon> </Button></>
+                <IconButton
+                    onClick={handleClick}
+                    size="small"
+                    sx={{ ml: 2 }}
+                    aria-controls={open ? 'account-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                >
+                    <Avatar sx={{ width: 32, height: 32 }}>U</Avatar>
+                </IconButton>
             </Box>
-                </>
-                {/* )} */}
+            <Menu
+                anchorEl={anchorEl}
+                id="account-menu"
+                open={open}
+                onClose={handleClose}
+                onClick={handleClose}
+                slotProps={{
+                paper: {
+                    elevation: 0,
+                    sx: {
+                    overflow: 'visible',
+                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                    mt: 1.5,
+                    '& .MuiAvatar-root': {
+                        width: 32,
+                        height: 32,
+                        ml: -0.5,
+                        mr: 1,
+                    },
+                    '&::before': {
+                        content: '""',
+                        display: 'block',
+                        position: 'absolute',
+                        top: 0,
+                        right: 14,
+                        width: 10,
+                        height: 10,
+                        bgcolor: 'background.paper',
+                        transform: 'translateY(-50%) rotate(45deg)',
+                        zIndex: 0,
+                    },
+                    },
+                },
+                }}
+                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            >
+                <MenuItem onClick={handleClose}>
+                <Avatar /> Profile
+                </MenuItem>
+                {/* <MenuItem onClick={handleClose}>
+                <Avatar /> My account
+                </MenuItem> */}
+                <Divider />
+                {/* <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                    <PersonAdd fontSize="small" />
+                </ListItemIcon>
+                Add another account
+                </MenuItem> */}
+                <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                    <Settings fontSize="small" />
+                </ListItemIcon>
+                Settings
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                <ListItemIcon onClick={navigate('/')}>
+                    <Logout fontSize="small" />
+                </ListItemIcon>
+                Logout
+                </MenuItem>
+            </Menu>
+            </>) : (<>
+                <Box>
+                    <><Button name="registerBtn" color="green" onClick={() => { navigate('register') } }>Register</Button></>
+                    <Button name="loginBtn" sx={{backgroundColor: "#F29465"}} onClick={() => { navigate('login') }}>Login</Button>
+                </Box>
+            </>
+            )}               </>
             </Toolbar>
         </AppBar>
         </Box>
