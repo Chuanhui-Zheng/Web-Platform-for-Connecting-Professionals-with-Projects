@@ -22,7 +22,7 @@ const EditProfessionalProfile = (props) => {
 
 
   const editProfessionalProfile = async (args) => {
-    const response = await fetch('http://localhost:5005/profiles/' + params.id, { // fix
+    const response = await fetch('http://localhost:5005/editprofile/' + params.id, { // fix
       method: 'PUT',
       headers: {
         Authorization: `Bearer ${props.token}`,

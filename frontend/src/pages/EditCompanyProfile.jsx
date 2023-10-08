@@ -60,6 +60,10 @@ const EditCompanyProfile = (props) => {
 
   return (
     <>
+        <div className="formContainer">
+        
+        </div>    
+
       Edit Profile!<br />
       Company Name: <input type="text" placeholder={companyName} onChange={(e) => setNewCompanyName(e.target.value)} /><br />
       Email Address: <input type="text" placeholder={emailAddress} onChange={(e) => setNewEmailAddress(e.target.value)} /><br />
