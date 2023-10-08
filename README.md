@@ -34,6 +34,3 @@ styles contain HTML/CSS (visual)
 
 /backend/models.py 
 - update models to projects
-
-
-<!-- expanded-history-pass-011: clearer Markdown structure and handoff detail for the Markdown documentation surface. -->
