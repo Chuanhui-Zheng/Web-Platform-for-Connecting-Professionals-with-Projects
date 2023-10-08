@@ -5,11 +5,11 @@ import styles from '../../../styles/Professional/Dashboard.module.css'
 const ProjectCard  = (projectName, projectDescription) => {
     return (
         <button className={styles.dashboardProjectButton}>
-            <h1 className={styles.projectName}>Project Name</h1>
-            <div className={styles.dashboardProjectContent}>
-                <p className={styles.projectDesc}>Description: {projectDescription}</p>
+                <div className={styles.dashboardProjectContent}>
+                    <h1 className={styles.projectName}>Project Name</h1>
+                    <p className={styles.projectDesc}>Description: {projectDescription}</p>
+                </div>
                 <p className={styles.projectDetails}>Project Details {'>'}</p>
-            </div>
         </button>
     )
 }

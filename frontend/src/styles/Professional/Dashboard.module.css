@@ -41,6 +41,7 @@
     background-color: white;
     margin-top: .5%;
     margin-bottom: .5%;
+    display: flex;
 }
 
 .projectName {
@@ -64,13 +65,16 @@
 
 .dashboardProjectContent {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    width: 85%;
 }
 
 .projectDetails {
     color: #f5a67e;
     font-size: 1rem;
-    margin-top: 0%;
+    margin-top: auto;
+    margin-bottom: auto;
+    
 }
 
 .dashboardProjects {
