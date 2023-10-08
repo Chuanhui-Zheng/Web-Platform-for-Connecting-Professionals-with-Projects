@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Form from "./Form"
-import { Button, styled, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisuallyHiddenInput from "../VisuallyHiddenInput";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constants";
@@ -50,10 +50,8 @@ function CompanyRegisterForm() {
     }
   }
 
-
   return (
     <Form 
-      route="/api/user/companyRegister/" 
       formName="Company Register"
       buttonName="Register"
       handleSubmit={handleSubmit}

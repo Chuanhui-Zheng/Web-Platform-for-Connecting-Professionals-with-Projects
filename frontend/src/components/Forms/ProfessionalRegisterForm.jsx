@@ -56,7 +56,6 @@ function ProfessionalRegisterForm() {
 
   return (
     <Form
-      route="/api/user/professionalRegister/" 
       formName="Professional Register"
       buttonName="Register"
       handleSubmit={handleSubmit}
