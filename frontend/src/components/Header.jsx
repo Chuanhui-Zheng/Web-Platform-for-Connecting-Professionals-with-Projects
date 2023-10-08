@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { AppBar, Box, Button, Typography, Toolbar, CssBaseline } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Avatar from '@mui/material/Avatar';
@@ -9,8 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
+// import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 
@@ -32,6 +31,11 @@ function Header() {
         const glob = localStorage.getItem('token');
         setToken(glob);
     }, [token]);
+
+    function logout() {
+        localStorage.clear()
+        return <Navigate to="/" />
+    }
     
 
     return (
@@ -70,7 +74,8 @@ function Header() {
                     aria-haspopup="true"
                     aria-expanded={open ? 'true' : undefined}
                 >
-                    <Avatar sx={{ width: 32, height: 32 }}>U</Avatar>
+                    {/* <Avatar sx={{ width: 32, height: 32 }}>U</Avatar> */}
+                    <AccountCircleIcon sx={{ width: 32, height: 32 }}></AccountCircleIcon> 
                 </IconButton>
             </Box>
             <Menu
@@ -113,9 +118,6 @@ function Header() {
                 <MenuItem onClick={handleClose}>
                 <Avatar /> Profile
                 </MenuItem>
-                {/* <MenuItem onClick={handleClose}>
-                <Avatar /> My account
-                </MenuItem> */}
                 <Divider />
                 {/* <MenuItem onClick={handleClose}>
                 <ListItemIcon>
@@ -130,9 +132,9 @@ function Header() {
                 Settings
                 </MenuItem>
                 <MenuItem onClick={handleClose}>
-                <ListItemIcon onClick={navigate('/')}>
+                <ListItemIcon onClick={logout}>
                     <Logout fontSize="small" />
-                </ListItemIcon>
+                </ListItemIcon >
                 Logout
                 </MenuItem>
             </Menu>
