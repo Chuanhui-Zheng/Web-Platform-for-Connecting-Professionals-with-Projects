@@ -68,6 +68,54 @@ const EditProfessionalProfile = (props) => {
 
   return (
     <>
+        <div className="formContainer">
+            <h1>{fullName}</h1>
+            <h2>{emailAddress}</h2>
+            <div className="split-row">
+                <div>
+                    <label className="formlabel">Full Name</label>
+                    <input className="formInput" type="text" value={fullName} onChange={(e) => setNewFullName(e.target.value)} />
+                </div>
+                <div>
+                    <label className="formlabel" htmlFor="contactEmail">Email</label>
+                    <input className="formInput" type="text" value={emailAddress} onChange={(e) => setNewEmailAddress(e.target.value)}/>
+                </div>
+            </div>
+            <div className="split-row">
+                <div>
+                    <label className="formlabel">Phone Number</label>
+                    <input className="formInput" type="text" value={phoneNumber} onChange={(e) => setNewPhoneNumber(e.target.value)} />
+                </div>
+                <div>
+                    <label className="formlabel" htmlFor="contactEmail">Skills</label>
+                    <input className="formInput" type="text" value={skills} onChange={(e) => setNewSkills(e.target.value)}/>
+                </div>
+            </div>
+            <div className="row">
+                <label className="formlabel">Tell Us About Yourself</label>
+                <input className="lineInput" type="text" value={nio} onChange={(e) => setNewKeyResponsibilities(e.target.value)}/>
+            </div>
+            <div className="split-row">
+                <div>
+                    <label className="formlabel">Project Name</label>
+                    <input className="formInput" type="text" value={projectName} onChange={(e) => setNewProjectName(e.target.value)} />
+                </div>
+                <div>
+                    <label className="formlabel" htmlFor="contactEmail">Contact Email</label>
+                    <input className="formInput" type="text" value={contactEmail} onChange={(e) => setNewContactEmail(e.target.value)}/>
+                </div>
+            </div>
+            <div className="row">
+                <label className="formlabel">Key Responsiblities</label>
+                <input className="lineInput" type="text" value={keyResponsibilites} onChange={(e) => setNewKeyResponsibilities(e.target.value)}/>
+            </div>
+            <div className="row">
+                <label className="formlabel">Key Responsiblities</label>
+                <input className="lineInput" type="text" value={keyResponsibilites} onChange={(e) => setNewKeyResponsibilities(e.target.value)}/>
+            </div>
+        </div>
+
+    
       Edit Profile!<br />
       Full Name: <input type="text" placeholder={fullName} onChange={(e) => setNewFullName(e.target.value)} /><br />
       Email Address: <input type="text" placeholder={emailAddress} onChange={(e) => setNewEmailAddress(e.target.value)} /><br />
