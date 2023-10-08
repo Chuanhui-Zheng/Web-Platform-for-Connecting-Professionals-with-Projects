@@ -39,7 +39,7 @@ function ProfessionalRegisterForm() {
     setLoading(true);
 
     try {
-      // Handle API here
+      // Handle API
       console.log(formData)
       const username = formData.professionalEmail
       const password = formData.professionalPassword
