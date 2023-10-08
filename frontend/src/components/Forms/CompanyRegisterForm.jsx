@@ -35,14 +35,14 @@ function CompanyRegisterForm() {
     setLoading(true);
 
     try {
-      // Handle API here
+      // Handle API
       console.log(formData)
       const username = formData.companyEmail
       const password = formData.companyPassword
       const res = await api.post("/api/user/register/", { username, password });
       localStorage.setItem(ACCESS_TOKEN, res.data.access);
       localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-      navigate("/prodashbaord")
+      navigate("/companydashboard")
     } catch (error) {
       alert(error)
     } finally {
