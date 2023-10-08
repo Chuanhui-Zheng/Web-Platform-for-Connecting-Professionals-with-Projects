@@ -1,3 +1,4 @@
+import * as React from 'react';
 import ProfileHeader from "../../components/ProfileHeader";
 import styles from "../../styles/Professional/ProfessionalProfile.module.css"
 import BasicChips from "../../components/Chip";
