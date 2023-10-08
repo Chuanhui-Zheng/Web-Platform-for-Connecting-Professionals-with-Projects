@@ -1,0 +1,67 @@
+services:
+  # Backend service (Django)
+  backend:
+    build: ./backend
+    container_name: backend
+    environment:
+      POSTGRES_DB: jemmadb
+      POSTGRES_USER: bigdog
+      POSTGRES_PASSWORD: pass
+      POSTGRES_HOST: postgres
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+  # Frontend service (React with Vite)
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "5173:5173"
+    networks:
+      - app-network
+
+  # PostgreSQL database
+  postgres:
+    image: postgres:17.0
+    container_name: postgres
+    environment:
+      POSTGRES_DB: jemmadb
+      POSTGRES_USER: bigdog
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+  # pgAdmin for database management
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+  pgadmin_data:
+
+networks:
+  app-network:
