@@ -56,7 +56,6 @@ function ProfessionalRegisterForm() {
 
   return (
     <Form
-      route="/api/user/professionalRegister/" 
       formName="Professional Register"
       buttonName="Register"
       handleSubmit={handleSubmit}
@@ -158,7 +157,7 @@ function ProfessionalRegisterForm() {
         variant="contained"
         startIcon={<CloudUploadIcon />}
       >
-        Upload files
+        Upload Profile Photo
         <VisuallyHiddenInput
           type="file"
           accept="image/*"

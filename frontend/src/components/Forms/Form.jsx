@@ -1,11 +1,7 @@
-import { Children, useState } from "react";
-import api from "../../api";
-import { useNavigate } from "react-router-dom";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constants";
 import "../../styles/Form.css"
 import { Button, Typography } from "@mui/material";
 
-function Form({ route, formName, buttonName, handleSubmit, children }) {
+function Form({ formName, buttonName, handleSubmit, children }) {
   // const [username, setUsername] = useState("");
   // const [password, setPassword] = useState("");
   // const [loading, setLoading] = useState(false);
@@ -58,20 +54,6 @@ function Form({ route, formName, buttonName, handleSubmit, children }) {
       >
         {formName}
       </Typography>
-      {/* <input
-        className="form-input"
-        type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        placeholder="Username"
-      />
-      <input
-        className="form-input"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-      /> */}
       {children}
       <Button 
         className="form-button" 
