@@ -3,7 +3,6 @@ import CompanyRegisterForm from "../components/Forms/CompanyRegisterForm";
 import { Box, Button } from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ProfessionalRegisterForm from "../components/Forms/ProfessionalRegisterForm";
-// import ProjectCandidateList from "./ProjectCandidateList";
 
 function Register() {
 
@@ -65,7 +64,6 @@ function Register() {
                 Professional
               </Button>
             </Box>
-            {/* <ProjectCandidateList /> */}
           </>
         )
       }
