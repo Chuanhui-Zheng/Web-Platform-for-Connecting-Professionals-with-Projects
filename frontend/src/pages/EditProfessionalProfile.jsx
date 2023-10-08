@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../styles/Professional/EditProfile.css'
 
 import {
   useNavigate,
@@ -58,7 +59,7 @@ const EditProfessionalProfile = (props) => {
       setNewQualification(data.qualification);
       setNewSkills(data.skills);
       setNewLinkedin(data.linkedin);
-      setOtherLinks(data.otherLinks);
+      setNewOtherLinks(data.otherLinks);
     }
   }
 
@@ -69,8 +70,13 @@ const EditProfessionalProfile = (props) => {
   return (
     <>
         <div className="formContainer">
-            <h1>{fullName}</h1>
-            <h2>{emailAddress}</h2>
+            <h3>Current Full Name</h3>
+            <div className="links">
+                <a className="link" href="url">email@gmail.com</a>
+                <a className="link" href="url">linkedin.com</a>
+                <a className="link" href="url">other professional link</a>
+            </div>
+            
             <div className="split-row">
                 <div>
                     <label className="formlabel">Full Name</label>
@@ -93,7 +99,7 @@ const EditProfessionalProfile = (props) => {
             </div>
             <div className="row">
                 <label className="formlabel">Tell Us About Yourself</label>
-                <input className="lineInput" type="text" value={bio} onChange={(e) => setNewBio(e.target.value)}/>
+                <textarea type="text" value={bio} onChange={(e) => setNewBio(e.target.value)}/>
             </div>
             <div className="split-row">
                 <div>
@@ -101,7 +107,7 @@ const EditProfessionalProfile = (props) => {
                     <input className="formInput" type="text" value={qualification} onChange={(e) => setNewQualification(e.target.value)} />
                 </div>
                 <div>
-                    <label className="formlabel" htmlFor="contactEmail">Contact Email</label>
+                    <label className="formlabel" htmlFor="contactEmail">Education</label>
                     <input className="formInput" type="text" value={education} onChange={(e) => setNewEducation(e.target.value)}/>
                 </div>
             </div>
@@ -113,31 +119,18 @@ const EditProfessionalProfile = (props) => {
                 <label className="formlabel">Other Professional Link</label>
                 <input className="lineInput" type="text" value={otherLinks} onChange={(e) => setNewOtherLinks(e.target.value)}/>
             </div>
+            <button onClick={() => editProfessionalProfile({
+                fullName: fullName,
+                emailAddress: emailAddress,
+                phoneNumber: phoneNumber,
+                bio: bio,
+                education: education,
+                qualification: qualification,
+                skills: skills,
+                linkedin: linkedin,
+                otherLinks: otherLinks
+            })}>Save Changes!</button>
         </div>
-
-    
-      {/* Edit Profile!<br />
-      Full Name: <input type="text" placeholder={fullName} onChange={(e) => setNewFullName(e.target.value)} /><br />
-      Email Address: <input type="text" placeholder={emailAddress} onChange={(e) => setNewEmailAddress(e.target.value)} /><br />
-      Phone Number: <input type="text" placeholder={phoneNumber} onChange={(e) => setNewPhoneNumber(e.target.value)} /><br />
-      Bio: <input type="text" placeholder={bio} onChange={(e) => setNewBio(e.target.value)} /><br />
-      Education: <input type="text" placeholder={education} onChange={(e) => setNewEducation(e.target.value)} /><br />
-      Qualification: <input type="text" placeholder={qualification} onChange={(e) => setNewQualification(e.target.value)} /><br />
-      Skills: <input type="text" placeholder={skills} onChange={(e) => setNewSkills(e.target.value)} /><br />
-      Linkedin: <input type="text" placeholder={linkedin} onChange={(e) => setNewLinkedin(e.target.value)} /><br />
-      Other Links: <input type="text" placeholder={otherLinks} onChange={(e) => setOtherLinks(e.target.value)} /><br /> */}
-     
-      <button onClick={() => editProfessionalProfile({
-        fullName: fullName,
-        emailAddress: emailAddress,
-        phoneNumber: phoneNumber,
-        bio: bio,
-        education: education,
-        qualification: qualification,
-        skills: skills,
-        linkedin: linkedin,
-        otherLinks: otherLinks
-      })}>Save Changes!</button>
     </>
   );
 }
