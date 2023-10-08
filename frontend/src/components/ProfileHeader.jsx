@@ -2,7 +2,7 @@ import * as React from 'react';
 import styles from '../styles/ProfileHeader.module.css'
 import { Link } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import CustomizedRating from './CustomizedRating'; 
+import CustomisedRating from './CustomisedRating'; 
 
 const ProfileHeader  = () => {
     return (
@@ -12,7 +12,7 @@ const ProfileHeader  = () => {
                 <div className={styles.ProfileHeaderNameAndRating}>
                     <h1 className={styles.ProfileHeaderName}>Profile Name</h1>
                     <div className={styles.ProfileHeaderRaitingBox}>
-                        <CustomizedRating value={3}/>
+                        <CustomisedRating value={3}/>
                     </div>
                 </div>
                 

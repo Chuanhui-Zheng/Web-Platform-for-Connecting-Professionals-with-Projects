@@ -1,13 +1,7 @@
 {
   "dependencies": {
-    "@emotion/react": "^11.13.3",
-    "@emotion/styled": "^11.13.0",
-    "@mui/material": "^6.1.2",
-    "@mui/styled-engine-sc": "^6.1.2",
     "axios": "^1.7.7",
     "jwt-decode": "^4.0.0",
-    "react-router-dom": "^6.26.2",
-    "styled-components": "^6.1.13",
-    "vite": "^5.4.8"
+    "react-router-dom": "^6.26.2"
   }
 }
