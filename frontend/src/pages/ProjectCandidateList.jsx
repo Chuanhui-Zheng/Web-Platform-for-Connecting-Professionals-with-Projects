@@ -13,6 +13,7 @@ function ProjectCandidateList() {
 
     // try {
     //   const res = await axios.get(`/projectCandidateList${projectId}`, "GET")
+    //   console.log('Data:', res.data);
     //   setProjectList(res.) // data structure of the response
     // } catch (error) {
     //   alert(error)
