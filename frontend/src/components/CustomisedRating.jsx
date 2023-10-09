@@ -15,13 +15,16 @@ const StyledRating = styled(Rating)({
   },
 });
 
-export default function CustomizedRating({ value: initialValue }) {
+export default function CustomisedRating({ value: initialValue }) {
   const value = initialValue
   return (
     <Box sx={{ '& > legend': { mt: 2 } }}>
       <StyledRating
         name="customized-color"
         value={value}
+        defaultValue={2.5} 
+        precision={0.5} 
+        readOnly
       />
     </Box>
   );
