@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 // import { Box, Button, AppProvider, PageContainer, Paper, useTheme, useDemoRouter, Typography, } from '@mui/material';
 import { Box, Button, Paper, useTheme } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
-import AccordionActions from '@mui/material/AccordionActions';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -39,25 +38,13 @@ const NAVIGATION = [
 ];
 
 function CompanyDashboard() {
-//     return (
-        // <Box className="title" style={titleStyle}>
-        //     <div>
-        //         <h1>Dashboard</h1>
-        //     </div>
 
-        //     <Button variant="contained">+ Create Project</Button>     
-        // </Box>
-//         // <div>
-//         //     <h1>Welcome to the cOMPANY DASHBAORD Page</h1>
-//         // </div>
-//     );
-// }
     const navigate = useNavigate();
     const router = useDemoRouter('/companydashboard');
     const theme = useTheme();
 
     return (
-        <AppProvider className="APP" sx={{ backgroundColour: 'black' }} navigation={NAVIGATION} router={router} theme={theme}>
+        <AppProvider className="APP" sx={{ backgroundColour: 'none' }} navigation={NAVIGATION} router={router} theme={theme}>
         <PageContainer className="container" sx={{ "@media (min-width: 0px)": { paddingRight: "25px", paddingLeft: "25px" }}}>
         <Box className="title" style={titleStyle}>
             <div>
