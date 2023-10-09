@@ -12,19 +12,18 @@ function ProjectCandidateList() {
 
     setProjectList([
       {
-        name: "hi",
-        description: "description of hi"
+        name: "Candidate 1",
+        description: "Hi I am candidate 1"
       },
       {
-        name: "hi2",
-        description: "description of hi2"
+        name: "Candidate 2",
+        description: "Hi I am candidate 2"
       },
       {
-        name: "hi3",
-        description: "description of hi3"
+        name: "Candidate 3",
+        description: "Hi I am candidate 3"
       }
     ])
-
   }, [])
 
   return (
@@ -33,7 +32,6 @@ function ProjectCandidateList() {
       justifyContent="center"
       alignItems="center"
       flexDirection="column"
-      width="80vw"
     >
       <Typography
         variant="h4"
@@ -41,18 +39,21 @@ function ProjectCandidateList() {
       >
         Project Candidate List
       </Typography>
-      {/* <ProjectCard 
-        projectName="[HERE IS PROJECT NAME]"
-        projectDescription="[HERE IS PROJECT DESCRIPTION]"
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        flexDirection="column"
+        width="80vw"
       >
-      </ProjectCard> */}
-      {projectList.map((project, index) => (
-        <ProjectCard
-          key={index}
-          projectName={project.name}
-          projectDescription={project.description}
-        />
-      ))}
+        {projectList.map((project, index) => (
+          <ProjectCard
+            key={index}
+            projectName={project.name}
+            projectDescription={project.description}
+          />
+        ))}
+      </Box>
     </Box>
   );
 }
