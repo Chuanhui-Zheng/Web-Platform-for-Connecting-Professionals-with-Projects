@@ -39,19 +39,7 @@ const NAVIGATION = [
 ];
 
 function CompanyDashboard() {
-//     return (
-        // <Box className="title" style={titleStyle}>
-        //     <div>
-        //         <h1>Dashboard</h1>
-        //     </div>
 
-        //     <Button variant="contained">+ Create Project</Button>     
-        // </Box>
-//         // <div>
-//         //     <h1>Welcome to the cOMPANY DASHBAORD Page</h1>
-//         // </div>
-//     );
-// }
     const navigate = useNavigate();
     const router = useDemoRouter('/companydashboard');
     const theme = useTheme();
