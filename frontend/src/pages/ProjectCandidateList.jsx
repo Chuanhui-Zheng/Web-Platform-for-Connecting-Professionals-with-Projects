@@ -33,6 +33,7 @@ function ProjectCandidateList() {
       justifyContent="center"
       alignItems="center"
       flexDirection="column"
+      width="80vw"
     >
       <Typography
         variant="h4"
