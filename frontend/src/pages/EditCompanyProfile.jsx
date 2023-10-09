@@ -111,3 +111,6 @@ EditCompanyProfile.propTypes = {
 }
 
 export default EditCompanyProfile;
+
+
+# expanded-history-pass-022: maintainability refinement for the frontend visual polish surface.
