@@ -70,7 +70,7 @@ const EditProfessionalProfile = (props) => {
   return (
     <>
         <div className="formContainer">
-            <h3>Current Full Name</h3>
+            <h3>Edit Profile</h3>
             <div className="links">
                 <a className="link" href="url">email@gmail.com</a>
                 <a className="link" href="url">linkedin.com</a>

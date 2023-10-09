@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../styles/Professional/EditProfile.css'
 
 import {
   useNavigate,
@@ -61,23 +62,43 @@ const EditCompanyProfile = (props) => {
   return (
     <>
         <div className="formContainer">
-        
-        </div>    
-
-      Edit Profile!<br />
-      Company Name: <input type="text" placeholder={companyName} onChange={(e) => setNewCompanyName(e.target.value)} /><br />
-      Email Address: <input type="text" placeholder={emailAddress} onChange={(e) => setNewEmailAddress(e.target.value)} /><br />
-      Phone Number: <input type="text" placeholder={phoneNumber} onChange={(e) => setNewPhoneNumber(e.target.value)} /><br />
-      Linkedin: <input type="text" placeholder={linkedin} onChange={(e) => setNewLinkedin(e.target.value)} /><br />
-      Company Website: <input type="text" placeholder={companyWebsite} onChange={(e) => setNewCompanyWebsite(e.target.value)} /><br />
-     
-      <button onClick={() => editCompanyProfile({
-        companyName: companyName,
-        emailAddress: emailAddress,
-        phoneNumber: phoneNumber,
-        linkedin: linkedin,
-        companyWebsite: companyWebsite
-      })}>Save Changes!</button>
+            <h3>Edit Profile</h3>
+            <div className="split-row">
+                <div>
+                    <label className="formlabel">Company Name</label>
+                    <input className="formInput" type="text" value={companyName} onChange={(e) => setNewCompanyName(e.target.value)} />
+                </div>
+                <div>
+                    <label className="formlabel" >Email</label>
+                    <input className="formInput" type="text" value={emailAddress} onChange={(e) => setNewEmailAddress(e.target.value)}/>
+                </div>
+            </div>
+            <div className="split-row">
+                <div>
+                    <label className="formlabel">Phone Number</label>
+                    <input className="formInput" type="text" value={phoneNumber} onChange={(e) => setNewPhoneNumber(e.target.value)} />
+                </div>
+                <div>
+                    <label className="formlabel" ></label>
+                    <div className='formInput'></div>
+                </div>
+            </div>
+            <div className="row">
+                <label className="formlabel">Linkedin</label>
+                <input className="lineInput" type="text" value={linkedin} onChange={(e) => setNewLinkedin(e.target.value)}/>
+            </div>
+            <div className="row">
+                <label className="formlabel">Company Website</label>
+                <input className="lineInput" type="text" value={companyWebsite} onChange={(e) => setNewCompanyWebsite(e.target.value)}/>
+            </div>
+            <button onClick={() => editCompanyProfile({
+                companyName: companyName,
+                emailAddress: emailAddress,
+                phoneNumber: phoneNumber,
+                linkedin: linkedin,
+                companyWebsite: companyWebsite
+            })}>Save Changes!</button>
+        </div>
     </>
   );
 }
