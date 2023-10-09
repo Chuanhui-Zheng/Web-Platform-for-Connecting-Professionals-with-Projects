@@ -13,6 +13,8 @@ import CompanyDashboard from "./pages/CompanyDashboard"
 import AllProjects from "./pages/AllProjects"
 import AboutUs from "./pages/AboutUs"
 import NotFound from "./pages/NotFound"
+import ProfessionalProfile from './pages/Professional/ProfessionalProfile';
+import CompanyProfile from './pages/Companies/CompanyProfile';
 // import ProtectedRoute from "./components/ProtectedRoute"
 
 
@@ -43,6 +45,8 @@ function App() {
             <Route path="/allprojects" element={<AllProjects />} />
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="*" element={<NotFound />}></Route>
+            <Route path="/proprofile" element={<ProfessionalProfile />} />
+            <Route path="/companyprofile" element={<CompanyProfile />} />
         </Routes>
     </BrowserRouter>
   );

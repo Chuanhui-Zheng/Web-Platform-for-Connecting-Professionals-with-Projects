@@ -89,7 +89,9 @@
 .projectDetails {
     color: #f5a67e;
     font-size: 1rem;
-    margin-top: 0%;
+    margin-top: auto;
+    margin-bottom: auto;
+    
 }
 
 .dashboardProjects {
