@@ -1,23 +1,23 @@
 import * as React from 'react';
 import { AppBar, Box, Button, Typography, Toolbar, CssBaseline } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
+// import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import { ACCESS_TOKEN } from "../constants";
+import { deepOrange } from '@mui/material/colors';
 
 function Header() {
     console.log('header')
     const navigate = useNavigate();
-    const [token, setToken] = React.useState(localStorage.getItem('ACCESS_TOKEN') || '');
+    const [token, setToken] = React.useState(localStorage.getItem(ACCESS_TOKEN));
     const [anchorEl, setAnchorEl] = React.useState(null);
     
     const open = Boolean(anchorEl);
@@ -29,11 +29,20 @@ function Header() {
     };
 
     React.useEffect(() => {
-        const glob = localStorage.getItem('token');
-        setToken(glob);
-    }, [token]);
-    
+        setInterval(() => {
+            const glob = localStorage.getItem(ACCESS_TOKEN);
+            setToken(glob);
+        }, [])
+        // const glob = localStorage.getItem(ACCESS_TOKEN);
+        // setToken(glob);
+    }, 5000);
 
+    function logout() {
+        localStorage.clear()
+        navigate('/')
+        return <Navigate to="/" />
+    }
+    
     return (
         <Box sx={{backgroundColor: 'pink'}}>
             <CssBaseline />
@@ -58,7 +67,6 @@ function Header() {
                 {/* <Button name="logoutBtn" color="inherit" onClick={logout}>Logout</Button> */}
             {/* </>) : ( */}
             {/* <> */}
-            
             {token ?  (<>
                 <Box>
                 <><Button name="notifBtn" color="green"> <NotificationsNoneIcon></NotificationsNoneIcon> </Button></>
@@ -70,7 +78,7 @@ function Header() {
                     aria-haspopup="true"
                     aria-expanded={open ? 'true' : undefined}
                 >
-                    <Avatar sx={{ width: 32, height: 32 }}>U</Avatar>
+                    <Avatar sx={{ bgcolor: deepOrange[500], width: 32, height: 32 }} />
                 </IconButton>
             </Box>
             <Menu
@@ -111,11 +119,8 @@ function Header() {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 <MenuItem onClick={handleClose}>
-                <Avatar /> Profile
+                 Profile
                 </MenuItem>
-                {/* <MenuItem onClick={handleClose}>
-                <Avatar /> My account
-                </MenuItem> */}
                 <Divider />
                 {/* <MenuItem onClick={handleClose}>
                 <ListItemIcon>
@@ -129,10 +134,10 @@ function Header() {
                 </ListItemIcon>
                 Settings
                 </MenuItem>
-                <MenuItem onClick={handleClose}>
-                <ListItemIcon onClick={navigate('/')}>
+                <MenuItem onClick={logout}>
+                <ListItemIcon onClick={logout}>
                     <Logout fontSize="small" />
-                </ListItemIcon>
+                </ListItemIcon >
                 Logout
                 </MenuItem>
             </Menu>

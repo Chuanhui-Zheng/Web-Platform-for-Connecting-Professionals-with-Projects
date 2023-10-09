@@ -1,6 +1,22 @@
 # capstone-project-2024-t3-3900h13ajemma
 capstone-project-2024-t3-3900h13ajemma created by GitHub Classroom
 
+How to use docker
+in the main directory,
+docker-compose up --build 
+
+Then, go to localhost:8080
+
+and login using admin@admin.com, password is admin.
+
+Go to add server, name is postgres server and then the host is postgres
+Username is bigdog, password is pass
+
+Re-run docker-compose up --build and it should work
+Frontend: localhost:5173
+Backend: localhost:8000
+Database: localhost:8080
+
 NOTES:
 
 python -m venv env
