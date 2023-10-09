@@ -10,5 +10,3 @@ function AllProjects() {
 }
 
 export default AllProjects;
-
-# expanded-history-pass-013: maintainability refinement for the frontend visual polish surface.

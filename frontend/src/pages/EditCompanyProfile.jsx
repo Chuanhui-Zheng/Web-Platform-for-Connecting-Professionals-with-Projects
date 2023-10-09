@@ -35,29 +35,29 @@ const EditCompanyProfile = (props) => {
     }
   }
 
-  const CompanyProfileDetails = async () => {
-    const response = await fetch('http://localhost:5005/profiles/' + params.id, { // fix
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${props.token}`,
-        'Content-type': 'application/json',
-      }
-    });
-    const data = await response.json();
-    if (data.error) {
-      alert(data.error);
-    } else {
-      setNewCompanyName(data.companyName);
-      setNewEmailAddress(data.emailAddress);
-      setNewPhoneNumber(data.phoneNumber);
-      setNewLinkedin(data.linkedin);
-      setNewCompanyWebsite(data.companyWebsite);
-    }
-  }
+//   const CompanyProfileDetails = async () => {
+//     const response = await fetch('http://localhost:5005/profiles/' + params.id, { // fix
+//       method: 'GET',
+//       headers: {
+//         Authorization: `Bearer ${props.token}`,
+//         'Content-type': 'application/json',
+//       }
+//     });
+//     const data = await response.json();
+//     if (data.error) {
+//       alert(data.error);
+//     } else {
+//       setNewCompanyName(data.companyName);
+//       setNewEmailAddress(data.emailAddress);
+//       setNewPhoneNumber(data.phoneNumber);
+//       setNewLinkedin(data.linkedin);
+//       setNewCompanyWebsite(data.companyWebsite);
+//     }
+//   }
 
-  React.useEffect(() => {
-    CompanyProfileDetails();
-  }, []);
+//   React.useEffect(() => {
+//     CompanyProfileDetails();
+//   }, []);
 
   return (
     <>

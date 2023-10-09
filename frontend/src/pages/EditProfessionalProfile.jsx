@@ -23,49 +23,71 @@ const EditProfessionalProfile = (props) => {
 
 
   const editProfessionalProfile = async (args) => {
-    const response = await fetch('http://localhost:5005/editprofile/' + params.id, { // fix
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${props.token}`,
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(args),
-    });
-    const data = await response.json();
-    if (data.error) {
-      alert(data.error);
-    } else {
-      navigate('/profile');  // fix
+    try { 
+        const response = await api.post("/api/projects/editprofessionalprofile", { 
+            fullName,
+            emailAddress,
+            phoneNumber,
+            bio,
+            education,
+            qualification,
+            skills,
+            linkedin,
+            otherLinks
+        });
+        navigate("/companydashbaord")
+        } catch (error) {
+            alert(error)
+        } finally {
+            
+        }
     }
-  }
+    
+    
+    
+//     ('http://localhost:5005/editprofile/' + params.id, { // fix
+//       method: 'PUT',
+//       headers: {
+//         Authorization: `Bearer ${props.token}`,
+//         'Content-type': 'application/json',
+//       },
+//       body: JSON.stringify(args),
+//     });
+//     const data = await response.json();
+//     if (data.error) {
+//       alert(data.error);
+//     } else {
+//       navigate('/profile');  // fix
+//     }
+//   }
 
-  const ProfessionalProfileDetails = async () => {
-    const response = await fetch('http://localhost:5005/profiles/' + params.id, { // fix
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${props.token}`,
-        'Content-type': 'application/json',
-      }
-    });
-    const data = await response.json();
-    if (data.error) {
-      alert(data.error);
-    } else {
-      setNewFullName(data.fullName);
-      setNewEmailAddress(data.emailAddress);
-      setNewPhoneNumber(data.phoneNumber);
-      setNewBio(data.bio);
-      setNewEducation(data.education);
-      setNewQualification(data.qualification);
-      setNewSkills(data.skills);
-      setNewLinkedin(data.linkedin);
-      setNewOtherLinks(data.otherLinks);
-    }
-  }
+//   const ProfessionalProfileDetails = async () => {
+//     const response = await fetch('http://localhost:5005/profiles/' + params.id, { // fix
+//       method: 'GET',
+//       headers: {
+//         Authorization: `Bearer ${props.token}`,
+//         'Content-type': 'application/json',
+//       }
+//     });
+//     const data = await response.json();
+//     if (data.error) {
+//       alert(data.error);
+//     } else {
+//       setNewFullName(data.fullName);
+//       setNewEmailAddress(data.emailAddress);
+//       setNewPhoneNumber(data.phoneNumber);
+//       setNewBio(data.bio);
+//       setNewEducation(data.education);
+//       setNewQualification(data.qualification);
+//       setNewSkills(data.skills);
+//       setNewLinkedin(data.linkedin);
+//       setNewOtherLinks(data.otherLinks);
+//     }
+//   }
 
-  React.useEffect(() => {
-    ProfessionalProfileDetails();
-  }, []);
+//   React.useEffect(() => {
+//     ProfessionalProfileDetails();
+//   }, []);
 
   return (
     <>
@@ -119,17 +141,7 @@ const EditProfessionalProfile = (props) => {
                 <label className="formlabel">Other Professional Link</label>
                 <input className="lineInput" type="text" value={otherLinks} onChange={(e) => setNewOtherLinks(e.target.value)}/>
             </div>
-            <button onClick={() => editProfessionalProfile({
-                fullName: fullName,
-                emailAddress: emailAddress,
-                phoneNumber: phoneNumber,
-                bio: bio,
-                education: education,
-                qualification: qualification,
-                skills: skills,
-                linkedin: linkedin,
-                otherLinks: otherLinks
-            })}>Save Changes!</button>
+            <button onClick={() => editProfessionalProfile()}>Save Changes!</button>
         </div>
     </>
   );
