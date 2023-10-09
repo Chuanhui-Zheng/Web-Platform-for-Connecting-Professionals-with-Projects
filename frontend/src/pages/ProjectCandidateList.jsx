@@ -1,14 +1,22 @@
 import { Box, Typography } from "@mui/material";
 import ProjectCard from "../components/Professional/Dashboard/ProjectCard";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 
 function ProjectCandidateList() {
   const [projectList, setProjectList] = useState([]);
 
-  // insert api call here
+  // insert api call here (turn into async)
   useEffect(() => {
     // API call....
+
+    // try {
+    //   const res = await axios.get(`/projectCandidateList${projectId}`, "GET")
+    //   setProjectList(res.) // data structure of the response
+    // } catch (error) {
+    //   alert(error)
+    // }
 
     setProjectList([
       {
