@@ -28,7 +28,7 @@ const ProfessionalProfile = () => {
                 </div>
             </div>
             <h1 className={styles.ProfessionalProfileBodyTitle}>Projects</h1>
-            <div class={styles.ProfessionalProfileProjectList}>
+            <div className={styles.ProfessionalProfileProjectList}>
                 {ProjectCard("a", "aasdasdasdasdasdasdugadsfiuhadufhadsuhfuiahdsuifhaiusdhfuasdfadssfsasdfasdasdfadsfaidafdsfadsfasdasdfadsffasd")}
                 {ProjectCard("a", "aasdasdasdasdasdasdugadsfiuhadufhadsuhfuiahdsuifhaiusdhfuasdfadssfsasdfasdasdfadsfaidafdsfadsfasdasdfadsffasd")}
                 {ProjectCard("a", "aasdasdasdasdasdasdugadsfiuhadufhadsuhfuiahdsuifhaiusdhfuasdfadssfsasdfasdasdfadsfaidafdsfadsfasdasdfadsffasd")}
