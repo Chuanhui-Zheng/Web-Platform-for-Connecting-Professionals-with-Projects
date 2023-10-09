@@ -5,7 +5,7 @@ import { Button } from '@mui/material';
 
 import styles from '../../../styles/Professional/Dashboard.module.css'
 
-const ProjectCard  = (projectName, projectDescription) => {
+const ProjectCard  = ({ projectName, projectDescription }) => {
     const navigate = useNavigate();
     return (
         <button className={styles.dashboardProjectButton} onClick={() => { navigate('projectdetails/{id}') }}>

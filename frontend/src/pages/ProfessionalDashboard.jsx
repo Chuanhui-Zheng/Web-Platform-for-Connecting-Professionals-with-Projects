@@ -34,9 +34,18 @@ const ProfessionalDashboard = () => {
                 <div style={projectTitleStyle}>Current Projects</div>
             </AccordionSummary>
             <AccordionDetails>
-                {ProjectCard('Project Name 1', "aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfafdfdfdfdsfdsfdswaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")}
-                {ProjectCard('Project Name 2', "aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfafdfdfdfdsfdsfdswaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")}
-                {ProjectCard('Project Name 3', "aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfafdfdfdfdsfdsfdswaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")}
+                <ProjectCard
+                    projectName="Current Project Name 1"
+                    projectDescription="Project 1 Description"
+                />
+                <ProjectCard
+                    projectName="Current Project Name 2"
+                    projectDescription="Project 2 Description"
+                />
+                <ProjectCard
+                    projectName="Current Project Name 3"
+                    projectDescription="Project 3 Description"
+                />
             </AccordionDetails>
         </Accordion>
         <Accordion>
@@ -48,9 +57,18 @@ const ProfessionalDashboard = () => {
                 <div style={projectTitleStyle}>Completed Projects</div>
             </AccordionSummary>
             <AccordionDetails>
-                {ProjectCard('Project Name 1', "aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfafdfdfdfdsfdsfdswaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")}
-                {ProjectCard('Project Name 2', "aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfafdfdfdfdsfdsfdswaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")}
-                {ProjectCard('Project Name 3', "aadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfaadfadfadsfasdfafdfdfdfdsfdsfdswaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")}
+                <ProjectCard
+                    projectName="Completed Project Name 1"
+                    projectDescription="Project 1 Description"
+                />
+                <ProjectCard
+                    projectName="Completed Project Name 2"
+                    projectDescription="Project 2 Description"
+                />
+                <ProjectCard
+                    projectName="Completed Project Name 3"
+                    projectDescription="Project 3 Description"
+                />
             </AccordionDetails>
         </Accordion>
       </>
