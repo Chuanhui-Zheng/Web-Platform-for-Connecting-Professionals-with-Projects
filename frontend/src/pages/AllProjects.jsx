@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,16 +11,21 @@ import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import Avatar from '@mui/material/Avatar';
+import DateRangeIcon from '@mui/icons-material/DateRange';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import GroupsIcon from '@mui/icons-material/Groups';
+import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
+
 import AppBar from '@mui/material/AppBar';
 import Paper from '@mui/material/Paper';
 import SearchIcon from '@mui/icons-material/Search';
-
-import DirectionsIcon from '@mui/icons-material/Directions';
+import Chip from '@mui/material/Chip';
 // import { PageContainer } from '@toolpad/core/PageContainer';
 // import { AppProvider } from '@toolpad/core/AppProvider';
 
@@ -27,9 +33,44 @@ import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
 import BrowseCards from '../components/BrowseCards';
 
-// import { Paper } from '@mui/material';
+const headerStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  margin: '0px',
+  gap: '10px'
+};
+
+const secondaryStyle = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  margin: '0px',
+  // paddingLeft: '32px'
+};
+
+
+const StyledChip = styled(Chip)({
+  margin: "4px",
+  "&:hover": {
+    backgroundColor: "#e0e0e0"
+  }
+});
 
 const drawerWidth = '30%';
+
+// take this out
+const companybuttons = [
+  <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}}>Edit Project</Button>,
+  <Button key="candidateList" sx={{backgroundColor: "grey"}}>Candidate List</Button>,
+  <Button key="company-status" sx={{backgroundColor: "#21b6ae"}}>Project Status</Button>,
+];
+
+const professionalButtons = [
+  <Button key="status" sx={{backgroundColor: "#21b6ae"}}>Status</Button>,
+  <Button key="status" sx={{backgroundColor: "grey"}}>View More</Button>
+];
+
+const statusOptions = ['Pending', 'Completed', 'Close'];
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -87,8 +128,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-export default function MiniDrawer() {
-  // const theme = useTheme();
+export default function AllProjects() {
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -208,15 +248,70 @@ export default function MiniDrawer() {
         </Box>
       </Drawer>
 
-
-
-
-
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        {/* <DrawerHeader /> */}
-        <Typography variant="h4" component="h1" gutterBottom>
-          Project Name
-        </Typography>
+
+        <div style={headerStyle}>
+          <Avatar sx={{ width: 32, height: 32 }} />
+          <Typography variant="h4" component="h1" gutterBottom>
+            <b> Project Name</b>
+          </Typography>
+        </div>
+        
+
+        <Box style={secondaryStyle}>
+          <Box>
+            <Typography variant="h6" component="h1" gutterBottom>
+              Company Name
+            </Typography>
+
+            <Container sx={{flexDirection: 'row'}}>
+              <Box display="flex" alignItems="center" mb={1}>
+                <BusinessCenterIcon style={{ marginRight: 8 }} />
+                <Typography variant="body2" color="textSecondary">
+                  Category
+                </Typography>
+              </Box>
+              <Box display="flex" alignItems="center" mb={1}>
+                <DateRangeIcon style={{ marginRight: 8 }} />
+                <Typography variant="body2" color="textSecondary">
+                  Start Date - End Date
+                </Typography>
+              </Box>
+              <Box display="flex" alignItems="center" mb={1}>
+                <LocationOnIcon style={{ marginRight: 8 }} />
+                <Typography variant="body2" color="textSecondary">
+                  Location
+                </Typography>
+              </Box>
+              <Box display="flex" alignItems="center" mb={1}>
+                <GroupsIcon style={{ marginRight: 8 }} />
+                <Typography variant="body2" color="textSecondary">
+                  Number of People
+                </Typography>
+              </Box>
+            </Container>
+
+            <Typography variant="body2" color="textSecondary" paragraph>
+              Required Skills:
+            </Typography>
+            <Box mb={2}>
+              <StyledChip label="React" />
+              <StyledChip label="Node.js" />
+              <StyledChip label="MongoDB" />
+              <StyledChip label="AWS" />
+            </Box>
+
+
+          </Box>
+          <ButtonGroup
+            orientation="vertical"
+            aria-label="Vertical button group"
+            variant="contained"
+          >
+            {professionalButtons}
+          </ButtonGroup>
+        </Box>
+
         <Typography variant="h5" component="h2" gutterBottom>
           Project Description
         </Typography>
@@ -237,6 +332,20 @@ export default function MiniDrawer() {
         <Typography variant="h5" component="h2" gutterBottom>
           Key Responsibilities
         </Typography>
+        <List sx={{ listStyleType: 'disc', padding: '10px 40px' }}>
+          <ListItem sx={{ display: 'list-item' }}>
+            check
+          </ListItem>
+          <ListItem sx={{ display: 'list-item' }}>
+            check
+          </ListItem>
+          <ListItem sx={{ display: 'list-item' }}>
+            check
+          </ListItem>
+          </List>
+          <Typography variant="h5" component="h2" gutterBottom>
+          Objectives
+        </Typography>
         <Typography sx={{ marginBottom: 2 }}>
           Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
           eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
@@ -249,6 +358,9 @@ export default function MiniDrawer() {
           tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
           eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
           posuere sollicitudin aliquam ultrices sagittis orci a.
+        </Typography>
+        <Typography variant="h5" component="h2" gutterBottom>
+          Contact email
         </Typography>
       </Box>
     </Box>

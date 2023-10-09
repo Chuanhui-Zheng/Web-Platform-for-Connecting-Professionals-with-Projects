@@ -3,6 +3,10 @@ import { Card, CardContent, CardMedia, Typography, Box, Chip, Button } from "@mu
 import { styled } from "@mui/system";
 // import { FaMapMarkerAlt, FaCalendarAlt } from "react-icons/fa";
 import MailIcon from '@mui/icons-material/Mail';
+import DateRangeIcon from '@mui/icons-material/DateRange';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import GroupsIcon from '@mui/icons-material/Groups';
+import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 
 const StyledCard = styled(Card)(({ theme }) => ({
   maxWidth: 345,
@@ -34,7 +38,7 @@ const StyledChip = styled(Chip)({
   }
 });
 
-const ProjectCard = () => {
+const BrowseCards = () => {
   return (
     <StyledCard tabIndex={0} aria-label="Project Description Card" sx={{width:'100%'}}>
       {/* <StyledCardMedia
@@ -50,25 +54,25 @@ const ProjectCard = () => {
             Company Name - Rating
           </Typography>
         <Box display="flex" alignItems="center" mb={1}>
-          <MailIcon style={{ marginRight: 8 }} />
+          <BusinessCenterIcon style={{ marginRight: 8 }} />
           <Typography variant="body2" color="textSecondary">
             Category
           </Typography>
         </Box>
         <Box display="flex" alignItems="center" mb={1}>
-          <MailIcon style={{ marginRight: 8 }} />
+          <DateRangeIcon style={{ marginRight: 8 }} />
           <Typography variant="body2" color="textSecondary">
             Start Date - End Date
           </Typography>
         </Box>
         <Box display="flex" alignItems="center" mb={1}>
-          <MailIcon style={{ marginRight: 8 }} />
+          <LocationOnIcon style={{ marginRight: 8 }} />
           <Typography variant="body2" color="textSecondary">
             Location
           </Typography>
         </Box>
         <Box display="flex" alignItems="center" mb={1}>
-          <MailIcon style={{ marginRight: 8 }} />
+          <GroupsIcon style={{ marginRight: 8 }} />
           <Typography variant="body2" color="textSecondary">
             Number of People
           </Typography>
@@ -96,4 +100,4 @@ const ProjectCard = () => {
   );
 };
 
-export default ProjectCard;
+export default BrowseCards;
