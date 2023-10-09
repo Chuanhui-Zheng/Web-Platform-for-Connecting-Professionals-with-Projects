@@ -64,9 +64,6 @@ function Header() {
 
             </Box>
             
-                {/* <Button name="logoutBtn" color="inherit" onClick={logout}>Logout</Button> */}
-            {/* </>) : ( */}
-            {/* <> */}
             {token ?  (<>
                 <Box>
                 <><Button name="notifBtn" color="green"> <NotificationsNoneIcon></NotificationsNoneIcon> </Button></>

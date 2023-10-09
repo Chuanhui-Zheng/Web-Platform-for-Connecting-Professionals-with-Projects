@@ -1,8 +1,7 @@
 import React from "react";
-import { Card, CardContent, CardMedia, Typography, Box, Chip, Button } from "@mui/material";
+import { Card, CardContent, Typography, Box, Chip, Button } from "@mui/material";
 import { styled } from "@mui/system";
 // import { FaMapMarkerAlt, FaCalendarAlt } from "react-icons/fa";
-import MailIcon from '@mui/icons-material/Mail';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import GroupsIcon from '@mui/icons-material/Groups';
