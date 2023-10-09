@@ -16,11 +16,16 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import AppBar from '@mui/material/AppBar';
+import Paper from '@mui/material/Paper';
+import SearchIcon from '@mui/icons-material/Search';
 
-import { PageContainer } from '@toolpad/core/PageContainer';
-import { AppProvider } from '@toolpad/core/AppProvider';
+import DirectionsIcon from '@mui/icons-material/Directions';
+// import { PageContainer } from '@toolpad/core/PageContainer';
+// import { AppProvider } from '@toolpad/core/AppProvider';
 
 import Header from '../components/Header';
+import SearchBar from '../components/SearchBar';
+// import { Paper } from '@mui/material';
 
 const drawerWidth = '40%';
 
@@ -105,7 +110,14 @@ export default function MiniDrawer() {
       <Drawer variant="permanent" open={open} sx={{ backgroundColour: 'none'}}>
         <DrawerHeader></DrawerHeader>
         <DrawerHeader>
-            {open === false ? <IconButton onClick={handleDrawerOpen}><ChevronRightIcon />  </IconButton>: <IconButton onClick={handleDrawerClose}><ChevronLeftIcon/></IconButton>}
+
+            {open === false ? <SearchIcon />: 
+                <Paper>
+                <SearchBar> </SearchBar>
+                </Paper>
+            }
+            {open === false ? <IconButton onClick={handleDrawerOpen}><ChevronRightIcon />  </IconButton>: 
+            <IconButton onClick={handleDrawerClose}><ChevronLeftIcon/></IconButton>}
         </DrawerHeader>
         <Divider />
         {/* open === false ?  */}
