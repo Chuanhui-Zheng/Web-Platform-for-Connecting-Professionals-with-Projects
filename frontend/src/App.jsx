@@ -17,6 +17,8 @@ import EditProfessionalProfile from './pages/EditProfessionalProfile';
 import EditCompanyProfile from './pages/EditCompanyProfile';
 import ProfessionalProfile from './pages/Professional/ProfessionalProfile';
 import CompanyProfile from './pages/Companies/CompanyProfile';
+import ProjectDetail from './pages/ProjectDetail';
+import ProjectPage from './pages/ProjectPage';
 import ProjectCandidateList from './pages/ProjectCandidateList';
 // import ProtectedRoute from "./components/ProtectedRoute"
 
@@ -52,6 +54,8 @@ function App() {
             <Route path="*" element={<NotFound />}></Route>
             <Route path="/proprofile" element={<ProfessionalProfile />} />
             <Route path="/companyprofile" element={<CompanyProfile />} />
+            <Route path="/projectdetail/:projectID" element={<ProjectDetail />} />
+            <Route path="/projectpage/:projectID" element={<ProjectPage />} />
             <Route path="/projectCandidateList" element={<ProjectCandidateList />} />
         </Routes>
     </BrowserRouter>

@@ -72,9 +72,6 @@ function Header() {
                 <Button name="editcompanyprofile" color="inherit" onClick={() => { navigate('editcompanyprofile') }} sx={{ textTransform: 'none' }}>Edit Company Profile</Button> */}
             </Box>
             
-                {/* <Button name="logoutBtn" color="inherit" onClick={logout}>Logout</Button> */}
-            {/* </>) : ( */}
-            {/* <> */}
             {token ?  (<>
                 <Box>
                 <><Button name="notifBtn" color="green"> <NotificationsNoneIcon></NotificationsNoneIcon> </Button></>
