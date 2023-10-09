@@ -38,6 +38,7 @@ const NAVIGATION = [
 ];
 
 function CompanyDashboard() {
+
     const navigate = useNavigate();
     const router = useDemoRouter('/companydashboard');
     const theme = useTheme();
