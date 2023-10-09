@@ -52,4 +52,4 @@ styles contain HTML/CSS (visual)
 - update models to projects
 
 
-<!-- expanded-history-pass-020: clearer Markdown structure and handoff detail for the Markdown documentation surface. -->
+<!-- history-polish-020: documentation pass for the Markdown documentation surface. This temporary refinement is intentionally represented as a standalone historical step. -->
