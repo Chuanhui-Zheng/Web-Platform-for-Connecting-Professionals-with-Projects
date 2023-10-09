@@ -1,0 +1,84 @@
+import React from "react";
+import { Card, CardContent, CardMedia, Typography, Box, Chip, Button } from "@mui/material";
+import { styled } from "@mui/system";
+// import { FaMapMarkerAlt, FaCalendarAlt } from "react-icons/fa";
+import MailIcon from '@mui/icons-material/Mail';
+
+const StyledCard = styled(Card)(({ theme }) => ({
+  maxWidth: 345,
+  margin: "auto",
+  transition: "0.3s",
+  boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)",
+  "&:hover": {
+    boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)"
+  },
+  [theme.breakpoints.down("sm")]: {
+    maxWidth: "100%"
+  }
+}));
+
+const StyledCardMedia = styled(CardMedia)({
+  height: 0,
+  paddingTop: "56.25%", // 16:9 aspect ratio
+});
+
+const StyledCardContent = styled(CardContent)({
+  textAlign: "left",
+  padding: 16
+});
+
+const StyledChip = styled(Chip)({
+  margin: "0 4px 4px 0",
+  "&:hover": {
+    backgroundColor: "#e0e0e0"
+  }
+});
+
+const ProjectCard = () => {
+  return (
+    <StyledCard tabIndex={0} aria-label="Project Description Card">
+      <StyledCardMedia
+        image="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80"
+        title="Company Logo"
+        alt="Company Logo"
+      />
+      <StyledCardContent>
+        <Typography variant="h5" component="h2" gutterBottom>
+          Advanced Web Application
+        </Typography>
+        <Box display="flex" alignItems="center" mb={1}>
+          <MailIcon style={{ marginRight: 8 }} />
+          <Typography variant="body2" color="textSecondary">
+            Start Date: 01/01/2024
+          </Typography>
+        </Box>
+        <Box display="flex" alignItems="center" mb={2}>
+          <MailIcon style={{ marginRight: 8 }} />
+          <Typography variant="body2" color="textSecondary">
+            San Francisco, CA
+          </Typography>
+        </Box>
+        <Typography variant="body2" color="textSecondary" paragraph>
+          Required Skills:
+        </Typography>
+        <Box mb={2}>
+          <StyledChip label="React" />
+          <StyledChip label="Node.js" />
+          <StyledChip label="MongoDB" />
+          <StyledChip label="AWS" />
+        </Box>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          aria-label="View Project Details"
+        //   onClick={}
+        >
+          View Details
+        </Button>
+      </StyledCardContent>
+    </StyledCard>
+  );
+};
+
+export default ProjectCard;

@@ -25,6 +25,8 @@ import DirectionsIcon from '@mui/icons-material/Directions';
 
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
+import BrowseCards from '../components/BrowseCards';
+
 // import { Paper } from '@mui/material';
 
 const drawerWidth = '40%';
@@ -98,9 +100,6 @@ export default function MiniDrawer() {
   };
 
   return (
-    // <AppProvider className="APP" sx={{ backgroundColour: 'white' }}>
-    
-    // <PageContainer className="container">
     <Box sx={{ display: 'flex' }}>
       
       <CssBaseline />
@@ -112,7 +111,7 @@ export default function MiniDrawer() {
         <DrawerHeader>
 
             {open === false ? <SearchIcon />: 
-                <Paper>
+                <Paper sx={{width:'100%'}}>
                 <SearchBar> </SearchBar>
                 </Paper>
             }
@@ -122,9 +121,9 @@ export default function MiniDrawer() {
         <Divider />
         {/* open === false ?  */}
         <Box sx={{ overflow: 'auto' }}>
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+        {/* <List>
+          {allProjects.map((project) => (
+            <ListItem key={project.id} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={[
                   {
@@ -155,10 +154,10 @@ export default function MiniDrawer() {
                         },
                   ]}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {project.companyPhoto}
                 </ListItemIcon>
                 <ListItemText
-                  primary={text}
+                  primary={project.title}
                   sx={[
                     open
                       ? {
@@ -169,10 +168,31 @@ export default function MiniDrawer() {
                         },
                   ]}
                 />
+
+
               </ListItemButton>
             </ListItem>
           ))}
-        </List>
+        </List> */}
+        {open === false ? <div></div>: 
+                <List>
+                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                  <ListItem key={text} disablePadding >
+                    <ListItemButton sx={{backgroundColour:'grey'}}>
+                      <ListItemIcon>
+                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                      </ListItemIcon>
+                      <ListItemText primary={text} />
+                    </ListItemButton>
+                  </ListItem>
+                ))}
+                <BrowseCards></BrowseCards>
+              </List>
+            //   <Paper>
+            //     <BrowseCards></BrowseCards>
+            //   </Paper>
+              
+            }
         </Box>
       </Drawer>
 
@@ -211,7 +231,5 @@ export default function MiniDrawer() {
         </Typography>
       </Box>
     </Box>
-    // </PageContainer> 
-    // </AppProvider>
   );
 }
