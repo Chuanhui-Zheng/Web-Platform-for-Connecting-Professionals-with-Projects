@@ -50,6 +50,3 @@ styles contain HTML/CSS (visual)
 
 /backend/models.py 
 - update models to projects
-
-
-<!-- history-polish-020: documentation pass for the Markdown documentation surface. This temporary refinement is intentionally represented as a standalone historical step. -->

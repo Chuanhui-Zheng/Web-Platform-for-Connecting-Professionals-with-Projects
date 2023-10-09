@@ -15,6 +15,8 @@ import AboutUs from "./pages/AboutUs"
 import NotFound from "./pages/NotFound"
 import ProfessionalProfile from './pages/Professional/ProfessionalProfile';
 import CompanyProfile from './pages/Companies/CompanyProfile';
+import ProjectDetail from './pages/ProjectDetail';
+import ProjectPage from './pages/ProjectPage';
 // import ProtectedRoute from "./components/ProtectedRoute"
 
 
@@ -47,6 +49,9 @@ function App() {
             <Route path="*" element={<NotFound />}></Route>
             <Route path="/proprofile" element={<ProfessionalProfile />} />
             <Route path="/companyprofile" element={<CompanyProfile />} />
+            <Route path="/projectdetail/:projectID" element={<ProjectDetail />} />
+            <Route path="/projectpage/:projectID" element={<ProjectPage />} />
+
         </Routes>
     </BrowserRouter>
   );
