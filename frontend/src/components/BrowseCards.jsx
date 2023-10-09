@@ -17,10 +17,10 @@ const StyledCard = styled(Card)(({ theme }) => ({
   }
 }));
 
-const StyledCardMedia = styled(CardMedia)({
-  height: 0,
-  paddingTop: "56.25%", // 16:9 aspect ratio
-});
+// const StyledCardMedia = styled(CardMedia)({
+//   height: 0,
+//   paddingTop: "56.25%", // 16:9 aspect ratio
+// });
 
 const StyledCardContent = styled(CardContent)({
   textAlign: "left",
@@ -28,7 +28,7 @@ const StyledCardContent = styled(CardContent)({
 });
 
 const StyledChip = styled(Chip)({
-  margin: "0 4px 4px 0",
+  margin: "4px",
   "&:hover": {
     backgroundColor: "#e0e0e0"
   }
@@ -36,26 +36,41 @@ const StyledChip = styled(Chip)({
 
 const ProjectCard = () => {
   return (
-    <StyledCard tabIndex={0} aria-label="Project Description Card">
-      <StyledCardMedia
+    <StyledCard tabIndex={0} aria-label="Project Description Card" sx={{width:'100%'}}>
+      {/* <StyledCardMedia
         image="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80"
         title="Company Logo"
         alt="Company Logo"
-      />
+      /> */}
       <StyledCardContent>
         <Typography variant="h5" component="h2" gutterBottom>
-          Advanced Web Application
+          Project Name
         </Typography>
+        <Typography variant="body2" color="textSecondary">
+            Company Name - Rating
+          </Typography>
         <Box display="flex" alignItems="center" mb={1}>
           <MailIcon style={{ marginRight: 8 }} />
           <Typography variant="body2" color="textSecondary">
-            Start Date: 01/01/2024
+            Category
           </Typography>
         </Box>
-        <Box display="flex" alignItems="center" mb={2}>
+        <Box display="flex" alignItems="center" mb={1}>
           <MailIcon style={{ marginRight: 8 }} />
           <Typography variant="body2" color="textSecondary">
-            San Francisco, CA
+            Start Date - End Date
+          </Typography>
+        </Box>
+        <Box display="flex" alignItems="center" mb={1}>
+          <MailIcon style={{ marginRight: 8 }} />
+          <Typography variant="body2" color="textSecondary">
+            Location
+          </Typography>
+        </Box>
+        <Box display="flex" alignItems="center" mb={1}>
+          <MailIcon style={{ marginRight: 8 }} />
+          <Typography variant="body2" color="textSecondary">
+            Number of People
           </Typography>
         </Box>
         <Typography variant="body2" color="textSecondary" paragraph>

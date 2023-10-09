@@ -29,7 +29,7 @@ import BrowseCards from '../components/BrowseCards';
 
 // import { Paper } from '@mui/material';
 
-const drawerWidth = '40%';
+const drawerWidth = '30%';
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -176,7 +176,7 @@ export default function MiniDrawer() {
         </List> */}
         {open === false ? <div></div>: 
                 <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                {/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
                   <ListItem key={text} disablePadding >
                     <ListItemButton sx={{backgroundColour:'grey'}}>
                       <ListItemIcon>
@@ -185,8 +185,20 @@ export default function MiniDrawer() {
                       <ListItemText primary={text} />
                     </ListItemButton>
                   </ListItem>
-                ))}
-                <BrowseCards></BrowseCards>
+                ))} */}
+                <ListItem disablePadding >
+                  <BrowseCards></BrowseCards>
+                </ListItem>
+                <ListItem disablePadding >
+                  <BrowseCards></BrowseCards>
+                </ListItem>
+                <ListItem disablePadding >
+                  <BrowseCards></BrowseCards>
+                </ListItem>
+                <ListItem disablePadding >
+                  <BrowseCards></BrowseCards>
+                </ListItem>
+                
               </List>
             //   <Paper>
             //     <BrowseCards></BrowseCards>
@@ -201,7 +213,13 @@ export default function MiniDrawer() {
 
 
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
+        {/* <DrawerHeader /> */}
+        <Typography variant="h4" component="h1" gutterBottom>
+          Project Name
+        </Typography>
+        <Typography variant="h5" component="h2" gutterBottom>
+          Project Description
+        </Typography>
         <Typography sx={{ marginBottom: 2 }}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
           tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
@@ -215,6 +233,9 @@ export default function MiniDrawer() {
           feugiat vivamus at augue. At augue eget arcu dictum varius duis at
           consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
           sapien faucibus et molestie ac.
+        </Typography>
+        <Typography variant="h5" component="h2" gutterBottom>
+          Key Responsibilities
         </Typography>
         <Typography sx={{ marginBottom: 2 }}>
           Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
