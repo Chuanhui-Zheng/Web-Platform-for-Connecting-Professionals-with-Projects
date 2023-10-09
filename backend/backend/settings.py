@@ -104,12 +104,8 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #im pretty sure you need an external service to run postgres
 DATABASES = {
     'default': {
-        'ENGINE' : 'django.db.backends.postgresql',
-        'NAME': 'jemmadb',
-        'USER': 'bigdog',
-        'PASSWORD': 'pass',
-        'HOST': 'postgres',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
