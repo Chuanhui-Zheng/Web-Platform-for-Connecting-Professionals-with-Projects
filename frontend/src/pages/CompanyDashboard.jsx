@@ -42,7 +42,7 @@ function CompanyDashboard() {
     const router = useDemoRouter('/companydashboard');
 
     return (
-        <AppProvider className="APP" sx={{ backgroundColour: 'black' }} navigation={NAVIGATION} router={router} >
+        <AppProvider className="APP" sx={{ backgroundColour: 'none' }} navigation={NAVIGATION} router={router} theme={theme}>
         <PageContainer className="container" sx={{ "@media (min-width: 0px)": { paddingRight: "25px", paddingLeft: "25px" }}}>
         <Box className="title" style={titleStyle}>
             <div>
