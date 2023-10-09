@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../styles/Professional/EditProfile.css'
+import { ACCESS_TOKEN } from "../constants";
 
 import {
   useNavigate,
@@ -14,6 +15,7 @@ const EditCompanyProfile = (props) => {
   const [phoneNumber, setNewPhoneNumber] = React.useState('');
   const [linkedin, setNewLinkedin] = React.useState('');
   const [companyWebsite, setNewCompanyWebsite] = React.useState('');
+  const [token, setToken] = React.useState(localStorage.getItem(ACCESS_TOKEN));
   
   const navigate = useNavigate();
 
