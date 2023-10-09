@@ -1,14 +1,16 @@
 import * as React from 'react';
 import styles from '../styles/ProfileHeader.module.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, Navigate } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CustomisedRating from './CustomisedRating'; 
+import { AppBar, Box, Button, Typography, Toolbar, CssBaseline } from '@mui/material';
 
 const ProfileHeader  = () => {
+    const navigate = useNavigate();
     return (
         <div className={styles.ProfileHeaderBar}>
             <AccountCircleIcon className={styles.ProfileHeaderProfilePic}/>
-            <div class={styles.ProfileHeaderContent}>
+            <div className={styles.ProfileHeaderContent}>
                 <div className={styles.ProfileHeaderNameAndRating}>
                     <h1 className={styles.ProfileHeaderName}>Profile Name</h1>
                     <div className={styles.ProfileHeaderRaitingBox}>
@@ -20,6 +22,10 @@ const ProfileHeader  = () => {
                     <Link to="/companydashboard" className={styles.ProfileHeaderLink}>Email</Link>
                     <Link to="/companydashboard" className={styles.ProfileHeaderLink}>Linkedin</Link>
                     <Link to="/companydashboard" className={styles.ProfileHeaderLink}>Other link</Link>
+                    {/* if professional */}
+                    <Button name="editprofessionalprofile" onClick={() => { navigate('/editprofessionalprofile') }} sx={{ textTransform: 'none' }} variant="outlined">Edit Professional Profile</Button>
+                    {/* if company 
+                    <Button name="editcompanyprofile" variant="outlined" onClick={() => { navigate('/editcompanyprofile') }} sx={{ textTransform: 'none' }}>Edit Company Profile</Button> */}
                 </div>
             </div>
         </div>
