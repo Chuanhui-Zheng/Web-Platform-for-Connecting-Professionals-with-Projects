@@ -49,8 +49,6 @@ function App() {
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="*" element={<NotFound />}></Route>
             <Route path="/proprofile" element={<ProfessionalProfile />} />
-            <Route path="/editprofessionalprofile" element={<EditProfessionalProfile />} />
-            <Route path="/editcompanyprofile" element={<EditCompanyProfile />} />
             <Route path="/companyprofile" element={<CompanyProfile />} />
             <Route path="/projectdetail/:projectID" element={<ProjectDetail />} />
             <Route path="/projectpage/:projectID" element={<ProjectPage />} />
