@@ -24,4 +24,4 @@
 3. Set FLASK_SECRET_KEY field to any string (e.g. JEMMA)
 
 
-<!-- expanded-history-pass-023: clearer Markdown structure and handoff detail for the Markdown documentation surface. -->
+<!-- history-polish-023: documentation pass for the Markdown documentation surface. This temporary refinement is intentionally represented as a standalone historical step. -->
