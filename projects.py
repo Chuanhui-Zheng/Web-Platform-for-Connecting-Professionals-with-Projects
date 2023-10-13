@@ -1,0 +1,39 @@
+@app.route('/projects/create', methods=['POST'])
+def createProjects():
+    return
+
+@app.route('/projects/listall', methods=['GET'])
+def projectsListAll():
+    return
+
+@app.route('/projects/userl/list', methods=['GET'])
+def projectProfessionalList():
+    return
+
+@app.route('/project/details', methods=['GET'])
+def projectDetails():
+    return
+
+@app.route('/project/professional/apply', methods=['POST'])
+def projectDetails():
+    return
+
+@app.route('/projects/listall', methods=['GET'])
+def projectListAll():
+    return
+
+@app.route('/project/professional/leave', methods=['GET'])
+def projectLeaveProject():
+    return
+
+@app.route('/project/company/approve', methods=['POST'])
+def projectCompanyApprove():
+    return
+
+@app.route('/project/company/complete', methods=['POST'])
+def completeProjects():
+    return
+
+@app.route('/project/candidate/list', methods=['GET'])
+def getCandidateList():
+    return
