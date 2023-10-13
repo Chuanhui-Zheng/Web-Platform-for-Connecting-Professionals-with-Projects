@@ -14,6 +14,10 @@ def projectProfessionalList():
 def projectDetails():
     return
 
+@app.route('/project/search', methods=['GET'])
+def projectSearch():
+    return
+
 @app.route('/project/professional/apply', methods=['POST'])
 def projectDetails():
     return

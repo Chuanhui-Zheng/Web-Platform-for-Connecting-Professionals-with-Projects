@@ -13,5 +13,3 @@ def userDetails():
 @app.route('/professional/editprofile', methods=['PUT'])
 def professionalEditProfile():
     return
-
-
