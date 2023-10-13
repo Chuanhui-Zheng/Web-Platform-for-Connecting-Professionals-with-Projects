@@ -1,7 +1,7 @@
 from flask import Flask
-from backend.functions.auth import authRegisterCompany, authRegisterProfessional, login, logout
-from backend.functions.notifications import getNotifications, sendNotifications
-from backend.functions.profiles import editCompanyProfile, editProfessionalProfile, userDetails, professionalEditProfile
+from functions.auth import authRegisterCompany, authRegisterProfessional, login, logout
+from functions.notifications import getNotifications, sendNotifications
+from functions.profiles import editCompanyProfile, editProfessionalProfile, userDetails, professionalEditProfile
 
 app = Flask(__name__)
 

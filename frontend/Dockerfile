@@ -2,11 +2,8 @@ FROM node:18-alpine
 
 WORKDIR /frontend
 
-COPY package.json .
-
+COPY package.json . 
 COPY package-lock.json .
-
-RUN npm install react-router-dom axios
 
 RUN npm install
 

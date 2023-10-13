@@ -1,0 +1,31 @@
+services:
+  # Backend service (Django)
+  backend:
+    build: ./backend
+    container_name: backend
+    environment:
+      - DATABASE_URL=sqlite:///app.db
+    volumes:
+      - ./backend:/app
+    ports:
+      - "5000:5000"
+    networks:
+      - app-network
+
+  # Frontend service (React with Vite)
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "5173:5173"
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+  pgadmin_data:
+
+networks:
+  app-network:

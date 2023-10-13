@@ -1,3 +1,7 @@
+from flask import Flask
+
+app = Flask(__name__)
+
 @app.route('/projects/create', methods=['POST'])
 def createProjects():
     return
