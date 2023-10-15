@@ -4,6 +4,7 @@ services:
     container_name: backend
     environment:
       - DATABASE_URL=sqlite:///app.db
+      - FLASK_ENV=development
     volumes:
       - ./backend:/app
     ports:
