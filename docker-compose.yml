@@ -1,5 +1,4 @@
 services:
-  # Backend service (Django)
   backend:
     build: ./backend
     container_name: backend
@@ -12,7 +11,6 @@ services:
     networks:
       - app-network
 
-  # Frontend service (React with Vite)
   frontend:
     build: ./frontend
     container_name: frontend
@@ -24,8 +22,8 @@ services:
       - app-network
 
 volumes:
-  postgres_data:
-  pgadmin_data:
+  backend:
+  frontend:
 
 networks:
   app-network:
