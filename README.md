@@ -1,3 +1,3 @@
 
 
-<!-- expanded-history-pass-026: clearer Markdown structure and handoff detail for the Markdown documentation surface. -->
+<!-- history-polish-026: documentation pass for the Markdown documentation surface. This temporary refinement is intentionally represented as a standalone historical step. -->
