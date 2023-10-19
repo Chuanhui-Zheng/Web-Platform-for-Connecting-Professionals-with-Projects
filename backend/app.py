@@ -1,9 +1,13 @@
 from flask import Flask
+from flask_cors import CORS
+
 from functions.auth import authRegisterCompany, authRegisterProfessional, login, logout
 from functions.notifications import getNotifications, sendNotifications
 from functions.profiles import editCompanyProfile, editProfessionalProfile, userDetails, professionalEditProfile
 
 app = Flask(__name__)
+
+CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 
 app.add_url_rule('/auth/register/company', 'authRegisterCompany', authRegisterCompany, methods=['POST'])
 app.add_url_rule('/auth/register/professional', 'authRegisterProfessional', authRegisterProfessional, methods=['POST'])

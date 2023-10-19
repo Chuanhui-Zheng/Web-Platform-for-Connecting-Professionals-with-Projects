@@ -2,8 +2,11 @@ from flask import Flask, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
 # from src.error import AccessErrror
+from flask_cors import CORS
 
 app = Flask(__name__)
+
+CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 
 @app.route('/auth/register/company', methods=['POST'])
 # def authRegisterCompany(companyName: str, companyEmail: str, companyPassword: str, 
