@@ -1,76 +1,102 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
 # from src.error import AccessErrror
 from flask_cors import CORS
+from database.models import Company, Professional
 
 app = Flask(__name__)
 
 CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 
+def is_user_existing(email):
+    company = Company.get_company_by_email(companyEmail=email)
+    professional = Professional.get_professional_by_email(professionalEmail=email)
+    print(f"{professional} =====================")
+    if company is not None or professional is not None:
+        return True
+    return False
+
 @app.route('/auth/register/company', methods=['POST'])
-# def authRegisterCompany(companyName: str, companyEmail: str, companyPassword: str, 
-#                         companyPhoneNumber: str, companyWebsite: str, 
-#                         companyDescription: str, companyLogo: str):
 def authRegisterCompany():
     data = request.get_json()
+    companyEmail = data.get("companyEmail")
 
-    # Error checking ###########
+    # Error checking (if they are existing)
+    if is_user_existing(companyEmail):
+        return jsonify({"error": "Company already exists"}), 409
     
-
-    # Get data (password, userId)
-    password = generate_password_hash(data.get("password"))
-    user_id = 1 ### change this #################
-
-
-    # Store in database ######
-
-
-
-    ''' javascript frontend
-    import jwt_decode from "jwt-decode";
-
-    // Assuming you have the JWT token stored in localStorage or retrieved from your API
-    const token = localStorage.getItem('accessToken');
-
-    // Decode the token to access the additional claims
-    const decodedToken = jwt_decode(token);
-
-    console.log(decodedToken);
-    '''
+    # Create new company and store in database
+    new_company = Company(companyEmail=companyEmail)
+    new_company.set_company_password(companyPassword=data.get("companyPassword"))
+    new_company.save_company()
 
     # Create data for token
     token_data = {
-        "userId": user_id,
+        "userId": new_company.companyId,
         "userType": "company"
     }
 
     # Create token
-    access_token = create_access_token(identity=data.get("email"), additional_claims=token_data)
+    access_token = create_access_token(identity=companyEmail, additional_claims=token_data)
 
     # Return the token
     return { "token": access_token }
 
 @app.route('/auth/register/professional', methods=['POST'])
 def authRegisterProfessional():
-    return
+    data = request.get_json()
+    professionalEmail = data.get("professionalEmail")
+
+    # Error checking (if they are existing)
+    if is_user_existing(professionalEmail):
+        return jsonify({"error": "Professional already exists"}), 409
+    
+    # Create new professional and store in database
+    new_professional = Professional(professionalEmail=professionalEmail)
+    new_professional.set_professional_password(professionalPassword=data.get("professionalPassword"))
+    new_professional.save_professional()
+
+    # Create data for token
+    token_data = {
+        "userId": new_professional.professionalId,
+        "userType": "professional"
+    }
+
+    # Create token
+    access_token = create_access_token(identity=professionalEmail, additional_claims=token_data)
+
+    # Return the token
+    return jsonify({ "token": access_token }), 201
 
 @app.route('/auth/login', methods=['POST'])
 def login():
     data = request.get_json()
-
-    # Check if the user exists (based on email)
     email = data.get("email")
+    password = data.get("password")
 
-    # Get password
-    password = "123"
+    company = Company.get_company_by_email(companyEmail=email)
+    professional = Professional.get_professional_by_email(professionalEmail=email)
 
-    # Check if password is correct
-    ##### might need to do the hashing thing
-    # if password != data.get("password"):
-    #     return AccessError
+    print(f"{company} ========================================================")
+    print(f"{professional} ========================================================")
 
-    return
+    if company is not None:
+        if company.check_company_password(companyPassword=password):
+            access_token = create_access_token(identity=email, additional_claims={
+                "userId": company.companyId,
+                "userType": "company"
+            })
+            return jsonify({ "token": access_token }), 200
+    if professional is not None:
+        if professional.check_professional_password(professionalPassword=password):
+            access_token = create_access_token(identity=email, additional_claims={
+                "userId": professional.professionalId,
+                "userType": "professional"
+            })
+            return jsonify({ "token": access_token }), 200
+
+    return jsonify({"error": "Invalid username or password"}), 400
 
 @app.route('/auth/logout', methods=['POST'])
 def logout():

@@ -12,6 +12,3 @@ def getNotifications():
 @app.route('/notifications/send', methods=['POST'])
 def sendNotifications():
     return
-
-
-# expanded-history-pass-027: maintainability refinement for the backend maintainability surface.
