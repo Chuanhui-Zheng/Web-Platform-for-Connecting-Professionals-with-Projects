@@ -4,7 +4,7 @@ import { Button, TextField } from "@mui/material";
 import VisuallyHiddenInput from "../VisuallyHiddenInput";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constants";
-import api from "../../api";
+import apiPost from "../../api";
 import { useNavigate } from "react-router-dom";
 
 
@@ -41,11 +41,12 @@ function ProfessionalRegisterForm() {
     try {
       // Handle API
       console.log(formData)
-      const username = formData.professionalEmail
-      const password = formData.professionalPassword
-      const res = await api.post("/api/user/register/", { username, password });
-      localStorage.setItem(ACCESS_TOKEN, res.data.access);
-      localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
+      const professionalEmail = formData.professionalEmail
+      const professionalPassword = formData.professionalPassword
+      // const res = await api.post("/api/user/register/", { username, password });
+      const res = apiPost("/auth/register/professional", { professionalEmail, professionalPassword })
+      localStorage.setItem("token", res.data.access);
+      // localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
       navigate("/prodashbaord")
     } catch (error) {
       alert(error)

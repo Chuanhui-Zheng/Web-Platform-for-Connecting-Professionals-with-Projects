@@ -4,7 +4,7 @@ import { Button, TextField } from "@mui/material";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisuallyHiddenInput from "../VisuallyHiddenInput";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constants";
-import api from "../../api";
+import apiPost from "../../api";
 import { useNavigate } from "react-router-dom";
 
 function CompanyRegisterForm() {
@@ -37,11 +37,12 @@ function CompanyRegisterForm() {
     try {
       // Handle API
       console.log(formData)
-      const username = formData.companyEmail
-      const password = formData.companyPassword
-      const res = await api.post("/api/user/register/", { username, password });
-      localStorage.setItem(ACCESS_TOKEN, res.data.access);
-      localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
+      const companyEmail = formData.companyEmail
+      const companyPassword = formData.companyPassword
+      // const res = await api.post("/api/user/register/", { username, password });
+      const res = apiPost("/auth/register/company", { companyEmail, companyPassword })
+      localStorage.setItem("toekn", res.data.access);
+      // localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
       navigate("/companydashboard")
     } catch (error) {
       alert(error)

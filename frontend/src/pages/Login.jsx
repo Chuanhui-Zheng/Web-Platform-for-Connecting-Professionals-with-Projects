@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Form from "../components/Forms/Form"
 import { useState } from "react";
 import { TextField } from "@mui/material";
-import api from "../api";
+import apiPost from "../api";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
 
 
@@ -31,11 +31,11 @@ function Login() {
     try {
       // Handle API
       console.log(formData)
-      const username = formData.email
+      const email = formData.email
       const password = formData.password
-      const res = await api.post("/api/token/", { username, password });
-      localStorage.setItem(ACCESS_TOKEN, res.data.access);
-      localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
+      const res = apiPost("/auth/login", { email, password })
+      localStorage.setItem("token", res.data.token);
+      // localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
       navigate("/prodashbaord") // ???????
     } catch (error) {
       alert(error)
