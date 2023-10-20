@@ -3,13 +3,11 @@ import Form from "./Form"
 import { Button, TextField } from "@mui/material";
 import VisuallyHiddenInput from "../VisuallyHiddenInput";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constants";
-import apiPost from "../../api";
+import { apiPost } from "../../api";
 import { useNavigate } from "react-router-dom";
 
 
 function ProfessionalRegisterForm() {
-  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     professionalFullName: "",
     professionalEmail: "",
@@ -36,23 +34,21 @@ function ProfessionalRegisterForm() {
   // Submit registration
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
-    try {
-      // Handle API
-      console.log(formData)
-      const professionalEmail = formData.professionalEmail
-      const professionalPassword = formData.professionalPassword
-      // const res = await api.post("/api/user/register/", { username, password });
-      const res = apiPost("/auth/register/professional", { professionalEmail, professionalPassword })
-      localStorage.setItem("token", res.data.access);
-      // localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-      navigate("/prodashbaord")
-    } catch (error) {
-      alert(error)
-    } finally {
-      setLoading(false)
-    }
+    const professionalEmail = formData.professionalEmail
+    const professionalPassword = formData.professionalPassword
+    apiPost("/auth/register/professional", { professionalEmail, professionalPassword })
+      .then((data) => {
+        if (!data.error) {
+          localStorage.setItem("token", data.token);
+          navigate("/prodashbaord"); // ???????
+        } else {
+          throw new Error("Register failed.")
+        }
+      })
+      .catch(() => {
+        alert("Registration details are not valid.")
+      });
   }
 
   return (

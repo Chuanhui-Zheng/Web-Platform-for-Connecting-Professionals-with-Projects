@@ -2,12 +2,12 @@ import { useNavigate } from "react-router-dom";
 import Form from "../components/Forms/Form"
 import { useState } from "react";
 import { TextField } from "@mui/material";
-import apiPost from "../api";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
-
+import { apiPost } from "../api";
+// import jwt from "jsonwebtoken";
+// import jwt_decode from "jwt-decode";
+import decodeJWT from "../decodeJWT";
 
 function Login() {
-  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: ""
@@ -26,22 +26,29 @@ function Login() {
   // Login
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
-    try {
-      // Handle API
-      console.log(formData)
-      const email = formData.email
-      const password = formData.password
-      const res = apiPost("/auth/login", { email, password })
-      localStorage.setItem("token", res.data.token);
-      // localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-      navigate("/prodashbaord") // ???????
-    } catch (error) {
-      alert(error)
-    } finally {
-      setLoading(false)
-    }
+    // Handle API
+    const email = formData.email
+    const password = formData.password
+    apiPost("/auth/login", { email, password })
+      .then((data) => {
+        console.log("API response:", data); // Log the API response
+        if (!data.error) {
+          localStorage.setItem("token", data.token);
+          console.log("here")
+          const tokenData = decodeJWT(data.token);
+          if (tokenData.userType === "company") {
+            navigate("/companydashboard");
+          } else if (tokenData.userType === "professional") {
+            navigate("/prodashbaord");
+          }
+        } else {
+          throw new Error("Login failed.");
+        }
+      })
+      .catch(() => {
+        alert("Username and password is incorrect or does not exist.");
+      });
   }
 
   return (

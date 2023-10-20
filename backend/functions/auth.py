@@ -1,7 +1,5 @@
 from flask import Flask, request, jsonify
-from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
-# from src.error import AccessErrror
 from flask_cors import CORS
 from database.models import Company, Professional
 
@@ -87,6 +85,7 @@ def login():
                 "userId": company.companyId,
                 "userType": "company"
             })
+            print(f"access_token = {access_token}")
             return jsonify({ "token": access_token }), 200
     if professional is not None:
         if professional.check_professional_password(professionalPassword=password):

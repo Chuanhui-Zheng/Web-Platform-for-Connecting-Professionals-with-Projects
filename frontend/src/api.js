@@ -24,7 +24,7 @@
 
 export const apiPost = (path, body) => {
   return new Promise((resolve, reject) => {
-    fetch('http://localhost:8000/' + path, {
+    fetch('http://localhost:8000' + path, {
     method: 'POST',
     headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -48,7 +48,7 @@ export const apiPost = (path, body) => {
 
 export const apiGet = (path, queryString) => {
   return new Promise((resolve, reject) => {
-    fetch('http://localhost:8000/' + path + '?' + queryString, {
+    fetch('http://localhost:8000' + path + '?' + queryString, {
     method: 'GET',
     headers: {
       'Content-type': 'application/json',
@@ -68,7 +68,7 @@ export const apiGet = (path, queryString) => {
 
 export const apiPut = (path, body) => {
   return new Promise((resolve, reject) => {
-    fetch('http://localhost:8000/' + path, {
+    fetch('http://localhost:8000' + path, {
     method: 'PUT',
     headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -91,12 +91,11 @@ export const apiPut = (path, body) => {
 
 export const apiDelete = (path, body) => {
   return new Promise((resolve, reject) => {
-    fetch('http://localhost:8000/' + path, {
+    fetch('http://localhost:8000' + path, {
     method: 'DELETE',
     headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
         'Content-type': 'application/json',
-
       },
     body: JSON.stringify(body),
     authUserId : `${localStorage.getItem('userId')}`

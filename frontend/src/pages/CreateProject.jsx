@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Button from '@mui/material/Button';
 import '../styles/Company/CreateProject.css'
-import api from "..//api";
+// import api from "..//api";
 // import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constants";
 
 import {
@@ -27,21 +27,21 @@ const CreateProject = (props) => {
 
   const createProject = async (args) => {
     try {
-        const res = await api.post("/api/projects/create/", 
-            { 
-                projectName, 
-                contactEmail, 
-                category, 
-                startDate,
-                endDate,
-                professionalsWanted,
-                location,
-                keyResponsibilites,
-                requiredSkills,
-                projectDescription,
-                objectives,
-                confidentialInformation
-            });
+        // const res = await api.post("/api/projects/create/", 
+        //     { 
+        //         projectName, 
+        //         contactEmail, 
+        //         category, 
+        //         startDate,
+        //         endDate,
+        //         professionalsWanted,
+        //         location,
+        //         keyResponsibilites,
+        //         requiredSkills,
+        //         projectDescription,
+        //         objectives,
+        //         confidentialInformation
+        //     });
         navigate("/companydashbaord")
     } catch (error) {
         alert(error)

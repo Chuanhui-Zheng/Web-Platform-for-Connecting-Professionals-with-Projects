@@ -3,12 +3,10 @@ import Form from "./Form"
 import { Button, TextField } from "@mui/material";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisuallyHiddenInput from "../VisuallyHiddenInput";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constants";
-import apiPost from "../../api";
+import { apiPost } from "../../api";
 import { useNavigate } from "react-router-dom";
 
 function CompanyRegisterForm() {
-  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     companyName: "",
     companyEmail: "",
@@ -32,23 +30,21 @@ function CompanyRegisterForm() {
   // Submit registration
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
-    try {
-      // Handle API
-      console.log(formData)
-      const companyEmail = formData.companyEmail
-      const companyPassword = formData.companyPassword
-      // const res = await api.post("/api/user/register/", { username, password });
-      const res = apiPost("/auth/register/company", { companyEmail, companyPassword })
-      localStorage.setItem("toekn", res.data.access);
-      // localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-      navigate("/companydashboard")
-    } catch (error) {
-      alert(error)
-    } finally {
-      setLoading(false)
-    }
+    const companyEmail = formData.companyEmail
+    const companyPassword = formData.companyPassword
+    apiPost("/auth/register/company", { companyEmail, companyPassword })
+      .then((data) => {
+        if (!data.error) {
+          localStorage.setItem("token", data.token);
+          navigate("/companydashboard");
+        } else {
+          throw new Error("Register failed.")
+        }
+      })
+      .catch(() => {
+        alert("Registration details are not valid.")
+      });
   }
 
   return (
