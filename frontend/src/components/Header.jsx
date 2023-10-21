@@ -62,10 +62,10 @@ function Header() {
             {/* { localStorage.getItem('token') ? ( */} 
             <>
             <Box>
-                <Button name="companyDashboard" color="inherit" onClick={() => { navigate('companydashboard') }} sx={{ textTransform: 'none' }}>Company Dashboard</Button>
-                <Button name="proDashbaord" color="inherit" onClick={() => { navigate('prodashbaord') }} sx={{ textTransform: 'none' }}>Professional Dashboard</Button>
-                <Button name="allProjects" color="inherit" onClick={() => { navigate('allprojects') }} sx={{ textTransform: 'none' }}>Browse Projects</Button>
-                <Button name="aboutus" color="inherit" onClick={() => { navigate('aboutus') }} sx={{ textTransform: 'none' }}>About Us</Button>
+                <Button name="companyDashboard" color="inherit" onClick={() => { navigate('/companydashboard') }} sx={{ textTransform: 'none' }}>Company Dashboard</Button>
+                <Button name="proDashbaord" color="inherit" onClick={() => { navigate('/prodashbaord') }} sx={{ textTransform: 'none' }}>Professional Dashboard</Button>
+                <Button name="allProjects" color="inherit" onClick={() => { navigate('/allprojects') }} sx={{ textTransform: 'none' }}>Browse Projects</Button>
+                <Button name="aboutus" color="inherit" onClick={() => { navigate('/aboutus') }} sx={{ textTransform: 'none' }}>About Us</Button>
                 {/* <Button name="editprofessionalprofile" color="inherit" onClick={() => { navigate('editprofessionalprofile') }} sx={{ textTransform: 'none' }}>Edit Professional Profile</Button>
                 <Button name="editcompanyprofile" color="inherit" onClick={() => { navigate('editcompanyprofile') }} sx={{ textTransform: 'none' }}>Edit Company Profile</Button> */}
             </Box>
