@@ -11,13 +11,11 @@ import IconButton from '@mui/material/IconButton';
 // import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import { ACCESS_TOKEN } from "../constants";
 import { deepOrange } from '@mui/material/colors';
 
 function Header() {
-    console.log('header')
     const navigate = useNavigate();
-    const [token, setToken] = React.useState(localStorage.getItem(ACCESS_TOKEN));
+    const [token, setToken] = React.useState(localStorage.getItem("token"));
     const [anchorEl, setAnchorEl] = React.useState(null);
     
     const open = Boolean(anchorEl);
@@ -30,7 +28,7 @@ function Header() {
 
     React.useEffect(() => {
         setInterval(() => {
-            const glob = localStorage.getItem(ACCESS_TOKEN);
+            const glob = localStorage.getItem("token");
             setToken(glob);
         }, [])
         // const glob = localStorage.getItem(ACCESS_TOKEN);
