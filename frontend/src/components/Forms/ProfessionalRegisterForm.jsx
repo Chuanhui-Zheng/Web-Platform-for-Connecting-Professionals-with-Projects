@@ -12,13 +12,13 @@ function ProfessionalRegisterForm() {
     professionalFullName: "",
     professionalEmail: "",
     professionalPassword: "",
-    professionalWebsite: "",
-    professionalPhoneNumber: "",
-    professionalDescription: "",
-    professionalQualifications: "",
-    professionalEducation: "",
-    professionalSkills: "",
-    professionalPhoto: ""
+    // professionalWebsite: "",
+    // professionalPhoneNumber: "",
+    // professionalDescription: "",
+    // professionalQualifications: "",
+    // professionalEducation: "",
+    // professionalSkills: "",
+    // professionalPhoto: ""
   });
 
   const navigate = useNavigate();
@@ -87,7 +87,7 @@ function ProfessionalRegisterForm() {
         value={formData.professionalPassword}
         onChange={onChange}
       />
-      <TextField
+      {/* <TextField
         variant="filled"
         margin="normal"
         className="form-input"
@@ -146,7 +146,7 @@ function ProfessionalRegisterForm() {
         name="professionalSkills"
         value={formData.professionalSkills}
         onChange={onChange}
-      />
+      /> */}
       <Button
         sx={{ margin: '16px 0' }}
         className="form-input"
