@@ -2,6 +2,7 @@ from extensions import db
 from uuid import uuid4
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+from sqlalchemy.dialects.postgresql import JSON
 
 def generate_uuid():
     return uuid4()
@@ -9,8 +10,14 @@ def generate_uuid():
 class Company(db.Model):
     __tablename__ = "companies"
     companyId = db.Column(db.String(), primary_key=True, default=str(generate_uuid))
+    companyName = db.Column(db.String(), default="")
     companyEmail = db.Column(db.String(), nullable=False)
+    companyPhoneNumber = db.Column(db.String(), default="")
+    companyWebsite = db.Column(db.String(), default="")
+    companyLogo = db.Column(db.String(), default="")
     companyPassword = db.Column(db.Text())
+    companyDescription = db.Column(db.String(), default="")
+    listOfProjectIds = db.Column(JSON, default=list)
 
     def __repr__(self):
         return f"<Company {self.companyEmail}>"
@@ -36,7 +43,15 @@ class Company(db.Model):
 class Professional(db.Model):
     __tablename__ = "professionals"
     professionalId = db.Column(db.String(), primary_key=True, default=str(generate_uuid))
+    professionalFullName = db.Column(db.String(), default="")
+    professionalPhoto = db.Column(db.String(), default="")
     professionalEmail = db.Column(db.String(), nullable=False)
+    professionalWebsite = db.Column(db.String(), default="")
+    professionalPhoneNumber = db.Column(db.String(), default="")
+    professionalDescription = db.Column(db.String(), default="")
+    professionalQualifications = db.Column(db.String(), default="")
+    professionalEducation = db.Column(db.String(), default="")
+    professionalSkills = db.Column(JSON, default=list)
     professionalPassword = db.Column(db.Text())
 
     def __repr__(self):
