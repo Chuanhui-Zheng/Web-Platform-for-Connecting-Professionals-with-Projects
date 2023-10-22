@@ -35,7 +35,6 @@ function Login() {
         console.log("API response:", data); // Log the API response
         if (!data.error) {
           localStorage.setItem("token", data.token);
-          console.log("here")
           const tokenData = decodeJWT(data.token);
           if (tokenData.userType === "company") {
             navigate("/companydashboard");
