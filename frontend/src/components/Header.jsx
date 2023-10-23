@@ -39,8 +39,10 @@ function Header() {
 
     React.useEffect(() => {
         const token = localStorage.getItem("token");
-        const tokenData = decodeJWT(token);
-        setUserType(tokenData.userType)
+        if (token != null) {
+            const tokenData = decodeJWT(token);
+            setUserType(tokenData.userType)
+        }
       }, []);
 
     function logout() {
