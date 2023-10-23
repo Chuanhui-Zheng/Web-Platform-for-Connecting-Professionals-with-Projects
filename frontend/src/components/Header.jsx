@@ -12,11 +12,13 @@ import IconButton from '@mui/material/IconButton';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { deepOrange } from '@mui/material/colors';
+import decodeJWT from "../decodeJWT";
 
 function Header() {
     const navigate = useNavigate();
     const [token, setToken] = React.useState(localStorage.getItem("token"));
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [userType, setUserType] = React.useState('')
     
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -35,6 +37,12 @@ function Header() {
         // setToken(glob);
     }, 5000);
 
+    React.useEffect(() => {
+        const token = localStorage.getItem("token");
+        const tokenData = decodeJWT(token);
+        setUserType(tokenData.userType)
+      }, []);
+
     function logout() {
         localStorage.clear()
         navigate('/')
@@ -42,10 +50,11 @@ function Header() {
     }
 
     function viewProfile() {
-        // if professional
-        navigate('proprofile')
-        // if company
-        // navigate('companyprofile')
+        if (userType === "company") {
+            navigate("/companyprofile");
+        } else if (userType === "professional") {
+            navigate("/proprofile");
+        }
     }
     
     return (
