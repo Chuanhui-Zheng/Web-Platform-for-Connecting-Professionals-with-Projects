@@ -2,7 +2,7 @@ from extensions import db
 from uuid import uuid4
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
-from sqlalchemy.dialects.postgresql import JSON
+from sqlalchemy import JSON
 
 def generate_uuid():
     return uuid4()
@@ -53,6 +53,9 @@ class Professional(db.Model):
     professionalEducation = db.Column(db.String(), default="")
     professionalSkills = db.Column(JSON, default=list)
     professionalPassword = db.Column(db.Text())
+    professionalPastProjects = db.Column(JSON, default=list)
+    professionalRatings = db.Column(JSON, default=dict)
+    professionalCertificates = db.Column(JSON, default=dict)
 
     def __repr__(self):
         return f"<Professional {self.professionalEmail}>"
