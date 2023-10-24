@@ -5,6 +5,7 @@ import BasicChips from "../../components/Chip";
 import ProjectCard from "../../components/Professional/Dashboard/ProjectCard";
 
 const ProfessionalProfile = () => {
+    console.log("professional profile reached")
     const description = "HEllo i am jim, i am so passionaat aboutbaiosdfhoiehofihehofhaoei hfoiaheoihfoaisdhfhadsuibhfuiagsdbiuaioewfhaieohfoaie"
     return (
 

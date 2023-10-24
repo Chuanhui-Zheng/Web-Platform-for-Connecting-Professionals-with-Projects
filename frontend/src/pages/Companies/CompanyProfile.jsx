@@ -5,6 +5,7 @@ import ProjectCard from "../../components/Professional/Dashboard/ProjectCard";
 
 
 const CompanyProfile = () => {
+    console.log("company profile reached")
     const description = "HEllo i am jim, i am so passionaat aboutbaiosdfhoiehofihehofhaoei hfoiaheoihfoaisdhfhadsuibhfuiagsdbiuaioewfhaieohfoaie"
     return (
 
