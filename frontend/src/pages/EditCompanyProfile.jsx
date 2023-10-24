@@ -4,7 +4,7 @@ import '../styles/EditForm.css'
 import { ACCESS_TOKEN } from "../constants";
 import EditForm from '../components/Forms/EditForm';
 import { Button, TextField } from "@mui/material";
-// import { apiPost } from "../api";
+import { apiPut } from "../api";
 import decodeJWT from "../decodeJWT";
 
 import {
@@ -24,6 +24,7 @@ const EditCompanyProfile = (props) => {
   const [companyDescription, setNewCompanyDescription] = React.useState('');
   const [token, setToken] = React.useState(localStorage.getItem(ACCESS_TOKEN));
   const [userType, setUserType] = React.useState('')
+  const [userId, setUserId] = React.useState('')
   const [logo, setNewLogo] = React.useState('null')
   
   const navigate = useNavigate();
@@ -34,41 +35,48 @@ const EditCompanyProfile = (props) => {
     if (token != null) {
         const tokenData = decodeJWT(token);
         setUserType(tokenData.userType)
+        setNewLinkedin(tokenData.userId)
     }
   }, []);
 
-  const editCompanyProfile = async (args) => {
-    const response = await fetch('http://localhost:5005/profiles/' + params.id, { // fix
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${props.token}`,
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(args),
-    });
-    const data = await response.json();
-    if (data.error) {
-      alert(data.error);
-    } else {
-      navigate('/profile');  // fix
-    }
-  }
+//   const editCompanyProfile = async (args) => {
+//     const response = await fetch('http://localhost:5005/profiles/' + params.id, { // fix
+//       method: 'PUT',
+//       headers: {
+//         Authorization: `Bearer ${props.token}`,
+//         'Content-type': 'application/json',
+//       },
+//       body: JSON.stringify(args),
+//     });
+//     const data = await response.json();
+//     if (data.error) {
+//       alert(data.error);
+//     } else {
+//       navigate('/profile');  // fix
+//     }
+//   }
 
   const handleSubmit = async (e) => {
-    apiPut("/edit/company", {token,
-        companyName,
-        password,
-        phoneNumber,
-        companyWebsite,
-        companyDescription,
-        companyLogo
+    e.preventDefault();
+    console.log("calling api")
+    apiPut("/edit/company", {id: 865313,
+    companyName: "bye",
+    companyPassword: "erver",
+    companyPhoneNumber: "ver",
+    companyWebsite: "o",
+    companyDescription: "eeee",
+    companyLogo: null
         }).then((data) =>{
+            console.log(data)
             if (!data.error) {
                 console.log("worked");
             } else {
                 throw new Error("Edit Failed");
             }
         })
+        .catch(() => {
+            alert("Edit details are not valid.")
+          });
   }
 
   return (
