@@ -31,9 +31,26 @@ function CompanyRegisterForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const companyEmail = formData.companyEmail
-    const companyPassword = formData.companyPassword
-    apiPost("/auth/register/company", { companyEmail, companyPassword })
+    const {
+      companyName,
+      companyEmail,
+      companyPassword,
+      companyPhoneNumber,
+      companyWebsite,
+      companyLogo,
+      companyDescription
+    } = formData
+
+    // const companyEmail = formData.companyEmail
+    apiPost("/auth/register/company", { 
+      companyName,
+      companyEmail,
+      companyPassword,
+      companyPhoneNumber,
+      companyWebsite,
+      companyLogo,
+      companyDescription
+    })
       .then((data) => {
         if (!data.error) {
           localStorage.setItem("token", data.token);
