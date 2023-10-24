@@ -29,7 +29,8 @@ const EditCompanyProfile = (props) => {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    const token = localStorage.getItem("token");
+    const getToken = localStorage.getItem("token");
+    setToken(getToken);
     if (token != null) {
         const tokenData = decodeJWT(token);
         setUserType(tokenData.userType)
@@ -54,7 +55,6 @@ const EditCompanyProfile = (props) => {
   }
 
   const handleSubmit = async (e) => {
-    setNewPassword("newpassword")
     apiPut("/edit/company", {token,
         companyName,
         password,
@@ -62,6 +62,12 @@ const EditCompanyProfile = (props) => {
         companyWebsite,
         companyDescription,
         companyLogo
+        }).then((data) =>{
+            if (!data.error) {
+                console.log("worked");
+            } else {
+                throw new Error("Edit Failed");
+            }
         })
   }
 
