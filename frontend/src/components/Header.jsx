@@ -18,7 +18,7 @@ function Header() {
     const navigate = useNavigate();
     const [token, setToken] = React.useState(localStorage.getItem("token"));
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [userType, setUserType] = React.useState('')
+    const [userType, setUserType] = React.useState('');
     
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -52,20 +52,14 @@ function Header() {
     }
 
     function viewProfile() {
-        console.log("view profile")
-        
-        const token = localStorage.getItem("token");
-        if (token != null) {
-            const tokenData = decodeJWT(token);
-            setUserType(tokenData.userType)
-        }
-
-        console.log(userType)
-
-        if (userType === "company") {
-            navigate("/companyprofile");
-        } else if (userType === "professional") {
-            navigate("/proprofile");
+        const token1 = localStorage.getItem("token");
+        if (token1 != null) {
+            const tokenData = decodeJWT(token1);
+            if (tokenData.userType === "company") {
+                navigate("/companyprofile");
+            } else if (tokenData.userType === "professional") {
+                navigate("/proprofile");
+            }
         }
     }
     
