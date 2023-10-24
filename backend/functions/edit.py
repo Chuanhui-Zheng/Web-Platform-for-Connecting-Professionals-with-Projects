@@ -8,7 +8,6 @@ app = Flask(__name__)
 @app.route('/edit/company', methods=['PUT'])
 def editCompany():
     data = request.get_json()
-    # token = data.get('token')
     companyId = data.get('id')
     password = data.get('companyPassword')
     phone = data.get('companyPhoneNumber')
@@ -17,32 +16,38 @@ def editCompany():
     description = data.get('companyDescription')
     logo = data.get('companyLogo')
 
-    # tokenData = decode_token(token)
-    # print(tokenData)
-    # companyEmail = tokenData.identity
-
-    #set company data
     company = Company.get_company_by_id(companyId=companyId)
+    if not company:
+        return jsonify({"error": "Company not found"}), 404
+    
     company.set_company_password(password)
-    company.set_company_name(name)
-    company.set_company_phone(phone)
-    company.set_company_webiste(website)
-    company.set_company_description(description)
-    company.set_company_logo(logo)
+    company.set_company_details(name, phone, website, description, logo)
 
     return { "message": "hello" }, 200
 
 
-# @app.route('/edit/professional', methods=['PUT'])
-# def editProfessional():
-#     data = request.get_json()
-#     email = data.get('professionalEmail')
-#     newEmail = data.get('newEmail')
+@app.route('/edit/professional', methods=['PUT'])
+def editProfessional():
 
-#     professional = Professional.get_professional_by_email(professionalEmail=email)
-#     if not professional:
-#         return jsonify({"error": "Company not found"}), 404
+    data = request.get_json()
+    id = data.get('id')
+    name = data.get('professionalFullName')
+    password = data.get('professionalPassword')
+    website = data.get('professionalWebsite')
+    number = data.get('professionalPhoneNumber')
+    description = data.get('professionalDescription')
+    qualification = data.get('professionalQualifications')
+    education = data.get('professionalEducation')
+    skills = data.get('professionalSkills')
+    photo = data.get('professionalPhoto')
+
+
+    professional = Professional.get_professional_by_id(professionalId=id)
+    if not professional:
+        return jsonify({"error": "Professional not found"}), 404
     
-#     professional.setEmail(newEmail)
+    professional.set_professional_details(name, website, number, description, qualification, education, skills, photo)
+    professional.set_professional_password(password)
 
-#     return jsonify({"email" : professional.professionalEmail}), 200
+    return { "message": "asdfasdf" }, 200
+    

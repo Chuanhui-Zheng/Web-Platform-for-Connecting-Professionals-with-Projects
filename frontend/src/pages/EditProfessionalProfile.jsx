@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import '../styles/EditForm.css'
 import EditForm from '../components/Forms/EditForm';
 import { Button, TextField } from "@mui/material";
+import decodeJWT from "../decodeJWT";
 
 import {
   useNavigate,
@@ -14,67 +15,56 @@ const EditProfessionalProfile = (props) => {
   console.log("edit professional profile")
   const params = useParams();
   const [fullName, setNewFullName] = React.useState('');
-  const [emailAddress, setNewEmailAddress] = React.useState('');
+  const [password, setNewPassword] = React.useState('');
   const [phoneNumber, setNewPhoneNumber] = React.useState('');
   const [bio, setNewBio] = React.useState('');
   const [education, setNewEducation] = React.useState('');
   const [qualification, setNewQualification] = React.useState('');
   const [skills, setNewSkills] = React.useState('');
-  const [linkedin, setNewLinkedin] = React.useState('');
-  const [otherLinks, setNewOtherLinks] = React.useState('');
+  const [website, setNewWebsite] = React.useState('');
+  const [photo, setNewPhoto] = React.useState('');
+  const [token, setToken] = React.useState('');
+  const [userId, setUserId] = React.useState()
   
   const navigate = useNavigate();
 
+  React.useEffect(() => {
+    const getToken = localStorage.getItem("token");
+    console.log(getToken)
+    if (getToken != null) {
+        const tokenData = decodeJWT(getToken);
+        setUserId(parseInt(tokenData.userId))
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
-
-
+    e.preventDefault();
+    console.log("calling api")
+    // console.log(userId)
+    apiPut("/edit/professional", {
+        id: userId,
+        professionalFullName: fullName,
+        professionalPassword: password,
+        professionalWebsite: website,
+        professionalPhoneNumber: phoneNumber,
+        professionalDescription: bio,
+        professionalQualifications: qualification,
+        professionalEducation: education,
+        professionalSkills: skills,
+        professionalPhoto: photo
+    }).then((data) =>{
+        console.log(data)
+        if (!data.error) {
+            console.log("worked");
+        } else {
+            throw new Error("Edit Failed");
+        }
+    })
+    .catch(() => {
+        alert("Edit details are not valid.")
+    });
   }
     
-    
-//     ('http://localhost:5005/editprofile/' + params.id, { // fix
-//       method: 'PUT',
-//       headers: {
-//         Authorization: `Bearer ${props.token}`,
-//         'Content-type': 'application/json',
-//       },
-//       body: JSON.stringify(args),
-//     });
-//     const data = await response.json();
-//     if (data.error) {
-//       alert(data.error);
-//     } else {
-//       navigate('/profile');  // fix
-//     }
-//   }
-
-//   const ProfessionalProfileDetails = async () => {
-//     const response = await fetch('http://localhost:5005/profiles/' + params.id, { // fix
-//       method: 'GET',
-//       headers: {
-//         Authorization: `Bearer ${props.token}`,
-//         'Content-type': 'application/json',
-//       }
-//     });
-//     const data = await response.json();
-//     if (data.error) {
-//       alert(data.error);
-//     } else {
-//       setNewFullName(data.fullName);
-//       setNewEmailAddress(data.emailAddress);
-//       setNewPhoneNumber(data.phoneNumber);
-//       setNewBio(data.bio);
-//       setNewEducation(data.education);
-//       setNewQualification(data.qualification);
-//       setNewSkills(data.skills);
-//       setNewLinkedin(data.linkedin);
-//       setNewOtherLinks(data.otherLinks);
-//     }
-//   }
-
-//   React.useEffect(() => {
-//     ProfessionalProfileDetails();
-//   }, []);
 
   return (
     <>
@@ -101,10 +91,10 @@ const EditProfessionalProfile = (props) => {
                     margin="normal"
                     className="formInput"
                     type="text"
-                    label="Contact Email"
-                    name="contactEmail"
-                    value={emailAddress}
-                    onChange={(e) => setNewEmailAddress(e.target.value)}
+                    label="Password"
+                    name="password"
+                    value={password}
+                    onChange={(e) => setNewPassword(e.target.value)}
                 />
             </div>
             <div className="split-row">
@@ -183,10 +173,10 @@ const EditProfessionalProfile = (props) => {
                     margin="normal"
                     className="lineInput"
                     type="text"
-                    label="Linkedin"
-                    name="linkedin"
-                    value={linkedin}
-                    onChange={(e) => setNewLinkedin(e.target.value)}
+                    label="Website"
+                    name="Website"
+                    value={website}
+                    onChange={(e) => setNewWebsite(e.target.value)}
                     />
                 </div>
             </div>
@@ -197,10 +187,10 @@ const EditProfessionalProfile = (props) => {
                     margin="normal"
                     className="lineInput"
                     type="text"
-                    label="Other Links"
-                    name="otherlinks"
-                    value={otherLinks}
-                    onChange={(e) => setNewOtherLinks(e.target.value)}
+                    label="Photo"
+                    name="photo"
+                    value={photo}
+                    onChange={(e) => setNewPhoto(e.target.value)}
                     />
                 </div>
             </div>     

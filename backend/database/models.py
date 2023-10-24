@@ -43,48 +43,12 @@ class Company(db.Model):
     def set_company_password(self, companyPassword):
         self.companyPassword = generate_password_hash(companyPassword)
 
-    # Setter for company phone number
-    def set_company_phone(self, phone):
-        self.companyPhoneNumber = phone
-        db.session.commit()
-    
-    # Setter for company website
-    def set_company_webiste(self, website):
-        self.companyWebsite = website
-        db.session.commit()
-    
-    # Setter for company website
-    def set_company_name(self, name):
+    # Sets company details
+    def set_company_details(self, name, phone, website, description, logo):
         self.companyName = name
-        db.session.commit()
-    
-    # Setter for company description
-    def set_company_description(self, description):
-        self.companyDescription = description
-        db.session.commit()
-
-    # Setter for company logo
-    def set_company_logo(self, logo):
-        self.companyLogo = logo
-        db.session.commit()
-
-    # Setter for company phone number
-    def set_company_phone(self, phone):
         self.companyPhoneNumber = phone
-        db.session.commit()
-    
-    # Setter for company website
-    def set_company_webiste(self, website):
         self.companyWebsite = website
-        db.session.commit()
-    
-    # Setter for company description
-    def set_company_description(self, description):
         self.companyDescription = description
-        db.session.commit()
-
-    # Setter for company logo
-    def set_company_logo(self, logo):
         self.companyLogo = logo
         db.session.commit()
 
@@ -142,31 +106,24 @@ class Professional(db.Model):
     @classmethod
     def get_professional_by_email(cls, professionalEmail):
         return cls.query.filter_by(professionalEmail=professionalEmail).first()
-
+    
+    @classmethod
+    def get_professional_by_id(cls, professionalId):
+        return cls.query.filter_by(professionalId=professionalId).first()
+    
     def save_professional(self):
         db.session.add(self)
         db.session.commit()
 
-        # Setter for professional phone number
-    def set_professional_phone(self, phone):
-        self.professionalPhoneNumber = phone
-        db.session.commit()
-    
-    # Setter for professional website
-    def set_professional_webiste(self, website):
+
+    #Sets all data
+    def set_professional_details(self, name, website, number, description, qualification, education, skills, photo):
+        self.professionalFullName = name
         self.professionalWebsite = website
-        db.session.commit()
-    
-    # Setter for professional description
-    def set_professional_description(self, description):
+        self.professionalNumber = number
         self.professionalDescription = description
+        self.professionalQualification= qualification
+        self.professionalEducation = education
+        self.professionalSkills = skills
+        self.professionalPhoto = photo
         db.session.commit()
-
-    # Setter for professional logo
-    def set_professional_logo(self, logo):
-        self.professionalLogo = logo
-        db.session.commit()
-
-    # Gets the professional based on id
-    def get_professional_by_id(cls, companyId):
-     return cls.query.filter_by(companyId=companyId).first()
