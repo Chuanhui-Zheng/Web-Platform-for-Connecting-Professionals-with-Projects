@@ -4,6 +4,7 @@ from extensions import db, jwt
 from functions.auth import authRegisterCompany, authRegisterProfessional, login, logout
 from functions.notifications import getNotifications, sendNotifications
 from functions.profiles import editCompanyProfile, editProfessionalProfile, userDetails, professionalEditProfile
+from functions.edit import editCompany
 
 def create_app():
     app = Flask(__name__)
@@ -25,6 +26,8 @@ def create_app():
     app.add_url_rule('/editProfessionalProfile', 'editProfessionalProfile', editProfessionalProfile, methods=['PUT'])
     app.add_url_rule('/user/details', 'userDetails', userDetails, methods=['GET'])
     app.add_url_rule('/professional/editprofile', 'professionalEditProfile', professionalEditProfile, methods=['PUT'])
+    
+    app.add_url_rule('/edit/company', 'editCompany', editCompany, methods=['PUT'])
 
     return app
 
