@@ -22,32 +22,25 @@
 
 // export default api;
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-
-const request = async (path, options = {}) => {
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    ...options,
-    headers: {
-      'Content-type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-      ...options.headers,
-    },
-  });
-  const data = await response.json();
-  if (!response.ok || data.error) throw data;
-  return data;
-};
-
-export const apiHealth = () => request('/health');
-
 export const apiPost = (path, body) => {
   return new Promise((resolve, reject) => {
-    request(path, {
+    fetch('http://localhost:8000' + path, {
     method: 'POST',
+    headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-type': 'application/json',
+      },
     body: JSON.stringify(body),
+    authUserId : `${localStorage.getItem('userId')}`
   })
-      .then(resolve)
-      .catch(reject);
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          reject(data);
+        } else {
+          resolve(data);
+        }
+      });
   });
 };
 
@@ -55,31 +48,66 @@ export const apiPost = (path, body) => {
 
 export const apiGet = (path, queryString) => {
   return new Promise((resolve, reject) => {
-    request(`${path}${queryString ? `?${queryString}` : ''}`)
-      .then(resolve)
-      .catch(reject);
+    fetch('http://localhost:8000' + path + '?' + queryString, {
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+  })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          reject(data);
+        } else {
+          resolve(data);
+        }
+      });
   })
 };
 
 export const apiPut = (path, body) => {
   return new Promise((resolve, reject) => {
-    request(path, {
+    fetch('http://localhost:8000' + path, {
     method: 'PUT',
+    headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-type': 'application/json',
+
+      },
     body: JSON.stringify(body),
+    authUserId : `${localStorage.getItem('userId')}`
   })
-      .then(resolve)
-      .catch(reject);
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          reject(data);
+        } else {
+          resolve(data);
+        }
+      });
   });
 };
 
 export const apiDelete = (path, body) => {
   return new Promise((resolve, reject) => {
-    request(path, {
+    fetch('http://localhost:8000' + path, {
     method: 'DELETE',
+    headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-type': 'application/json',
+      },
     body: JSON.stringify(body),
+    authUserId : `${localStorage.getItem('userId')}`
   })
-      .then(resolve)
-      .catch(reject);
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          reject(data);
+        } else {
+          resolve(data);
+        }
+      });
   });
 };
 
