@@ -43,7 +43,7 @@ function Header() {
             const tokenData = decodeJWT(token);
             setUserType(tokenData.userType)
         }
-      }, []);
+    }, []);
 
     function logout() {
         localStorage.clear()
@@ -52,6 +52,16 @@ function Header() {
     }
 
     function viewProfile() {
+        console.log("view profile")
+        
+        const token = localStorage.getItem("token");
+        if (token != null) {
+            const tokenData = decodeJWT(token);
+            setUserType(tokenData.userType)
+        }
+
+        console.log(userType)
+
         if (userType === "company") {
             navigate("/companyprofile");
         } else if (userType === "professional") {

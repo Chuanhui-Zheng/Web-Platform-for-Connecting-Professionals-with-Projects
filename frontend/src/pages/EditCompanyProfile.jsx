@@ -22,20 +22,20 @@ const EditCompanyProfile = (props) => {
   const [companyLogo, setNewCompanyLogo] = React.useState('');
   const [companyWebsite, setNewCompanyWebsite] = React.useState('');
   const [companyDescription, setNewCompanyDescription] = React.useState('');
-  const [token, setToken] = React.useState(localStorage.getItem(ACCESS_TOKEN));
+  const [token, setToken] = React.useState('');
   const [userType, setUserType] = React.useState('')
-  const [userId, setUserId] = React.useState('')
+  const [userId, setUserId] = React.useState()
   const [logo, setNewLogo] = React.useState('null')
   
   const navigate = useNavigate();
 
   React.useEffect(() => {
     const getToken = localStorage.getItem("token");
-    setToken(getToken);
-    if (token != null) {
-        const tokenData = decodeJWT(token);
+    console.log(getToken)
+    if (getToken != null) {
+        const tokenData = decodeJWT(getToken);
         setUserType(tokenData.userType)
-        setNewLinkedin(tokenData.userId)
+        setUserId(parseInt(tokenData.userId))
     }
   }, []);
 
@@ -59,12 +59,13 @@ const EditCompanyProfile = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("calling api")
-    apiPut("/edit/company", {id: 865313,
-    companyName: "bye",
-    companyPassword: "erver",
-    companyPhoneNumber: "ver",
-    companyWebsite: "o",
-    companyDescription: "eeee",
+    // console.log(userId)
+    apiPut("/edit/company", {id: userId,
+    companyName: companyName,
+    companyPassword: password,
+    companyPhoneNumber: phoneNumber,
+    companyWebsite: companyWebsite,
+    companyDescription: companyDescription,
     companyLogo: null
         }).then((data) =>{
             console.log(data)
