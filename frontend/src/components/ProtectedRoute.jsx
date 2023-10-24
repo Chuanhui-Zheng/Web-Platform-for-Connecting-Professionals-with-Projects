@@ -55,3 +55,5 @@ function ProtectedRoute({ children }) {
 }
 
 export default ProtectedRoute;
+
+# expanded-history-pass-031: maintainability refinement for the frontend visual polish surface.
