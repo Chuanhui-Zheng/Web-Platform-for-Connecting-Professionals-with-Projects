@@ -49,5 +49,5 @@ def editProfessional():
     professional.set_professional_details(name, website, number, description, qualification, education, skills, photo)
     professional.set_professional_password(password)
 
-    return { "message": "asdfasdf" }, 200
+    return { "message": "asdfasdf", "password":password}, 200
     

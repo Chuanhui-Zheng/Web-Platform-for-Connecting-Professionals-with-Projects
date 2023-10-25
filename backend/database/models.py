@@ -42,6 +42,7 @@ class Company(db.Model):
 
     def set_company_password(self, companyPassword):
         self.companyPassword = generate_password_hash(companyPassword)
+        db.session.commit()
 
     # Sets company details
     def set_company_details(self, name, phone, website, description, logo):
@@ -99,6 +100,7 @@ class Professional(db.Model):
 
     def set_professional_password(self, professionalPassword):
         self.professionalPassword = generate_password_hash(professionalPassword)
+        db.session.commit()
 
     def check_professional_password(self, professionalPassword):
         return check_password_hash(self.professionalPassword, professionalPassword)
