@@ -26,9 +26,9 @@ const EditCompanyProfile = (props) => {
   const [companyWebsite, setNewCompanyWebsite] = React.useState('');
   const [companyDescription, setNewCompanyDescription] = React.useState('');
   const [token, setToken] = React.useState('');
-  const [userType, setUserType] = React.useState('')
-  const [userId, setUserId] = React.useState()
-  const [logo, setNewLogo] = React.useState('null')
+  const [userType, setUserType] = React.useState('');
+  const [userId, setUserId] = React.useState();
+  const [logo, setNewLogo] = React.useState('null');
   
   const navigate = useNavigate();
 
