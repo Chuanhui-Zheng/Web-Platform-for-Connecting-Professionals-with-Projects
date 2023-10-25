@@ -15,6 +15,14 @@ const CompanyProfile = () => {
     const [userType, setUserType] = React.useState('');
     const [userId, setUserId] = React.useState('');
 
+    const [companyName, setNewCompanyName] = React.useState('');
+    const [companyEmail, setNewCompanyEmail] = React.useState('');
+    const [companyPhoneNumber, setNewCompanyPhoneNumber] = React.useState('');
+    const [companyWebsite, setNewCompanyWebsite] = React.useState('');
+    const [companyDescription, setNewCompanyDescription] = React.useState('');
+    const [companyLogo, setNewCompanyLogo] = React.useState('');
+    // TODO: const [companyRating, setNewCompanyRating] = React.useState(''); 
+
     React.useEffect(() => {
         const getToken = localStorage.getItem("token");
         console.log(getToken)
@@ -33,6 +41,13 @@ const CompanyProfile = () => {
                 .then((data) => {
                     console.log(data);
                     if (!data.error) {
+                        setNewCompanyName(data.companyName);
+                        setNewCompanyEmail(data.companyEmail);
+                        setNewCompanyPhoneNumber(data.companyPhoneNumber);
+                        setNewCompanyWebsite(data.companyWebsite);
+                        setNewCompanyDescription(data.companyDescription);
+                        setNewCompanyLogo(data.companyLogo);
+                        // TODO:setNewCompanyRating(data.companyRating);
                         console.log("worked");
                         console.log(data.companyEmail);
                     } else {

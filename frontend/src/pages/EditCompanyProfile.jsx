@@ -68,8 +68,9 @@ const EditCompanyProfile = (props) => {
 
   return (
     <>
+        <div className="formHeader">{ProfileHeader()}</div>
         <EditForm buttonName="Save Changes" handleSubmit={handleSubmit}> 
-            <div className='formprofileheader'>{ProfileHeader()}</div>
+            {/* <div className='formprofileheader'>{ProfileHeader()}</div> */}
             <div className="split-row">
                 <div>
                     <TextField
