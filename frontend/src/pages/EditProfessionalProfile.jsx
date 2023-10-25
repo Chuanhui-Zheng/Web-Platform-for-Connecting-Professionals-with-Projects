@@ -4,6 +4,7 @@ import '../styles/EditForm.css'
 import EditForm from '../components/Forms/EditForm';
 import { Button, TextField } from "@mui/material";
 import decodeJWT from "../decodeJWT";
+import ProfileHeader from "../components/ProfileHeader";
 
 import {
   useNavigate,
@@ -68,18 +69,14 @@ const EditProfessionalProfile = (props) => {
 
   return (
     <>
-        <EditForm formName="Edit Profile" buttonName="Save Changes" handleSubmit={handleSubmit}> 
-            <div className="links">
-                <a className="link" href="url">email@gmail.com</a>
-                <a className="link" href="url">hello.com</a>
-                <a className="link" href="url">other professional link</a>
-            </div>
-            <div className="split-row">
+        <EditForm buttonName="Save Changes" handleSubmit={handleSubmit}> 
+            <div className='formprofileheader'>{ProfileHeader()}</div>
+            <div className="split-row" sx={{padding:0}}>
                 <div>
                     <TextField
                     variant="filled"
                     margin="normal"
-                    className="formInput"
+                    className="formInput1"
                     label="Full Name"
                     name="fullName"
                     value={fullName}
@@ -89,7 +86,7 @@ const EditProfessionalProfile = (props) => {
                     <TextField
                     variant="filled"
                     margin="normal"
-                    className="formInput"
+                    className="formInput1"
                     type="text"
                     label="Password"
                     name="password"
@@ -102,7 +99,7 @@ const EditProfessionalProfile = (props) => {
                     <TextField
                     variant="filled"
                     margin="normal"
-                    className="formInput"
+                    className="formInput1"
                     type="text"
                     label="Phone Number"
                     name="phonenNumber"
@@ -114,7 +111,7 @@ const EditProfessionalProfile = (props) => {
                     <TextField  
                     variant="filled"
                     margin="normal"
-                    className="formInput"
+                    className="formInput1"
                     type="text"
                     label="Skills"
                     name="skills"
@@ -145,7 +142,7 @@ const EditProfessionalProfile = (props) => {
                     <TextField
                     variant="filled"
                     margin="normal"
-                    className="formInput"
+                    className="formInput1"
                     type="text"
                     label="Qualifications"
                     name="qualifications"
@@ -157,7 +154,7 @@ const EditProfessionalProfile = (props) => {
                     <TextField
                     variant="filled"
                     margin="normal"
-                    className="formInput"
+                    className="formInput1"
                     type="text"
                     label="Education"
                     name="Education"
@@ -177,6 +174,7 @@ const EditProfessionalProfile = (props) => {
                     name="Website"
                     value={website}
                     onChange={(e) => setNewWebsite(e.target.value)}
+                    sx={{width:'65vw'}}
                     />
                 </div>
             </div>
@@ -191,63 +189,11 @@ const EditProfessionalProfile = (props) => {
                     name="photo"
                     value={photo}
                     onChange={(e) => setNewPhoto(e.target.value)}
+                    sx={{width:'65vw'}}
                     />
                 </div>
             </div>     
         </EditForm>
-
-        {/* <div className="formContainer">
-            <h3>Edit Profile</h3>
-            <div className="links">
-                <a className="link" href="url">email@gmail.com</a>
-                <a className="link" href="url">linkedin.com</a>
-                <a className="link" href="url">other professional link</a>
-            </div>
-            
-            <div className="split-row">
-                <div>
-                    <label className="formlabel">Full Name</label>
-                    <input className="formInput" type="text" value={fullName} onChange={(e) => setNewFullName(e.target.value)} />
-                </div>
-                <div>
-                    <label className="formlabel" htmlFor="contactEmail">Email</label>
-                    <input className="formInput" type="text" value={emailAddress} onChange={(e) => setNewEmailAddress(e.target.value)}/>
-                </div>
-            </div>
-            <div className="split-row">
-                <div>
-                    <label className="formlabel">Phone Number</label>
-                    <input className="formInput" type="text" value={phoneNumber} onChange={(e) => setNewPhoneNumber(e.target.value)} />
-                </div>
-                <div>
-                    <label className="formlabel" htmlFor="contactEmail">Skills</label>
-                    <input className="formInput" type="text" value={skills} onChange={(e) => setNewSkills(e.target.value)}/>
-                </div>
-            </div>
-            <div className="row">
-                <label className="formlabel">Tell Us About Yourself</label>
-                <textarea type="text" value={bio} onChange={(e) => setNewBio(e.target.value)}/>
-            </div>
-            <div className="split-row">
-                <div>
-                    <label className="formlabel">Qualifications</label>
-                    <input className="formInput" type="text" value={qualification} onChange={(e) => setNewQualification(e.target.value)} />
-                </div>
-                <div>
-                    <label className="formlabel" htmlFor="contactEmail">Education</label>
-                    <input className="formInput" type="text" value={education} onChange={(e) => setNewEducation(e.target.value)}/>
-                </div>
-            </div>
-            <div className="row">
-                <label className="formlabel">Linkedin</label>
-                <input className="lineInput" type="text" value={linkedin} onChange={(e) => setNewLinkedin(e.target.value)}/>
-            </div>
-            <div className="row">
-                <label className="formlabel">Other Professional Link</label>
-                <input className="lineInput" type="text" value={otherLinks} onChange={(e) => setNewOtherLinks(e.target.value)}/>
-            </div>
-            <button onClick={() => editProfessionalProfile()}>Save Changes!</button>
-        </div> */}
     </>
   );
 }

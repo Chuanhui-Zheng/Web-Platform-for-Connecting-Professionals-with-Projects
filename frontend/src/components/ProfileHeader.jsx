@@ -32,14 +32,14 @@ const ProfileHeader  = () => {
                     <Link to="/companydashboard" className={styles.ProfileHeaderLink}>Email</Link>
                     <Link to="/companydashboard" className={styles.ProfileHeaderLink}>Linkedin</Link>
                     <Link to="/companydashboard" className={styles.ProfileHeaderLink}>Other link</Link>
-                    {userType === "professional" ? <Button name="editprofessionalprofile" 
+                    {/* {userType === "professional" ? <Button name="editprofessionalprofile" 
                       onClick={() => { navigate('/editprofessionalprofile') }} 
                       sx={{ textTransform: 'none' }} 
                       variant="outlined">Edit Professional Profile</Button> 
                     : <Button name="editcompanyprofile" 
                         variant="outlined"
                         onClick={() => { navigate('/editcompanyprofile') }} 
-                        sx={{ textTransform: 'none' }}>Edit Company Profile</Button>}
+                        sx={{ textTransform: 'none' }}>Edit Company Profile</Button>} */}
                 </div>
             </div>
         </div>

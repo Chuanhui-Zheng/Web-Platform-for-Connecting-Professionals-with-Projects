@@ -6,6 +6,7 @@ import EditForm from '../components/Forms/EditForm';
 import { Button, TextField } from "@mui/material";
 import { apiPut } from "../api";
 import decodeJWT from "../decodeJWT";
+import ProfileHeader from "../components/ProfileHeader";
 
 import {
   useNavigate,
@@ -39,23 +40,6 @@ const EditCompanyProfile = (props) => {
     }
   }, []);
 
-//   const editCompanyProfile = async (args) => {
-//     const response = await fetch('http://localhost:5005/profiles/' + params.id, { // fix
-//       method: 'PUT',
-//       headers: {
-//         Authorization: `Bearer ${props.token}`,
-//         'Content-type': 'application/json',
-//       },
-//       body: JSON.stringify(args),
-//     });
-//     const data = await response.json();
-//     if (data.error) {
-//       alert(data.error);
-//     } else {
-//       navigate('/profile');  // fix
-//     }
-//   }
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("calling api")
@@ -82,13 +66,14 @@ const EditCompanyProfile = (props) => {
 
   return (
     <>
-        <EditForm formName="Edit Profile" buttonName="Save Changes" handleSubmit={handleSubmit}> 
+        <EditForm buttonName="Save Changes" handleSubmit={handleSubmit}> 
+            <div className='formprofileheader'>{ProfileHeader()}</div>
             <div className="split-row">
                 <div>
                     <TextField
                     variant="filled"
                     margin="normal"
-                    className="formInput"
+                    className="formInput1"
                     label="Company Name"
                     name="companyName"
                     value={companyName}
@@ -98,7 +83,7 @@ const EditCompanyProfile = (props) => {
                     <TextField
                     variant="filled"
                     margin="normal"
-                    className="formInput"
+                    className="formInput1"
                     type="text"
                     label="Password"
                     name="password"
@@ -111,7 +96,7 @@ const EditCompanyProfile = (props) => {
                     <TextField
                     variant="filled"
                     margin="normal"
-                    className="formInput"
+                    className="formInput1"
                     type="text"
                     label="Phone Number"
                     name="companyPhoneNumber"
@@ -123,7 +108,7 @@ const EditCompanyProfile = (props) => {
                     <TextField  
                     variant="filled"
                     margin="normal"
-                    className="formInput"
+                    className="formInput1"
                     type="text"
                     label="Company Logo"
                     name="Company Logo"
@@ -137,12 +122,13 @@ const EditCompanyProfile = (props) => {
                     <TextField
                     variant="filled"
                     margin="normal"
-                    className="formInput"
+                    className="lineInput"
                     type="text"
                     label="Linkedin"
                     name="linkedin"
                     value={linkedin}
                     onChange={(e) => setNewLinkedin(e.target.value)}
+                    sx={{width:'65vw'}}
                     />
                 </div>
             </div>
@@ -151,12 +137,13 @@ const EditCompanyProfile = (props) => {
                     <TextField
                     variant="filled"
                     margin="normal"
-                    className="formInput"
+                    className="lineInput"
                     type="text"
                     label="Company Website"
                     name="Website"
                     value={companyWebsite}
                     onChange={(e) => setNewCompanyWebsite(e.target.value)}
+                    sx={{width:'65vw'}}
                     />
                 </div>
             </div>       
@@ -177,53 +164,7 @@ const EditCompanyProfile = (props) => {
                     />
                 </div>
             </div>      
-            {/* <Button onClick={() => handleSubmit({
-                companyName: companyName,
-                emailAddress: emailAddress,
-                phoneNumber: phoneNumber,
-                linkedin: linkedin,
-                companyWebsite: companyWebsite
-            })}>Save Changes!</Button> */}
         </EditForm>
-
-
-            {/* <h3>Edit Profile</h3>
-            <div className="split-row">
-                <div>
-                    <label className="formlabel">Company Name</label>
-                    <input className="formInput" type="text" value={companyName} onChange={(e) => setNewCompanyName(e.target.value)} />
-                </div>
-                <div>
-                    <label className="formlabel" >Email</label>
-                    <input className="formInput" type="text" value={emailAddress} onChange={(e) => setNewEmailAddress(e.target.value)}/>
-                </div>
-            </div>
-            <div className="split-row">
-                <div>
-                    <label className="formlabel">Phone Number</label>
-                    <input className="formInput" type="text" value={phoneNumber} onChange={(e) => setNewPhoneNumber(e.target.value)} />
-                </div>
-                <div>
-                    <label className="formlabel" ></label>
-                    <div className='formInput'></div>
-                </div>
-            </div>
-            <div className="row">
-                <label className="formlabel">Linkedin</label>
-                <input className="lineInput" type="text" value={linkedin} onChange={(e) => setNewLinkedin(e.target.value)}/>
-            </div>
-            <div className="row">
-                <label className="formlabel">Company Website</label>
-                <input className="lineInput" type="text" value={companyWebsite} onChange={(e) => setNewCompanyWebsite(e.target.value)}/>
-            </div>
-            <button onClick={() => editCompanyProfile({
-                companyName: companyName,
-                emailAddress: emailAddress,
-                phoneNumber: phoneNumber,
-                linkedin: linkedin,
-                companyWebsite: companyWebsite
-            })}>Save Changes!</button> */}
-    
     </>
   );
 }
