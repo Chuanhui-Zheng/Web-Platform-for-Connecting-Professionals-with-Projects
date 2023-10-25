@@ -57,6 +57,7 @@ const EditProfessionalProfile = (props) => {
         console.log("frontend")
         console.log(password + "hi")
         console.log(data)
+        console.log(photo)
         if (!data.error) {
             console.log("worked");
         } else {

@@ -23,26 +23,27 @@ const ProfessionalProfile = () => {
         if (getToken != null) {
             const tokenData = decodeJWT(getToken);
             setUserType(tokenData.userType)
-            
-            setUserId(parseInt(tokenData.userId))
-            console.log(tokenData.userId)
-
-            apiGet("/user/details/professional", `id=${tokenData.userId}` 
-            ).then((data) =>{
-                console.log(data)
-                if (!data.error) {
-                    console.log("worked");
-                } else {
-                    throw new Error("Get Profile Failed");
-                }
-            })
-            .catch(() => {
-                alert("not valid.")
-                });
-            
+            setUserId(tokenData.userId)
         }
        
-      }, []);
+    }, []);
+    
+      React.useEffect(() => {
+        if (userId) {
+            apiGet("/user/details/professional", `id=${userId}`)
+                .then((data) => {
+                    console.log(data);
+                    if (!data.error) {
+                        console.log("Profile fetched successfully.");
+                    } else {
+                        throw new Error("Get Profile Failed");
+                    }
+                })
+                .catch(() => {
+                    alert("Profile fetch failed.");
+                });
+        }
+    }, [userId]);
 
     return (
 

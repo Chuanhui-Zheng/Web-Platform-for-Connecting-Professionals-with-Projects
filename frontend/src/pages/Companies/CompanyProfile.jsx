@@ -6,52 +6,49 @@ import ProjectCard from "../../components/Professional/Dashboard/ProjectCard";
 import { AppBar, Box, Button, Typography, Toolbar, CssBaseline } from '@mui/material';
 import { apiGet } from '../../api';
 import decodeJWT from "../../decodeJWT";
-import img from '../dog.jpeg'
 
 
 const CompanyProfile = () => {
     console.log("company profile reached")
     const description = "HEllo i am jim, i am so passionaat aboutbaiosdfhoiehofihehofhaoei hfoiaheoihfoaisdhfhadsuibhfuiagsdbiuaioewfhaieohfoaie"
     const navigate = useNavigate();
-    const [userId, setUserId] = React.useState();
     const [userType, setUserType] = React.useState('');
-    const [newImage, setNewImage] = React.useState(null);
+    const [userId, setUserId] = React.useState('');
 
     React.useEffect(() => {
         const getToken = localStorage.getItem("token");
         console.log(getToken)
         if (getToken != null) {
             const tokenData = decodeJWT(getToken);
+            setUserId(tokenData.userId)
             setUserType(tokenData.userType)
-            
-            setUserId(parseInt(tokenData.userId))
-            console.log(tokenData.userId)
-        
-            apiGet("/user/details/company", `id=${tokenData.userId}` 
-            ).then((data) =>{
-                console.log(data)
-                if (!data.error) {
-                    // setNewImage(data.companyLogo)
-                    console.log(data.companyLogo)
-                    console.log("worked");
-                } else {
-                    throw new Error("Get Profile Failed");
-                }
-            })
-            .catch(() => {
-                alert("not valid.")
-                });
-            
         }
-       
-      }, []);
+    }, []);
+
+    React.useEffect(() => {
+        if (userId && userType) {
+            console.log(`User ID: ${userId}, User Type: ${userType}`);
+    
+            apiGet("/user/details/company", `id=${userId}`)
+                .then((data) => {
+                    console.log(data);
+                    if (!data.error) {
+                        console.log("worked");
+                        console.log(data.companyEmail);
+                    } else {
+                        throw new Error("Get Profile Failed");
+                    }
+                })
+                .catch(() => {
+                    alert("not valid.");
+                });
+        }
+    }, [userId, userType]);
 
     return (
 
         <>
         {ProfileHeader()}
-        <img src={img}/>
-        <img src={newImage}/>
         <div className={styles.ProfileHeaderContent}>
             <Button name="editcompanyprofile" 
                 variant="outlined"

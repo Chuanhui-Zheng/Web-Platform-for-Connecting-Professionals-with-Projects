@@ -9,7 +9,6 @@ import decodeJWT from "../decodeJWT";
 import ProfileHeader from "../components/ProfileHeader";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisuallyHiddenInput from "../components/VisuallyHiddenInput";
-import { fileToDataUrl } from '../helpers';
 
 import {
   useNavigate,
@@ -29,17 +28,9 @@ const EditCompanyProfile = (props) => {
   const [token, setToken] = React.useState('');
   const [userType, setUserType] = React.useState('');
   const [userId, setUserId] = React.useState();
-  const [logo, setNewLogo] = React.useState(null);
+  const [logo, setNewLogo] = React.useState('null');
   
   const navigate = useNavigate();
-
-  const [selectedFile, setSelectedFile] = React.useState(null); // State to store the uploaded file
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0]; // Get the first uploaded file
-    setSelectedFile(fileToDataUrl(editProfilePhoto)); // Store the file in state
-    console.log("Uploaded file:", file);
-  };
 
   React.useEffect(() => {
     const getToken = localStorage.getItem("token");
@@ -61,10 +52,9 @@ const EditCompanyProfile = (props) => {
     companyPhoneNumber: phoneNumber,
     companyWebsite: companyWebsite,
     companyDescription: companyDescription,
-    companyLogo: selectedFile
+    companyLogo: null
         }).then((data) =>{
             console.log(data)
-            console.log(logo)
             if (!data.error) {
                 console.log("worked");
             } else {
@@ -117,10 +107,7 @@ const EditCompanyProfile = (props) => {
                     />
                 </div>
                 <div>
-                    
-                    
-                    <input type="file" onChange={handleFileChange} />
-                    {/* <Button
+                    <Button
                         sx={{ margin: '30px 0 0 0' }}
                         className="upload"
                         component="label"
@@ -133,9 +120,9 @@ const EditCompanyProfile = (props) => {
                             accept="image/*"
                             name="companyLogo"
                             value={companyLogo}
-                            onChange={handleFileChange}
+                            onChange={(e) => setNewCompanyLogo(e.target.value)}
                         />
-                    </Button> */}
+                    </Button>
                 </div>
             </div>
             <div className="row">
