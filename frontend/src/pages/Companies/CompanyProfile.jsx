@@ -6,6 +6,7 @@ import ProjectCard from "../../components/Professional/Dashboard/ProjectCard";
 import { AppBar, Box, Button, Typography, Toolbar, CssBaseline } from '@mui/material';
 import { apiGet } from '../../api';
 import decodeJWT from "../../decodeJWT";
+import img from '../dog.jpeg'
 
 
 const CompanyProfile = () => {
@@ -14,6 +15,7 @@ const CompanyProfile = () => {
     const navigate = useNavigate();
     const [userId, setUserId] = React.useState();
     const [userType, setUserType] = React.useState('');
+    const [newImage, setNewImage] = React.useState(null);
 
     React.useEffect(() => {
         const getToken = localStorage.getItem("token");
@@ -24,11 +26,13 @@ const CompanyProfile = () => {
             
             setUserId(parseInt(tokenData.userId))
             console.log(tokenData.userId)
-
+        
             apiGet("/user/details/company", `id=${tokenData.userId}` 
             ).then((data) =>{
                 console.log(data)
                 if (!data.error) {
+                    // setNewImage(data.companyLogo)
+                    console.log(data.companyLogo)
                     console.log("worked");
                 } else {
                     throw new Error("Get Profile Failed");
@@ -46,6 +50,8 @@ const CompanyProfile = () => {
 
         <>
         {ProfileHeader()}
+        <img src={img}/>
+        <img src={newImage}/>
         <div className={styles.ProfileHeaderContent}>
             <Button name="editcompanyprofile" 
                 variant="outlined"
