@@ -7,6 +7,8 @@ import { Button, TextField } from "@mui/material";
 import { apiPut } from "../api";
 import decodeJWT from "../decodeJWT";
 import ProfileHeader from "../components/ProfileHeader";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import VisuallyHiddenInput from "../components/VisuallyHiddenInput";
 
 import {
   useNavigate,
@@ -105,31 +107,22 @@ const EditCompanyProfile = (props) => {
                     />
                 </div>
                 <div>
-                    <TextField  
-                    variant="filled"
-                    margin="normal"
-                    className="formInput1"
-                    type="text"
-                    label="Company Logo"
-                    name="Company Logo"
-                    value={companyLogo}
-                    onChange={(e) => setNewCompanyLogo(e.target.value)}
-                />
-                </div>
-            </div>
-            <div className="row">
-                <div>
-                    <TextField
-                    variant="filled"
-                    margin="normal"
-                    className="lineInput"
-                    type="text"
-                    label="Linkedin"
-                    name="linkedin"
-                    value={linkedin}
-                    onChange={(e) => setNewLinkedin(e.target.value)}
-                    sx={{width:'65vw'}}
-                    />
+                    <Button
+                        sx={{ margin: '30px 0 0 0' }}
+                        className="upload"
+                        component="label"
+                        variant="contained"
+                        startIcon={<CloudUploadIcon />}
+                    >
+                        Upload Company Logo
+                        <VisuallyHiddenInput
+                            type="file"
+                            accept="image/*"
+                            name="companyLogo"
+                            value={companyLogo}
+                            onChange={(e) => setNewCompanyLogo(e.target.value)}
+                        />
+                    </Button>
                 </div>
             </div>
             <div className="row">

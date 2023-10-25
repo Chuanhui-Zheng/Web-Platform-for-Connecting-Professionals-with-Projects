@@ -54,6 +54,8 @@ const EditProfessionalProfile = (props) => {
         professionalSkills: skills,
         professionalPhoto: photo
     }).then((data) =>{
+        console.log("frontend")
+        console.log(password + "hi")
         console.log(data)
         if (!data.error) {
             console.log("worked");
