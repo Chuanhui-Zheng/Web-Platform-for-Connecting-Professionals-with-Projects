@@ -13,6 +13,3 @@
 # To view the database:
 1. Install "SQLite Viewer"
 2. Go to /backend/instance/db.sqlite3
-
-
-<!-- expanded-history-pass-032: clearer Markdown structure and handoff detail for the Markdown documentation surface. -->

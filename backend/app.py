@@ -5,6 +5,7 @@ from functions.auth import authRegisterCompany, authRegisterProfessional, login,
 from functions.notifications import getNotifications, sendNotifications
 from functions.profiles import editCompanyProfile, editProfessionalProfile, userDetails, professionalEditProfile
 from functions.edit import editCompany, editProfessional
+from functions.user import companyDetails, professionalDetails
 
 def create_app():
     app = Flask(__name__)
@@ -29,6 +30,9 @@ def create_app():
     
     app.add_url_rule('/edit/company', 'editCompany', editCompany, methods=['PUT'])
     app.add_url_rule('/edit/professional', 'editProfessional', editProfessional, methods=['PUT'])
+
+    app.add_url_rule('/user/details/company', 'companyDetails', companyDetails, methods=['GET'])
+    app.add_url_rule('/user/details/professional', 'professionalDetails', professionalDetails, methods=['GET'])
 
     return app
 
