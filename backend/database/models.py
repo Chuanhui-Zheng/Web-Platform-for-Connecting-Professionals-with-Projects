@@ -170,6 +170,11 @@ class Projects(db.Model):
         # add the rest of the fields on project creation
         db.session.commit()
         
+    def edit_project_details(self, projectName):
+        self.projectName = projectName
+        # add the rest of the fields on project edit
+        db.session.commit()
+        
     def save_project(self):
         db.session.add(self)
         db.session.commit()
