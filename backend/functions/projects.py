@@ -151,13 +151,20 @@ def projectDetails():
     if project is None: 
         return jsonify({"error": "Project does not exist"}), 409
     
-    #do things with project
     project_details = {
         "projectId": project.projectId,
         "projectName": project.projectName,
-        "projectStatus": project.projectStatus,
+        "projectObjectives": project.projectObjectives,
+        "projectStartDate": project.projectStartDate,
+        "projectEndDate": project.projectEndDate,
+        "projectLocation": project.projectLocation,
+        "projectKeyResponsibilities": project.projectKeyResponsibilities,
+        "projectConfidentialInformation": project.projectConfidentialInformation,
+        "projectSkills": project.projectSkills,
+        "projectCategories": project.projectCategories,
         "listOfApplicants": project.listOfApplicants,
-        "listOfProfessionals": project.listOfProfessionals
+        "listOfProfessionals": project.listOfProfessionals,
+        "projectStatus": project.projectStatus
     }
     
     return jsonify(project_details), 200
