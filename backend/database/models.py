@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from sqlalchemy import JSON
 import random
+from sqlalchemy.ext.mutable import MutableList
 
 # Function to create a random id
 def create_id():
@@ -18,6 +19,12 @@ def create_id():
         item.professionalId
         for item in Professional.query.with_entities(Professional.professionalId).all()
     )
+    
+    existingIds.update(
+        item.projectId
+        for item in Projects.query.with_entities(Projects.projectId).all()
+    )
+    
     newId = random.randint(1, 1000000)
 
     while newId in existingIds:
@@ -128,4 +135,41 @@ class Professional(db.Model):
         self.professionalEducation = education
         self.professionalSkills = skills
         self.professionalPhoto = photo
+        db.session.commit()
+        
+
+class Projects(db.Model):
+    __tablename__ = 'projects'
+    projectId = db.Column(db.String(), primary_key=True, default=create_id)
+    pCompanyId = db.Column(db.String(), default="")
+    projectName = db.Column(db.String(), default="")
+    projectObjectives = db.Column(db.String(), default="")
+    projectDescription = db.Column(db.Text(), default="")
+    projectStartDate = db.Column(db.String(), default="")
+    projectEndDate = db.Column(db.String(), default="")
+    projectCategory = db.Column(db.String(), default="")
+    projectLocation = db.Column(db.String(), default="")
+    projectKeyResponsibilities = db.Column(db.Text())
+    projectSkills = db.Column(MutableList.as_mutable(JSON), default=list)
+    projectConfidentialInformation = db.Column(db.Text(), default="")
+    listOfProfessionals = db.Column(MutableList.as_mutable(JSON), default=list)
+    listOfApplicants = db.Column(MutableList.as_mutable(JSON), default=list)
+    projectStatus = db.Column(db.String(), default="Incomplete")
+    #projectRatings = db.Column(JSON, default="")
+    
+    @classmethod
+    def get_project_by_id(cls, projectId):
+        return cls.query.filter_by(projectId=projectId).first()
+    
+    @classmethod
+    def get_company_by_id(cls, companyId):
+        return Company.query.filter_by(companyId=companyId).first()
+    
+    def create_project_details(self, projectName):
+        self.projectName = projectName
+        # add the rest of the fields on project creation
+        db.session.commit()
+        
+    def save_project(self):
+        db.session.add(self)
         db.session.commit()

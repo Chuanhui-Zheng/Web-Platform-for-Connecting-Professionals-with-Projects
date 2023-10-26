@@ -1,13 +1,90 @@
-from flask import Flask
+from flask import Flask, request, jsonify
 from flask_cors import CORS
+from database.models import Company, Professional, Projects
+from extensions import db
 
 app = Flask(__name__)
 
 CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 
-@app.route('/projects/create', methods=['POST'])
-def createProjects():
-    return
+'''
+project/create logic
+1. get json body
+2. retrieve all information
+3. set relevant fields
+4. push to database
+5. return success code and id
+
+project/edit logic
+1. get json body
+2. retrieve all information
+3. set relevant fields
+4. push to database
+5. return success code
+
+project/list logic
+1. get json body
+2. retrieve project id information
+3. query data base
+4. return relevant object and success coe
+
+project/professional apply
+1. get json body
+2. retrieve professional id and project id
+3. add professional id to project list of applicants
+4. return success
+
+project/professional leave
+1. get json body
+2. retrieve professional id and project id
+3. remove professional id from project list of applicants
+4. return success
+
+project/company approve
+1. get json body
+2. retrieve professional id and project id
+3. move professional id from applicant to professionals list
+4. return success
+
+project/company leave
+-> uses professional leave
+
+project/company complete
+1. get project id
+2. set status as complete
+2. return success
+
+project/candidate list
+1. get json body
+2. retrieve project id
+3. return list of applicants
+4. return success
+
+'''
+
+# helper functions
+def company_exists(companyId):
+    return Projects.get_company_by_id(companyId)
+
+#TO-DO error code for company with repeat projectName
+@app.route('/project/create', methods=['POST']) #tested
+def projectCreate():
+    data = request.get_json()
+    
+    companyId = data.get("companyId")
+    projectName = data.get("projectName")
+    # add the rest of the fields
+    
+    new_project = Projects(pCompanyId=companyId)
+    
+    if company_exists(companyId) is None:
+        return jsonify({"error: Company does not exist"}), 409
+    
+    new_project.create_project_details(projectName)
+    
+    new_project.save_project()
+    
+    return jsonify({"projectId": new_project.projectId}), 200
 
 @app.route('/projects/listall', methods=['GET'])
 def projectsListAll():
@@ -26,7 +103,7 @@ def projectSearch():
     return
 
 @app.route('/project/professional/apply', methods=['POST'])
-def projectDetails():
+def projectProfessionalApply():
     return
 
 @app.route('/projects/listall', methods=['GET'])
