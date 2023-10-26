@@ -1,16 +1,12 @@
 from flask import Flask, request, jsonify
 from flask_jwt_extended import create_access_token
 from flask_cors import CORS
-from database.models import Company, Professional, Admin
+from database.models import Company, Professional
 
 app = Flask(__name__)
 
 CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 
-
-"""
-is_user_existing() checks if a user (company or professional) already exists based on their email.
-"""
 def is_user_existing(email):
     company = Company.get_company_by_email(companyEmail=email)
     professional = Professional.get_professional_by_email(professionalEmail=email)
@@ -19,26 +15,6 @@ def is_user_existing(email):
         return True
     return False
 
-
-"""
-authRegisterCompany() registers a new company and returns a JWT token.
-
-Takes in a JSON object:
-{
-    companyName: string,
-    companyEmail: string,
-    companyPhoneNumber: string,
-    companyWebsite: string,
-    companyLogo: string,
-    companyDescription: string,
-    companyPassword: string
-}
-
-Returns:
-{
-    token: access token
-}
-"""
 @app.route('/auth/register/company', methods=['POST'])
 def authRegisterCompany():
     data = request.get_json()
@@ -49,14 +25,7 @@ def authRegisterCompany():
         return jsonify({"error": "Company already exists"}), 409
     
     # Create new company and store in database
-    new_company = Company(
-        companyName=data.get("companyName"),
-        companyEmail=companyEmail,
-        companyPhoneNumber=data.get("companyPhoneNumber"),
-        companyWebsite=data.get("companyWebsite"),
-        companyLogo=data.get("companyLogo"),
-        companyDescription=data.get("companyDescription")
-    )
+    new_company = Company(companyEmail=companyEmail)
     new_company.set_company_password(companyPassword=data.get("companyPassword"))
     new_company.save_company()
 
@@ -72,23 +41,6 @@ def authRegisterCompany():
     # Return the token
     return { "token": access_token }
 
-
-"""
-authRegisterProfessional() registers a new professional and returns a JWT token.
-
-Takes in a JSON object:
-{
-    professionalEmail: string,
-    professionalPhoto: string,
-    professionalFullName: string,
-    professionalPassword: string
-}
-
-Returns:
-{
-    token: access token
-}
-"""
 @app.route('/auth/register/professional', methods=['POST'])
 def authRegisterProfessional():
     data = request.get_json()
@@ -99,10 +51,7 @@ def authRegisterProfessional():
         return jsonify({"error": "Professional already exists"}), 409
     
     # Create new professional and store in database
-    new_professional = Professional(professionalEmail=professionalEmail, 
-                                    professionalPhoto=data.get("professionalPhoto"),
-                                    professionalFullName=data.get("professionalFullName")
-    )
+    new_professional = Professional(professionalEmail=professionalEmail)
     new_professional.set_professional_password(professionalPassword=data.get("professionalPassword"))
     new_professional.save_professional()
 
@@ -115,28 +64,9 @@ def authRegisterProfessional():
     # Create token
     access_token = create_access_token(identity=professionalEmail, additional_claims=token_data)
 
-    # Send welcome notification
-    message = f"Welcome to ProJector! Edit your profile to get recommended projects!"
-    new_professional.add_notification(new_professional.professionalId, message)
-
     # Return the token
     return jsonify({ "token": access_token }), 201
 
-
-"""
-login() authenticates a user (company, professional, or admin) and returns a JWT token.
-
-Takes in a JSON object:
-{
-    email: string,
-    password: string
-}
-
-Returns:
-{
-    token: access token
-}
-"""
 @app.route('/auth/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -145,7 +75,9 @@ def login():
 
     company = Company.get_company_by_email(companyEmail=email)
     professional = Professional.get_professional_by_email(professionalEmail=email)
-    admin = Admin.get_admin_by_email(adminEmail=email)
+
+    print(f"{company} ========================================================")
+    print(f"{professional} ========================================================")
 
     if company is not None:
         if company.check_company_password(companyPassword=password):
@@ -153,28 +85,18 @@ def login():
                 "userId": company.companyId,
                 "userType": "company"
             })
+            print(f"access_token = {access_token}")
             return jsonify({ "token": access_token }), 200
-    elif professional is not None:
+    if professional is not None:
         if professional.check_professional_password(professionalPassword=password):
             access_token = create_access_token(identity=email, additional_claims={
                 "userId": professional.professionalId,
                 "userType": "professional"
             })
             return jsonify({ "token": access_token }), 200
-    elif admin is not None:
-        if admin.check_admin_password(adminPassword=password):
-            access_token = create_access_token(identity=email, additional_claims={
-                "userId": admin.adminId,
-                "userType": "admin"
-            })
-            return jsonify({ "token": access_token }), 200   
 
     return jsonify({"error": "Invalid username or password"}), 400
 
-
-"""
-logout() is a placeholder for the logout functionality.
-"""
 @app.route('/auth/logout', methods=['POST'])
 def logout():
     return

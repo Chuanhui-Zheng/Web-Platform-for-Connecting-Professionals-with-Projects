@@ -1,70 +1,46 @@
- .Profile {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;    
-}
-
 .ProfileHeaderBar {
-  width: 80%;
-  margin-top: px;
-  background-color: #F9F9F9;
-  height: 360px;
-  border-radius: 35px;
-}
-
-.ProfileFiller {
-  height:35px;
-}
-
-.ProfileBanner {
-  height: 175px;
-  background-color: #eeebcc;
-  border-radius: 35px;
-  display:flex;
-  justify-content: center;
-  align-items: center;
-
-}
-
-.ProfilePicAndEdit {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+    width: 100%;
+    height: 20vh;
+    margin-bottom: auto;
+    display: flex;
+    flex-direction: row;
 }
 
 .ProfileHeaderProfilePic {
-  position: relative; 
-  top: -80px;
-  margin-left: 20px;
-  margin-bottom: -80px;
-}
-
-.ProfileHeaderContent {
-  padding-left: 10px;
-}
-
-.ProfileHeaderNameAndRating {
-  margin-top: 5px;
-  display: flex;
-  flex-direction: row;
-}
-
-.ProfileHeaderRating {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-left: 20px;
+    font-size: 5vw!important;
+    margin-left: 10%;
+    margin-top: 5%;
 }
 
 .ProfileHeaderName {
-  margin-left: 3vw;
-  margin-bottom: 0;
-  font-size: 2.8vw;
+    margin-left: 3vw;
+    margin-bottom: 0;
+    font-size: 2.8vw;
 }
 
+.ProfileHeaderContent {
+    width: 80%;
+}
 
-.ProfileHeaderInfo {
-  display: flex;
-  flex-direction: row;
+.ProfileHeaderLinks {
+    display: flex;
+    flex-direction: row;
+    margin-left: 3vw;
+}
+
+.ProfileHeaderLink {
+    margin-right: 10vw;
+    color: grey;
+}
+
+.ProfileHeaderNameAndRating {
+    display: flex;
+    flex-direction: row;
+    margin-top: 3.5vh;
+}
+
+.ProfileHeaderRaitingBox {
+    margin-top: 5vh;
+    margin-left: 32vw; 
+    /* How can i justify this to the right */
 }

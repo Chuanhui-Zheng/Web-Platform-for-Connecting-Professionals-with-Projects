@@ -1,13 +1,12 @@
+import React from "react";
 import { Card, CardContent, Typography, Box, Chip, Button } from "@mui/material";
 import { styled } from "@mui/system";
+// import { FaMapMarkerAlt, FaCalendarAlt } from "react-icons/fa";
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import GroupsIcon from '@mui/icons-material/Groups';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
-import { useNavigate } from "react-router-dom";
-import PropTypes from 'prop-types';
 
-// CSS styling for the Browse Cards
 const StyledCard = styled(Card)(({ theme }) => ({
   maxWidth: 345,
   margin: "auto",
@@ -21,13 +20,16 @@ const StyledCard = styled(Card)(({ theme }) => ({
   }
 }));
 
-// Content styling
+// const StyledCardMedia = styled(CardMedia)({
+//   height: 0,
+//   paddingTop: "56.25%", // 16:9 aspect ratio
+// });
+
 const StyledCardContent = styled(CardContent)({
   textAlign: "left",
-  padding: 16,
+  padding: 16
 });
 
-// Chip styling for skills
 const StyledChip = styled(Chip)({
   margin: "4px",
   "&:hover": {
@@ -35,79 +37,66 @@ const StyledChip = styled(Chip)({
   }
 });
 
-// Content overflow styling
-const TruncateTypography = styled(Typography)({
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
-});
-
-/**
- * 
- * @param {*} param0 
- * @returns 
- * 
- * Component for creating cards to display a project when browsing for all projects.
- * On the card, it displays the project name, company, category, date range, location and 
- * number of professionals expected and skills for project, and has a view detail button.
- */
-export default function BrowseCards({project}) {
-  const navigate = useNavigate();
+const BrowseCards = () => {
   return (
     <StyledCard tabIndex={0} aria-label="Project Description Card" sx={{width:'100%'}}>
+      {/* <StyledCardMedia
+        image="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80"
+        title="Company Logo"
+        alt="Company Logo"
+      /> */}
       <StyledCardContent>
-        <TruncateTypography sx={{height: "4vh"}} variant="h5" component="h2" gutterBottom>
-          {project.projectName}
-        </TruncateTypography>
-        <Typography variant="body2" color="textSecondary">
-          <b> {project.projectCompany} </b>
+        <Typography variant="h5" component="h2" gutterBottom>
+          Project Name
         </Typography>
+        <Typography variant="body2" color="textSecondary">
+            Company Name - Rating
+          </Typography>
         <Box display="flex" alignItems="center" mb={1}>
           <BusinessCenterIcon style={{ marginRight: 8 }} />
           <Typography variant="body2" color="textSecondary">
-            {project.projectCategory.length == 0 ? 
-            <Typography variant="body2" color="textSecondary">
-              N/A
-            </Typography>: 
-            <Typography variant="body2" color="textSecondary">
-              {project.projectCategory}
-            </Typography>}
+            Category
           </Typography>
         </Box>
         <Box display="flex" alignItems="center" mb={1}>
           <DateRangeIcon style={{ marginRight: 8 }} />
           <Typography variant="body2" color="textSecondary">
-              {project.projectStartDate} - {project.projectEndDate}
+            Start Date - End Date
           </Typography>
         </Box>
         <Box display="flex" alignItems="center" mb={1}>
           <LocationOnIcon style={{ marginRight: 8 }} />
           <Typography variant="body2" color="textSecondary">
-              {project.projectLocation || 'N/A'}
+            Location
           </Typography>
         </Box>
         <Box display="flex" alignItems="center" mb={1}>
           <GroupsIcon style={{ marginRight: 8 }} />
           <Typography variant="body2" color="textSecondary">
-              {project.professionalsWanted || 'N/A'}
+            Number of People
           </Typography>
         </Box>
-        <Typography variant="body2" color="textSecondary">
+        <Typography variant="body2" color="textSecondary" paragraph>
           Required Skills:
         </Typography>
         <Box mb={2}>
-          {project.projectSkills.map((skill, idx) => (
-              <StyledChip key={idx} label={skill} />
-          ))}
+          <StyledChip label="React" />
+          <StyledChip label="Node.js" />
+          <StyledChip label="MongoDB" />
+          <StyledChip label="AWS" />
         </Box>
-        <Button variant="contained" color="primary" fullWidth aria-label="View Project Details" onClick={() => {navigate(`/projectdetail/${project.projectId}`)}}>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          aria-label="View Project Details"
+        //   onClick={}
+        >
           View Details
         </Button>
       </StyledCardContent>
     </StyledCard>
   );
-}
+};
 
-BrowseCards.propTypes = {
-  project: PropTypes.object
-}
+export default BrowseCards;
