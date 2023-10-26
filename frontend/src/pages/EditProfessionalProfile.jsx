@@ -8,6 +8,7 @@ import ProfileHeader from "../components/ProfileHeader";
 import { fileToDataUrl } from '../helpers';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisuallyHiddenInput from "../components/VisuallyHiddenInput";
+import MultipleSelectChip from '../components/MultiSelect';
 
 import {
   useNavigate,
@@ -24,7 +25,7 @@ const EditProfessionalProfile = (props) => {
   const [bio, setNewBio] = React.useState('');
   const [education, setNewEducation] = React.useState('');
   const [qualification, setNewQualification] = React.useState('');
-  const [skills, setNewSkills] = React.useState('');
+  const [skills, setNewSkills] = React.useState([]);
   const [website, setNewWebsite] = React.useState('');
   const [photo, setNewPhoto] = React.useState(null);
   const [token, setToken] = React.useState('');
@@ -52,12 +53,17 @@ const EditProfessionalProfile = (props) => {
     }).catch((error) => {
         console.error("Error converting file to data URL:", error);
     });
-    };
+  };
+
+  const handleSkillsChange = (value) => {
+    setNewSkills(typeof value === 'string' ? value.split(',') : value,)
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("calling api")
-    // console.log(userId)
+    console.log(skills)
+    console.log(userId)
     apiPut("/edit/professional", {
         id: userId,
         professionalFullName: fullName,
@@ -128,16 +134,10 @@ const EditProfessionalProfile = (props) => {
                     />
                 </div>
                 <div>
-                    <TextField  
-                    variant="filled"
-                    margin="normal"
-                    className="formInput1"
-                    type="text"
-                    label="Skills"
-                    name="skills"
+                    <MultipleSelectChip 
+                    
                     value={skills}
-                    onChange={(e) => setNewSkills(e.target.value)}
-                />
+                    set={handleSkillsChange} />
                 </div>
             </div>
             <div className="row">
