@@ -169,6 +169,10 @@ class Projects(db.Model):
     def get_projects_by_company_id(cls, companyId):
         return cls.query.filter_by(pCompanyId=companyId).all()
     
+    @classmethod
+    def get_professional_by_id(cls, professionalId):
+        return Professional.query.filter_by(professionalId=professionalId).first()
+    
     def create_project_details(self, projectName):
         self.projectName = projectName
         # add the rest of the fields on project creation
@@ -178,6 +182,26 @@ class Projects(db.Model):
         self.projectName = projectName
         # add the rest of the fields on project edit
         db.session.commit()
+        
+    def add_to_list(self, professionalId, listType):
+        target_list = getattr(self, listType, None)
+    
+        if target_list is not None and isinstance(target_list, list):
+            if professionalId not in target_list:
+                target_list.append(professionalId)
+                db.session.commit()
+                return True
+        return False
+    
+    def remove_from_list(self, professionalId, listType):
+        target_list = getattr(self, listType, None)
+        
+        if target_list is not None and isinstance(target_list, list):
+            if professionalId in target_list:
+                target_list.remove(professionalId)  
+                db.session.commit() 
+                return True
+        return False
         
     def save_project(self):
         db.session.add(self)

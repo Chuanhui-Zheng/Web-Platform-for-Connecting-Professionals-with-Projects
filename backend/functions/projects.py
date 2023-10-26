@@ -66,6 +66,9 @@ project/candidate list
 def company_exists(companyId):
     return Projects.get_company_by_id(companyId)
 
+def professional_exists(professionalId):
+    return Projects.get_professional_by_id(professionalId)
+
 #TO-DO error code for company with repeat projectName
 @app.route('/project/create', methods=['POST']) #tested
 def projectCreate():
@@ -173,13 +176,57 @@ def projectDetails():
 def projectSearch():
     return
 
-@app.route('/project/professional/apply', methods=['POST'])
+@app.route('/project/professional/apply', methods=['POST']) #tested
 def projectProfessionalApply():
-    return
+    data = request.get_json()
+    professionalId = data.get("professionalId")
+    projectId = data.get("projectId")
+    
+    if professional_exists(professionalId) is None:
+        return jsonify({"error: Professional does not exist"}), 407
+    
+    project = Projects.get_project_by_id(projectId)
+    if project is None: 
+        return jsonify({"error": "Project does not exist"}), 409
+    
+    if professionalId in project.listOfProfessionals:
+        return jsonify({"error": "Professional is already a part of this project"}), 409
+    
+    res = project.add_to_list(professionalId, "listOfApplicants")
+    
+    if res:
+        return jsonify({
+            "success": "Professional added to applicants list",
+            "current_list": project.listOfApplicants
+            }), 200
+    else:
+        return jsonify({"error": "Professional is already in the applicants list"}), 400
+    
+    return "there is an error if you print this"
 
-@app.route('/project/professional/leave', methods=['GET'])
-def projectLeaveProject():
-    return
+@app.route('/project/professional/leave', methods=['POST']) #tested
+def projectProfessionalLeave():
+    data = request.get_json()
+    professionalId = data.get("professionalId")
+    projectId = data.get("projectId")
+    
+    # should be "listOfApplicants" or "listOfProfessionals"
+    listType = data.get("listType")
+
+    if listType not in ["listOfApplicants", "listOfProfessionals"]:
+        return jsonify({"error": "Invalid list type. Must be 'listOfApplicants' or 'listOfProfessionals'."}), 400
+
+    project = Projects.get_project_by_id(projectId)
+    if project is None:
+        return jsonify({"error": "Project does not exist"}), 409
+
+    result = project.remove_from_list(professionalId, listType)
+    if result:
+        return jsonify({"success": f"Professional removed from {listType}."}), 200
+    else:
+        return jsonify({"error": "Professional ID not found in the specified list."}), 408
+    
+    return "there is an error if you print this"
 
 @app.route('/project/company/approve', methods=['POST'])
 def projectCompanyApprove():
