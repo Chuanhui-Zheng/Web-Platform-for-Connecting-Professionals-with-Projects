@@ -5,6 +5,9 @@ import EditForm from '../components/Forms/EditForm';
 import { Button, TextField } from "@mui/material";
 import decodeJWT from "../decodeJWT";
 import ProfileHeader from "../components/ProfileHeader";
+import { fileToDataUrl } from '../helpers';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import VisuallyHiddenInput from "../components/VisuallyHiddenInput";
 
 import {
   useNavigate,
@@ -23,11 +26,12 @@ const EditProfessionalProfile = (props) => {
   const [qualification, setNewQualification] = React.useState('');
   const [skills, setNewSkills] = React.useState('');
   const [website, setNewWebsite] = React.useState('');
-  const [photo, setNewPhoto] = React.useState('');
+  const [photo, setNewPhoto] = React.useState(null);
   const [token, setToken] = React.useState('');
   const [userId, setUserId] = React.useState()
   
   const navigate = useNavigate();
+  const [selectedFile, setSelectedFile] = React.useState(null); // State to store the uploaded file
 
   React.useEffect(() => {
     const getToken = localStorage.getItem("token");
@@ -37,6 +41,18 @@ const EditProfessionalProfile = (props) => {
         setUserId(parseInt(tokenData.userId))
     }
   }, []);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0]; // Get the first uploaded file
+    console.log(file)
+
+    fileToDataUrl(file).then((dataUrl) => {
+        setNewPhoto(dataUrl); // Store the data URL in state
+        console.log("File as data URL:", dataUrl);
+    }).catch((error) => {
+        console.error("Error converting file to data URL:", error);
+    });
+    };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -184,17 +200,22 @@ const EditProfessionalProfile = (props) => {
             </div>
             <div className="row">
                 <div>
-                    <TextField
-                    variant="filled"
-                    margin="normal"
-                    className="lineInput"
-                    type="text"
-                    label="Photo"
-                    name="photo"
-                    value={photo}
-                    onChange={(e) => setNewPhoto(e.target.value)}
-                    sx={{width:'65vw'}}
-                    />
+                    <Button
+                        sx={{ margin: '30px 0 0 0' }}
+                        className="upload"
+                        component="label"
+                        variant="contained"
+                        startIcon={<CloudUploadIcon />}
+                    >
+                        Upload Profile Photo
+                        <VisuallyHiddenInput
+                            type="file"
+                            accept="image/*"
+                            name="professionalPhoto"
+                            value=''
+                            onChange={handleFileChange}
+                        />
+                    </Button>
                 </div>
             </div>     
         </EditForm>

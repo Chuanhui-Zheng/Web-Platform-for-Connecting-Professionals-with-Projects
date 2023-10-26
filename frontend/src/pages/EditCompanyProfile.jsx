@@ -9,6 +9,7 @@ import decodeJWT from "../decodeJWT";
 import ProfileHeader from "../components/ProfileHeader";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisuallyHiddenInput from "../components/VisuallyHiddenInput";
+import { fileToDataUrl } from '../helpers';
 
 import {
   useNavigate,
@@ -21,14 +22,13 @@ const EditCompanyProfile = (props) => {
   const [companyName, setNewCompanyName] = React.useState('');
   const [password, setNewPassword] = React.useState('');
   const [phoneNumber, setNewPhoneNumber] = React.useState('');
-  const [linkedin, setNewLinkedin] = React.useState('');
-  const [companyLogo, setNewCompanyLogo] = React.useState('');
+  const [companyLogo, setNewCompanyLogo] = React.useState(null);
   const [companyWebsite, setNewCompanyWebsite] = React.useState('');
   const [companyDescription, setNewCompanyDescription] = React.useState('');
   const [token, setToken] = React.useState('');
   const [userType, setUserType] = React.useState('');
   const [userId, setUserId] = React.useState();
-  const [logo, setNewLogo] = React.useState('null');
+
   
   const navigate = useNavigate();
 
@@ -42,6 +42,18 @@ const EditCompanyProfile = (props) => {
     }
   }, []);
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0]; // Get the first uploaded file
+    console.log(file)
+    
+    fileToDataUrl(file).then((dataUrl) => {
+        setNewCompanyLogo(dataUrl); // Store the data URL in state
+        console.log("File as data URL:", dataUrl);
+      }).catch((error) => {
+        console.error("Error converting file to data URL:", error);
+      });
+    };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("calling api")
@@ -52,7 +64,7 @@ const EditCompanyProfile = (props) => {
     companyPhoneNumber: phoneNumber,
     companyWebsite: companyWebsite,
     companyDescription: companyDescription,
-    companyLogo: null
+    companyLogo: companyLogo
         }).then((data) =>{
             console.log(data)
             if (!data.error) {
@@ -120,8 +132,8 @@ const EditCompanyProfile = (props) => {
                             type="file"
                             accept="image/*"
                             name="companyLogo"
-                            value={companyLogo}
-                            onChange={(e) => setNewCompanyLogo(e.target.value)}
+                            value=''
+                            onChange={handleFileChange}
                         />
                     </Button>
                 </div>

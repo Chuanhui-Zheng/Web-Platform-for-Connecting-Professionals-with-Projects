@@ -20,7 +20,7 @@ const CompanyProfile = () => {
     const [companyPhoneNumber, setNewCompanyPhoneNumber] = React.useState('');
     const [companyWebsite, setNewCompanyWebsite] = React.useState('');
     const [companyDescription, setNewCompanyDescription] = React.useState('');
-    const [companyLogo, setNewCompanyLogo] = React.useState('');
+    const [companyLogo, setNewCompanyLogo] = React.useState(null);
     // TODO: const [companyRating, setNewCompanyRating] = React.useState(''); 
 
     React.useEffect(() => {
@@ -49,7 +49,7 @@ const CompanyProfile = () => {
                         setNewCompanyLogo(data.companyLogo);
                         // TODO:setNewCompanyRating(data.companyRating);
                         console.log("worked");
-                        console.log(data.companyEmail);
+                        console.log(data.companyLogo);
                     } else {
                         throw new Error("Get Profile Failed");
                     }
@@ -64,6 +64,7 @@ const CompanyProfile = () => {
 
         <>
         {ProfileHeader()}
+        {/* <img src={companyLogo}/> */}
         <div className={styles.ProfileHeaderContent}>
             <Button name="editcompanyprofile" 
                 variant="outlined"

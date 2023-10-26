@@ -16,6 +16,7 @@ const ProfessionalProfile = () => {
 
     const [userId, setUserId] = React.useState();
     const [userType, setUserType] = React.useState('');
+    const [professionalPhoto, setNewProfessionalPhoto] = React.useState(null);
 
     React.useEffect(() => {
         const getToken = localStorage.getItem("token");
@@ -35,6 +36,7 @@ const ProfessionalProfile = () => {
                     console.log(data);
                     if (!data.error) {
                         console.log("Profile fetched successfully.");
+                        setNewProfessionalPhoto(data.professionalPhoto);
                     } else {
                         throw new Error("Get Profile Failed");
                     }
@@ -49,6 +51,7 @@ const ProfessionalProfile = () => {
 
         <>
         {ProfileHeader()}
+        {/* <img src={professionalPhoto}/> */}
         <Button name="editprofessionalprofile" 
             onClick={() => { navigate('/editprofessionalprofile') }} 
             sx={{ textTransform: 'none', ml:'10vw' }}
