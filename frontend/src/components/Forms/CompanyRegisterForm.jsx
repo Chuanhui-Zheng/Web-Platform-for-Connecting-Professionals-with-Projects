@@ -150,3 +150,5 @@ function CompanyRegisterForm() {
 }
 
 export default CompanyRegisterForm
+
+# expanded-history-pass-034: maintainability refinement for the frontend visual polish surface.
