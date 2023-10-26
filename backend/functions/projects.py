@@ -3,6 +3,7 @@ from flask_cors import CORS
 from database.models import Company, Professional, Projects
 from extensions import db
 from sqlalchemy import or_, func
+import re
 
 app = Flask(__name__)
 
@@ -186,7 +187,16 @@ def projectSearch():
 
     # add filters here as if statements on top of query
     if query_string:
+        query_string = re.escape(query_string)
+        # adding .* to match anything before or after the query string for partial matches
+        regex_pattern = f".*{query_string}.*"
+        query = query.filter(func.lower(Projects.projectName).op("REGEXP")(func.lower(regex_pattern)))
+    
+    '''
+    # this does basically the same thing as the above one
+    if query_string:
         query = query.filter(Projects.projectName.like(f"%{query_string}%"))
+    '''
 
     # filter by categories (substring matching)
     if categories:
