@@ -148,9 +148,26 @@ def projectListAll():
     
     return jsonify(project_dict), 200
 
-@app.route('/project/details', methods=['GET'])
+@app.route('/project/details', methods=['GET']) #tested
 def projectDetails():
-    return
+    data = request.get_json()
+    
+    projectId = data.get("projectId")
+    
+    project = Projects.get_project_by_id(projectId)
+    if project is None: 
+        return jsonify({"error": "Project does not exist"}), 409
+    
+    #do things with project
+    project_details = {
+        "projectId": project.projectId,
+        "projectName": project.projectName,
+        "projectStatus": project.projectStatus,
+        "listOfApplicants": project.listOfApplicants,
+        "listOfProfessionals": project.listOfProfessionals
+    }
+    
+    return jsonify(project_details), 200
 
 @app.route('/project/search', methods=['GET'])
 def projectSearch():
