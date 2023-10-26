@@ -228,9 +228,25 @@ def projectProfessionalLeave():
     
     return "there is an error if you print this"
 
-@app.route('/project/company/approve', methods=['POST'])
+@app.route('/project/company/approve', methods=['POST']) #tested
 def projectCompanyApprove():
-    return
+    data = request.get_json()
+    professionalId = data.get("professionalId")
+    projectId = data.get("projectId")
+    
+    project = Projects.get_project_by_id(projectId)
+    if project is None:
+        return jsonify({"error": "Project does not exist"}), 409
+    
+    if professionalId in project.listOfProfessionals:
+        return jsonify({"error": "Professional already approved"}), 406
+    elif professionalId not in project.listOfApplicants:
+        return jsonify({"error": "Professional not an applicant"}), 405
+    else:
+        project.remove_from_list(professionalId, "listOfApplicants")
+        project.add_to_list(professionalId, "listOfProfessionals")
+        
+    return jsonify({"success": "Professional approved"}), 200
 
 @app.route('/project/company/complete', methods=['POST'])
 def completeProjects():
