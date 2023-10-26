@@ -248,9 +248,42 @@ def projectCompanyApprove():
         
     return jsonify({"success": "Professional approved"}), 200
 
-@app.route('/project/company/complete', methods=['POST'])
-def completeProjects():
-    return
+@app.route('/project/company/complete', methods=['PUT']) #tested
+def projectComplete():
+    data = request.get_json()
+    projectId = data.get("projectId")
+
+    project = Projects.get_project_by_id(projectId)
+    if project is None:
+        return jsonify({"error": "Project does not exist"}), 409
+
+    if project.projectStatus == "Incomplete":
+        project.projectStatus = "Complete"
+        db.session.commit()
+        return jsonify({"success": "Project status set to Complete"}), 200
+    else:
+        return jsonify({"message": "Project is already Complete"}), 200
+    
+    return "there is an error if you print this"
+
+
+@app.route('/project/company/incomplete', methods=['PUT']) #tested
+def projectIncomplete():
+    data = request.get_json()
+    projectId = data.get("projectId")
+
+    project = Projects.get_project_by_id(projectId)
+    if project is None:
+        return jsonify({"error": "Project does not exist"}), 409
+
+    if project.projectStatus == "Complete":
+        project.projectStatus = "Incomplete"
+        db.session.commit()
+        return jsonify({"success": "Project status set to incomplete"}), 200
+    else:
+        return jsonify({"message": "Project is already set as incomplete"}), 200
+    
+    return "there is an error if you print this"
 
 @app.route('/project/candidate/list', methods=['GET'])
 def getCandidateList():
