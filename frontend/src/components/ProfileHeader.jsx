@@ -5,41 +5,89 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CustomisedRating from './CustomisedRating'; 
 import { AppBar, Box, Button, Typography, Toolbar, CssBaseline } from '@mui/material';
 import decodeJWT from "../decodeJWT";
+import Avatar from '@mui/material/Avatar';
+import { apiGet } from '../api';
 
-const ProfileHeader  = () => {
+const ProfileHeader = ({refresh}) => {
     const navigate = useNavigate();
-    const [userType, setUserType] = React.useState('')
+    const [token, setToken] = React.useState('');
+    const [userId, setUserId] = React.useState('');
+    const [userType, setUserType] = React.useState('');
+
+    const [name, setNewName] = React.useState('');
+    const [email, setNewEmail] = React.useState('');
+    const [phoneNumber, setNewPhoneNumber] = React.useState('');
+    const [website, setNewWebsite] = React.useState('');
+    const [photo, setNewPhoto] = React.useState(null);
 
     React.useEffect(() => {
         const token = localStorage.getItem("token");
         const tokenData = decodeJWT(token);
-        setUserType(tokenData.userType)
-      }, []);
+        setUserId(tokenData.userId);
+        setUserType(tokenData.userType);
+        setToken(token);
+    }, []);
+
+    React.useEffect(() => {
+        if (userType === "company") {    
+            apiGet("/user/details/company", `id=${userId}`)
+                .then((data) => {
+                    console.log(data);
+                    if (!data.error) {
+                        setNewName(data.companyName);
+                        setNewEmail(data.companyEmail);
+                        setNewPhoneNumber(data.companyPhoneNumber);
+                        setNewWebsite(data.companyWebsite);
+                        setNewPhoto(data.companyLogo);
+                        // TODO:setNewCompanyRating(data.companyRating);
+                        console.log("worked");
+                        console.log(data.companyLogo);
+                    } else {
+                        throw new Error("Get Profile Failed");
+                    }
+                })
+                .catch(() => {
+                    alert("not valid.");
+                });
+        } else if (userType === "professional") {
+            apiGet("/user/details/professional", `id=${userId}`)
+                .then((data) => {
+                    console.log(data);
+                    if (!data.error) {
+                        console.log("ProProfile fetched successfully.");
+                        setNewName(data.professionalName);
+                        setNewEmail(data.professionalEmail);
+                        setNewPhoneNumber(data.professionalPhoneNumber);
+                        setNewWebsite(data.professionalWebsite);
+                        setNewPhoto(data.professionalPhoto);
+                    } else {
+                        throw new Error("Get Profile Failed");
+                    }
+                })
+                .catch(() => {
+                    alert("Profile fetch failed.");
+                });
+        }
+    }, [token, refresh]);
+    
 
 
     return (
         <div className={styles.ProfileHeaderBar}>
-            <AccountCircleIcon className={styles.ProfileHeaderProfilePic}/>
+            <Avatar className={styles.ProfileHeaderProfilePic} src={photo} />
+            {/* <AccountCircleIcon className={styles.ProfileHeaderProfilePic}/> */}
             <div className={styles.ProfileHeaderContent}>
                 <div className={styles.ProfileHeaderNameAndRating}>
-                    <h1 className={styles.ProfileHeaderName}>Profile Name</h1>
+                    <h1 className={styles.ProfileHeaderName}>{name}</h1>
                     <div className={styles.ProfileHeaderRaitingBox}>
                         <CustomisedRating value={3}/>
                     </div>
                 </div>
                 
                 <div className={styles.ProfileHeaderLinks}>
-                    <Link to="/companydashboard" className={styles.ProfileHeaderLink}>Email</Link>
-                    <Link to="/companydashboard" className={styles.ProfileHeaderLink}>Linkedin</Link>
-                    <Link to="/companydashboard" className={styles.ProfileHeaderLink}>Other link</Link>
-                    {/* {userType === "professional" ? <Button name="editprofessionalprofile" 
-                      onClick={() => { navigate('/editprofessionalprofile') }} 
-                      sx={{ textTransform: 'none' }} 
-                      variant="outlined">Edit Professional Profile</Button> 
-                    : <Button name="editcompanyprofile" 
-                        variant="outlined"
-                        onClick={() => { navigate('/editcompanyprofile') }} 
-                        sx={{ textTransform: 'none' }}>Edit Company Profile</Button>} */}
+                    <Link to="/companydashboard" className={styles.ProfileHeaderLink}>{email}</Link>
+                    <Link to="/companydashboard" className={styles.ProfileHeaderLink}>{website}</Link>
+                    <Link to="/companydashboard" className={styles.ProfileHeaderLink}>{phoneNumber}</Link>
                 </div>
             </div>
         </div>

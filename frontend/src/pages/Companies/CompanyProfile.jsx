@@ -12,24 +12,18 @@ const CompanyProfile = () => {
     console.log("company profile reached")
     const description = "HEllo i am jim, i am so passionaat aboutbaiosdfhoiehofihehofhaoei hfoiaheoihfoaisdhfhadsuibhfuiagsdbiuaioewfhaieohfoaie"
     const navigate = useNavigate();
+    // const [token, setToken] = React.useState(null);
     const [userType, setUserType] = React.useState('');
     const [userId, setUserId] = React.useState('');
-
-    const [companyName, setNewCompanyName] = React.useState('');
-    const [companyEmail, setNewCompanyEmail] = React.useState('');
-    const [companyPhoneNumber, setNewCompanyPhoneNumber] = React.useState('');
-    const [companyWebsite, setNewCompanyWebsite] = React.useState('');
-    const [companyDescription, setNewCompanyDescription] = React.useState('');
-    const [companyLogo, setNewCompanyLogo] = React.useState(null);
-    // TODO: const [companyRating, setNewCompanyRating] = React.useState(''); 
 
     React.useEffect(() => {
         const getToken = localStorage.getItem("token");
         console.log(getToken)
         if (getToken != null) {
+            // setToken(token);
             const tokenData = decodeJWT(getToken);
-            setUserId(tokenData.userId)
-            setUserType(tokenData.userType)
+            setUserId(tokenData.userId);
+            setUserType(tokenData.userType);
         }
     }, []);
 
@@ -41,13 +35,7 @@ const CompanyProfile = () => {
                 .then((data) => {
                     console.log(data);
                     if (!data.error) {
-                        setNewCompanyName(data.companyName);
-                        setNewCompanyEmail(data.companyEmail);
-                        setNewCompanyPhoneNumber(data.companyPhoneNumber);
-                        setNewCompanyWebsite(data.companyWebsite);
-                        setNewCompanyDescription(data.companyDescription);
-                        setNewCompanyLogo(data.companyLogo);
-                        // TODO:setNewCompanyRating(data.companyRating);
+                        // setNewCompanyDescription(data.companyDescription);
                         console.log("worked");
                         console.log(data.companyLogo);
                     } else {
@@ -63,7 +51,8 @@ const CompanyProfile = () => {
     return (
 
         <>
-        {ProfileHeader()}
+        <ProfileHeader></ProfileHeader>
+        {/* {ProfileHeader()} */}
         {/* <img src={companyLogo}/> */}
         <div className={styles.ProfileHeaderContent}>
             <Button name="editcompanyprofile" 

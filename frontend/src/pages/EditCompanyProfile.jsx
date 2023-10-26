@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/EditForm.css'
 import { ACCESS_TOKEN } from "../constants";
@@ -28,7 +28,8 @@ const EditCompanyProfile = (props) => {
   const [token, setToken] = React.useState('');
   const [userType, setUserType] = React.useState('');
   const [userId, setUserId] = React.useState();
-
+  const [dummy, setDummy] = React.useState(false);
+  const [refresh, setRefresh] = React.useState(false);
   
   const navigate = useNavigate();
 
@@ -68,7 +69,9 @@ const EditCompanyProfile = (props) => {
         }).then((data) =>{
             console.log(data)
             if (!data.error) {
-                console.log("worked");
+                console.log("gots here")
+                setRefresh((prev) => !prev);
+                console.log("worked1");
             } else {
                 throw new Error("Edit Failed");
             }
@@ -80,8 +83,8 @@ const EditCompanyProfile = (props) => {
 
   return (
     <>
-        <div className="formHeader">{ProfileHeader()}</div>
-        <EditForm buttonName="Save Changes" handleSubmit={handleSubmit}> 
+        <div className="formHeader"> <ProfileHeader refresh={refresh}/> </div>
+        <EditForm buttonName="Save Changes" handleSubmit={handleSubmit} refresh={refresh}> 
             {/* <div className='formprofileheader'>{ProfileHeader()}</div> */}
             <div className="split-row">
                 <div>
