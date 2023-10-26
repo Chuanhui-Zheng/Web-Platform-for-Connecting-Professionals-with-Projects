@@ -285,6 +285,42 @@ def projectIncomplete():
     
     return "there is an error if you print this"
 
-@app.route('/project/candidate/list', methods=['GET'])
-def getCandidateList():
-    return
+@app.route('/project/applicant/list', methods=['GET']) #tested
+def projectApplicantList():
+    data = request.get_json()
+    projectId = data.get("projectId")
+    
+    project = Projects.get_project_by_id(projectId)
+    if project is None:
+        return jsonify({"error": "Project does not exist"}), 409
+    
+    applicants = Professional.query.filter(Professional.professionalId.in_(project.listOfApplicants)).all()
+    applicant_dict = {
+        applicant.professionalId: {
+            "professionalId": applicant.professionalId,
+            "professionalEmail": applicant.professionalEmail,
+        }
+        for applicant in applicants
+    }
+    
+    return jsonify(applicant_dict), 200
+
+@app.route('/project/professional/list', methods=['GET']) 
+def projectProfessionalList():
+    data = request.get_json()
+    projectId = data.get("projectId")
+    
+    project = Projects.get_project_by_id(projectId)
+    if project is None:
+        return jsonify({"error": "Project does not exist"}), 409
+    
+    professionals = Professional.query.filter(Professional.professionalId.in_(project.listOfProfessionals)).all()
+    professional_dict = {
+        professional.professionalId: {
+            "professionalId": professional.professionalId,
+            "professionalEmail": professional.professionalEmail,
+        }
+        for professional in professionals
+    }
+    
+    return jsonify(professional_dict), 200

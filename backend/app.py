@@ -6,7 +6,7 @@ from functions.notifications import getNotifications, sendNotifications
 from functions.profiles import editCompanyProfile, editProfessionalProfile, userDetails, professionalEditProfile
 from functions.edit import editCompany, editProfessional, projectEdit
 from functions.user import companyDetails, professionalDetails
-from functions.projects import projectCreate, projectList, projectListAll, projectDetails, projectProfessionalApply, projectProfessionalLeave, projectCompanyApprove, projectComplete, projectIncomplete
+from functions.projects import projectCreate, projectList, projectListAll, projectDetails, projectProfessionalApply, projectProfessionalLeave, projectCompanyApprove, projectComplete, projectIncomplete, projectApplicantList, projectProfessionalList
 
 def create_app():
     app = Flask(__name__)
@@ -45,6 +45,9 @@ def create_app():
     app.add_url_rule('/project/company/approve', 'projectCompanyApprove', projectCompanyApprove, methods=['POST'])
     app.add_url_rule('/project/company/complete', 'projectComplete', projectComplete, methods=['PUT'])
     app.add_url_rule('/project/company/incomplete', 'projectIncomplete', projectIncomplete, methods=['PUT'])
+    app.add_url_rule('/project/applicant/list', 'projectApplicantList', projectApplicantList, methods=['GET'])
+    app.add_url_rule('/project/professional/list', 'projectProfessionalList', projectProfessionalList, methods=['GET'])
+
 
     return app
 
