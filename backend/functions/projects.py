@@ -86,13 +86,67 @@ def projectCreate():
     
     return jsonify({"projectId": new_project.projectId}), 200
 
-@app.route('/projects/listall', methods=['GET'])
-def projectsListAll():
-    return
+@app.route('/project/edit', methods=['PUT']) #tested
+def projectEdit():
+    data = request.get_json()
+    
+    projectId = data.get("projectId")
+    projectName = data.get("projectName")
+    
+    project = Projects.get_project_by_id(projectId)
+    if project is None: 
+        return jsonify({"error": "Project does not exist"}), 409
+    
+    project.edit_project_details(projectName)
+    
+    return jsonify({"updated": "professional details"}), 200
 
-@app.route('/projects/userl/list', methods=['GET'])
-def projectProfessionalList():
-    return
+@app.route('/project/list', methods=['GET']) #tested
+def projectList():
+    data = request.get_json()
+    
+    companyId = data.get("companyId")
+    
+    if company_exists(companyId) is None:
+        return jsonify({"error: Company does not exist"}), 409
+    
+    company_projects = Projects.get_projects_by_company_id(companyId)
+    
+    if company_projects is None:
+        return jsonify({"status": "no projects"}), 205
+    
+    project_dict = {
+        project.projectId: {
+            "projectId": project.projectId,
+            "projectName": project.projectName,
+            "projectDescription": project.projectDescription,
+            "projectStatus": project.projectStatus,
+            "listOfApplicants": project.listOfApplicants,
+            "listOfProfessionals": project.listOfProfessionals
+        }
+    for project in company_projects
+    }
+    
+    return jsonify(project_dict), 200
+
+@app.route('/project/listall', methods=['GET']) #tested
+def projectListAll():
+    projects = Projects.query.all()
+    
+    # depends how front end wants to display
+    project_dict = {
+        project.projectId: {
+            "projectId": project.projectId,
+            "projectName": project.projectName,
+            "projectDescription": project.projectDescription,
+            "projectStatus": project.projectStatus,
+            "listOfApplicants": project.listOfApplicants,
+            "listOfProfessionals": project.listOfProfessionals
+        }
+    for project in projects
+    }
+    
+    return jsonify(project_dict), 200
 
 @app.route('/project/details', methods=['GET'])
 def projectDetails():
@@ -104,10 +158,6 @@ def projectSearch():
 
 @app.route('/project/professional/apply', methods=['POST'])
 def projectProfessionalApply():
-    return
-
-@app.route('/projects/listall', methods=['GET'])
-def projectListAll():
     return
 
 @app.route('/project/professional/leave', methods=['GET'])

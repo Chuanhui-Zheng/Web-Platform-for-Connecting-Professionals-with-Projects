@@ -165,6 +165,10 @@ class Projects(db.Model):
     def get_company_by_id(cls, companyId):
         return Company.query.filter_by(companyId=companyId).first()
     
+    @classmethod
+    def get_projects_by_company_id(cls, companyId):
+        return cls.query.filter_by(pCompanyId=companyId).all()
+    
     def create_project_details(self, projectName):
         self.projectName = projectName
         # add the rest of the fields on project creation
