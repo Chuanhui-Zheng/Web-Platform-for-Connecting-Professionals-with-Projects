@@ -51,8 +51,8 @@ def editProfessional():
 
     return { "message": "asdfasdf", "password":password}, 200
 
-@app.route('/project/edit', methods=['PUT']) #tested
-def projectEdit():
+@app.route('/edit/project', methods=['PUT']) #tested
+def editProject():
     data = request.get_json()
     
     projectId = data.get("projectId")
