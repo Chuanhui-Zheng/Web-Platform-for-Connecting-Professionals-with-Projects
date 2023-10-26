@@ -174,7 +174,7 @@ RETURN {
 }
 '''
 # TO-DO filter by other things
-@app.route('/project/search', methods=['GET'])
+@app.route('/project/search', methods=['GET']) #tested
 def projectSearch():
     data = request.get_json()
     
@@ -344,7 +344,7 @@ RETURN {
     success message
 }
 '''
-@app.route('/project/company/reject', methods=['POST'])
+@app.route('/project/company/reject', methods=['POST']) #tested
 def projectCompanyReject():
     data = request.get_json()
     professionalId = data.get("professionalId")
@@ -458,7 +458,7 @@ RETURN {
     success message
 }
 '''
-@app.route('/project/professional/list', methods=['GET']) 
+@app.route('/project/professional/list', methods=['GET']) #tested
 def projectProfessionalList():
     data = request.get_json()
     projectId = data.get("projectId")
@@ -490,7 +490,7 @@ RETURN {
     success message
 }
 '''
-@app.route('/project/professional/status', methods=['GET'])
+@app.route('/project/professional/status', methods=['GET']) #tested
 def projectProfessionalStatus():
     data = request.get_json()
     professionalId = data.get("professionalId")
