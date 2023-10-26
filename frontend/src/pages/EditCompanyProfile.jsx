@@ -25,10 +25,8 @@ const EditCompanyProfile = (props) => {
   const [companyLogo, setNewCompanyLogo] = React.useState(null);
   const [companyWebsite, setNewCompanyWebsite] = React.useState('');
   const [companyDescription, setNewCompanyDescription] = React.useState('');
-  const [token, setToken] = React.useState('');
-  const [userType, setUserType] = React.useState('');
+  
   const [userId, setUserId] = React.useState();
-  const [dummy, setDummy] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
   
   const navigate = useNavigate();
@@ -38,7 +36,6 @@ const EditCompanyProfile = (props) => {
     console.log(getToken)
     if (getToken != null) {
         const tokenData = decodeJWT(getToken);
-        setUserType(tokenData.userType)
         setUserId(parseInt(tokenData.userId))
     }
   }, []);

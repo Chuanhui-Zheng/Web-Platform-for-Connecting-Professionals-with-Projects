@@ -40,8 +40,8 @@ const ProfileHeader = ({refresh}) => {
                         setNewWebsite(data.companyWebsite);
                         setNewPhoto(data.companyLogo);
                         // TODO:setNewCompanyRating(data.companyRating);
-                        console.log("worked");
-                        console.log(data.companyLogo);
+                        console.log("comp deatails:", data.companyName)
+                        console.log("comp deatails2:", data.companyPhoneNumber)
                     } else {
                         throw new Error("Get Profile Failed");
                     }
@@ -55,17 +55,19 @@ const ProfileHeader = ({refresh}) => {
                     console.log(data);
                     if (!data.error) {
                         console.log("ProProfile fetched successfully.");
-                        setNewName(data.professionalName);
+                        setNewName(data.professionalFullName);
                         setNewEmail(data.professionalEmail);
                         setNewPhoneNumber(data.professionalPhoneNumber);
                         setNewWebsite(data.professionalWebsite);
                         setNewPhoto(data.professionalPhoto);
+                        console.log("prof deatails:", data.professionalFullName)
+                        console.log("prof deatails2:", data.professionalPhoneNumber)
                     } else {
                         throw new Error("Get Profile Failed");
                     }
                 })
                 .catch(() => {
-                    alert("Profile fetch failed.");
+                    alert("Profile fetch failed1.");
                 });
         }
     }, [token, refresh]);

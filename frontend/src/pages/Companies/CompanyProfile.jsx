@@ -36,7 +36,7 @@ const CompanyProfile = () => {
                     console.log(data);
                     if (!data.error) {
                         // setNewCompanyDescription(data.companyDescription);
-                        console.log("worked");
+                        console.log("Profile fetched successfully.");
                         console.log(data.companyLogo);
                     } else {
                         throw new Error("Get Profile Failed");

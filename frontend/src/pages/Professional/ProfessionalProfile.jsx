@@ -16,7 +16,11 @@ const ProfessionalProfile = () => {
 
     const [userId, setUserId] = React.useState();
     const [userType, setUserType] = React.useState('');
-    const [professionalPhoto, setNewProfessionalPhoto] = React.useState(null);
+
+    const [professionalSkills, setProfessionalSkills] = React.useState([]);
+    const [professionalDescription, setProfessionalDescription] = React.useState('');
+    const [professionalEducation, setProfessionalEducation] = React.useState('');
+    const [professionalQualifications, setProfessionalQualifications] = React.useState('');
 
     React.useEffect(() => {
         const getToken = localStorage.getItem("token");
@@ -30,13 +34,19 @@ const ProfessionalProfile = () => {
     }, []);
     
       React.useEffect(() => {
-        if (userId) {
+        if (userId && userType) {
+            console.log(`User ID: ${userId}, User Type: ${userType}`);
+            console.log("calling get details api in profile page")
             apiGet("/user/details/professional", `id=${userId}`)
                 .then((data) => {
                     console.log(data);
                     if (!data.error) {
                         console.log("Profile fetched successfully.");
-                        setNewProfessionalPhoto(data.professionalPhoto);
+                        setProfessionalSkills(data.professionalSkills);
+                        setProfessionalDescription(data.professionalDescription);
+                        setProfessionalEducation(data.professionalEducation);
+                        setProfessionalQualifications(data.professionalQualifications);
+                        console.log("fnished calling get details api in profile page")
                     } else {
                         throw new Error("Get Profile Failed");
                     }
@@ -44,13 +54,14 @@ const ProfessionalProfile = () => {
                 .catch(() => {
                     alert("Profile fetch failed.");
                 });
+                
         }
-    }, [userId]);
+    }, [userId, userType]);
 
     return (
 
         <>
-        {ProfileHeader()}
+        <ProfileHeader ></ProfileHeader>
         {/* <img src={professionalPhoto}/> */}
         <Button name="editprofessionalprofile" 
             onClick={() => { navigate('/editprofessionalprofile') }} 
@@ -59,19 +70,17 @@ const ProfessionalProfile = () => {
         <div className={styles.ProfessionalProfileContent}>
             <h1 className={styles.ProfessionalProfileBodyTitle}>Summary</h1>
             <div className={styles.ProfessionalProfileText}>
-                {description}
+                {professionalDescription}
             </div>
             <h1 className={styles.ProfessionalProfileBodyTitle}>Skills</h1>
             <div className={styles.ProfessionalProfileSkillsContainer}>
-                <div className={styles.ProfessionalProfileSkill}>
-                    <BasicChips content="hefasdf" />
-                </div>
-                <div className={styles.ProfessionalProfileSkill}>
-                    <BasicChips content="hefasdf" />
-                </div>
-                <div className={styles.ProfessionalProfileSkill}>
-                    <BasicChips content="hefasdf" />
-                </div>
+                {professionalSkills.map((skill, idx) => {
+                    return (
+                        <div key={idx} className={styles.ProfessionalProfileSkill}>
+                            <BasicChips content={skill} />
+                        </div>
+                    )
+                })}
             </div>
             <h1 className={styles.ProfessionalProfileBodyTitle}>Projects</h1>
             <div class={styles.ProfessionalProfileProjectList}>
