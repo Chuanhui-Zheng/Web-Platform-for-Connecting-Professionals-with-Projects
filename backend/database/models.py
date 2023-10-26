@@ -222,3 +222,13 @@ class Projects(db.Model):
         db.session.add(self)
         db.session.commit()
         
+class Skills(db.Model):
+    __tablename__ = 'skills'
+    name = db.Column(db.String(), primary_key=True, default="skills")
+    listOfSkills = db.Column(MutableList.as_mutable(JSON), default=list)
+    
+    
+class Categories(db.Model):
+    __tablename__ = 'categories'
+    name = db.Column(db.String(), primary_key=True, default="categories")
+    listOfCategories = db.Column(MutableList.as_mutable(JSON), default=list)

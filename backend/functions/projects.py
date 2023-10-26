@@ -7,60 +7,6 @@ app = Flask(__name__)
 
 CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 
-'''
-project/create logic
-1. get json body
-2. retrieve all information
-3. set relevant fields
-4. push to database
-5. return success code and id
-
-project/edit logic
-1. get json body
-2. retrieve all information
-3. set relevant fields
-4. push to database
-5. return success code
-
-project/list logic
-1. get json body
-2. retrieve project id information
-3. query data base
-4. return relevant object and success coe
-
-project/professional apply
-1. get json body
-2. retrieve professional id and project id
-3. add professional id to project list of applicants
-4. return success
-
-project/professional leave
-1. get json body
-2. retrieve professional id and project id
-3. remove professional id from project list of applicants
-4. return success
-
-project/company approve
-1. get json body
-2. retrieve professional id and project id
-3. move professional id from applicant to professionals list
-4. return success
-
-project/company leave
--> uses professional leave
-
-project/company complete
-1. get project id
-2. set status as complete
-2. return success
-
-project/candidate list
-1. get json body
-2. retrieve project id
-3. return list of applicants
-4. return success
-
-'''
 
 # helper functions
 def company_exists(companyId):
@@ -69,7 +15,18 @@ def company_exists(companyId):
 def professional_exists(professionalId):
     return Projects.get_professional_by_id(professionalId)
 
+
 #TO-DO error code for company with repeat projectName
+'''
+PARAMETERS {
+    companyId,
+    projectName
+}
+
+RETURN {
+    projectId
+}
+'''
 @app.route('/project/create', methods=['POST']) #tested
 def projectCreate():
     data = request.get_json()
@@ -89,6 +46,17 @@ def projectCreate():
     
     return jsonify({"projectId": new_project.projectId}), 200
 
+
+'''
+PARAMETERS {
+    projectId,
+    projectName
+}
+
+RETURN {
+    success message
+}
+'''
 @app.route('/project/edit', methods=['PUT']) #tested
 def projectEdit():
     data = request.get_json()
@@ -104,6 +72,16 @@ def projectEdit():
     
     return jsonify({"updated": "professional details"}), 200
 
+
+'''
+PARAMETERS {
+    companyId
+}
+
+RETURN {
+    dictionary of company's projects
+}
+'''
 @app.route('/project/list', methods=['GET']) #tested
 def projectList():
     data = request.get_json()
@@ -132,6 +110,15 @@ def projectList():
     
     return jsonify(project_dict), 200
 
+
+'''
+PARAMETERS {
+}
+
+RETURN {
+    dictionary of all projects
+}
+'''
 @app.route('/project/listall', methods=['GET']) #tested
 def projectListAll():
     projects = Projects.query.all()
@@ -151,6 +138,16 @@ def projectListAll():
     
     return jsonify(project_dict), 200
 
+
+'''
+PARAMETERS {
+    projectId
+}
+
+RETURN {
+    obj of project details
+}
+'''
 @app.route('/project/details', methods=['GET']) #tested
 def projectDetails():
     data = request.get_json()
@@ -172,10 +169,22 @@ def projectDetails():
     
     return jsonify(project_details), 200
 
+
 @app.route('/project/search', methods=['GET'])
 def projectSearch():
     return
 
+
+'''
+PARAMETERS {
+    professionalId,
+    projectId
+}
+
+RETURN {
+    success message
+}
+'''
 @app.route('/project/professional/apply', methods=['POST']) #tested
 def projectProfessionalApply():
     data = request.get_json()
@@ -204,6 +213,17 @@ def projectProfessionalApply():
     
     return "there is an error if you print this"
 
+
+'''
+PARAMETERS {
+    professionalId,
+    projectId
+}
+
+RETURN {
+    success message
+}
+'''
 @app.route('/project/professional/leave', methods=['POST']) #tested
 def projectProfessionalLeave():
     data = request.get_json()
@@ -228,6 +248,17 @@ def projectProfessionalLeave():
     
     return "there is an error if you print this"
 
+
+'''
+PARAMETERS {
+    professionalId,
+    projectId
+}
+
+RETURN {
+    success message
+}
+'''
 @app.route('/project/company/approve', methods=['POST']) #tested
 def projectCompanyApprove():
     data = request.get_json()
@@ -248,6 +279,17 @@ def projectCompanyApprove():
         
     return jsonify({"success": "Professional approved"}), 200
 
+
+'''
+PARAMETERS {
+    professionalId,
+    projectId
+}
+
+RETURN {
+    success message
+}
+'''
 @app.route('/project/company/reject', methods=['POST'])
 def projectCompanyReject():
     data = request.get_json()
@@ -266,6 +308,16 @@ def projectCompanyReject():
     else:
         return jsonify({"error": "Could not set status"}), 404
         
+
+'''
+PARAMETERS {
+    projectId
+}
+
+RETURN {
+    success message
+}
+'''
 @app.route('/project/company/complete', methods=['PUT']) #tested
 def projectComplete():
     data = request.get_json()
@@ -285,6 +337,15 @@ def projectComplete():
     return "there is an error if you print this"
 
 
+'''
+PARAMETERS {
+    projectId
+}
+
+RETURN {
+    success message
+}
+'''
 @app.route('/project/company/incomplete', methods=['PUT']) #tested
 def projectIncomplete():
     data = request.get_json()
@@ -303,6 +364,16 @@ def projectIncomplete():
     
     return "there is an error if you print this"
 
+
+'''
+PARAMETERS {
+    projectId
+}
+
+RETURN {
+    success message
+}
+'''
 @app.route('/project/applicant/list', methods=['GET']) #tested
 def projectApplicantList():
     data = request.get_json()
@@ -323,6 +394,16 @@ def projectApplicantList():
     
     return jsonify(applicant_dict), 200
 
+
+'''
+PARAMETERS {
+    projectId
+}
+
+RETURN {
+    success message
+}
+'''
 @app.route('/project/professional/list', methods=['GET']) 
 def projectProfessionalList():
     data = request.get_json()
@@ -343,11 +424,23 @@ def projectProfessionalList():
     
     return jsonify(professional_dict), 200
 
+
+'''
+PARAMETERS {
+    professionalId,
+    projectId
+}
+
+
+RETURN {
+    success message
+}
+'''
 @app.route('/project/professional/status', methods=['GET'])
 def projectProfessionalStatus():
     data = request.get_json()
-    projectId = data.get("projectId")
     professionalId = data.get("professionalId")
+    projectId = data.get("projectId")
     
     project = Projects.get_project_by_id(projectId)
     if project is None:
