@@ -1,5 +1,5 @@
 #!/bin/bash
-export FLASK_SQLALCHEMY_DATABASE_URI='sqlite:///dbtest.sqlite3'
+export FLASK_SQLALCHEMY_DATABASE_URI='sqlite:///db.sqlite3'
 
 if [ "$1" == "clear" ]; then
     python3 db_clear.py
