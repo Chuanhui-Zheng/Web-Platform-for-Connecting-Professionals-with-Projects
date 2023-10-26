@@ -56,12 +56,11 @@ def projectEdit():
     data = request.get_json()
     
     projectId = data.get("projectId")
-    projectName = data.get("projectName")
     
     project = Projects.get_project_by_id(projectId)
     if project is None: 
         return jsonify({"error": "Project does not exist"}), 409
     
-    project.edit_project_details(projectName)
+    project.edit_project_details(data)
     
-    return jsonify({"updated": projectName}), 200
+    return jsonify({"updated": "professional details"}), 200

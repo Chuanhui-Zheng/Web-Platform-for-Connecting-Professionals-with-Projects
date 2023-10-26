@@ -20,7 +20,9 @@ def professional_exists(professionalId):
 '''
 PARAMETERS {
     companyId,
-    projectName
+    projectName,
+    skills: [array of skills]
+    ...the rest...
 }
 
 RETURN {
@@ -33,44 +35,33 @@ def projectCreate():
     
     companyId = data.get("companyId")
     projectName = data.get("projectName")
-    # add the rest of the fields
+    projectObjectives = data.get("objectives", "")
+    projectDescription = data.get("description", "")
+    projectStartDate = data.get("startDate", "")
+    projectEndDate = data.get("endDate", "")
+    projectCategory = data.get("category", "")
+    projectLocation = data.get("location", "")
+    projectKeyResponsibilities = data.get("responsibilities", "")
+    projectConfidentialInformation = data.get("confidential", "")
+    projectSkills = data.get("skills", [])
+    projectCategories = data.get("categories", [])
     
-    new_project = Projects(pCompanyId=companyId)
+    
+    new_project = Projects(projectObjectives=projectObjectives,
+                           projectDescription=projectDescription, projectStartDate=projectStartDate, 
+                           projectLocation=projectLocation, projectKeyResponsibilities=projectKeyResponsibilities,
+                           projectConfidentialInformation=projectConfidentialInformation,
+                           projectSkills=projectSkills, projectCategories=projectCategories,
+                           )
     
     if company_exists(companyId) is None:
-        return jsonify({"error: Company does not exist"}), 409
+        return jsonify({"error": "Company does not exist"}), 409
     
-    new_project.create_project_details(projectName)
+    new_project.create_project_details(companyId, projectName)
     
     new_project.save_project()
     
     return jsonify({"projectId": new_project.projectId}), 200
-
-
-'''
-PARAMETERS {
-    projectId,
-    projectName
-}
-
-RETURN {
-    success message
-}
-'''
-@app.route('/project/edit', methods=['PUT']) #tested
-def projectEdit():
-    data = request.get_json()
-    
-    projectId = data.get("projectId")
-    projectName = data.get("projectName")
-    
-    project = Projects.get_project_by_id(projectId)
-    if project is None: 
-        return jsonify({"error": "Project does not exist"}), 409
-    
-    project.edit_project_details(projectName)
-    
-    return jsonify({"updated": "professional details"}), 200
 
 
 '''

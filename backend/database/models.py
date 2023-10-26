@@ -147,10 +147,10 @@ class Projects(db.Model):
     projectDescription = db.Column(db.Text(), default="")
     projectStartDate = db.Column(db.String(), default="")
     projectEndDate = db.Column(db.String(), default="")
-    projectCategory = db.Column(db.String(), default="")
     projectLocation = db.Column(db.String(), default="")
     projectKeyResponsibilities = db.Column(db.Text())
     projectSkills = db.Column(MutableList.as_mutable(JSON), default=list)
+    projectCategories = db.Column(MutableList.as_mutable(JSON), default=list)
     projectConfidentialInformation = db.Column(db.Text(), default="")
     listOfProfessionals = db.Column(MutableList.as_mutable(JSON), default=list)
     listOfApplicants = db.Column(MutableList.as_mutable(JSON), default=list)
@@ -173,14 +173,15 @@ class Projects(db.Model):
     def get_professional_by_id(cls, professionalId):
         return Professional.query.filter_by(professionalId=professionalId).first()
     
-    def create_project_details(self, projectName):
+    def create_project_details(self, companyId, projectName):
+        self.pCompanyId = companyId
         self.projectName = projectName
-        # add the rest of the fields on project creation
         db.session.commit()
         
-    def edit_project_details(self, projectName):
-        self.projectName = projectName
-        # add the rest of the fields on project edit
+    def edit_project_details(self, data):
+        for field, value in data.items():
+            if hasattr(self, field) and field not in ['projectId', 'pCompanyId']:
+                setattr(self, field, value)
         db.session.commit()
         
     def add_to_list(self, professionalId, listType, status):
