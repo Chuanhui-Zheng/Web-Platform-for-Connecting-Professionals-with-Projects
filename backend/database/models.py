@@ -183,12 +183,16 @@ class Projects(db.Model):
         # add the rest of the fields on project edit
         db.session.commit()
         
-    def add_to_list(self, professionalId, listType):
+    def add_to_list(self, professionalId, listType, status):
         target_list = getattr(self, listType, None)
     
         if target_list is not None and isinstance(target_list, list):
             if professionalId not in target_list:
-                target_list.append(professionalId)
+                entry = {
+                    "professionalId": professionalId,
+                    "status": status
+                }
+                target_list.append(entry)
                 db.session.commit()
                 return True
         return False
@@ -202,7 +206,19 @@ class Projects(db.Model):
                 db.session.commit() 
                 return True
         return False
+    
+    def set_status(self, professionalId, new_status):
+        # REALLY SLOW, RECREATES THE LIST...
+        updated_applicants = [
+            {**applicant, "status": new_status} if applicant["professionalId"] == professionalId else applicant
+            for applicant in self.listOfApplicants
+        ]
+        
+        self.listOfApplicants = updated_applicants
+        db.session.commit()
+        return True
         
     def save_project(self):
         db.session.add(self)
         db.session.commit()
+        

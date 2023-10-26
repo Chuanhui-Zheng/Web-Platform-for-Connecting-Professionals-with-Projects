@@ -192,7 +192,7 @@ def projectProfessionalApply():
     if professionalId in project.listOfProfessionals:
         return jsonify({"error": "Professional is already a part of this project"}), 409
     
-    res = project.add_to_list(professionalId, "listOfApplicants")
+    res = project.add_to_list(professionalId, "listOfApplicants", "Pending approval")
     
     if res:
         return jsonify({
@@ -244,10 +244,28 @@ def projectCompanyApprove():
         return jsonify({"error": "Professional not an applicant"}), 405
     else:
         project.remove_from_list(professionalId, "listOfApplicants")
-        project.add_to_list(professionalId, "listOfProfessionals")
+        project.add_to_list(professionalId, "listOfProfessionals", "Approved")
         
     return jsonify({"success": "Professional approved"}), 200
 
+@app.route('/project/company/reject', methods=['POST'])
+def projectCompanyReject():
+    data = request.get_json()
+    professionalId = data.get("professionalId")
+    projectId = data.get("projectId")
+    
+    project = Projects.get_project_by_id(projectId)
+    if project is None:
+        return jsonify({"error": "Project does not exist"}), 409
+    
+    new_status = "Rejected"
+    result = project.set_status(professionalId, new_status)
+    
+    if result:
+        return jsonify({"success": f"Status updated to {new_status}"}), 200
+    else:
+        return jsonify({"error": "Could not set status"}), 404
+        
 @app.route('/project/company/complete', methods=['PUT']) #tested
 def projectComplete():
     data = request.get_json()
@@ -324,3 +342,22 @@ def projectProfessionalList():
     }
     
     return jsonify(professional_dict), 200
+
+@app.route('/project/professional/status', methods=['GET'])
+def projectProfessionalStatus():
+    data = request.get_json()
+    projectId = data.get("projectId")
+    professionalId = data.get("professionalId")
+    
+    project = Projects.get_project_by_id(projectId)
+    if project is None:
+        return jsonify({"error": "Project does not exist"}), 409
+    
+    for applicant in project.listOfApplicants:
+        if applicant["professionalId"] == professionalId:
+            return jsonify({"status": applicant["status"]}), 200
+
+    if any(prof["professionalId"] == professionalId for prof in project.listOfProfessionals):
+        return jsonify({"status": "Approved"}), 200
+    
+    return jsonify({"status": "Not applied"}), 200
