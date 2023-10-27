@@ -60,8 +60,10 @@ def projectCreate():
                            
                            )
     
-    if company_exists(companyId) is None:
+    if not company_exists(companyId):
         return jsonify({"error": "Company does not exist"}), 409
+    elif Projects.query.filter_by(projectName=projectName, pCompanyId=int(companyId)).first():
+        return jsonify({"error": "Company already has project under this name"}), 404
     
     new_project.create_project_details(companyId, projectName)
     
@@ -71,8 +73,8 @@ def projectCreate():
 
 
 '''
-PARAMETERS (query string):
-/project/list?companyId=COMPANYIDHERE
+PARAMETERS (query string) {id, status}:
+/project/list?id=USERID&status=STATUS
 
 RETURN {
     dictionary of company's projects
@@ -80,23 +82,35 @@ RETURN {
 '''
 @app.route('/project/list', methods=['GET']) #tested
 def projectList():
-    companyIdStr = request.args.get("companyId")
-    companyId = int(companyIdStr)
+    idstr = request.args.get('id')
+    id = int(idstr)
+    status = request.args.get('status')
+
     
-    company_projects = Projects.get_projects_by_company_id(companyId)
-    
-    if not company_projects:
-        return jsonify({"status": "no projects"}), 205
-    
-    company_projects = Projects.get_projects_by_company_id(companyId)
-    
-    if company_projects is None:
+    # if company gets all projects that are from the company and of the given type
+    if company_exists(id):
+        projects = Projects.query.filter(
+            Projects.pCompanyId == int(id),
+            Projects.projectStatus == status
+        ).all()
+    elif professional_exists(id):
+        if status == "Approved":
+            projects = Projects.query.filter(
+                Projects.listOfProfessionals.any(userid=id),
+            )
+        else:
+            projects = Projects.query.filter(
+                Projects.listOfApplicants.any(userid=id),
+            )
+    else:
+        return jsonify({"error: User does not exist"}), 407
+
+    if not projects:
         return jsonify({"status": "no projects"}), 205
 
-    # gets all project infomation to return
     project_dict = [
         {k: v for k, v in vars(project).items() if not k.startswith('_')}
-        for project in company_projects
+        for project in projects
     ]
     
     return jsonify(project_dict), 200
@@ -173,7 +187,7 @@ def projectDetails():
 
 '''
 PARAMETERS (query string)
-/project/search?query_string=SEARCHQUERY?catagory=CATAGORYNAME?catagory=CATAGORYNAME
+/project/search?query_string=SEARCHQUERY&catagory=CATAGORYNAME&catagory=CATAGORYNAME
 ?
 
 RETURN {
@@ -260,6 +274,7 @@ RETURN {
     success message
 }
 '''
+# get if they are pending or approved
 @app.route('/project/professional/apply', methods=['POST']) #tested
 def projectProfessionalApply():
     data = request.get_json()
@@ -273,8 +288,10 @@ def projectProfessionalApply():
     if project is None: 
         return jsonify({"error": "Project does not exist"}), 409
     
-    if professionalId in project.listOfProfessionals:
+    if professionalId in [professional['professionalId'] for professional in project.listOfProfessionals]:
         return jsonify({"error": "Professional is already a part of this project"}), 409
+    elif professionalId in [applicant['professionalId'] for applicant in project.listOfApplicants]:
+        return jsonify({"error": "Already an applicant"}), 409
     
     res = project.add_to_list(professionalId, "listOfApplicants", "Pending approval")
     
@@ -498,7 +515,7 @@ def projectProfessionalList():
 
 '''
 PARAMETERS (query string) {professionalId, projectId}
-/project/professional/status?professionalId=PROFESSIONALIDHERE?projectId=PROJECTIDHERE
+/project/professional/status?professionalId=PROFESSIONALIDHERE&projectId=PROJECTIDHERE
 
 
 RETURN {
