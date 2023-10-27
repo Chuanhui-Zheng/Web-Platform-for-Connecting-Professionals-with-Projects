@@ -25,7 +25,14 @@ def authRegisterCompany():
         return jsonify({"error": "Company already exists"}), 409
     
     # Create new company and store in database
-    new_company = Company(companyEmail=companyEmail)
+    new_company = Company(
+        companyName=data.get("companyName"),
+        companyEmail=companyEmail,
+        companyPhoneNumber=data.get("companyPhoneNumber"),
+        companyWebsite=data.get("companyWebsite"),
+        companyLogo=data.get("companyLogo"),
+        companyDescription=data.get("companyDescription")
+    )
     new_company.set_company_password(companyPassword=data.get("companyPassword"))
     new_company.save_company()
 
@@ -76,18 +83,14 @@ def login():
     company = Company.get_company_by_email(companyEmail=email)
     professional = Professional.get_professional_by_email(professionalEmail=email)
 
-    print(f"{company} ========================================================")
-    print(f"{professional} ========================================================")
-
     if company is not None:
         if company.check_company_password(companyPassword=password):
             access_token = create_access_token(identity=email, additional_claims={
                 "userId": company.companyId,
                 "userType": "company"
             })
-            print(f"access_token = {access_token}")
             return jsonify({ "token": access_token }), 200
-    if professional is not None:
+    elif professional is not None:
         if professional.check_professional_password(professionalPassword=password):
             access_token = create_access_token(identity=email, additional_claims={
                 "userId": professional.professionalId,
