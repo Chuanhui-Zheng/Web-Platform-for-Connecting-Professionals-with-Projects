@@ -82,15 +82,15 @@ def projectList():
     companyId = data.get("companyId")
     
     if company_exists(companyId) is None:
-        return jsonify({"error: Company does not exist"}), 409
+        return jsonify({"error": "Company does not exist"}), 409
     
     company_projects = Projects.get_projects_by_company_id(companyId)
     
-    if company_projects is None:
+    if not company_projects:
         return jsonify({"status": "no projects"}), 205
     
-    project_dict = {
-        project.projectId: {
+    project_list = [
+        {
             "projectId": project.projectId,
             "projectName": project.projectName,
             "projectDescription": project.projectDescription,
@@ -99,9 +99,9 @@ def projectList():
             "listOfProfessionals": project.listOfProfessionals
         }
     for project in company_projects
-    }
+    ]
     
-    return jsonify(project_dict), 200
+    return jsonify(project_list), 200
 
 
 '''
@@ -117,8 +117,8 @@ def projectListAll():
     projects = Projects.query.all()
     
     # depends how front end wants to display
-    project_dict = {
-        project.projectId: {
+    project_list = [
+        {
             "projectId": project.projectId,
             "projectName": project.projectName,
             "projectDescription": project.projectDescription,
@@ -127,9 +127,9 @@ def projectListAll():
             "listOfProfessionals": project.listOfProfessionals
         }
     for project in projects
-    }
+    ]
     
-    return jsonify(project_dict), 200
+    return jsonify(project_list), 200
 
 
 '''
@@ -151,16 +151,24 @@ def projectDetails():
     if project is None: 
         return jsonify({"error": "Project does not exist"}), 409
     
-    #do things with project
     project_details = {
         "projectId": project.projectId,
         "projectName": project.projectName,
-        "projectStatus": project.projectStatus,
+        "projectObjectives": project.projectObjectives,
+        "projectStartDate": project.projectStartDate,
+        "projectEndDate": project.projectEndDate,
+        "projectLocation": project.projectLocation,
+        "projectKeyResponsibilities": project.projectKeyResponsibilities,
+        "projectConfidentialInformation": project.projectConfidentialInformation,
+        "projectSkills": project.projectSkills,
+        "projectCategories": project.projectCategories,
         "listOfApplicants": project.listOfApplicants,
-        "listOfProfessionals": project.listOfProfessionals
+        "listOfProfessionals": project.listOfProfessionals,
+        "projectStatus": project.projectStatus
     }
     
     return jsonify(project_details), 200
+
 
 '''
 PARAMETERS {
@@ -438,15 +446,15 @@ def projectApplicantList():
         return jsonify({"error": "Project does not exist"}), 409
     
     applicants = Professional.query.filter(Professional.professionalId.in_(project.listOfApplicants)).all()
-    applicant_dict = {
-        applicant.professionalId: {
+    applicant_list = [
+        {
             "professionalId": applicant.professionalId,
             "professionalEmail": applicant.professionalEmail,
         }
         for applicant in applicants
-    }
+    ]
     
-    return jsonify(applicant_dict), 200
+    return jsonify(applicant_list), 200
 
 
 '''
@@ -468,15 +476,15 @@ def projectProfessionalList():
         return jsonify({"error": "Project does not exist"}), 409
     
     professionals = Professional.query.filter(Professional.professionalId.in_(project.listOfProfessionals)).all()
-    professional_dict = {
-        professional.professionalId: {
+    professional_list = {
+        {
             "professionalId": professional.professionalId,
             "professionalEmail": professional.professionalEmail,
         }
         for professional in professionals
     }
     
-    return jsonify(professional_dict), 200
+    return jsonify(professional_list), 200
 
 
 '''
