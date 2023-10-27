@@ -58,7 +58,10 @@ def authRegisterProfessional():
         return jsonify({"error": "Professional already exists"}), 409
     
     # Create new professional and store in database
-    new_professional = Professional(professionalEmail=professionalEmail)
+    new_professional = Professional(professionalEmail=professionalEmail, 
+                                    professionalPhoto=data.get("professionalPhoto"),
+                                    professionalFullName=data.get("professionalFullName")
+    )
     new_professional.set_professional_password(professionalPassword=data.get("professionalPassword"))
     new_professional.save_professional()
 
