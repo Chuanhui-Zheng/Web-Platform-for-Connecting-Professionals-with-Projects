@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from database.models import Company, Professional, Projects
 from extensions import db
-from sqlalchemy import or_, func
+from sqlalchemy import or_, and_, func
 import re
 
 app = Flask(__name__)
@@ -54,6 +54,7 @@ def projectCreate():
                            projectLocation=projectLocation, projectKeyResponsibilities=projectKeyResponsibilities,
                            projectConfidentialInformation=projectConfidentialInformation,
                            projectSkills=projectSkills, projectCategories=projectCategories,
+                           
                            )
     
     if company_exists(companyId) is None:
@@ -176,11 +177,14 @@ RETURN {
 # TO-DO filter by other things
 @app.route('/project/search', methods=['GET']) #tested
 def projectSearch():
-    data = request.get_json()
-    
-    query_string = data.get("query", "")
-    categories = data.get("category", [])
-    skills = data.get("skills", [])
+    query_string = request.args.get("query", "")
+    categories = set(request.args.getlist("category"))
+    skills = set(request.args.getlist("skills"))
+    location = request.args.get("location")
+    creator = request.args.get("creatorId")
+
+    # starts building query
+    query = Projects.query
 
     # starts building query
     query = Projects.query
@@ -203,26 +207,37 @@ def projectSearch():
         category_conditions = [
             Projects.projectCategories.like(f'%"{category}"%') for category in categories
         ]
-        query = query.filter(or_(*category_conditions))
+        query = query.filter(and_(*category_conditions))
 
     # filter by skills (substring matching)
     if skills:
         skill_conditions = [
             Projects.projectSkills.like(f'%"{skill}"%') for skill in skills
         ]
-        query = query.filter(or_(*skill_conditions))
+        query = query.filter(and_(*skill_conditions))
+    
+    # Filtering by location (substring matching)
+    if location:
+        project_location = [
+            Projects.projectLocation.like(f'%"{location}"%')
+        ]
+        query = query.filter(and_(*project_location))
+    
+    # Filtering by User
+    if creator:
+        creators_projects = [
+            Projects.pCompanyId == creator
+        ]
+        query = query.filter(and_(*creators_projects))
         
     results = query.all()
 
+    if not results:
+        return jsonify({"message": "No projects found."}), 404
+
+    # returns all project infomation
     projects_list = [
-        {
-            "projectId": project.projectId,
-            "projectName": project.projectName,
-            "projectCategories": project.projectCategories,
-            "projectSkills": project.projectSkills,
-            "projectDescription": project.projectDescription,
-            # other fields
-        }
+        {k: v for k, v in vars(project).items() if not k.startswith('_')}
         for project in results
     ]
 
