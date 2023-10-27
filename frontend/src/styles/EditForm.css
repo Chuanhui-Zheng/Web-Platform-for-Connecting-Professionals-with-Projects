@@ -118,11 +118,19 @@ h3 {
     width: 65vw;
   }
 
-  .formprofileheader {
+  /* .formprofileheader {
     width: 100%;
-    margin: 0% 5% 2% 0%;
-  }
 
+  } */
+
+  .formHeader {
+    background-color: #f1f1f1;  
+    /* padding-left: 2%; */
+    /* margin-left: 10%; */
+    /* margin-left:11%;
+    margin-right: 10%; */
+  }
+      
   .upload {
     width: 30vw;
     height: 50px;
