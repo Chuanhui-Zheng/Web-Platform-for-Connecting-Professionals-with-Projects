@@ -5,7 +5,7 @@ from functions.auth import authRegisterCompany, authRegisterProfessional, login,
 from functions.notifications import getNotifications, sendNotifications
 from functions.profiles import editCompanyProfile, editProfessionalProfile, userDetails, professionalEditProfile
 from functions.edit import editCompany, editProfessional, editProject
-from functions.user import companyDetails, professionalDetails
+from functions.user import companyDetails, professionalDetails, getUserType
 from functions.projects import (
     projectCreate, 
     projectList, 
@@ -50,6 +50,7 @@ def create_app():
 
     app.add_url_rule('/user/details/company', 'companyDetails', companyDetails, methods=['GET'])
     app.add_url_rule('/user/details/professional', 'professionalDetails', professionalDetails, methods=['GET'])
+    app.add_url_rule('/user/type', 'getUserType', getUserType, methods=['GET'])
     
     app.add_url_rule('/project/create', 'projectCreate', projectCreate, methods=['POST'])
     app.add_url_rule('/project/list', 'projectList', projectList, methods=['GET'])

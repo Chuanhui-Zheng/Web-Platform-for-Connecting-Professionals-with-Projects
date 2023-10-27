@@ -1,3 +1,4 @@
+import React from 'react';
 import { useNavigate } from "react-router-dom";
 import Form from "../components/Forms/Form"
 import { useState } from "react";
@@ -12,6 +13,7 @@ function Login() {
   });
 
   const navigate = useNavigate();
+  const [refresh, setRefresh] = React.useState(false);
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -33,6 +35,7 @@ function Login() {
         console.log("API response:", data); // Log the API response
         if (!data.error) {
           localStorage.setItem("token", data.token);
+          setRefresh((prev) => !prev);
           const tokenData = decodeJWT(data.token);
           if (tokenData.userType === "company") {
             navigate("/companydashboard");
