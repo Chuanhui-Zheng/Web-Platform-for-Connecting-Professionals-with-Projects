@@ -12,16 +12,13 @@ import CompanyDashboard from "./pages/CompanyDashboard"
 import AllProjects from "./pages/AllProjects"
 import AboutUs from "./pages/AboutUs"
 import NotFound from "./pages/NotFound"
-import EditProfessionalProfile from './pages/EditProfessionalProfile';
-import EditCompanyProfile from './pages/EditCompanyProfile';
-import ProfessionalProfile from './pages/Professional/ProfessionalProfile';
-import CompanyProfile from './pages/Companies/CompanyProfile';
 import CreateProject from './pages/CreateProject';
 import ProjectDetail from './pages/ProjectDetail';
 import ProjectPage from './pages/ProjectPage';
 import ProjectCandidateList from './pages/ProjectCandidateList';
+import ProfilePage from './pages/ProfilePage';
 // import ProtectedRoute from "./components/ProtectedRoute"
-
+import EditProfilePage from './pages/EditProfilePage';
 
 
 function Logout() {
@@ -48,13 +45,11 @@ function App() {
             <Route path="/companydashboard" element={<CompanyDashboard />} />
             <Route path="/companydashboard/createproject" element={<CreateProject />} />
             <Route path="/prodashbaord" element={<ProfessionalDashboard />} />
-            <Route path="/editprofessionalprofile" element={<EditProfessionalProfile />} />
-            <Route path="/editcompanyprofile" element={<EditCompanyProfile />} />
+            <Route path="/profile/:userId/edit" element={<EditProfilePage />} />
             <Route path="/allprojects" element={<AllProjects />} />
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="*" element={<NotFound />}></Route>
-            <Route path="/proprofile" element={<ProfessionalProfile />} />
-            <Route path="/companyprofile" element={<CompanyProfile />} />
+            <Route path="/profile/:userId" element={<ProfilePage />} />
             <Route path="/projectdetail/:projectID" element={<ProjectDetail />} />
             <Route path="/projectpage/:projectID" element={<ProjectPage />} />
             <Route path="/projectCandidateList" element={<ProjectCandidateList />} />

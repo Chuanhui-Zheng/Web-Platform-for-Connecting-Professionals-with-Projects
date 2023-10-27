@@ -5,6 +5,10 @@ import EditForm from '../components/Forms/EditForm';
 import { Button, TextField } from "@mui/material";
 import decodeJWT from "../decodeJWT";
 import ProfileHeader from "../components/ProfileHeader";
+import { fileToDataUrl } from '../helpers';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import VisuallyHiddenInput from "../components/VisuallyHiddenInput";
+import MultipleSelectChip from '../components/MultiSelect';
 
 import {
   useNavigate,
@@ -12,7 +16,7 @@ import {
 } from 'react-router-dom';
 import { apiPut } from '../api';
 
-const EditProfessionalProfile = (props) => {
+const EditProfessionalProfile = ( { userId } ) => {
   console.log("edit professional profile")
   const params = useParams();
   const [fullName, setNewFullName] = React.useState('');
@@ -21,12 +25,12 @@ const EditProfessionalProfile = (props) => {
   const [bio, setNewBio] = React.useState('');
   const [education, setNewEducation] = React.useState('');
   const [qualification, setNewQualification] = React.useState('');
-  const [skills, setNewSkills] = React.useState('');
+  const [skills, setNewSkills] = React.useState([]);
   const [website, setNewWebsite] = React.useState('');
-  const [photo, setNewPhoto] = React.useState('');
-  const [token, setToken] = React.useState('');
-  const [userId, setUserId] = React.useState()
-  
+  const [photo, setNewPhoto] = React.useState(null);
+ 
+  const [ownUserId, setOwnUserId] = React.useState('');
+  const [refresh, setRefresh] = React.useState(false);
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -34,14 +38,30 @@ const EditProfessionalProfile = (props) => {
     console.log(getToken)
     if (getToken != null) {
         const tokenData = decodeJWT(getToken);
-        setUserId(parseInt(tokenData.userId))
+        setOwnUserId(tokenData.userId);
+        // console.log("edit professinoal profile get own user id from token", tokenData.userId)
     }
   }, []);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0]; // Get the first uploaded file
+    console.log(file)
+
+    fileToDataUrl(file).then((dataUrl) => {
+        setNewPhoto(dataUrl); // Store the data URL in state
+        console.log("File as data URL:", dataUrl);
+    }).catch((error) => {
+        console.error("Error converting file to data URL:", error);
+    });
+  };
+
+  const handleSkillsChange = (value) => {
+    setNewSkills(typeof value === 'string' ? value.split(',') : value,)
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("calling api")
-    // console.log(userId)
     apiPut("/edit/professional", {
         id: userId,
         professionalFullName: fullName,
@@ -57,8 +77,11 @@ const EditProfessionalProfile = (props) => {
         console.log("frontend")
         console.log(password + "hi")
         console.log(data)
+        console.log(photo)
         if (!data.error) {
-            console.log("worked");
+            setRefresh((prev) => !prev);
+            console.log("worked editprof");
+            console.log(data)
         } else {
             throw new Error("Edit Failed");
         }
@@ -71,8 +94,9 @@ const EditProfessionalProfile = (props) => {
 
   return (
     <>
+        <div className="formHeader"> <ProfileHeader userId={userId} userType="professional" refresh={refresh}/> </div> 
         <EditForm buttonName="Save Changes" handleSubmit={handleSubmit}> 
-            <div className='formprofileheader'>{ProfileHeader()}</div>
+            {/* <div className='formprofileheader'>{ProfileHeader()}</div> */}
             <div className="split-row" sx={{padding:0}}>
                 <div>
                     <TextField
@@ -110,16 +134,10 @@ const EditProfessionalProfile = (props) => {
                     />
                 </div>
                 <div>
-                    <TextField  
-                    variant="filled"
-                    margin="normal"
-                    className="formInput1"
-                    type="text"
-                    label="Skills"
-                    name="skills"
+                    <MultipleSelectChip 
+                    
                     value={skills}
-                    onChange={(e) => setNewSkills(e.target.value)}
-                />
+                    set={handleSkillsChange} />
                 </div>
             </div>
             <div className="row">
@@ -182,17 +200,22 @@ const EditProfessionalProfile = (props) => {
             </div>
             <div className="row">
                 <div>
-                    <TextField
-                    variant="filled"
-                    margin="normal"
-                    className="lineInput"
-                    type="text"
-                    label="Photo"
-                    name="photo"
-                    value={photo}
-                    onChange={(e) => setNewPhoto(e.target.value)}
-                    sx={{width:'65vw'}}
-                    />
+                    <Button
+                        sx={{ margin: '30px 0 0 0' }}
+                        className="upload"
+                        component="label"
+                        variant="contained"
+                        startIcon={<CloudUploadIcon />}
+                    >
+                        Upload Profile Photo
+                        <VisuallyHiddenInput
+                            type="file"
+                            accept="image/*"
+                            name="professionalPhoto"
+                            value=''
+                            onChange={handleFileChange}
+                        />
+                    </Button>
                 </div>
             </div>     
         </EditForm>
