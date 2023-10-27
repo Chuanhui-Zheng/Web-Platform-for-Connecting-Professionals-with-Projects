@@ -8,11 +8,11 @@ import decodeJWT from "../decodeJWT";
 import Avatar from '@mui/material/Avatar';
 import { apiGet } from '../api';
 
-const ProfileHeader = ({refresh}) => {
+const ProfileHeader = ({userId, userType, refresh}) => {
     const navigate = useNavigate();
     const [token, setToken] = React.useState('');
-    const [userId, setUserId] = React.useState('');
-    const [userType, setUserType] = React.useState('');
+    // const [userId, setUserId] = React.useState('');
+    // const [userType, setUserType] = React.useState('');
 
     const [name, setNewName] = React.useState('');
     const [email, setNewEmail] = React.useState('');
@@ -21,11 +21,13 @@ const ProfileHeader = ({refresh}) => {
     const [photo, setNewPhoto] = React.useState(null);
 
     React.useEffect(() => {
-        const token = localStorage.getItem("token");
-        const tokenData = decodeJWT(token);
-        setUserId(tokenData.userId);
-        setUserType(tokenData.userType);
-        setToken(token);
+        // const token = localStorage.getItem("token");
+        // const tokenData = decodeJWT(token);
+        // setUserId(tokenData.userId);
+        // setUserType(tokenData.userType);
+        // setToken(token);
+        console.log("edit proprofile profile header userId", userId)
+        console.log("edit proprofile profile header userId", userType)
     }, []);
 
     React.useEffect(() => {
@@ -50,6 +52,8 @@ const ProfileHeader = ({refresh}) => {
                     alert("not valid.");
                 });
         } else if (userType === "professional") {
+            console.log("edit profile get details id: ", userId)
+            console.log("edit profile get details usertype: ", userType)
             apiGet("/user/details/professional", `id=${userId}`)
                 .then((data) => {
                     console.log(data);

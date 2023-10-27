@@ -16,7 +16,7 @@ import {
 } from 'react-router-dom';
 import { apiPut } from '../api';
 
-const EditProfessionalProfile = (props) => {
+const EditProfessionalProfile = ( { userId } ) => {
   console.log("edit professional profile")
   const params = useParams();
   const [fullName, setNewFullName] = React.useState('');
@@ -29,7 +29,7 @@ const EditProfessionalProfile = (props) => {
   const [website, setNewWebsite] = React.useState('');
   const [photo, setNewPhoto] = React.useState(null);
  
-  const [userId, setUserId] = React.useState()
+  const [ownUserId, setOwnUserId] = React.useState('');
   const [refresh, setRefresh] = React.useState(false);
   const navigate = useNavigate();
 
@@ -38,7 +38,8 @@ const EditProfessionalProfile = (props) => {
     console.log(getToken)
     if (getToken != null) {
         const tokenData = decodeJWT(getToken);
-        setUserId(parseInt(tokenData.userId))
+        setOwnUserId(tokenData.userId);
+        // console.log("edit professinoal profile get own user id from token", tokenData.userId)
     }
   }, []);
 
@@ -93,7 +94,7 @@ const EditProfessionalProfile = (props) => {
 
   return (
     <>
-        <div className="formHeader"> <ProfileHeader refresh={refresh}/> </div>
+        <div className="formHeader"> <ProfileHeader userId={userId} userType="professional" refresh={refresh}/> </div> 
         <EditForm buttonName="Save Changes" handleSubmit={handleSubmit}> 
             {/* <div className='formprofileheader'>{ProfileHeader()}</div> */}
             <div className="split-row" sx={{padding:0}}>

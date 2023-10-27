@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link, useNavigate, Navigate } from 'react-router-dom';
+import { Link, useNavigate, Navigate, useParams } from 'react-router-dom';
 import ProfileHeader from "../../components/ProfileHeader";
 import styles from "../../styles/Professional/ProfessionalProfile.module.css"
 import ProjectCard from "../../components/Professional/Dashboard/ProjectCard";
@@ -8,13 +8,14 @@ import { apiGet } from '../../api';
 import decodeJWT from "../../decodeJWT";
 
 
-const CompanyProfile = () => {
+const CompanyProfile = ({userId}) => {
     console.log("company profile reached")
     const description = "HEllo i am jim, i am so passionaat aboutbaiosdfhoiehofihehofhaoei hfoiaheoihfoaisdhfhadsuibhfuiagsdbiuaioewfhaieohfoaie"
     const navigate = useNavigate();
     // const [token, setToken] = React.useState(null);
     const [userType, setUserType] = React.useState('');
-    const [userId, setUserId] = React.useState('');
+    const [ownUserId, setOwnUserId] = React.useState('');
+    const [ownProfile, setOwnProfile] = React.useState(true);
 
     React.useEffect(() => {
         const getToken = localStorage.getItem("token");
@@ -22,14 +23,17 @@ const CompanyProfile = () => {
         if (getToken != null) {
             // setToken(token);
             const tokenData = decodeJWT(getToken);
-            setUserId(tokenData.userId);
+            setOwnUserId(tokenData.userId);
             setUserType(tokenData.userType);
+            if (tokenData.userId != userId) {
+                setOwnProfile(false);
+            }
         }
     }, []);
 
     React.useEffect(() => {
-        if (userId && userType) {
-            console.log(`User ID: ${userId}, User Type: ${userType}`);
+        if (ownUserId && userType) {
+            console.log(`User ID: ${ownUserId}, User Type: ${userType}`);
     
             apiGet("/user/details/company", `id=${userId}`)
                 .then((data) => {
@@ -46,19 +50,20 @@ const CompanyProfile = () => {
                     alert("not valid.");
                 });
         }
-    }, [userId, userType]);
+    }, [ownUserId, userType]);
 
     return (
 
         <>
-        <ProfileHeader></ProfileHeader>
+        <ProfileHeader userId={userId} userType="company" ></ProfileHeader>
         {/* {ProfileHeader()} */}
         {/* <img src={companyLogo}/> */}
         <div className={styles.ProfileHeaderContent}>
-            <Button name="editcompanyprofile" 
+            {ownProfile ? <Button name="editcompanyprofile" 
                 variant="outlined"
-                onClick={() => { navigate('/editcompanyprofile') }} 
-                sx={{ textTransform: 'none', ml:'10vw' }}>Edit Company Profile</Button> 
+                onClick={() => { navigate(`/profile/:${userId}/edit`) }} 
+                sx={{ textTransform: 'none', ml:'10vw' }}>Edit Company Profile</Button> :<></> }
+            
         </div>
         
         <div className={styles.ProfessionalProfileContent}>

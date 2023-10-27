@@ -19,6 +19,7 @@ function Header() {
     const [token, setToken] = React.useState(localStorage.getItem("token"));
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [userType, setUserType] = React.useState('');
+    const [userId, setUserId] = React.useState();
     
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -42,8 +43,10 @@ function Header() {
         if (token != null) {
             const tokenData = decodeJWT(token);
             setUserType(tokenData.userType)
+            setUserId(tokenData.userId)
+            console.log("boing", tokenData.userId)
         }
-    }, []);
+    }, 5000);
 
     function logout() {
         localStorage.clear()
@@ -55,11 +58,13 @@ function Header() {
         const token1 = localStorage.getItem("token");
         if (token1 != null) {
             const tokenData = decodeJWT(token1);
-            if (tokenData.userType === "company") {
-                navigate("/companyprofile");
-            } else if (tokenData.userType === "professional") {
-                navigate("/proprofile");
-            }
+            console.log("navigating to id", tokenData.userId)
+            navigate(`/profile/:${tokenData.userId}`);
+            // if (tokenData.userType === "company") {
+            //     navigate("/companyprofile");
+            // } else if (tokenData.userType === "professional") {
+            //     navigate("/proprofile");
+            // }
         }
     }
     

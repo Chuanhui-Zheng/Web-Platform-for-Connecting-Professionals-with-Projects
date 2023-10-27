@@ -51,3 +51,17 @@ def professionalDetails():
             }
 
     return data, 200
+
+@app.route('/user/type', methods=['GET'])
+def getUserType():
+    id = request.args.get('id')
+
+    company = Company.query.filter_by(companyId=id).first() is not None
+    if company:
+        return jsonify({"type": "Company"}), 200
+    
+    professional = Professional.query.filter_by(professionalId=id).first() is not None
+    if professional:
+        return jsonify({"type": "Professional"}), 200
+
+    return jsonify({"message": "Not a valid user"}), 404

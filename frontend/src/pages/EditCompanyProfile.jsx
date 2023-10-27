@@ -16,7 +16,7 @@ import {
   useParams,
 } from 'react-router-dom';
 
-const EditCompanyProfile = (props) => {
+const EditCompanyProfile = ( { userId }) => {
   console.log("edit company profile")
   const params = useParams();
   const [companyName, setNewCompanyName] = React.useState('');
@@ -26,7 +26,7 @@ const EditCompanyProfile = (props) => {
   const [companyWebsite, setNewCompanyWebsite] = React.useState('');
   const [companyDescription, setNewCompanyDescription] = React.useState('');
   
-  const [userId, setUserId] = React.useState();
+  const [ownUserId, setOwnUserId] = React.useState('');
   const [refresh, setRefresh] = React.useState(false);
   
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ const EditCompanyProfile = (props) => {
     console.log(getToken)
     if (getToken != null) {
         const tokenData = decodeJWT(getToken);
-        setUserId(parseInt(tokenData.userId))
+        setOwnUserId(tokenData.userId);
     }
   }, []);
 
@@ -80,7 +80,7 @@ const EditCompanyProfile = (props) => {
 
   return (
     <>
-        <div className="formHeader"> <ProfileHeader refresh={refresh}/> </div>
+        <div className="formHeader"> <ProfileHeader userId={userId} userType="company" refresh={refresh}/> </div>
         <EditForm buttonName="Save Changes" handleSubmit={handleSubmit} refresh={refresh}> 
             {/* <div className='formprofileheader'>{ProfileHeader()}</div> */}
             <div className="split-row">
