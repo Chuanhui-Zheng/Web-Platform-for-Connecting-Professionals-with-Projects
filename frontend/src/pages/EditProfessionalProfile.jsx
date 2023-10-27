@@ -28,11 +28,10 @@ const EditProfessionalProfile = (props) => {
   const [skills, setNewSkills] = React.useState([]);
   const [website, setNewWebsite] = React.useState('');
   const [photo, setNewPhoto] = React.useState(null);
-  const [token, setToken] = React.useState('');
+ 
   const [userId, setUserId] = React.useState()
-  
+  const [refresh, setRefresh] = React.useState(false);
   const navigate = useNavigate();
-  const [selectedFile, setSelectedFile] = React.useState(null); // State to store the uploaded file
 
   React.useEffect(() => {
     const getToken = localStorage.getItem("token");
@@ -62,8 +61,6 @@ const EditProfessionalProfile = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("calling api")
-    console.log(skills)
-    console.log(userId)
     apiPut("/edit/professional", {
         id: userId,
         professionalFullName: fullName,
@@ -81,7 +78,9 @@ const EditProfessionalProfile = (props) => {
         console.log(data)
         console.log(photo)
         if (!data.error) {
-            console.log("worked");
+            setRefresh((prev) => !prev);
+            console.log("worked editprof");
+            console.log(data)
         } else {
             throw new Error("Edit Failed");
         }
@@ -94,7 +93,7 @@ const EditProfessionalProfile = (props) => {
 
   return (
     <>
-        <div className="formHeader">{ProfileHeader()}</div>
+        <div className="formHeader"> <ProfileHeader refresh={refresh}/> </div>
         <EditForm buttonName="Save Changes" handleSubmit={handleSubmit}> 
             {/* <div className='formprofileheader'>{ProfileHeader()}</div> */}
             <div className="split-row" sx={{padding:0}}>
