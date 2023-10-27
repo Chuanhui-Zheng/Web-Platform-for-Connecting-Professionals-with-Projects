@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/EditForm.css'
 import { ACCESS_TOKEN } from "../constants";
@@ -9,26 +9,25 @@ import decodeJWT from "../decodeJWT";
 import ProfileHeader from "../components/ProfileHeader";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisuallyHiddenInput from "../components/VisuallyHiddenInput";
+import { fileToDataUrl } from '../helpers';
 
 import {
   useNavigate,
   useParams,
 } from 'react-router-dom';
 
-const EditCompanyProfile = (props) => {
+const EditCompanyProfile = ( { userId }) => {
   console.log("edit company profile")
   const params = useParams();
   const [companyName, setNewCompanyName] = React.useState('');
   const [password, setNewPassword] = React.useState('');
   const [phoneNumber, setNewPhoneNumber] = React.useState('');
-  const [linkedin, setNewLinkedin] = React.useState('');
-  const [companyLogo, setNewCompanyLogo] = React.useState('');
+  const [companyLogo, setNewCompanyLogo] = React.useState(null);
   const [companyWebsite, setNewCompanyWebsite] = React.useState('');
   const [companyDescription, setNewCompanyDescription] = React.useState('');
-  const [token, setToken] = React.useState('');
-  const [userType, setUserType] = React.useState('');
-  const [userId, setUserId] = React.useState();
-  const [logo, setNewLogo] = React.useState('null');
+  
+  const [ownUserId, setOwnUserId] = React.useState('');
+  const [refresh, setRefresh] = React.useState(false);
   
   const navigate = useNavigate();
 
@@ -37,10 +36,21 @@ const EditCompanyProfile = (props) => {
     console.log(getToken)
     if (getToken != null) {
         const tokenData = decodeJWT(getToken);
-        setUserType(tokenData.userType)
-        setUserId(parseInt(tokenData.userId))
+        setOwnUserId(tokenData.userId);
     }
   }, []);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0]; // Get the first uploaded file
+    console.log(file)
+    
+    fileToDataUrl(file).then((dataUrl) => {
+        setNewCompanyLogo(dataUrl); // Store the data URL in state
+        console.log("File as data URL:", dataUrl);
+      }).catch((error) => {
+        console.error("Error converting file to data URL:", error);
+      });
+    };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,11 +62,13 @@ const EditCompanyProfile = (props) => {
     companyPhoneNumber: phoneNumber,
     companyWebsite: companyWebsite,
     companyDescription: companyDescription,
-    companyLogo: null
+    companyLogo: companyLogo
         }).then((data) =>{
             console.log(data)
             if (!data.error) {
-                console.log("worked");
+                console.log("gots here")
+                setRefresh((prev) => !prev);
+                console.log("worked1");
             } else {
                 throw new Error("Edit Failed");
             }
@@ -68,8 +80,9 @@ const EditCompanyProfile = (props) => {
 
   return (
     <>
-        <EditForm buttonName="Save Changes" handleSubmit={handleSubmit}> 
-            <div className='formprofileheader'>{ProfileHeader()}</div>
+        <div className="formHeader"> <ProfileHeader userId={userId} userType="company" refresh={refresh}/> </div>
+        <EditForm buttonName="Save Changes" handleSubmit={handleSubmit} refresh={refresh}> 
+            {/* <div className='formprofileheader'>{ProfileHeader()}</div> */}
             <div className="split-row">
                 <div>
                     <TextField
@@ -119,8 +132,8 @@ const EditCompanyProfile = (props) => {
                             type="file"
                             accept="image/*"
                             name="companyLogo"
-                            value={companyLogo}
-                            onChange={(e) => setNewCompanyLogo(e.target.value)}
+                            value=''
+                            onChange={handleFileChange}
                         />
                     </Button>
                 </div>

@@ -113,7 +113,7 @@ def projectList():
         for project in projects
     ]
     
-    return jsonify(project_dict), 200
+    return jsonify(project_list), 200
 
 
 '''
@@ -129,8 +129,8 @@ def projectListAll():
     projects = Projects.query.all()
     
     # depends how front end wants to display
-    project_dict = {
-        project.projectId: {
+    project_list = [
+        {
             "projectId": project.projectId,
             "projectName": project.projectName,
             "projectDescription": project.projectDescription,
@@ -139,9 +139,9 @@ def projectListAll():
             "listOfProfessionals": project.listOfProfessionals
         }
     for project in projects
-    }
+    ]
     
-    return jsonify(project_dict), 200
+    return jsonify(project_list), 200
 
 
 '''
@@ -161,7 +161,6 @@ def projectDetails():
     if project is None: 
         return jsonify({"error": "Project does not exist"}), 409
     
-    #do things with project
     project_details = {
         "projectId": project.projectId,
         "projectName": project.projectName,
@@ -184,6 +183,7 @@ def projectDetails():
     }
     # return jsonify({"message": "hji"})
     return jsonify(project_details), 200
+
 
 '''
 PARAMETERS (query string)
@@ -474,15 +474,15 @@ def projectApplicantList():
         return jsonify({"error": "Project does not exist"}), 409
     
     applicants = Professional.query.filter(Professional.professionalId.in_(project.listOfApplicants)).all()
-    applicant_dict = {
-        applicant.professionalId: {
+    applicant_list = [
+        {
             "professionalId": applicant.professionalId,
             "professionalEmail": applicant.professionalEmail,
         }
         for applicant in applicants
-    }
+    ]
     
-    return jsonify(applicant_dict), 200
+    return jsonify(applicant_list), 200
 
 
 '''
@@ -502,15 +502,15 @@ def projectProfessionalList():
         return jsonify({"error": "Project does not exist"}), 409
     
     professionals = Professional.query.filter(Professional.professionalId.in_(project.listOfProfessionals)).all()
-    professional_dict = {
-        professional.professionalId: {
+    professional_list = {
+        {
             "professionalId": professional.professionalId,
             "professionalEmail": professional.professionalEmail,
         }
         for professional in professionals
     }
     
-    return jsonify(professional_dict), 200
+    return jsonify(professional_list), 200
 
 
 '''
