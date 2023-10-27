@@ -121,7 +121,11 @@ def projectListAll():
         {
             "projectId": project.projectId,
             "projectName": project.projectName,
-            "projectDescription": project.projectDescription,
+            "projectCategories": project.projectCategories,
+            "projectStartDate": project.projectStartDate,
+            "projectEndDate": project.projectEndDate,
+            "projectLocation": project.projectLocation,
+            "projectSkills": project.projectSkills,
             "projectStatus": project.projectStatus,
             "listOfApplicants": project.listOfApplicants,
             "listOfProfessionals": project.listOfProfessionals

@@ -30,7 +30,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import Chip from '@mui/material/Chip';
 // import { PageContainer } from '@toolpad/core/PageContainer';
 // import { AppProvider } from '@toolpad/core/AppProvider';
-
+import { apiGet } from '../api';
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
 import BrowseCards from '../components/BrowseCards';
@@ -126,6 +126,24 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function AllProjects() {
   const [open, setOpen] = React.useState(false);
+  const [allProjects, setAllProjects] = React.useState([]);
+
+  React.useEffect(() => {
+    apiGet("/project/listall",)
+    .then((data) => {
+        console.log(data);
+        if (!data.error) {
+          setAllProjects(data.listOfProjects);
+          console.log("project details:", data.listOfProjects)
+        } else {
+            throw new Error("Get Projects");
+        }
+    })
+    .catch(() => {
+        alert("not valid.");
+    });
+  }, []);
+
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -157,9 +175,10 @@ export default function AllProjects() {
         </DrawerHeader>
         <Divider />
         <Box sx={{ overflow: 'auto' }}>
+          
         {/* <List>
-          {allProjects.map((project) => (
-            <ListItem key={project.id} disablePadding sx={{ display: 'block' }}>
+          {allProjects.map((project, idx) => (
+            <ListItem key={idx} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={[
                   {
@@ -222,19 +241,12 @@ export default function AllProjects() {
                     </ListItemButton>
                   </ListItem>
                 ))} */}
-                <ListItem disablePadding >
+                {allProjects.map((project, idx) => (
+                  // console.log(project)
+                <ListItem key={idx} disablePadding >
                   <BrowseCards></BrowseCards>
                 </ListItem>
-                <ListItem disablePadding >
-                  <BrowseCards></BrowseCards>
-                </ListItem>
-                <ListItem disablePadding >
-                  <BrowseCards></BrowseCards>
-                </ListItem>
-                <ListItem disablePadding >
-                  <BrowseCards></BrowseCards>
-                </ListItem>
-                
+                ))}
               </List>
             //   <Paper>
             //     <BrowseCards></BrowseCards>

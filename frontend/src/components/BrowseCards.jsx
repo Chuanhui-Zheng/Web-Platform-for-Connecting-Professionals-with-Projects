@@ -37,7 +37,7 @@ const StyledChip = styled(Chip)({
   }
 });
 
-const BrowseCards = () => {
+const BrowseCards = (project) => {
   return (
     <StyledCard tabIndex={0} aria-label="Project Description Card" sx={{width:'100%'}}>
       {/* <StyledCardMedia
@@ -47,7 +47,7 @@ const BrowseCards = () => {
       /> */}
       <StyledCardContent>
         <Typography variant="h5" component="h2" gutterBottom>
-          Project Name
+          {project.projectName}
         </Typography>
         <Typography variant="body2" color="textSecondary">
             Company Name - Rating
