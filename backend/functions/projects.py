@@ -113,7 +113,7 @@ def projectList():
         for project in projects
     ]
     
-    return jsonify(project_list), 200
+    return jsonify(project_dict), 200
 
 
 '''
