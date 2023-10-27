@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Form from "./Form"
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisuallyHiddenInput from "../VisuallyHiddenInput";
 import { apiPost } from "../../api";
@@ -16,6 +16,7 @@ function CompanyRegisterForm() {
     companyLogo: "",
     companyDescription: ""
   });
+  const [isValid, setIsValid] = useState(true);
 
   const navigate = useNavigate();
 
@@ -27,9 +28,26 @@ function CompanyRegisterForm() {
     });
   }
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   // Submit registration
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Set that it is valid (by default)
+    setIsValid(true)
+
+    // Check if valid email
+    if (!emailRegex.test(formData.companyEmail)) {
+      setIsValid(false);
+      return;
+    }
+
+    const password = formData.companyPassword
+    if (len(password) < 8 || /[A-Z]/.test(password)) {
+      setIsValid(false);
+      return;
+    }
 
     const {
       companyName,
@@ -70,6 +88,17 @@ function CompanyRegisterForm() {
       buttonName="Register"
       handleSubmit={handleSubmit}
     >
+      {isValid ? 
+        <></>
+        :
+        <Typography variant="body1" component="p" sx={{ color: "red" }}>
+          Error:
+          <ul>
+            <li>Must be a valid email</li>
+            <li>Password must be at least 8 characters long with at least 1 upper case and at least 1 lower case character</li>
+          </ul>
+        </Typography>
+      }
       <TextField
         variant="filled"
         margin="normal"
