@@ -129,9 +129,9 @@ class Professional(db.Model):
     def set_professional_details(self, name, website, number, description, qualification, education, skills, photo):
         self.professionalFullName = name
         self.professionalWebsite = website
-        self.professionalPhoneNumber  = number
+        self.professionalNumber = number
         self.professionalDescription = description
-        self.professionalQualifications = qualification
+        self.professionalQualification= qualification
         self.professionalEducation = education
         self.professionalSkills = skills
         self.professionalPhoto = photo
