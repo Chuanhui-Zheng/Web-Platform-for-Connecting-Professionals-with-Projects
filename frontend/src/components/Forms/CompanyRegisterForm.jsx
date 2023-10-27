@@ -1,10 +1,12 @@
 import { useState } from "react";
 import Form from "./Form"
-import { Button, TextField, Typography } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisuallyHiddenInput from "../VisuallyHiddenInput";
 import { apiPost } from "../../api";
 import { useNavigate } from "react-router-dom";
+import { isValidEmail, isValidPassword, fileToDataUrl } from "../../helpers";
+import RegistrationErrorMessage from "../RegistrationErrorMessage";
 
 function CompanyRegisterForm() {
   const [formData, setFormData] = useState({
@@ -28,7 +30,21 @@ function CompanyRegisterForm() {
     });
   }
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  // Update file
+  const handleFileChange = (event) => {
+    const file = event.target.files[0]; // Get the first uploaded file
+
+    fileToDataUrl(file).then((dataUrl) => {
+      setFormData({
+        ...formData,
+        companyLogo: dataUrl
+      });
+      console.log("File as data URL:", dataUrl);
+    }).catch((error) => {
+      console.error("Error converting file to data URL:", error);
+    });
+  };
+
 
   // Submit registration
   const handleSubmit = async (e) => {
@@ -38,13 +54,7 @@ function CompanyRegisterForm() {
     setIsValid(true)
 
     // Check if valid email
-    if (!emailRegex.test(formData.companyEmail)) {
-      setIsValid(false);
-      return;
-    }
-
-    const password = formData.companyPassword
-    if (len(password) < 8 || /[A-Z]/.test(password)) {
+    if (!isValidEmail(formData.companyEmail) || !isValidPassword(formData.companyPassword)) {
       setIsValid(false);
       return;
     }
@@ -91,13 +101,7 @@ function CompanyRegisterForm() {
       {isValid ? 
         <></>
         :
-        <Typography variant="body1" component="p" sx={{ color: "red" }}>
-          Error:
-          <ul>
-            <li>Must be a valid email</li>
-            <li>Password must be at least 8 characters long with at least 1 upper case and at least 1 lower case character</li>
-          </ul>
-        </Typography>
+        <RegistrationErrorMessage />
       }
       <TextField
         variant="filled"
@@ -170,8 +174,8 @@ function CompanyRegisterForm() {
             type="file"
             accept="image/*"
             name="companyLogo"
-            value={formData.companyLogo}
-            onChange={onChange}
+            value=""
+            onChange={handleFileChange}
         />
       </Button>
     </Form>
