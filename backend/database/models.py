@@ -42,7 +42,7 @@ class Company(db.Model):
     companyLogo = db.Column(db.String(), default="")
     companyPassword = db.Column(db.Text())
     companyDescription = db.Column(db.String(), default="")
-    listOfProjectIds = db.Column(JSON, default=list)
+    listOfProjectIds = db.Column(MutableList.as_mutable(JSON), default=list)
 
     def __repr__(self):
         return f"<Company {self.companyEmail}>"

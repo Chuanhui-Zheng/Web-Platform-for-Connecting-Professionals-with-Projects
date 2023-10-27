@@ -4,8 +4,6 @@ import Form from "../components/Forms/Form"
 import { useState } from "react";
 import { TextField } from "@mui/material";
 import { apiPost } from "../api";
-// import jwt from "jsonwebtoken";
-// import jwt_decode from "jwt-decode";
 import decodeJWT from "../decodeJWT";
 
 function Login() {
