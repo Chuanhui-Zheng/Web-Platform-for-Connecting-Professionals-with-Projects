@@ -21,6 +21,8 @@ import DateRangeIcon from '@mui/icons-material/DateRange';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import GroupsIcon from '@mui/icons-material/Groups';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
+import { PageContainer } from '@toolpad/core/PageContainer';
+import Stack from '@mui/material/Stack';
 
 import AppBar from '@mui/material/AppBar';
 import Paper from '@mui/material/Paper';
@@ -58,19 +60,13 @@ const StyledChip = styled(Chip)({
 
 const drawerWidth = '30%';
 
-// take this out
-const companybuttons = [
-  <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}}>Edit Project</Button>,
-  <Button key="candidateList" sx={{backgroundColor: "grey"}}>Candidate List</Button>,
-  <Button key="company-status" sx={{backgroundColor: "#21b6ae"}}>Project Status</Button>,
-];
 
 const professionalButtons = [
   <Button key="status" sx={{backgroundColor: "#21b6ae"}}>Status</Button>,
   <Button key="status" sx={{backgroundColor: "grey"}}>View More</Button>
 ];
 
-const statusOptions = ['Pending', 'Completed', 'Close'];
+const statusOptions = ['Pending', 'Completed', 'Closed'];
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -141,25 +137,25 @@ export default function AllProjects() {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      
-      <CssBaseline />
+      {/* <PageContainer className="container" maxWidth={false} sx={{width:"100%", "@media (min-width: 0px)": { paddingRight: "25px", paddingLeft: "25px" }, margin: "0px"}}> */}
+
+      {/* <CssBaseline /> */}
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <Header></Header>
       </AppBar>
-      <Drawer variant="permanent" open={open} sx={{ backgroundColour: 'none'}}>
+      <Drawer variant="permanent" open={open} sx={{ backgroundColour: 'none', paddingLeft:'25px'}}>
         <DrawerHeader></DrawerHeader>
         <DrawerHeader>
-
-            {open === false ? <SearchIcon />: 
-                <Paper sx={{width:'100%'}}>
-                <SearchBar> </SearchBar>
-                </Paper>
-            }
-            {open === false ? <IconButton onClick={handleDrawerOpen}><ChevronRightIcon />  </IconButton>: 
-            <IconButton onClick={handleDrawerClose}><ChevronLeftIcon/></IconButton>}
+          {open === false ? 
+          <Stack direction="row">
+            <IconButton onClick={handleDrawerOpen}><SearchIcon /><ChevronRightIcon />  </IconButton>
+          </Stack> : 
+          <Stack direction="row">
+            <SearchBar> </SearchBar><IconButton onClick={handleDrawerClose}><ChevronLeftIcon/></IconButton>
+          </Stack>
+          }
         </DrawerHeader>
         <Divider />
-        {/* open === false ?  */}
         <Box sx={{ overflow: 'auto' }}>
         {/* <List>
           {allProjects.map((project) => (
@@ -363,6 +359,7 @@ export default function AllProjects() {
           Contact email
         </Typography>
       </Box>
+      {/* </PageContainer> */}
     </Box>
   );
 }
