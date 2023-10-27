@@ -8,6 +8,7 @@ import AccordionActions from '@mui/material/AccordionActions';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { PageContainer } from '@toolpad/core/PageContainer';
 
 const projectTitleStyle = {
   margin: '0px',
@@ -19,6 +20,7 @@ const projectTitleStyle = {
 const ProfessionalDashboard = () => {
     return (
       <>
+        <PageContainer className="container" maxWidth={false} sx={{width:"100%", "@media (min-width: 0px)": { paddingRight: "25px", paddingLeft: "25px" }, margin: "0px"}}>
         {TitleCard('Rating', '4/5')}
         {TitleCard('Projects Completed', '4/5')}
         {TitleCard('Current Projects', '4/5')}
@@ -71,6 +73,7 @@ const ProfessionalDashboard = () => {
                 />
             </AccordionDetails>
         </Accordion>
+        </PageContainer>
       </>
     );
 }
