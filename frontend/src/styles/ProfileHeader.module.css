@@ -40,6 +40,7 @@
 }
 
 .ProfileHeaderRaitingBox {
-    margin-top: 3.5vh;
-    margin-left: 5vw;
+    margin-top: 5vh;
+    margin-left: 32vw; 
+    /* How can i justify this to the right */
 }

@@ -1,7 +1,10 @@
 # Steps to Setup:
 
 1. Go to backend folder (cd backend)
-2. Run 
+2. Open virtual environment using
+   - python -m venv env
+   - source env/Scripts/activate
+4. Run 
  - "pip3 install -r requirements.txt" (mac)
  - "pip3 install -r requirements.txt" (windows) 
 3. Run "flask shell"
@@ -16,3 +19,7 @@
 # To view the database:
 1. Install "SQLite Viewer"
 2. Go to /backend/instance/db.sqlite3
+
+# To clear or initialise database:
+1. Go to /backend directory
+2. bash db_controller.sh <clear/init>
