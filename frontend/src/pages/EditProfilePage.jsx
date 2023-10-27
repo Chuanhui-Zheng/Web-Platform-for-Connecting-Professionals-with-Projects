@@ -26,9 +26,10 @@ const EditProfilePage = () => {
     }, []);
 
     return (
-        (<>
-        {userType === "Company" ?  <EditCompanyProfile userId={params.userId.replace(":","")} ></EditCompanyProfile> :  <EditProfessionalProfile userId={params.userId.replace(":","")} ></EditProfessionalProfile> }
-        </>)
+        <>
+        { userType ? (userType === "Company" ?  <EditCompanyProfile userId={params.userId.replace(":","")} ></EditCompanyProfile> :  <EditProfessionalProfile userId={params.userId.replace(":","")} ></EditProfessionalProfile> )
+        : (<></>) }
+        </>
     );
 }
 
