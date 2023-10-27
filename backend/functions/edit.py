@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from database.models import Company, Professional
+from database.models import Company, Professional, Projects
 from flask_jwt_extended import decode_token
 
 app = Flask(__name__)
@@ -50,4 +50,17 @@ def editProfessional():
     professional.set_professional_password(password)
 
     return { "message": "asdfasdf", "password":password}, 200
+
+@app.route('/edit/project', methods=['PUT']) #tested
+def editProject():
+    data = request.get_json()
     
+    projectId = data.get("projectId")
+    
+    project = Projects.get_project_by_id(projectId)
+    if project is None: 
+        return jsonify({"error": "Project does not exist"}), 409
+    
+    project.edit_project_details(data)
+    
+    return jsonify({"updated": "professional details"}), 200
