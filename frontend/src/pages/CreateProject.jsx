@@ -2,7 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Button from '@mui/material/Button';
 import '../styles/Company/CreateProject.css'
-// import api from "..//api";
+import { apiPost } from '../api';
+import MultipleSelectChip from '../components/MultiSelect';
+import MultipleSelectCategoryChip from '../components/MultiCategorySelect';
+import decodeJWT from "../decodeJWT";
 // import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constants";
 
 import {
@@ -12,42 +15,65 @@ import {
 const CreateProject = (props) => {
   const [projectName, setNewProjectName] = React.useState('');
   const [contactEmail, setNewContactEmail] = React.useState('');
-  const [category, setNewCategory] = React.useState('');
+  const [categories, setNewCategories] = React.useState([]);
   const [startDate, setNewStartDate] = React.useState('');
   const [endDate, setNewEndDate] = React.useState('');
   const [professionalsWanted, setNewProfessionalsWanted] = React.useState('');
   const [location, setNewLocation] = React.useState('');
   const [keyResponsibilites, setNewKeyResponsibilities] = React.useState('');
-  const [requiredSkills, setNewRequiredSkills] = React.useState('');
+  const [skills, setNewSkills] = React.useState([]);
   const [projectDescription, setNewProjectDescription] = React.useState('');
   const [objectives, setNewObjectives] = React.useState('');
   const [confidentialInformation, setNewConfidentialInformation] = React.useState('');
 
   const navigate = useNavigate();
+  const [ownUserId, setOwnUserId] = React.useState('');
 
-  const createProject = async (args) => {
-    try {
-        // const res = await api.post("/api/projects/create/", 
-        //     { 
-        //         projectName, 
-        //         contactEmail, 
-        //         category, 
-        //         startDate,
-        //         endDate,
-        //         professionalsWanted,
-        //         location,
-        //         keyResponsibilites,
-        //         requiredSkills,
-        //         projectDescription,
-        //         objectives,
-        //         confidentialInformation
-        //     });
-        navigate("/companydashbaord")
-    } catch (error) {
-        alert(error)
-      } finally {
-        setLoading(false)
-      }
+
+  React.useEffect(() => {
+    const getToken = localStorage.getItem("token");
+    if (getToken != null) {
+        const tokenData = decodeJWT(getToken);
+        setOwnUserId(tokenData.userId);
+        // console.log("edit professinoal profile get own user id from token", tokenData.userId)
+    }
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("calling create project api")
+    apiPost("/project/create", {
+        companyId: ownUserId,
+        projectName: projectName,
+        contactEmail: contactEmail,
+        projectStartDate: startDate,
+        projectEndDate: endDate,
+        projectCategories: categories,
+        projectLocation: location,
+        professionalsWanted: professionalsWanted,
+        projectKeyResponsibilites: keyResponsibilites,
+        projectSkills: skills,
+        projectDescription: projectDescription,
+        projectObjectives: objectives,
+        projectConfidentialInformation: confidentialInformation
+    }).then((data) =>{
+        if (!data.error) {
+            console.log(data)
+        } else {
+            throw new Error("Create Project Failed");
+        }
+    })
+    .catch(() => {
+        alert("Project Details are not valid.")
+    });
+  }
+
+  const handleSkillsChange = (value) => {
+    setNewSkills(typeof value === 'string' ? value.split(',') : value,)
+  }
+
+  const handleCategoriesChange = (value) => {
+    setNewCategories(typeof value === 'string' ? value.split(',') : value,)
   }
 
   return (
@@ -78,7 +104,9 @@ const CreateProject = (props) => {
             </div>
             <div>
                 <label className="formlabel">Category</label>
-                <input className="formInput" type="text" value={category} onChange={(e) => setNewCategory(e.target.value)} />
+                <MultipleSelectCategoryChip 
+                    value={categories}
+                    set={handleCategoriesChange} />
             </div>
         </div>
 
@@ -98,7 +126,9 @@ const CreateProject = (props) => {
         </div>
         <div className="row">
             <label className="formlabel">Required Skills</label>
-            <input className="lineInput" type="text" value={requiredSkills} onChange={(e) => setNewRequiredSkills(e.target.value)}/>
+            <MultipleSelectChip 
+                    value={skills}
+                    set={handleSkillsChange} />
         </div>
         <div className="row">
             <label className="formlabel">Project Description</label>
@@ -112,20 +142,7 @@ const CreateProject = (props) => {
             <label className="formlabel">Confidential Information</label>
             <textarea type="text" value={confidentialInformation} onChange={(e) => setNewConfidentialInformation(e.target.value)}/>
         </div>
-        <Button variant="outlined" onClick={() => createProject({
-            projectName: projectName,
-            contactEmail: contactEmail,
-            startDate: startDate,
-            endDate: endDate,
-            category: category,
-            location: location,
-            professionalsWanted: professionalsWanted,
-            keyResponsibilites: keyResponsibilites,
-            requiredSkills: requiredSkills,
-            projectDescription: projectDescription,
-            objectives: objectives,
-            confidentialInformation: confidentialInformation
-        })}>Post Project!</Button>
+        <Button variant="outlined" onClick={handleSubmit}>Post Project!</Button>
     </div> 
     
     </>

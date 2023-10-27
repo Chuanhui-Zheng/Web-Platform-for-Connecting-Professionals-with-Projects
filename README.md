@@ -20,6 +20,3 @@
 # To clear or initialise database:
 1. Go to /backend directory
 2. bash db_controller.sh <clear/init>
-
-
-<!-- expanded-history-pass-041: clearer Markdown structure and handoff detail for the Markdown documentation surface. -->
