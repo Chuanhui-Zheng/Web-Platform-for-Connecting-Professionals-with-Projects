@@ -7,6 +7,7 @@ import { apiPost } from "../api";
 // import jwt from "jsonwebtoken";
 // import jwt_decode from "jwt-decode";
 import decodeJWT from "../decodeJWT";
+import { useHeader } from '../HeaderContext';
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -16,6 +17,7 @@ function Login() {
 
   const navigate = useNavigate();
   const [refresh, setRefresh] = React.useState(false);
+  const { triggerHeaderUpdate } = useHeader();
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -38,6 +40,7 @@ function Login() {
         if (!data.error) {
           localStorage.setItem("token", data.token);
           setRefresh((prev) => !prev);
+          triggerHeaderUpdate();
           const tokenData = decodeJWT(data.token);
           if (tokenData.userType === "company") {
             navigate("/companydashboard");

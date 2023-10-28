@@ -5,6 +5,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisuallyHiddenInput from "../VisuallyHiddenInput";
 import { apiPost } from "../../api";
 import { useNavigate } from "react-router-dom";
+import { useHeader } from "../../HeaderContext"; 
 
 function CompanyRegisterForm() {
   const [formData, setFormData] = useState({
@@ -18,6 +19,7 @@ function CompanyRegisterForm() {
   });
 
   const navigate = useNavigate();
+  const { triggerHeaderUpdate } = useHeader();
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -55,6 +57,7 @@ function CompanyRegisterForm() {
         if (!data.error) {
           localStorage.setItem("token", data.token);
           navigate("/companydashboard");
+          triggerHeaderUpdate();
         } else {
           throw new Error("Register failed.")
         }

@@ -6,6 +6,7 @@ import CustomisedRating from './CustomisedRating';
 import { AppBar, Box, Button, Typography, Toolbar, CssBaseline } from '@mui/material';
 import decodeJWT from "../decodeJWT";
 import Avatar from '@mui/material/Avatar';
+import { deepOrange } from '@mui/material/colors';
 import { apiGet } from '../api';
 
 const ProfileHeader = ({userId, userType, refresh}) => {
