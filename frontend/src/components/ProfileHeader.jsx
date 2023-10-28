@@ -80,7 +80,7 @@ const ProfileHeader = ({userId, userType, refresh}) => {
 
     return (
         <div className={styles.ProfileHeaderBar}>
-            <Avatar className={styles.ProfileHeaderProfilePic} src={photo} />
+            <Avatar className={styles.ProfileHeaderProfilePic} src={photo} sx={{ bgcolor: deepOrange[500]}}/>
             {/* <AccountCircleIcon className={styles.ProfileHeaderProfilePic}/> */}
             <div className={styles.ProfileHeaderContent}>
                 <div className={styles.ProfileHeaderNameAndRating}>

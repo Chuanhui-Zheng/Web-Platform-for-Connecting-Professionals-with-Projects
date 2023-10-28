@@ -13,6 +13,8 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { deepOrange } from '@mui/material/colors';
 import decodeJWT from "../decodeJWT";
+import { apiGet } from '../api';
+import { useHeader } from '../HeaderContext';
 
 function Header() {
     const navigate = useNavigate();
@@ -20,6 +22,8 @@ function Header() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [userType, setUserType] = React.useState('');
     const [userId, setUserId] = React.useState();
+    const [photo, setNewPhoto] = React.useState(null);
+    const { reloadHeader } = useHeader();
     
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -37,6 +41,33 @@ function Header() {
         // const glob = localStorage.getItem(ACCESS_TOKEN);
         // setToken(glob);
     }, 5000);
+
+    React.useEffect(() => {
+        console.log('Header re-rendered or updated due to state change!');
+        const token = localStorage.getItem("token");
+        if (token != null) {
+            const tokenData = decodeJWT(token);
+            setUserType(tokenData.userType)
+            setUserId(tokenData.userId)
+            console.log("boing", tokenData.userId)
+            apiGet(`/user/details/${tokenData.userType}`, `id=${tokenData.userId}`)
+                    .then((data) => {
+                        console.log(data);
+                        if (!data.error) {
+                            if (tokenData.userType === "company") {
+                                setNewPhoto(data.companyLogo);
+                            } else if (tokenData.userType === "professional") {
+                                setNewPhoto(data.professionalPhoto);
+                            }
+                        } else {
+                            throw new Error("Get Profile Failed");
+                        }
+                    })
+                    .catch(() => {
+                        alert("Profile fetch5 failed.");
+                    });
+        }
+      }, [reloadHeader])
 
     React.useEffect(() => {
         const token = localStorage.getItem("token");
@@ -60,11 +91,6 @@ function Header() {
             const tokenData = decodeJWT(token1);
             console.log("navigating to id", tokenData.userId)
             navigate(`/profile/:${tokenData.userId}`);
-            // if (tokenData.userType === "company") {
-            //     navigate("/companyprofile");
-            // } else if (tokenData.userType === "professional") {
-            //     navigate("/proprofile");
-            // }
         }
     }
     
@@ -104,7 +130,8 @@ function Header() {
                     aria-haspopup="true"
                     aria-expanded={open ? 'true' : undefined}
                 >
-                    <Avatar sx={{ bgcolor: deepOrange[500], width: 32, height: 32 }} />
+                    {/* {photo ? <Avatar src={photo} sx={{ bgcolor: deepOrange[500], width: 32, height: 32 }} /> : <></>} */}
+                    <Avatar src={photo} sx={{ bgcolor: deepOrange[500], width: 32, height: 32 }} />
                 </IconButton>
             </Box>
             <Menu
