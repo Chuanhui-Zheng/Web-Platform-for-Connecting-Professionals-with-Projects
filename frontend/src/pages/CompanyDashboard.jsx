@@ -13,6 +13,8 @@ import { AppProvider } from '@toolpad/core/AppProvider';
 import { useDemoRouter } from '@toolpad/core/internals';
 
 import ProjectCard from '../components/Professional/Dashboard/ProjectCard.jsx';
+import { getProjects } from '../helpers.js';
+import decodeJWT from '../decodeJWT.js';
 
 // import Form from "../components/Form"
 const titleStyle = {
@@ -42,7 +44,37 @@ function CompanyDashboard() {
     const navigate = useNavigate();
     const router = useDemoRouter('/companydashboard');
     const theme = useTheme();
+    
+    const [activeProjects, setActiveProjects] = React.useState([]);
+    const [completedProjects, setCompletedProjects] = React.useState([]);
+    const [ownUserId, setOwnUserId] = React.useState('');
 
+    React.useEffect(() => {
+        console.log("SHIT")
+        const getToken = localStorage.getItem("token");
+        console.log(getToken)
+        if (getToken != null) {
+            // setToken(token);
+            const tokenData = decodeJWT(getToken);
+            console.log(tokenData)
+            setOwnUserId(tokenData.userId);
+        }
+    }, []);
+
+    React.useEffect(() => {
+        if (ownUserId) {
+            console.log('userID', ownUserId)
+            async function fetchProjects() {
+                const active = await getProjects(parseInt(ownUserId), 'Active');
+                setActiveProjects(active);
+                const completed = await getProjects(parseInt(ownUserId), 'Complete');
+                setCompletedProjects(completed);
+            }
+            fetchProjects();
+        }
+    }, [ownUserId])
+
+    
     return (
         <AppProvider className="APP" sx={{ backgroundColour: 'none' }} navigation={NAVIGATION} router={router} theme={theme}>
         <PageContainer className="container" sx={{ "@media (min-width: 0px)": { paddingRight: "25px", paddingLeft: "25px" }}}>
@@ -66,18 +98,13 @@ function CompanyDashboard() {
                 <div style={projectTitleStyle}>Active Projects</div>
             </AccordionSummary>
             <AccordionDetails>
-                <ProjectCard
-                    projectName="Active Project Name 1"
-                    projectDescription="Project 1 Description"
-                />
-                <ProjectCard
-                    projectName="Active Project Name 2"
-                    projectDescription="Project 2 Description"
-                />
-                <ProjectCard
-                    projectName="Active Project Name 3"
-                    projectDescription="Project 3 Description"
-                />
+                {activeProjects.map((project, idx) => (
+                    <ProjectCard 
+                        key={idx}
+                        projectName={project.projectName}
+                        projectDescription={project.projectDescription}
+                    />
+                ))}
             </AccordionDetails>
         </Accordion>
         <Accordion>
@@ -112,18 +139,13 @@ function CompanyDashboard() {
                 <div style={projectTitleStyle}>Completed Projects</div>
             </AccordionSummary>
             <AccordionDetails>
-                <ProjectCard
-                    projectName="Completed Project Name 1"
-                    projectDescription="Project 1 Description"
-                />
-                <ProjectCard
-                    projectName="Completed Project Name 2"
-                    projectDescription="Project 2 Description"
-                />
-                <ProjectCard
-                    projectName="Completed Project Name 3"
-                    projectDescription="Project 3 Description"
-                />
+                {completedProjects.map((project, idx) => (
+                    <ProjectCard
+                        key={idx}
+                        projectName={project.projectName}
+                        projectDescription={project.projectDescription}
+                    />
+                ))}
             </AccordionDetails>
         </Accordion>
         </PageContainer> 

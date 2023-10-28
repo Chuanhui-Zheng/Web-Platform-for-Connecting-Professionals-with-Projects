@@ -171,7 +171,7 @@ class Projects(db.Model):
     projectConfidentialInformation = db.Column(db.Text(), default="")
     listOfProfessionals = db.Column(MutableList.as_mutable(JSON), default=list)
     listOfApplicants = db.Column(MutableList.as_mutable(JSON), default=list)
-    projectStatus = db.Column(db.String(), default="Incomplete")
+    projectStatus = db.Column(db.String(), default="Active")
     #projectRatings = db.Column(JSON, default="")
     
     @classmethod
@@ -220,10 +220,11 @@ class Projects(db.Model):
         target_list = getattr(self, listType, None)
         
         if target_list is not None and isinstance(target_list, list):
-            if professionalId in target_list:
-                target_list.remove(professionalId)  
-                db.session.commit() 
-                return True
+            for applicant in target_list:
+                if applicant.get('professionalId') == professionalId:
+                    target_list.remove(applicant)  
+                    db.session.commit() 
+                    return True
         return False
     
     def set_status(self, professionalId, new_status):

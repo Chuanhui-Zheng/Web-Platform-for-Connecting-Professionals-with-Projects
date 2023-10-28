@@ -8,6 +8,8 @@ import AccordionActions from '@mui/material/AccordionActions';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import decodeJWT from '../decodeJWT.js';
+import { getProfessionalProjectsFromStatus } from '../helpers.js';
 
 const projectTitleStyle = {
   margin: '0px',
@@ -17,6 +19,34 @@ const projectTitleStyle = {
 };
 
 const ProfessionalDashboard = () => {
+    const [activeProjects, setActiveProjects] = React.useState([]);
+    const [completedProjects, setCompletedProjects] = React.useState([]);
+
+    const [ownUserId, setOwnUserId] = React.useState();
+
+    React.useEffect(() => {
+        const getToken = localStorage.getItem("token");
+        console.log(getToken)
+        if (getToken != null) {
+            const tokenData = decodeJWT(getToken);
+            setOwnUserId(tokenData.userId)
+        }
+       
+    }, []);
+
+    React.useEffect(() => {
+        console.log("in here", ownUserId)
+        if (ownUserId) {
+            async function fetchProjects() {
+                const active = await getProfessionalProjectsFromStatus(ownUserId, 'Active');
+                setActiveProjects(active);
+                const complete = await getProfessionalProjectsFromStatus(ownUserId, 'Complete');
+                setCompletedProjects(complete);
+            }
+            fetchProjects()
+        }
+    }, [ownUserId]);
+
     return (
       <>
         {TitleCard('Rating', '4/5')}
@@ -34,18 +64,13 @@ const ProfessionalDashboard = () => {
                 <div style={projectTitleStyle}>Current Projects</div>
             </AccordionSummary>
             <AccordionDetails>
-                <ProjectCard
-                    projectName="Current Project Name 1"
-                    projectDescription="Project 1 Description"
-                />
-                <ProjectCard
-                    projectName="Current Project Name 2"
-                    projectDescription="Project 2 Description"
-                />
-                <ProjectCard
-                    projectName="Current Project Name 3"
-                    projectDescription="Project 3 Description"
-                />
+                {activeProjects.map((project, idx) => (
+                        <ProjectCard
+                            key={idx}
+                            projectName={project.projectName}
+                            projectDescription={project.projectDescription}
+                        />
+                    ))}
             </AccordionDetails>
         </Accordion>
         <Accordion>
@@ -57,18 +82,13 @@ const ProfessionalDashboard = () => {
                 <div style={projectTitleStyle}>Completed Projects</div>
             </AccordionSummary>
             <AccordionDetails>
-                <ProjectCard
-                    projectName="Completed Project Name 1"
-                    projectDescription="Project 1 Description"
-                />
-                <ProjectCard
-                    projectName="Completed Project Name 2"
-                    projectDescription="Project 2 Description"
-                />
-                <ProjectCard
-                    projectName="Completed Project Name 3"
-                    projectDescription="Project 3 Description"
-                />
+                {completedProjects.map((project, idx) => (
+                        <ProjectCard
+                            key={idx}
+                            projectName={project.projectName}
+                            projectDescription={project.projectDescription}
+                        />
+                    ))}
             </AccordionDetails>
         </Accordion>
       </>
