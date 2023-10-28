@@ -40,24 +40,25 @@ def projectCreate():
     
     companyId = data.get("companyId")
     projectName = data.get("projectName")
-    projectObjectives = data.get("objectives", "")
-    projectDescription = data.get("description", "")
-    projectStartDate = data.get("startDate", "")
-    projectEndDate = data.get("endDate", "")
-    # projectCategory = data.get("category", "")
-    projectLocation = data.get("location", "")
-    projectKeyResponsibilities = data.get("responsibilities", "")
-    projectConfidentialInformation = data.get("confidential", "")
-    projectSkills = data.get("skills", [])
-    projectCategories = data.get("categories", [])
-    
+    projectObjectives = data.get("projectObjectives", "")
+    projectDescription = data.get("projectDescription", "")
+    projectStartDate = data.get("projectStartDate", "")
+    projectEndDate = data.get("projectEndDate", "")
+    projectCategory = data.get("projectCategories", "")
+    projectLocation = data.get("projectLocation", "")
+    projectKeyResponsibilities = data.get("projectKeyResponsibilites", "")
+    projectConfidentialInformation = data.get("projectConfidentialInformation", "")
+    projectSkills = data.get("projectSkills", [])
+    projectCategories = data.get("projectCategories", [])
+    professionalsWanted = data.get("professionalsWanted", "")
+    contactEmail = data.get("contactEmail", "")
     
     new_project = Projects(projectObjectives=projectObjectives,
-                           projectDescription=projectDescription, projectStartDate=projectStartDate, 
-                           projectEndDate=projectEndDate,
+                           projectDescription=projectDescription, projectStartDate=projectStartDate, projectEndDate=projectEndDate,
                            projectLocation=projectLocation, projectKeyResponsibilities=projectKeyResponsibilities,
                            projectConfidentialInformation=projectConfidentialInformation,
                            projectSkills=projectSkills, projectCategories=projectCategories,
+                           professionalsWanted=professionalsWanted,contactEmail=contactEmail,
                            
                            )
     
@@ -134,8 +135,16 @@ def projectListAll():
         {
             "projectId": project.projectId,
             "projectName": project.projectName,
+            "projectCompany": getProjectCompany(project.pCompanyId),
+            # "projectCompanyRating": getProjectCompany(project.pCompanyId),
+            "projectCategory": project.projectCategories,
             "projectDescription": project.projectDescription,
+            "projectStartDate": project.projectStartDate,
+            "projectEndDate": project.projectEndDate,
             "projectStatus": project.projectStatus,
+            "projectLocation": project.projectLocation,
+            "professionalsWanted": project.professionalsWanted,
+            "projectSkills": project.projectSkills,
             "listOfApplicants": project.listOfApplicants,
             "listOfProfessionals": project.listOfProfessionals
         }
@@ -165,6 +174,7 @@ def projectDetails():
     project_details = {
         "projectId": project.projectId,
         "projectName": project.projectName,
+        "contactEmail": project.contactEmail,
         "projectCompany": getProjectCompany(project.pCompanyId),
         "projectCategory": project.projectCategories,
         "projectObjectives": project.projectObjectives,
@@ -173,6 +183,7 @@ def projectDetails():
         "projectEndDate": project.projectEndDate,
         "projectStatus": project.projectStatus,
         "projectLocation": project.projectLocation,
+        "professionalsWanted": project.professionalsWanted,
         "projectKeyResponsibilities": project.projectKeyResponsibilities,
         "projectSkills": project.projectSkills,
         "projectConfidentialInformation": project.projectConfidentialInformation,

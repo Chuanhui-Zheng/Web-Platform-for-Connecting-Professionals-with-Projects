@@ -45,17 +45,13 @@ function CompanyDashboard() {
 
     return (
         <AppProvider className="APP" sx={{ backgroundColour: 'none' }} navigation={NAVIGATION} router={router} theme={theme}>
-        <PageContainer className="container" sx={{ "@media (min-width: 0px)": { paddingRight: "25px", paddingLeft: "25px" }}}>
+        <PageContainer className="container" maxWidth={false} sx={{width:"100%", "@media (min-width: 0px)": { paddingRight: "25px", paddingLeft: "25px" }, margin: "0px"}}>
         <Box className="title" style={titleStyle}>
             <div>
                 <h1>Dashboard</h1>
             </div>
             <Button variant="contained" onClick={() => { navigate('createproject') }}> + Create Project</Button>     
         </Box>    
-        {/* <Paper className="Paper">
-            <PageContainer className="container" sx={{ backgroundColour: 'black' }}>Current Projects</PageContainer>
-
-        </Paper> */}
         <Accordion defaultExpanded>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}

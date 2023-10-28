@@ -6,6 +6,7 @@ import DateRangeIcon from '@mui/icons-material/DateRange';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import GroupsIcon from '@mui/icons-material/Groups';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
+import { useNavigate } from "react-router-dom";
 
 const StyledCard = styled(Card)(({ theme }) => ({
   maxWidth: 345,
@@ -37,7 +38,8 @@ const StyledChip = styled(Chip)({
   }
 });
 
-const BrowseCards = () => {
+export default function BrowseCards({project}) {
+  const navigate = useNavigate();
   return (
     <StyledCard tabIndex={0} aria-label="Project Description Card" sx={{width:'100%'}}>
       {/* <StyledCardMedia
@@ -47,50 +49,49 @@ const BrowseCards = () => {
       /> */}
       <StyledCardContent>
         <Typography variant="h5" component="h2" gutterBottom>
-          Project Name
+          {project.projectName}
         </Typography>
         <Typography variant="body2" color="textSecondary">
-            Company Name - Rating
+          {project.projectCompany} 
           </Typography>
         <Box display="flex" alignItems="center" mb={1}>
           <BusinessCenterIcon style={{ marginRight: 8 }} />
           <Typography variant="body2" color="textSecondary">
-            Category
+          {project.projectCategory}
           </Typography>
         </Box>
         <Box display="flex" alignItems="center" mb={1}>
           <DateRangeIcon style={{ marginRight: 8 }} />
           <Typography variant="body2" color="textSecondary">
-            Start Date - End Date
+          {project.projectStartDate} - {project.projectEndDate}
           </Typography>
         </Box>
         <Box display="flex" alignItems="center" mb={1}>
           <LocationOnIcon style={{ marginRight: 8 }} />
           <Typography variant="body2" color="textSecondary">
-            Location
+          {project.projectLocation}
           </Typography>
         </Box>
         <Box display="flex" alignItems="center" mb={1}>
           <GroupsIcon style={{ marginRight: 8 }} />
           <Typography variant="body2" color="textSecondary">
-            Number of People
+          {project.professionalsWanted}
           </Typography>
         </Box>
         <Typography variant="body2" color="textSecondary" paragraph>
           Required Skills:
         </Typography>
         <Box mb={2}>
-          <StyledChip label="React" />
-          <StyledChip label="Node.js" />
-          <StyledChip label="MongoDB" />
-          <StyledChip label="AWS" />
+          {project.projectSkills.map((skill, idx) => (
+            <StyledChip key={idx} label={skill} />
+          ))}
         </Box>
         <Button
           variant="contained"
           color="primary"
           fullWidth
           aria-label="View Project Details"
-        //   onClick={}
+          onClick={() => {navigate(`/projectdetail/${project.projectId}`)}}
         >
           View Details
         </Button>
@@ -99,4 +100,4 @@ const BrowseCards = () => {
   );
 };
 
-export default BrowseCards;
+// export default BrowseCards;
