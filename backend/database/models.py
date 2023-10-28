@@ -143,6 +143,8 @@ class Projects(db.Model):
     projectId = db.Column(db.String(), primary_key=True, default=create_id)
     pCompanyId = db.Column(db.String(), default="")
     projectName = db.Column(db.String(), default="")
+    contactEmail = db.Column(db.String(),default="")
+    professionalsWanted = db.Column(db.String(),default="")
     projectObjectives = db.Column(db.String(), default="")
     projectDescription = db.Column(db.Text(), default="")
     projectStartDate = db.Column(db.String(), default="")
