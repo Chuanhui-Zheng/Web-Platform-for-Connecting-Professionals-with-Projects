@@ -10,12 +10,13 @@ import decodeJWT from "../../decodeJWT";
 
 const CompanyProfile = ({userId}) => {
     console.log("company profile reached")
-    const description = "HEllo i am jim, i am so passionaat aboutbaiosdfhoiehofihehofhaoei hfoiaheoihfoaisdhfhadsuibhfuiagsdbiuaioewfhaieohfoaie"
     const navigate = useNavigate();
     // const [token, setToken] = React.useState(null);
     const [userType, setUserType] = React.useState('');
     const [ownUserId, setOwnUserId] = React.useState('');
     const [ownProfile, setOwnProfile] = React.useState(true);
+
+    const [companyDescription, setNewCompanyDescription] = React.useState(true);
 
     React.useEffect(() => {
         const getToken = localStorage.getItem("token");
@@ -37,11 +38,9 @@ const CompanyProfile = ({userId}) => {
     
             apiGet("/user/details/company", `id=${userId}`)
                 .then((data) => {
-                    console.log(data);
                     if (!data.error) {
-                        // setNewCompanyDescription(data.companyDescription);
+                        setNewCompanyDescription(data.companyDescription);
                         console.log("Profile fetched successfully.");
-                        console.log(data.companyLogo);
                     } else {
                         throw new Error("Get Profile Failed");
                     }
@@ -56,8 +55,6 @@ const CompanyProfile = ({userId}) => {
 
         <>
         <ProfileHeader userId={userId} userType="company" ></ProfileHeader>
-        {/* {ProfileHeader()} */}
-        {/* <img src={companyLogo}/> */}
         <div className={styles.ProfileHeaderContent}>
             {ownProfile ? <Button name="editcompanyprofile" 
                 variant="outlined"
@@ -67,6 +64,10 @@ const CompanyProfile = ({userId}) => {
         </div>
         
         <div className={styles.ProfessionalProfileContent}>
+            <h1 className={styles.ProfessionalProfileBodyTitle}>Summary</h1>
+            <div className={styles.ProfessionalProfileText}>
+                {companyDescription}
+            </div>
             <h1 className={styles.ProfessionalProfileBodyTitle}>Projects</h1>
             <div class={styles.ProfessionalProfileProjectList}>
                 {ProjectCard("a", "aasdasdasdasdasdasdugadsfiuhadufhadsuhfuiahdsuifhaiusdhfuasdfadssfsasdfasdasdfadsfaidafdsfadsfasdasdfadsffasd")}
