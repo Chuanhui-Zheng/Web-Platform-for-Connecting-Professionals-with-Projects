@@ -48,16 +48,25 @@ class Company(db.Model):
         return f"<Company {self.companyEmail}>"
 
     def set_company_password(self, companyPassword):
+        if not companyPassword:
+            return
+        
         self.companyPassword = generate_password_hash(companyPassword)
         db.session.commit()
 
     # Sets company details
     def set_company_details(self, name, phone, website, description, logo):
-        self.companyName = name
-        self.companyPhoneNumber = phone
-        self.companyWebsite = website
-        self.companyDescription = description
-        self.companyLogo = logo
+        newDetails = {
+            "companyName": name,
+            "companyPhoneNumber": phone,
+            "companyWebsite": website,
+            "companyDescription": description,
+            "companyLogo": logo,
+        }
+
+        for dbField, value in newDetails.items():
+            if value:
+                setattr(self, dbField, value)
         db.session.commit()
 
     def check_company_password(self, companyPassword):
@@ -106,6 +115,9 @@ class Professional(db.Model):
         return f"<Professional {self.professionalEmail}>"
 
     def set_professional_password(self, professionalPassword):
+        if not professionalPassword:
+            return
+        
         self.professionalPassword = generate_password_hash(professionalPassword)
         db.session.commit()
 
@@ -127,16 +139,21 @@ class Professional(db.Model):
 
     #Sets all data
     def set_professional_details(self, name, website, number, description, qualification, education, skills, photo):
-        self.professionalFullName = name
-        self.professionalWebsite = website
-        self.professionalPhoneNumber  = number
-        self.professionalDescription = description
-        self.professionalQualifications = qualification
-        self.professionalEducation = education
-        self.professionalSkills = skills
-        self.professionalPhoto = photo
+        newDetails = {
+            "professionalFullName": name,
+            "professionalWebsite": website,
+            "professionalNumber": number,
+            "professionalDescription": description,
+            "professionalQualification": qualification,
+            "professionalEducation": education,
+            "professionalSkills": skills,
+            "professionalPhoto": photo,   
+        }
+
+        for dbField, value in newDetails.items():
+            if value:
+                setattr(self, dbField, value)
         db.session.commit()
-        
 
 class Projects(db.Model):
     __tablename__ = 'projects'
@@ -177,6 +194,7 @@ class Projects(db.Model):
         self.pCompanyId = companyId
         self.projectName = projectName
         db.session.commit()
+
         
     def edit_project_details(self, data):
         for field, value in data.items():
