@@ -126,15 +126,16 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function AllProjects() {
   const [open, setOpen] = React.useState(false);
-  const [allProjects, setAllProjects] = React.useState([]);
+  const [allProjects, setAllProjects] = React.useState([{}]);
 
   React.useEffect(() => {
     apiGet("/project/listall",)
     .then((data) => {
         console.log(data);
         if (!data.error) {
-          setAllProjects(data.listOfProjects);
-          console.log("project details:", data.listOfProjects)
+          setAllProjects(data);
+          // console.log("project details:", allProjects)
+          console.log("project details:", data)
         } else {
             throw new Error("Get Projects");
         }
@@ -242,15 +243,12 @@ export default function AllProjects() {
                   </ListItem>
                 ))} */}
                 {allProjects.map((project, idx) => (
-                  // console.log(project)
-                <ListItem key={idx} disablePadding >
-                  <BrowseCards></BrowseCards>
+                <ListItem key={idx} id={project.projectId} disablePadding >
+                  <BrowseCards project={project} />
                 </ListItem>
                 ))}
+                {allProjects.length == 0 && <ListItem sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', }}> Currently No Projects</ListItem>}
               </List>
-            //   <Paper>
-            //     <BrowseCards></BrowseCards>
-            //   </Paper>
               
             }
         </Box>
@@ -264,7 +262,6 @@ export default function AllProjects() {
             <b> Project Name</b>
           </Typography>
         </div>
-        
 
         <Box style={secondaryStyle}>
           <Box>
