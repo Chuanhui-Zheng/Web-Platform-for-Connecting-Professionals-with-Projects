@@ -60,7 +60,11 @@ const professionalButtons = [
   <Button key="status" sx={{backgroundColor: "#21b6ae"}}>Status</Button>,
 ];
 
-const statusOptions = ['Pending', 'Completed', 'Close'];
+const companyButtons = [
+  <Button key="status" sx={{backgroundColor: "#21b6ae"}}>Status</Button>,
+];
+
+const statusOptions = ['Pending', 'Completed'];
 
 
 export default function ProjectDetail() {
@@ -69,7 +73,7 @@ export default function ProjectDetail() {
     // const navigate = useLocation();
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
-    const [selectedIndex, setSelectedIndex] = React.useState(1);
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
     const [projectInfo, setprojectInfo] = React.useState([]);
     const currentUrl = window.location.href;
     const [projectId, setProjectId] = React.useState('');
@@ -98,6 +102,22 @@ export default function ProjectDetail() {
 
     const handleMenuItemClick = (event, index) => {
         setSelectedIndex(index);
+        console.log(event)
+        if (index == 1) {
+          // complete project
+          apiPost("/project/company/complete", `projectId=${projectID}`)
+          .then((data) =>{
+              if (!data.error) {
+                  console.log(data)
+              } else {
+                  throw new Error("Project Complete Failed");
+              }
+          })
+          .catch(() => {
+              alert("Project Complete are not valid.")
+          });
+
+        }
         setOpen(false);
     };
 
@@ -112,7 +132,7 @@ export default function ProjectDetail() {
     };
 
     const companybuttons = [
-        <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={navigate}>Edit Project</Button>,
+        <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}}>Edit Project</Button>,
         <Button key="candidateList" sx={{backgroundColor: "grey"}}>Candidate List</Button>,
         // <Button key="company-status">Project Status</Button>,
         <Button
