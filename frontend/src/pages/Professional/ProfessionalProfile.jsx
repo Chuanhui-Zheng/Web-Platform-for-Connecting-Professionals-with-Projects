@@ -7,6 +7,7 @@ import ProjectCard from "../../components/Professional/Dashboard/ProjectCard";
 import { Button } from '@mui/material';
 import { apiGet } from '../../api';
 import decodeJWT from "../../decodeJWT";
+import { getProjects } from '../../helpers';
 
 const ProfessionalProfile = ( { userId } ) => {
     console.log("professional profile reached")
@@ -22,6 +23,7 @@ const ProfessionalProfile = ( { userId } ) => {
     const [professionalDescription, setProfessionalDescription] = React.useState('');
     const [professionalEducation, setProfessionalEducation] = React.useState('');
     const [professionalQualifications, setProfessionalQualifications] = React.useState('');
+    const [projects, setProjects] = React.useState([]);
 
     React.useEffect(() => {
         const getToken = localStorage.getItem("token");
@@ -30,6 +32,8 @@ const ProfessionalProfile = ( { userId } ) => {
             const tokenData = decodeJWT(getToken);
             setUserType(tokenData.userType)
             setOwnUserId(tokenData.userId)
+
+            console.log("token, usertype", tokenData.userType, tokenData.userId)
             if (tokenData.userId != userId) {
                 setOwnProfile(false);
             }
@@ -38,9 +42,16 @@ const ProfessionalProfile = ( { userId } ) => {
     }, []);
     
       React.useEffect(() => {
+        console.log("in here", ownUserId, userType)
         if (ownUserId && userType) {
             console.log(`User ID: ${userId}, User Type: ${userType}`);
             console.log("calling get details api in profile page")
+            async function fetchProjects() {
+                const projectData = await getProjects(userId, '');
+                setProjects(projectData);
+            }
+            fetchProjects()
+
             apiGet("/user/details/professional", `id=${userId}`)
                 .then((data) => {
                     console.log(data);
@@ -59,9 +70,10 @@ const ProfessionalProfile = ( { userId } ) => {
                     alert("Profile fetch5 failed.");
                 });
                 
+        } else {
+            console.log("fuck this shit")
         }
     }, [ownUserId, userType]);
-
     return (
 
         <>
@@ -89,9 +101,13 @@ const ProfessionalProfile = ( { userId } ) => {
             </div>
             <h1 className={styles.ProfessionalProfileBodyTitle}>Projects</h1>
             <div class={styles.ProfessionalProfileProjectList}>
-                {ProjectCard("a", "aasdasdasdasdasdasdugadsfiuhadufhadsuhfuiahdsuifhaiusdhfuasdfadssfsasdfasdasdfadsfaidafdsfadsfasdasdfadsffasd")}
-                {ProjectCard("a", "aasdasdasdasdasdasdugadsfiuhadufhadsuhfuiahdsuifhaiusdhfuasdfadssfsasdfasdasdfadsfaidafdsfadsfasdasdfadsffasd")}
-                {ProjectCard("a", "aasdasdasdasdasdasdugadsfiuhadufhadsuhfuiahdsuifhaiusdhfuasdfadssfsasdfasdasdfadsfaidafdsfadsfasdasdfadsffasd")}
+                {projects.map((project, idx) => (
+                    <ProjectCard
+                        key={idx}
+                        projectName={project.projectName}
+                        projectDescription={project.projectDescription}
+                    />
+                ))}
             </div>
         </div>
         </>

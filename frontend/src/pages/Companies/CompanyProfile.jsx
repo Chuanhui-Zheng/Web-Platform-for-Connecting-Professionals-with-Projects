@@ -6,6 +6,7 @@ import ProjectCard from "../../components/Professional/Dashboard/ProjectCard";
 import { AppBar, Box, Button, Typography, Toolbar, CssBaseline } from '@mui/material';
 import { apiGet } from '../../api';
 import decodeJWT from "../../decodeJWT";
+import { getProjects } from '../../helpers';
 
 
 const CompanyProfile = ({userId}) => {
@@ -15,6 +16,7 @@ const CompanyProfile = ({userId}) => {
     const [userType, setUserType] = React.useState('');
     const [ownUserId, setOwnUserId] = React.useState('');
     const [ownProfile, setOwnProfile] = React.useState(true);
+    const [projects, setProjects] = React.useState([]);
 
     const [companyDescription, setNewCompanyDescription] = React.useState(true);
 
@@ -35,7 +37,13 @@ const CompanyProfile = ({userId}) => {
     React.useEffect(() => {
         if (ownUserId && userType) {
             console.log(`User ID: ${ownUserId}, User Type: ${userType}`);
-    
+            
+            async function fetchProjects() {
+                const projectData = await getProjects(userId, '');
+                setProjects(projectData);
+            }
+            fetchProjects()
+
             apiGet("/user/details/company", `id=${userId}`)
                 .then((data) => {
                     if (!data.error) {
@@ -70,9 +78,13 @@ const CompanyProfile = ({userId}) => {
             </div>
             <h1 className={styles.ProfessionalProfileBodyTitle}>Projects</h1>
             <div class={styles.ProfessionalProfileProjectList}>
-                {ProjectCard("a", "aasdasdasdasdasdasdugadsfiuhadufhadsuhfuiahdsuifhaiusdhfuasdfadssfsasdfasdasdfadsfaidafdsfadsfasdasdfadsffasd")}
-                {ProjectCard("a", "aasdasdasdasdasdasdugadsfiuhadufhadsuhfuiahdsuifhaiusdhfuasdfadssfsasdfasdasdfadsfaidafdsfadsfasdasdfadsffasd")}
-                {ProjectCard("a", "aasdasdasdasdasdasdugadsfiuhadufhadsuhfuiahdsuifhaiusdhfuasdfadssfsasdfasdasdfadsfaidafdsfadsfasdasdfadsffasd")}
+                {projects.map((project, idx) => (
+                    <ProjectCard
+                        key={idx}
+                        projectName={project.projectName}
+                        projectDescription={project.projectDescription}
+                    />
+                ))}
             </div>
         </div>
         </>

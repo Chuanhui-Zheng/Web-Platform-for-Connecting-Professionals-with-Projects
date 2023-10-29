@@ -52,6 +52,7 @@ def professionalDetails():
 
     return data, 200
 
+
 @app.route('/user/type', methods=['GET'])
 def getUserType():
     id = request.args.get('id')
