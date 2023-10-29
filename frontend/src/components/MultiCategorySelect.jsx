@@ -20,10 +20,10 @@ const MenuProps = {
   },
 };
 
-const names = [
-  'Software',
-  'Construction',
-];
+// const names = [
+//   'Software',
+//   'Construction',
+// ];
 
 function getStyles(name, personName, theme) {
   return {
@@ -33,7 +33,7 @@ function getStyles(name, personName, theme) {
   };
 }
 
-export default function MultipleSelectCategoryChip( { set } ) {
+export default function MultipleSelectCategoryChip( { set, names, label } ) {
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
 
@@ -51,7 +51,7 @@ export default function MultipleSelectCategoryChip( { set } ) {
   return (
     <div>
       <FormControl className="formInput1" sx ={{pt: 0.5}}>
-        <InputLabel id="demo-multiple-chip-label">Category</InputLabel>
+        <InputLabel id="demo-multiple-chip-label">{label}</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
