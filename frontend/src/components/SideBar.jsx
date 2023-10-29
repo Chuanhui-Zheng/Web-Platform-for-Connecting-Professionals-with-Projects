@@ -18,27 +18,7 @@ function SideBar({ projectID, onSelectProject }) {
         //   setUserId(tokenData.userId)
         //   setUserType(tokenData.userType)
         // }
-        console.log('AAAAAAAAAAAAAAAAA');
-        // apiGet("/project/listall",)
-        // .then((data) => {
-        //     console.log(data);
-        //     if (!data.error) {
-        //     setAllProjects(data);
-        //     // console.log("project details:", allProjects)
-        //     console.log("project details:", data)
-        //     // const allProjectList = [];
-        //     // data.forEach(p => {
-        //     //     allProjectList.push(p);
-        //     // })
-        //     console.log(data[0].projectId);
-        //     // setSelectProjectID(allProjectList[0].projectId)
-        //     } else {
-        //         throw new Error("Get Projects");
-        //     }
-        // })
-        // .catch((err) => {
-        //     alert(err);
-        // });
+    
         apiGet('/project/listall', )
         // .then(response => response.json())
         .then(data => {

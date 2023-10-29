@@ -176,6 +176,7 @@ def projectDetails():
         "projectName": project.projectName,
         "contactEmail": project.contactEmail,
         "projectCompany": getProjectCompany(project.pCompanyId),
+        "pCompanyId": project.pCompanyId,
         "projectCategory": project.projectCategories,
         "projectObjectives": project.projectObjectives,
         "projectDescription": project.projectDescription,

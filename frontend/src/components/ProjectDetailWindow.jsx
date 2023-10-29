@@ -157,7 +157,7 @@ export default function ProjectDetailWindow({ projectID }) {
             });
         }
     };
-    
+
     const companybuttons = [
         <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}}>Edit Project</Button>,
         <Button key="candidateList" sx={{backgroundColor: "grey"}}>Candidate List</Button>,
@@ -251,13 +251,20 @@ export default function ProjectDetailWindow({ projectID }) {
             variant="contained"
           >
             {companybuttons} 
-          </ButtonGroup> : 
+          </ButtonGroup> : userType === 'professional'
+        ?
           <ButtonGroup
             orientation="vertical"
             aria-label="Vertical button group"
             variant="contained"
-          >
+          > 
             {professionalButtons} 
+          </ButtonGroup> :
+            <ButtonGroup
+            orientation="vertical"
+            aria-label="Vertical button group"
+            variant="contained"
+          >
           </ButtonGroup>
           }
           <Popper
