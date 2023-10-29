@@ -1,5 +1,7 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
+import { apiGet, apiPut } from '../api';
 import { styled } from '@mui/material/styles';
+
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import List from '@mui/material/List';
@@ -24,102 +26,73 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import AppBar from '@mui/material/AppBar';
 import Chip from '@mui/material/Chip';
-
-import { apiGet } from '../api';
-import { useLocation } from 'react-router-dom';
-
-import Header from '../components/Header';
-import { useNavigate, useParams } from "react-router-dom";
 import decodeJWT from '../decodeJWT';
-
 const headerStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  margin: '0px',
-  gap: '10px'
-};
-
-const secondaryStyle = {
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  margin: '0px',
-  // paddingLeft: '32px'
-};
-
-
-const StyledChip = styled(Chip)({
-  margin: "4px",
-  "&:hover": {
-    backgroundColor: "#e0e0e0"
-  }
-});
-
-
-const statusOptions = ['Pending', 'Completed'];
-
-
-export default function ProjectDetailWindow(projectID) {
-    // const { projectID } = useParams();
-    const navigate = useNavigate();
-    const [open, setOpen] = React.useState(false);
-    const anchorRef = React.useRef(null);
-    const [selectedIndex, setSelectedIndex] = React.useState(0);
-    const [projectInfo, setprojectInfo] = React.useState([]);
+    display: 'flex',
+    alignItems: 'center',
+    margin: '0px',
+    gap: '10px'
+  };
+  
+  const secondaryStyle = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    margin: '0px',
+    // paddingLeft: '32px'
+  };
+  
+  
+  const StyledChip = styled(Chip)({
+    margin: "4px",
+    "&:hover": {
+      backgroundColor: "#e0e0e0"
+    }
+  });
+  
+  
+  const statusCompOptions = ['Pending', 'Completed'];
+  const statusProfOptions = ['Apply', 'Pending'];
+export default function ProjectDetailWindow({ projectID }) {
+    const [projectInfo, setProjectInfo] = useState(null);
+    const [skills, setSkills] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [userId, setUserId] = React.useState('');
     const [userType, setUserType] = React.useState('');
-    const [skillsSet, setSkills] = React.useState([]);
+    const anchorRef = React.useRef(null);
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const [selectedIndex2, setSelectedIndex2] = React.useState(0);
+    const [open, setOpen] = React.useState(false);
 
 
-    // React.useEffect(() => {
-    //   const token = localStorage.getItem("token");
-    //   if (token != null) {
-    //     const tokenData = decodeJWT(token);
-    //     setUserId(tokenData.userId)
-    //     setUserType(tokenData.userType)
-    //   }
-    // }, []);
-        // const getDetails = async () => {
-        
-    // try {
-    //     console.log(projectID)
-    //     const res = apiGet("/project/details", `projectId=${projectID.projectID}`)
-    
-    //         console.log(res);
-    //         if (!res.error) {
-    //             setprojectInfo(res);
-    //             setSkills(res.projectSkills)
-    //             console.log("details:", res)
-    //         } else {
-    //             throw new Error("Get Project details");
-    //         }
-    //     }  catch (err) {
-    //     alert(err);
-    // }
-    // }
-
-    console.log(projectID.projectID)
-    console.log(projectID)
-    React.useState(() => {
-        // getDetails();
-    // React.useEffect(() => {
-      // const glob = localStorage.getItem('token');
-      // setToken(glob);
-      apiGet("/project/details", `projectId=${projectID}`)
-      .then((data) => {
-          console.log(data);
-          if (!data.error) {
-            setprojectInfo(data);
-            setSkills(data.projectSkills)
-            console.log("details:", data)
-          } else {
-              throw new Error("Get Project details");
-          }
-      })
-      .catch((err) => {
-          alert(err);
-      });
-    }, []);
+    useEffect(() => {
+        const glob = localStorage.getItem('token');
+        if (glob != null) {
+            const tokenData = decodeJWT(glob);
+            setUserId(tokenData.userId)
+            setUserType(tokenData.userType)
+            console.log(tokenData.userType)
+        }
+        if (projectID) {
+            setIsLoading(true);
+            console.log(projectID)
+            apiGet("/project/details", `projectId=${projectID}`)
+            .then((data) => {
+                console.log(data);
+                if (!data.error) {
+                    setProjectInfo(data);
+                    setSkills(data.projectSkills)
+                    console.log("details:", data)
+                } else {
+                    console.error("Error fetching project list:", data.error);
+                }
+            })
+            .catch((err) => {
+                alert(err);
+                console.error("Failed to fetch project:", err);
+            }).finally(() => setIsLoading(false));
+        }
+    }, [projectID]); // Refetch details every time the project ID changes
 
 
     const handleMenuItemClick = (event, index) => {
@@ -127,7 +100,8 @@ export default function ProjectDetailWindow(projectID) {
         console.log(event)
         if (index == 1) {
           // complete project
-          apiPost("/project/company/complete", `projectId=${projectID}`)
+          const projectId = projectID;
+          apiPut("/project/company/complete", {projectId})
           .then((data) =>{
               if (!data.error) {
                   console.log(data)
@@ -152,6 +126,38 @@ export default function ProjectDetailWindow(projectID) {
         }
     };
 
+    const handleApply = () => {
+        const professionalId = userId;
+        const projectId = projectID;
+        if (selectedIndex === 0) {
+            setSelectedIndex2(1);
+            apiPost("/project/professional/apply", {professionalId, projectId})
+            .then((data) => {
+                if (!data.error) {
+                    console.log(data)
+                } else {
+                    throw new Error("Project Apply Failed");
+                }
+            })
+            .catch((err) => {
+                alert("Project Apply are not valid.", err)
+            });
+        } else {
+            setSelectedIndex2(0);
+            apiPost("/project/professional/leave", {professionalId, projectId})
+            .then((data) =>{
+                if (!data.error) {
+                    console.log(data)
+                } else {
+                    throw new Error("Project leave Failed");
+                }
+            })
+            .catch((err) => {
+                alert("Project Apply are not valid.", err)
+            });
+        }
+    };
+    
     const companybuttons = [
         <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}}>Edit Project</Button>,
         <Button key="candidateList" sx={{backgroundColor: "grey"}}>Candidate List</Button>,
@@ -167,17 +173,25 @@ export default function ProjectDetailWindow(projectID) {
             aria-haspopup="menu"
             onClick={handleToggle}
         >
-        {statusOptions[selectedIndex]}<ArrowDropDownIcon />
+        {statusCompOptions[selectedIndex]}<ArrowDropDownIcon />
         </Button>
       ];
 
     const professionalButtons = [
-      <Button key="status" sx={{backgroundColor: "#21b6ae"}}>Apply</Button>
+      <Button key="status" sx={{backgroundColor: "#21b6ae"}} onClick={handleApply}>{statusProfOptions[selectedIndex2]}</Button>
     ];
 
-  return (
-    <Box sx={{ display: 'flex' }}>
-      <Box component="main" sx={{flexGrow: 1, p: 3 }}>
+    if (isLoading) {
+        return <div>Loading project details...</div>;
+    }
+
+    if (!projectInfo) {
+        return <div>Select a project to view details</div>;
+    }
+
+    return (
+        <Box sx={{width: '100%'}}>
+      <Box component="main" sx={{flexGrow: 1, p: 3, width: '100%' }}>
 
         <div style={headerStyle}>
           <Avatar sx={{ width: 32, height: 32 }} />
@@ -185,6 +199,7 @@ export default function ProjectDetailWindow(projectID) {
             <b> {projectInfo.projectName}</b>
           </Typography>
         </div>
+        
         
         <Box style={secondaryStyle}>
           <Box>
@@ -223,32 +238,28 @@ export default function ProjectDetailWindow(projectID) {
               Required Skills:
             </Typography>
             <Box mb={2}>
-            {skillsSet.map((skill, idx) => (
+            {skills.map((skill, idx) => (
               <StyledChip label={skill} />
             ))}
 
 
           </Box>
-          {/* {projectInfo.companyId === userId ? <ButtonGroup
+          </Box>
+          {userType === 'company' && userId === projectInfo.pCompanyId ? <ButtonGroup
             orientation="vertical"
             aria-label="Vertical button group"
             variant="contained"
           >
             {companybuttons} 
-          </ButtonGroup> : <ButtonGroup
-            orientation="vertical"
-            aria-label="Vertical button group"
-            variant="contained"
-          >
-            {professionalButtons} 
-          </ButtonGroup>} */}
+          </ButtonGroup> : 
           <ButtonGroup
             orientation="vertical"
             aria-label="Vertical button group"
             variant="contained"
           >
-            {companybuttons} 
+            {professionalButtons} 
           </ButtonGroup>
+          }
           <Popper
         sx={{ zIndex: 1 }}
         open={open}
@@ -268,10 +279,10 @@ export default function ProjectDetailWindow(projectID) {
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList id="split-button-menu" autoFocusItem>
-                  {statusOptions.map((option, index) => (
+                  {statusCompOptions.map((option, index) => (
                     <MenuItem
                       key={option}
-                      disabled={index === 2}
+                    //   disabled={index === 2}
                       selected={index === selectedIndex}
                       onClick={(event) => handleMenuItemClick(event, index)}
                     >
@@ -320,6 +331,5 @@ export default function ProjectDetailWindow(projectID) {
         </Typography>
       </Box>
       </Box>
-      </Box>
-  );
+    );
 }

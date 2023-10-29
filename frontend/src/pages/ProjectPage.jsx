@@ -55,7 +55,7 @@ const StyledChip = styled(Chip)({
 const statusOptions = ['Pending', 'Completed', 'Close'];
 
 
-export default function ProjectDetail() {
+export default function ProjectPage() {
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
     const [selectedIndex, setSelectedIndex] = React.useState(1);
