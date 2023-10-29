@@ -42,31 +42,22 @@ class Company(db.Model):
     companyLogo = db.Column(db.String(), default="")
     companyPassword = db.Column(db.Text())
     companyDescription = db.Column(db.String(), default="")
-    listOfProjectIds = db.Column(MutableList.as_mutable(JSON), default=list)
+    listOfProjectIds = db.Column(JSON, default=list)
 
     def __repr__(self):
         return f"<Company {self.companyEmail}>"
 
     def set_company_password(self, companyPassword):
-        if not companyPassword:
-            return
-        
         self.companyPassword = generate_password_hash(companyPassword)
         db.session.commit()
 
     # Sets company details
     def set_company_details(self, name, phone, website, description, logo):
-        newDetails = {
-            "companyName": name,
-            "companyPhoneNumber": phone,
-            "companyWebsite": website,
-            "companyDescription": description,
-            "companyLogo": logo,
-        }
-
-        for dbField, value in newDetails.items():
-            if value:
-                setattr(self, dbField, value)
+        self.companyName = name
+        self.companyPhoneNumber = phone
+        self.companyWebsite = website
+        self.companyDescription = description
+        self.companyLogo = logo
         db.session.commit()
 
     def check_company_password(self, companyPassword):
@@ -115,9 +106,6 @@ class Professional(db.Model):
         return f"<Professional {self.professionalEmail}>"
 
     def set_professional_password(self, professionalPassword):
-        if not professionalPassword:
-            return
-        
         self.professionalPassword = generate_password_hash(professionalPassword)
         db.session.commit()
 
@@ -139,27 +127,24 @@ class Professional(db.Model):
 
     #Sets all data
     def set_professional_details(self, name, website, number, description, qualification, education, skills, photo):
-        newDetails = {
-            "professionalFullName": name,
-            "professionalWebsite": website,
-            "professionalNumber": number,
-            "professionalDescription": description,
-            "professionalQualification": qualification,
-            "professionalEducation": education,
-            "professionalSkills": skills,
-            "professionalPhoto": photo,   
-        }
-
-        for dbField, value in newDetails.items():
-            if value:
-                setattr(self, dbField, value)
+        self.professionalFullName = name
+        self.professionalWebsite = website
+        self.professionalPhoneNumber  = number
+        self.professionalDescription = description
+        self.professionalQualifications = qualification
+        self.professionalEducation = education
+        self.professionalSkills = skills
+        self.professionalPhoto = photo
         db.session.commit()
+        
 
 class Projects(db.Model):
     __tablename__ = 'projects'
     projectId = db.Column(db.String(), primary_key=True, default=create_id)
     pCompanyId = db.Column(db.String(), default="")
     projectName = db.Column(db.String(), default="")
+    contactEmail = db.Column(db.String(),default="")
+    professionalsWanted = db.Column(db.String(),default="")
     projectObjectives = db.Column(db.String(), default="")
     projectDescription = db.Column(db.Text(), default="")
     projectStartDate = db.Column(db.String(), default="")
@@ -194,7 +179,6 @@ class Projects(db.Model):
         self.pCompanyId = companyId
         self.projectName = projectName
         db.session.commit()
-
         
     def edit_project_details(self, data):
         for field, value in data.items():
