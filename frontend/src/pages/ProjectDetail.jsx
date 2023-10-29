@@ -171,7 +171,6 @@ export default function ProjectDetail() {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      
       <CssBaseline />
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <Header></Header>

@@ -99,6 +99,7 @@ export default function ProjectDetailWindow(projectID) {
     // }
 
     console.log(projectID.projectID)
+    console.log(projectID)
     React.useState(() => {
         // getDetails();
     // React.useEffect(() => {
