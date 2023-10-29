@@ -13,6 +13,7 @@ import {
 } from 'react-router-dom';
 
 const CreateProject = (props) => {
+  console.log("create project page")
   const [projectName, setNewProjectName] = React.useState('');
   const [contactEmail, setNewContactEmail] = React.useState('');
   const [categories, setNewCategories] = React.useState([]);
@@ -35,7 +36,6 @@ const CreateProject = (props) => {
     if (getToken != null) {
         const tokenData = decodeJWT(getToken);
         setOwnUserId(tokenData.userId);
-        // console.log("edit professinoal profile get own user id from token", tokenData.userId)
     }
   }, []);
 
@@ -95,11 +95,11 @@ const CreateProject = (props) => {
             <div classname="date-div">
                 <div classname="date-div1">
                     <label className="formlabel">Start Date</label>
-                    <input className="dateInput" type="text" value={startDate} onChange={(e) => setNewStartDate(e.target.value)} />
+                    <input className="dateInput" type="date" value={startDate} onChange={(e) => setNewStartDate(e.target.value)} />
                 </div>
                 <div classname="date-div1">
                     <label className="formlabel">End Date</label>
-                    <input className="dateInput" type="text" value={endDate} onChange={(e) => setNewEndDate(e.target.value)} />
+                    <input className="dateInput" type="date" value={endDate} onChange={(e) => setNewEndDate(e.target.value)} />
                 </div>
             </div>
             <div>

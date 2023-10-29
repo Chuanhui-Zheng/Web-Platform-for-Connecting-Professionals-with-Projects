@@ -51,7 +51,7 @@ export default function MultipleSelectCategoryChip( { set } ) {
   return (
     <div>
       <FormControl className="formInput1" sx ={{pt: 0.5}}>
-        <InputLabel id="demo-multiple-chip-label">Skills</InputLabel>
+        <InputLabel id="demo-multiple-chip-label">Category</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"

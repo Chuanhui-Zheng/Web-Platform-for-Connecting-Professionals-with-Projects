@@ -17,6 +17,7 @@ import { apiGet } from '../api';
 import { useHeader } from '../HeaderContext';
 
 function Header() {
+    console.log("Render Header")
     const navigate = useNavigate();
     const [token, setToken] = React.useState(localStorage.getItem("token"));
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -69,15 +70,15 @@ function Header() {
         }
       }, [reloadHeader])
 
-    React.useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (token != null) {
-            const tokenData = decodeJWT(token);
-            setUserType(tokenData.userType)
-            setUserId(tokenData.userId)
-            console.log("boing", tokenData.userId)
-        }
-    }, 5000);
+    // React.useEffect(() => {
+    //     const token = localStorage.getItem("token");
+    //     if (token != null) {
+    //         const tokenData = decodeJWT(token);
+    //         setUserType(tokenData.userType)
+    //         setUserId(tokenData.userId)
+    //         console.log("boing1", tokenData.userId)
+    //     }
+    // }, 5000);
 
     function logout() {
         localStorage.clear()

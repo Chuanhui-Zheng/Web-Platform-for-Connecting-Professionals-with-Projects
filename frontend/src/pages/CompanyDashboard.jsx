@@ -14,6 +14,8 @@ import { useDemoRouter } from '@toolpad/core/internals';
 
 import ProjectCard from '../components/Professional/Dashboard/ProjectCard.jsx';
 
+import decodeJWT from "../decodeJWT";
+
 // import Form from "../components/Form"
 const titleStyle = {
     display: 'flex',
@@ -42,6 +44,17 @@ function CompanyDashboard() {
     const navigate = useNavigate();
     const router = useDemoRouter('/companydashboard');
     const theme = useTheme();
+    const [isCompany, setIsCompany] = React.useState(false);
+
+    React.useEffect(() => {
+        const getToken = localStorage.getItem("token");
+        if (getToken != null) {
+            const tokenData = decodeJWT(getToken);
+            if (tokenData.userType === "company") {
+                setIsCompany(true);
+            }
+        }
+      }, []);
 
     return (
         <AppProvider className="APP" sx={{ backgroundColour: 'none' }} navigation={NAVIGATION} router={router} theme={theme}>
@@ -50,7 +63,7 @@ function CompanyDashboard() {
             <div>
                 <h1>Dashboard</h1>
             </div>
-            <Button variant="contained" onClick={() => { navigate('createproject') }}> + Create Project</Button>     
+            {isCompany ? <Button variant="contained" onClick={() => { navigate('createproject') }}> + Create Project</Button>  : <></>   }
         </Box>    
         <Accordion defaultExpanded>
             <AccordionSummary
