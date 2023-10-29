@@ -204,9 +204,6 @@ RETURN {
 def projectDetails():    
     projectIdStr = request.args.get("projectId")
     projectId = int(projectIdStr)
-def projectDetails():    
-    projectIdStr = request.args.get("projectId")
-    projectId = int(projectIdStr)
     
     project = Projects.get_project_by_id(projectId)
     if project is None: 
