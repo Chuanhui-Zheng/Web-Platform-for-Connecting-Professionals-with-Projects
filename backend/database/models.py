@@ -42,22 +42,31 @@ class Company(db.Model):
     companyLogo = db.Column(db.String(), default="")
     companyPassword = db.Column(db.Text())
     companyDescription = db.Column(db.String(), default="")
-    listOfProjectIds = db.Column(JSON, default=list)
+    listOfProjectIds = db.Column(MutableList.as_mutable(JSON), default=list)
 
     def __repr__(self):
         return f"<Company {self.companyEmail}>"
 
     def set_company_password(self, companyPassword):
+        if not companyPassword:
+            return
+        
         self.companyPassword = generate_password_hash(companyPassword)
         db.session.commit()
 
     # Sets company details
     def set_company_details(self, name, phone, website, description, logo):
-        self.companyName = name
-        self.companyPhoneNumber = phone
-        self.companyWebsite = website
-        self.companyDescription = description
-        self.companyLogo = logo
+        newDetails = {
+            "companyName": name,
+            "companyPhoneNumber": phone,
+            "companyWebsite": website,
+            "companyDescription": description,
+            "companyLogo": logo,
+        }
+
+        for dbField, value in newDetails.items():
+            if value:
+                setattr(self, dbField, value)
         db.session.commit()
 
     def check_company_password(self, companyPassword):
@@ -106,6 +115,9 @@ class Professional(db.Model):
         return f"<Professional {self.professionalEmail}>"
 
     def set_professional_password(self, professionalPassword):
+        if not professionalPassword:
+            return
+        
         self.professionalPassword = generate_password_hash(professionalPassword)
         db.session.commit()
 
@@ -127,16 +139,21 @@ class Professional(db.Model):
 
     #Sets all data
     def set_professional_details(self, name, website, number, description, qualification, education, skills, photo):
-        self.professionalFullName = name
-        self.professionalWebsite = website
-        self.professionalPhoneNumber  = number
-        self.professionalDescription = description
-        self.professionalQualifications = qualification
-        self.professionalEducation = education
-        self.professionalSkills = skills
-        self.professionalPhoto = photo
+        newDetails = {
+            "professionalFullName": name,
+            "professionalWebsite": website,
+            "professionalNumber": number,
+            "professionalDescription": description,
+            "professionalQualification": qualification,
+            "professionalEducation": education,
+            "professionalSkills": skills,
+            "professionalPhoto": photo,   
+        }
+
+        for dbField, value in newDetails.items():
+            if value:
+                setattr(self, dbField, value)
         db.session.commit()
-        
 
 class Projects(db.Model):
     __tablename__ = 'projects'
@@ -156,7 +173,7 @@ class Projects(db.Model):
     projectConfidentialInformation = db.Column(db.Text(), default="")
     listOfProfessionals = db.Column(MutableList.as_mutable(JSON), default=list)
     listOfApplicants = db.Column(MutableList.as_mutable(JSON), default=list)
-    projectStatus = db.Column(db.String(), default="Incomplete")
+    projectStatus = db.Column(db.String(), default="Active")
     #projectRatings = db.Column(JSON, default="")
     
     @classmethod
@@ -179,6 +196,7 @@ class Projects(db.Model):
         self.pCompanyId = companyId
         self.projectName = projectName
         db.session.commit()
+
         
     def edit_project_details(self, data):
         for field, value in data.items():
@@ -204,10 +222,11 @@ class Projects(db.Model):
         target_list = getattr(self, listType, None)
         
         if target_list is not None and isinstance(target_list, list):
-            if professionalId in target_list:
-                target_list.remove(professionalId)  
-                db.session.commit() 
-                return True
+            for applicant in target_list:
+                if applicant.get('professionalId') == professionalId:
+                    target_list.remove(applicant)  
+                    db.session.commit() 
+                    return True
         return False
     
     def set_status(self, professionalId, new_status):

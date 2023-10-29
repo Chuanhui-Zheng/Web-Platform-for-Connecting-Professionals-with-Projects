@@ -20,7 +20,8 @@ from functions.projects import (
     projectProfessionalList, 
     projectCompanyReject, 
     projectProfessionalStatus, 
-    projectSearch
+    projectSearch,
+    getProfessionalProjectsFromStatus
 )
 
 def create_app():
@@ -66,6 +67,7 @@ def create_app():
     app.add_url_rule('/project/professional/list', 'projectProfessionalList', projectProfessionalList, methods=['GET'])
     app.add_url_rule('/project/professional/status', 'projectProfessionalStatus', projectProfessionalStatus, methods=['GET'])
     app.add_url_rule('/project/search', 'projectSearch', projectSearch, methods=['GET'])
+    app.add_url_rule('/project/professional/get/projects/from/status', 'getProfessionalProjectsFromStatus', getProfessionalProjectsFromStatus, methods=['GET'])
 
     return app
 

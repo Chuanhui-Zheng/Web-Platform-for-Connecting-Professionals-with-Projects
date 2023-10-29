@@ -2,8 +2,9 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from database.models import Company, Professional, Projects
 from extensions import db
-from sqlalchemy import or_, and_, func
+from sqlalchemy import or_, and_, func, text
 import re
+import json
 
 app = Flask(__name__)
 
@@ -16,6 +17,9 @@ def company_exists(companyId):
 
 def professional_exists(professionalId):
     return Projects.get_professional_by_id(professionalId)
+
+def getProjectCompany(companyId):
+    return Company.get_company_by_id(companyId=companyId).companyName
 
 def getProjectCompany(companyId):
     return Company.get_company_by_id(companyId=companyId).companyName
@@ -54,16 +58,19 @@ def projectCreate():
     contactEmail = data.get("contactEmail", "")
     
     new_project = Projects(projectObjectives=projectObjectives,
-                           projectDescription=projectDescription, projectStartDate=projectStartDate, projectEndDate=projectEndDate,
+                           projectDescription=projectDescription, projectStartDate=projectStartDate,
                            projectLocation=projectLocation, projectKeyResponsibilities=projectKeyResponsibilities,
                            projectConfidentialInformation=projectConfidentialInformation,
                            projectSkills=projectSkills, projectCategories=projectCategories,
-                           professionalsWanted=professionalsWanted,contactEmail=contactEmail,
-                           
+                           projectEndDate=projectEndDate,
+                           professionalsWanted=professionalsWanted,
+                           contactEmail=contactEmail,
                            )
     
     if not company_exists(companyId):
         return jsonify({"error": "Company does not exist"}), 409
+    elif Projects.query.filter_by(projectName=projectName, pCompanyId=int(companyId)).first():
+        return jsonify({"error": "Company already has project under this name"}), 404
     elif Projects.query.filter_by(projectName=projectName, pCompanyId=int(companyId)).first():
         return jsonify({"error": "Company already has project under this name"}), 404
     
@@ -78,44 +85,71 @@ def projectCreate():
 PARAMETERS (query string) {id, status}:
 /project/list?id=USERID&status=STATUS
 
+Status for Company:
+status = {'Avtive', 'Complete'}
+
+Status for professional:
+status = {'Pending', 'Approved', 'rejected'
+}
+
 RETURN {
     dictionary of company's projects
 }
 '''
-@app.route('/project/list', methods=['GET']) #tested
+@app.route('/project/list', methods=['GET'])
 def projectList():
-    idstr = request.args.get('id')
-    id = int(idstr)
+    id_str = request.args.get('id')
     status = request.args.get('status')
-
     
-    # if company gets all projects that are from the company and of the given type
+    if not id_str:
+        return jsonify({"error": "Missing 'id' parameter"}), 400
+    
+    id = int(id_str)
+    projects = []
+
     if company_exists(id):
-        projects = Projects.query.filter(
-            Projects.pCompanyId == int(id),
-            Projects.projectStatus == status
-        ).all()
-    elif professional_exists(id):
-        if status == "Approved":
-            projects = Projects.query.filter(
-                Projects.listOfProfessionals.any(userid=id),
-            )
+        # checks for status and if not returns all projects otherwise returns all with the given status
+        if status:
+            projects = Projects.query.filter_by(pCompanyId=id, projectStatus=status).all()
         else:
-            projects = Projects.query.filter(
-                Projects.listOfApplicants.any(userid=id),
-            )
-    else:
-        return jsonify({"error: User does not exist"}), 407
+            projects = Projects.query.filter_by(pCompanyId=id).all()
+    elif professional_exists(id):
+        all_projects = Projects.query.all()
+        filtered_projects = []
+
+        for project in all_projects:
+            # Converts professionals and applicants into lists
+            professionals = json.loads(project.listOfProfessionals) if isinstance(project.listOfProfessionals, str) else project.listOfProfessionals
+            applicants = json.loads(project.listOfApplicants) if isinstance(project.listOfApplicants, str) else project.listOfApplicants
+
+            # if a status is given then we check for direct matches in either
+            # the listOfProfessionals or listOfApplicants otherwise we find any matches
+            if status:
+                if any(pro["professionalId"] == id and pro["status"] == status for pro in professionals):
+                    filtered_projects.append(project)
+                    continue
+                if any(app["professionalId"] == id and app["status"] == status for app in applicants):
+                    filtered_projects.append(project)
+                    continue
+            else:
+                if any(pro["professionalId"] == id for pro in professionals):
+                    filtered_projects.append(project)
+                    continue
+                if any(app["professionalId"] == id for app in applicants):
+                    filtered_projects.append(project)
+
+        projects = filtered_projects
 
     if not projects:
-        return jsonify({"status": "no projects"}), 205
+        return jsonify([]), 200
 
-    project_dict = [
+    project_dicts = [
         {k: v for k, v in vars(project).items() if not k.startswith('_')}
         for project in projects
     ]
     
-    return jsonify(project_dict), 200
+    return jsonify(project_dicts), 200
+
 
 
 '''
@@ -128,6 +162,8 @@ RETURN {
 '''
 @app.route('/project/listall', methods=['GET']) #tested
 def projectListAll():
+    projects = Projects.query.filter_by(projectStatus='Incomplete').all()
+
     projects = Projects.query.filter_by(projectStatus='Incomplete').all()
 
     # depends how front end wants to display
@@ -157,6 +193,8 @@ def projectListAll():
 '''
 PARAMETERS (query string)
 /project/details?projectId=PROJECTIDHERE
+PARAMETERS (query string)
+/project/details?projectId=PROJECTIDHERE
 
 RETURN {
     obj of project details
@@ -180,25 +218,33 @@ def projectDetails():
         "projectCategory": project.projectCategories,
         "projectObjectives": project.projectObjectives,
         "projectDescription": project.projectDescription,
+        "projectDescription": project.projectDescription,
         "projectStartDate": project.projectStartDate,
         "projectEndDate": project.projectEndDate,
+        "projectStatus": project.projectStatus,
         "projectStatus": project.projectStatus,
         "projectLocation": project.projectLocation,
         "professionalsWanted": project.professionalsWanted,
         "projectKeyResponsibilities": project.projectKeyResponsibilities,
         "projectSkills": project.projectSkills,
+        "projectSkills": project.projectSkills,
         "projectConfidentialInformation": project.projectConfidentialInformation,
+        "projectStatus": project.projectStatus,
         "projectStatus": project.projectStatus,
         "listOfApplicants": project.listOfApplicants,
         "listOfProfessionals": project.listOfProfessionals,
         # need to add rating systems
-        "projectRatings": 0
+        "projectRatings": 0,
     }
+    # return jsonify({"message": "hji"})
     # return jsonify({"message": "hji"})
     return jsonify(project_details), 200
 
 
 '''
+PARAMETERS (query string)
+/project/search?query_string=SEARCHQUERY&catagory=CATAGORYNAME&catagory=CATAGORYNAME
+?
 PARAMETERS (query string)
 /project/search?query_string=SEARCHQUERY&catagory=CATAGORYNAME&catagory=CATAGORYNAME
 ?
@@ -210,6 +256,14 @@ RETURN {
 # TO-DO filter by other things
 @app.route('/project/search', methods=['GET']) #tested
 def projectSearch():
+    query_string = request.args.get("query", "")
+    categories = set(request.args.getlist("category"))
+    skills = set(request.args.getlist("skills"))
+    location = request.args.get("location")
+    creator = request.args.get("creatorId")
+
+    # starts building query
+    query = Projects.query
     query_string = request.args.get("query", "")
     categories = set(request.args.getlist("category"))
     skills = set(request.args.getlist("skills"))
@@ -241,6 +295,7 @@ def projectSearch():
             Projects.projectCategories.like(f'%"{category}"%') for category in categories
         ]
         query = query.filter(and_(*category_conditions))
+        query = query.filter(and_(*category_conditions))
 
     # filter by skills (substring matching)
     if skills:
@@ -262,9 +317,28 @@ def projectSearch():
             Projects.pCompanyId == creator
         ]
         query = query.filter(and_(*creators_projects))
+        query = query.filter(and_(*skill_conditions))
+    
+    # Filtering by location (substring matching)
+    if location:
+        project_location = [
+            Projects.projectLocation.like(f'%"{location}"%')
+        ]
+        query = query.filter(and_(*project_location))
+    
+    # Filtering by User
+    if creator:
+        creators_projects = [
+            Projects.pCompanyId == creator
+        ]
+        query = query.filter(and_(*creators_projects))
         
     results = query.all()
 
+    if not results:
+        return jsonify({"message": "No projects found."}), 404
+
+    # returns all project infomation
     if not results:
         return jsonify({"message": "No projects found."}), 404
 
@@ -303,6 +377,8 @@ def projectProfessionalApply():
     
     if professionalId in [professional['professionalId'] for professional in project.listOfProfessionals]:
         return jsonify({"error": "Professional is already a part of this project"}), 409
+    elif professionalId in [applicant['professionalId'] for applicant in project.listOfApplicants]:
+        return jsonify({"error": "Already an applicant"}), 409
     elif professionalId in [applicant['professionalId'] for applicant in project.listOfApplicants]:
         return jsonify({"error": "Already an applicant"}), 409
     
@@ -374,13 +450,16 @@ def projectCompanyApprove():
     if project is None:
         return jsonify({"error": "Project does not exist"}), 409
     
-    if professionalId in project.listOfProfessionals:
+    # Checks if the professional has already been approved
+    if any(applicant['professionalId'] == professionalId for applicant in project.listOfProfessionals):
         return jsonify({"error": "Professional already approved"}), 406
-    elif professionalId not in project.listOfApplicants:
+
+    # Check if the professional is not an applicant
+    if not any(applicant['professionalId'] == professionalId for applicant in project.listOfApplicants):
         return jsonify({"error": "Professional not an applicant"}), 405
-    else:
-        project.remove_from_list(professionalId, "listOfApplicants")
-        project.add_to_list(professionalId, "listOfProfessionals", "Approved")
+    
+    project.remove_from_list(professionalId, "listOfApplicants")
+    project.add_to_list(professionalId, "listOfProfessionals", "Approved")
         
     return jsonify({"success": "Professional approved"}), 200
 
@@ -432,7 +511,7 @@ def projectComplete():
     if project is None:
         return jsonify({"error": "Project does not exist"}), 409
 
-    if project.projectStatus == "Incomplete":
+    if project.projectStatus == "Active":
         project.projectStatus = "Complete"
         db.session.commit()
         return jsonify({"success": "Project status set to Complete"}), 200
@@ -553,3 +632,39 @@ def projectProfessionalStatus():
         return jsonify({"status": "Approved"}), 200
     
     return jsonify({"status": "Not applied"}), 200
+
+
+'''
+PARAMETERS (query string) {professionalId, status}
+/project/professional/get/projects/from/status?professionalId=PROFESSIONALIDHERE&status=STATUSHERE
+
+Status can be either:
+status = {'Active', 'complete'}
+
+'''
+@app.route('/project/professional/get/projects/from/status', methods=['GET'])
+def getProfessionalProjectsFromStatus():
+    profIdStr = request.args.get("professionalId")
+    profId = int(profIdStr)
+    status = request.args.get("status")
+    
+    projects = Projects.query.filter_by(projectStatus=status).all()
+    filtered_projects = []
+    for project in projects:
+        # Ensure it's a string before loading JSON
+        if isinstance(project.listOfProfessionals, str):
+            professionals = json.loads(project.listOfProfessionals)
+        else:
+            professionals = project.listOfProfessionals
+
+        for professional in professionals:
+            if professional["professionalId"] == profId:
+                filtered_projects.append(project)
+                break
+
+    project_dict = [
+        {k: v for k, v in vars(project).items() if not k.startswith('_')}
+        for project in filtered_projects
+    ]
+    
+    return jsonify(project_dict), 200
