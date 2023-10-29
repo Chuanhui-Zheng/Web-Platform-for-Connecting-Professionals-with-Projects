@@ -77,94 +77,71 @@ def projectCreate():
 PARAMETERS (query string) {id, status}:
 /project/list?id=USERID&status=STATUS
 
+Status for Company:
+status = {'Avtive', 'Complete'}
+
+Status for professional:
+status = {'Pending', 'Approved', 'rejected'
+}
+
 RETURN {
     dictionary of company's projects
 }
 '''
-@app.route('/project/list', methods=['GET']) #tested
+@app.route('/project/list', methods=['GET'])
 def projectList():
-    idstr = request.args.get('id')
-    id = int(idstr)
+    id_str = request.args.get('id')
     status = request.args.get('status')
-    print("fucking shti")
-    projects = None
-    # if company gets all projects that are from the company and of the given type
+    
+    if not id_str:
+        return jsonify({"error": "Missing 'id' parameter"}), 400
+    
+    id = int(id_str)
+    projects = []
+
     if company_exists(id):
+        # checks for status and if not returns all projects otherwise returns all with the given status
         if status:
-            projects = Projects.query.filter(
-                Projects.pCompanyId == id,
-                Projects.projectStatus == status
-            ).all()
+            projects = Projects.query.filter_by(pCompanyId=id, projectStatus=status).all()
         else:
-            projects = Projects.query.filter(
-                Projects.pCompanyId == id
-            ).all()
+            projects = Projects.query.filter_by(pCompanyId=id).all()
     elif professional_exists(id):
-        print("status here::",status)
-        if status:
-            print("helloooo")
-            if status == "Approved":
-                projects = Projects.query.filter(
-                    Projects.listOfProfessionals.any(Projects.listOfProfessionals['professionalId'] == id)
-                ).all()
-                
-                # Projects.query.filter(
-                #     Projects.listOfProfessionals.any(userid=id),
-                # ).all()
+        all_projects = Projects.query.all()
+        filtered_projects = []
+
+        for project in all_projects:
+            # Converts professionals and applicants into lists
+            professionals = json.loads(project.listOfProfessionals) if isinstance(project.listOfProfessionals, str) else project.listOfProfessionals
+            applicants = json.loads(project.listOfApplicants) if isinstance(project.listOfApplicants, str) else project.listOfApplicants
+
+            # if a status is given then we check for direct matches in either
+            # the listOfProfessionals or listOfApplicants otherwise we find any matches
+            if status:
+                if any(pro["professionalId"] == id and pro["status"] == status for pro in professionals):
+                    filtered_projects.append(project)
+                    continue
+                if any(app["professionalId"] == id and app["status"] == status for app in applicants):
+                    filtered_projects.append(project)
+                    continue
             else:
-                projects = Projects.query.filter(
-                    Projects.listOfApplicants.contains([{"professionalId": id, "status": status}])
-                ).all()
-        
-        else:
-            projects = Projects.query.all()
-            filtered_projects = []
-            for project in projects:
-                # Ensure it's a string before loading JSON
-                if isinstance(project.listOfProfessionals, str):
-                    professionals = json.loads(project.listOfProfessionals)
-                else:
-                    professionals = project.listOfProfessionals
+                if any(pro["professionalId"] == id for pro in professionals):
+                    filtered_projects.append(project)
+                    continue
+                if any(app["professionalId"] == id for app in applicants):
+                    filtered_projects.append(project)
 
-                if isinstance(project.listOfApplicants, str):
-                    applicants = json.loads(project.listOfApplicants)
-                else:
-                    applicants = project.listOfApplicants
-                
-
-                if status:
-                    for professional in professionals:
-                        if professional["professionalId"] == id and professional["status"] == status:
-                            filtered_projects.append(project)
-                            break
-                    
-                    for applicant in applicants:
-                        if applicant["professionalId"] == id and applicant["status"] == status:
-                            filtered_projects.append(project)
-                            break
-                    
-                else:
-                    for professional in professionals:
-                        if professional["professionalId"] == id:
-                            filtered_projects.append(project)
-                            break
-
-                    for applicant in applicants:
-                        if applicant["professionalId"] == id:
-                            filtered_projects.append(project)
-                            break
-
-            projects = filtered_projects
+        projects = filtered_projects
 
     if not projects:
         return jsonify([]), 200
 
-    project_dict = [
+    project_dicts = [
         {k: v for k, v in vars(project).items() if not k.startswith('_')}
         for project in projects
     ]
     
-    return jsonify(project_dict), 200
+    return jsonify(project_dicts), 200
+
 
 
 '''
@@ -596,18 +573,22 @@ def projectProfessionalStatus():
     return jsonify({"status": "Not applied"}), 200
 
 
+'''
+PARAMETERS (query string) {professionalId, status}
+/project/professional/get/projects/from/status?professionalId=PROFESSIONALIDHERE&status=STATUSHERE
+
+Status can be either:
+status = {'Active', 'complete'}
+
+'''
 @app.route('/project/professional/get/projects/from/status', methods=['GET'])
 def getProfessionalProjectsFromStatus():
     profIdStr = request.args.get("professionalId")
     profId = int(profIdStr)
     status = request.args.get("status")
-    print("haha", profId, status)
-    print("fuck you")
     
     projects = Projects.query.filter_by(projectStatus=status).all()
-    print(projects)
     filtered_projects = []
-    print("shit", status, projects)
     for project in projects:
         # Ensure it's a string before loading JSON
         if isinstance(project.listOfProfessionals, str):
@@ -616,9 +597,7 @@ def getProfessionalProjectsFromStatus():
             professionals = project.listOfProfessionals
 
         for professional in professionals:
-            print("comparison", professional["professionalId"], profId)
             if professional["professionalId"] == profId:
-                print("match here")
                 filtered_projects.append(project)
                 break
 
@@ -628,22 +607,3 @@ def getProfessionalProjectsFromStatus():
     ]
     
     return jsonify(project_dict), 200
-
-
-    if not projects:
-        return jsonify([]), 200
-
-    project_dict = [
-        {k: v for k, v in vars(project).items() if not k.startswith('_')}
-        for project in projects
-    ]
-    
-    return jsonify(project_dict), 200
-
-    print("returing", filtered_projects)
-    return jsonify(filtered_projects)
-
-    return Projects.query.filter(
-        Projects.projectStatus == status,
-        Projects.listOfProfessionals.contains([id])
-    ).all()
