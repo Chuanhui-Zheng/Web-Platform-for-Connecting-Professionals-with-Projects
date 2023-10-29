@@ -50,13 +50,9 @@ function CompanyDashboard() {
     const [ownUserId, setOwnUserId] = React.useState('');
 
     React.useEffect(() => {
-        console.log("SHIT")
         const getToken = localStorage.getItem("token");
-        console.log(getToken)
         if (getToken != null) {
-            // setToken(token);
             const tokenData = decodeJWT(getToken);
-            console.log(tokenData)
             setOwnUserId(tokenData.userId);
         }
     }, []);
@@ -91,7 +87,7 @@ function CompanyDashboard() {
                 id="panel1-header"
                 sx={{margin: '0px'}}
                 >
-                <div style={projectTitleStyle}>Active Projects</div>
+                <div style={projectTitleStyle}>Current Projects</div>
             </AccordionSummary>
             <AccordionDetails>
                 {activeProjects.map((project, idx) => (
