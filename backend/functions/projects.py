@@ -510,7 +510,7 @@ def projectComplete():
     if project is None:
         return jsonify({"error": "Project does not exist"}), 409
 
-    if project.projectStatus == "Incomplete":
+    if project.projectStatus == "Active":
         project.projectStatus = "Complete"
         db.session.commit()
         return jsonify({"success": "Project status set to Complete"}), 200
