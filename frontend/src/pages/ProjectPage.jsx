@@ -52,13 +52,7 @@ const StyledChip = styled(Chip)({
   }
 });
 
-
-const professionalButtons = [
-  <Button key="status" sx={{backgroundColor: "#21b6ae"}}>Approved</Button>,
-];
-
 const statusOptions = ['Pending', 'Completed', 'Close'];
-
 
 
 export default function ProjectDetail() {
@@ -80,6 +74,31 @@ export default function ProjectDetail() {
             return;
         }
     };
+
+    const companybuttons = [
+      <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}}>Edit Project</Button>,
+      <Button key="candidateList" sx={{backgroundColor: "grey"}}>Candidate List</Button>,
+      // <Button key="company-status">Project Status</Button>,
+      <Button
+          sx={{backgroundColor: "#21b6ae"}}
+          key="companyStatus"        
+          size="small"
+          ref={anchorRef}
+          aria-controls={open ? 'split-button-menu' : undefined}
+          aria-expanded={open ? 'true' : undefined}
+          aria-label="select merge strategy"
+          aria-haspopup="menu"
+          onClick={handleToggle}
+      >
+      {statusOptions[selectedIndex]}<ArrowDropDownIcon />
+      </Button>
+    ];
+
+    const professionalButtons = [
+      <Button key="status" sx={{backgroundColor: "#21b6ae"}}>Approved</Button>,
+    ];
+    
+
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -142,7 +161,7 @@ export default function ProjectDetail() {
             aria-label="Vertical button group"
             variant="contained"
           >
-            {professionalButtons}
+            {companybuttons}
           </ButtonGroup>
         
         </Box>

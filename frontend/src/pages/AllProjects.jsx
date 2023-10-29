@@ -34,6 +34,7 @@ import { apiGet } from '../api';
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
 import BrowseCards from '../components/BrowseCards';
+import ProjectDetailWindow from '../components/ProjectDetailWindow';
 
 const headerStyle = {
   display: 'flex',
@@ -127,8 +128,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function AllProjects() {
   const [open, setOpen] = React.useState(false);
   const [allProjects, setAllProjects] = React.useState([{}]);
+  const [projectID, setSelectProjectID] = React.useState('');
 
-  React.useEffect(() => {
+  React.useState(() => {
     apiGet("/project/listall",)
     .then((data) => {
         console.log(data);
@@ -136,12 +138,17 @@ export default function AllProjects() {
           setAllProjects(data);
           // console.log("project details:", allProjects)
           console.log("project details:", data)
+          const allProjectList = [];
+          data.forEach(p => {
+            allProjectList.push(p);
+          })
+          setSelectProjectID(allProjectList[0].projectId)
         } else {
             throw new Error("Get Projects");
         }
     })
-    .catch(() => {
-        alert("not valid.");
+    .catch((err) => {
+        alert(err);
     });
   }, []);
 
@@ -176,60 +183,7 @@ export default function AllProjects() {
         </DrawerHeader>
         <Divider />
         <Box sx={{ overflow: 'auto' }}>
-          
-        {/* <List>
-          {allProjects.map((project, idx) => (
-            <ListItem key={idx} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={[
-                  {
-                    minHeight: 48,
-                    px: 2.5,
-                  },
-                  open
-                    ? {
-                        justifyContent: 'initial',
-                      }
-                    : {
-                        justifyContent: 'center',
-                      },
-                ]}
-              >
-                <ListItemIcon
-                  sx={[
-                    {
-                      minWidth: 0,
-                      justifyContent: 'center',
-                    },
-                    open
-                      ? {
-                          mr: 3,
-                        }
-                      : {
-                          mr: 'auto',
-                        },
-                  ]}
-                >
-                  {project.companyPhoto}
-                </ListItemIcon>
-                <ListItemText
-                  primary={project.title}
-                  sx={[
-                    open
-                      ? {
-                          opacity: 1,
-                        }
-                      : {
-                          opacity: 0,
-                        },
-                  ]}
-                />
-
-
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List> */}
+        
         {open === false ? <div></div>: 
                 <List>
                 {/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
@@ -253,9 +207,10 @@ export default function AllProjects() {
             }
         </Box>
       </Drawer>
-
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-
+      {console.log(allProjects)}
+      {console.log(typeof projectID)}
+      <ProjectDetailWindow projectID={parseInt(projectID)}/>
+      {/* <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <div style={headerStyle}>
           <Avatar sx={{ width: 32, height: 32 }} />
           <Typography variant="h4" component="h1" gutterBottom>
@@ -367,7 +322,7 @@ export default function AllProjects() {
         <Typography variant="h5" component="h2" gutterBottom>
           Contact email
         </Typography>
-      </Box>
+      </Box> */}
       {/* </PageContainer> */}
     </Box>
   );
