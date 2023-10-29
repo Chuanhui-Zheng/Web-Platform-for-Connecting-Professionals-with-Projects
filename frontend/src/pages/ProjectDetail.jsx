@@ -26,8 +26,11 @@ import AppBar from '@mui/material/AppBar';
 import Chip from '@mui/material/Chip';
 // import { PageContainer } from '@toolpad/core/PageContainer';
 // import { AppProvider } from '@toolpad/core/AppProvider';
+import { apiGet } from '../api';
+import { useLocation } from 'react-router-dom';
 
 import Header from '../components/Header';
+import { useNavigate, useParams } from "react-router-dom";
 
 const headerStyle = {
   display: 'flex',
@@ -57,17 +60,64 @@ const professionalButtons = [
   <Button key="status" sx={{backgroundColor: "#21b6ae"}}>Status</Button>,
 ];
 
-const statusOptions = ['Pending', 'Completed', 'Close'];
+const companyButtons = [
+  <Button key="status" sx={{backgroundColor: "#21b6ae"}}>Status</Button>,
+];
 
+const statusOptions = ['Pending', 'Completed'];
 
 
 export default function ProjectDetail() {
+    const { projectID } = useParams();
+    const navigate = useNavigate();
+    // const navigate = useLocation();
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
-    const [selectedIndex, setSelectedIndex] = React.useState(1);
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const [projectInfo, setprojectInfo] = React.useState([]);
+    const currentUrl = window.location.href;
+    const [projectId, setProjectId] = React.useState('');
+
+    React.useEffect(() => {
+      // const glob = localStorage.getItem('token');
+      // setToken(glob);
+      // fetchProjectDeets();
+      setProjectId(currentUrl.split('/').pop())
+      console.log(currentUrl.split('/').pop())
+      apiGet("/project/details", `projectId=${projectID}`)
+      .then((data) => {
+          console.log(data);
+          if (!data.error) {
+            setprojectInfo(data);
+            console.log("details:", data)
+          } else {
+              throw new Error("Get Project details");
+          }
+      })
+      .catch(() => {
+          alert("not valid.");
+      });
+    }, []);
+
 
     const handleMenuItemClick = (event, index) => {
         setSelectedIndex(index);
+        console.log(event)
+        if (index == 1) {
+          // complete project
+          apiPost("/project/company/complete", `projectId=${projectID}`)
+          .then((data) =>{
+              if (!data.error) {
+                  console.log(data)
+              } else {
+                  throw new Error("Project Complete Failed");
+              }
+          })
+          .catch(() => {
+              alert("Project Complete are not valid.")
+          });
+
+        }
         setOpen(false);
     };
 
@@ -113,39 +163,39 @@ export default function ProjectDetail() {
         <div style={headerStyle}>
           <Avatar sx={{ width: 32, height: 32 }} />
           <Typography variant="h4" component="h1" gutterBottom>
-            <b> Project Name</b>
+            <b> {projectInfo.projectName}</b>
           </Typography>
         </div>
         
         <Box style={secondaryStyle}>
           <Box>
             <Typography variant="h6" component="h1" gutterBottom>
-              Company Name
+            {projectInfo.projectCompany}
             </Typography>
 
             <Container sx={{flexDirection: 'row'}}>
               <Box display="flex" alignItems="center" mb={1}>
                 <BusinessCenterIcon style={{ marginRight: 8 }} />
                 <Typography variant="body2" color="textSecondary">
-                  Category
+                {projectInfo.Category}
                 </Typography>
               </Box>
               <Box display="flex" alignItems="center" mb={1}>
                 <DateRangeIcon style={{ marginRight: 8 }} />
                 <Typography variant="body2" color="textSecondary">
-                  Start Date - End Date
+                {projectInfo.projectStartDate} - {projectInfo.projectEndDate}
                 </Typography>
               </Box>
               <Box display="flex" alignItems="center" mb={1}>
                 <LocationOnIcon style={{ marginRight: 8 }} />
                 <Typography variant="body2" color="textSecondary">
-                  Location
+                {projectInfo.projectLocation}
                 </Typography>
               </Box>
               <Box display="flex" alignItems="center" mb={1}>
                 <GroupsIcon style={{ marginRight: 8 }} />
                 <Typography variant="body2" color="textSecondary">
-                  Number of People
+                {projectInfo.professionalsWanted}
                 </Typography>
               </Box>
             </Container>
@@ -154,10 +204,9 @@ export default function ProjectDetail() {
               Required Skills:
             </Typography>
             <Box mb={2}>
-              <StyledChip label="React" />
-              <StyledChip label="Node.js" />
-              <StyledChip label="MongoDB" />
-              <StyledChip label="AWS" />
+            {/* {projectInfo.projectSkills.map((skill, idx) => (
+              <StyledChip key={idx} label={skill} />
+            ))} */}
             </Box>
 
 
@@ -210,24 +259,13 @@ export default function ProjectDetail() {
           Project Description
         </Typography>
         <Typography sx={{ marginBottom: 2 }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-          enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-          imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-          Convallis convallis tellus id interdum velit laoreet id donec ultrices.
-          Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra
-          nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum
-          leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
-          feugiat vivamus at augue. At augue eget arcu dictum varius duis at
-          consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
-          sapien faucibus et molestie ac.
+          {projectInfo.projectDescription}
         </Typography>
         <Typography variant="h5" component="h2" gutterBottom>
           Key Responsibilities
         </Typography>
         <List sx={{ listStyleType: 'disc', padding: '10px 40px' }}>
-          <ListItem sx={{ display: 'list-item' }}>
+          {/* <ListItem sx={{ display: 'list-item' }}>
             check
           </ListItem>
           <ListItem sx={{ display: 'list-item' }}>
@@ -235,26 +273,19 @@ export default function ProjectDetail() {
           </ListItem>
           <ListItem sx={{ display: 'list-item' }}>
             check
+          </ListItem> */}
+          <ListItem>
+            {projectInfo.projectKeyResponsibilities}
           </ListItem>
           </List>
           <Typography variant="h5" component="h2" gutterBottom>
           Objectives
         </Typography>
         <Typography sx={{ marginBottom: 2 }}>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-          eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
-          neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
-          tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis
-          sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
-          tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit
-          gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
-          et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis
-          tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
+        {projectInfo.projectObjectives}
         </Typography>
         <Typography variant="h5" component="h2" gutterBottom>
-          Contact email
+        {projectInfo.contactEmail}
         </Typography>
       </Box>
     </Box>

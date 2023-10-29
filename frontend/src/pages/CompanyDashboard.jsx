@@ -77,17 +77,13 @@ function CompanyDashboard() {
     
     return (
         <AppProvider className="APP" sx={{ backgroundColour: 'none' }} navigation={NAVIGATION} router={router} theme={theme}>
-        <PageContainer className="container" sx={{ "@media (min-width: 0px)": { paddingRight: "25px", paddingLeft: "25px" }}}>
+        <PageContainer className="container" maxWidth={false} sx={{width:"100%", "@media (min-width: 0px)": { paddingRight: "25px", paddingLeft: "25px" }, margin: "0px"}}>
         <Box className="title" style={titleStyle}>
             <div>
                 <h1>Dashboard</h1>
             </div>
             <Button variant="contained" onClick={() => { navigate('createproject') }}> + Create Project</Button>     
         </Box>    
-        {/* <Paper className="Paper">
-            <PageContainer className="container" sx={{ backgroundColour: 'black' }}>Current Projects</PageContainer>
-
-        </Paper> */}
         <Accordion defaultExpanded>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -107,29 +103,7 @@ function CompanyDashboard() {
                 ))}
             </AccordionDetails>
         </Accordion>
-        <Accordion>
-            <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1-content"
-                id="panel1-header"
-                >
-                <div style={projectTitleStyle}>Pending Projects</div>
-            </AccordionSummary>
-            <AccordionDetails>
-                <ProjectCard
-                    projectName="Pending Project Name 1"
-                    projectDescription="Project 1 Description"
-                />
-                <ProjectCard
-                    projectName="Pending Project Name 2"
-                    projectDescription="Project 2 Description"
-                />
-                <ProjectCard
-                    projectName="Pending Project Name 3"
-                    projectDescription="Project 3 Description"
-                />
-            </AccordionDetails>
-        </Accordion>
+        
         <Accordion>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}

@@ -21,6 +21,9 @@ def professional_exists(professionalId):
 def getProjectCompany(companyId):
     return Company.get_company_by_id(companyId=companyId).companyName
 
+def getProjectCompany(companyId):
+    return Company.get_company_by_id(companyId=companyId).companyName
+
 
 #TO-DO error code for company with repeat projectName
 '''
@@ -41,28 +44,33 @@ def projectCreate():
     
     companyId = data.get("companyId")
     projectName = data.get("projectName")
-    projectObjectives = data.get("objectives", "")
-    projectDescription = data.get("description", "")
-    projectStartDate = data.get("startDate", "")
-    projectEndDate = data.get("endDate", "")
-    projectCategory = data.get("category", "")
-    projectLocation = data.get("location", "")
-    projectKeyResponsibilities = data.get("responsibilities", "")
-    projectConfidentialInformation = data.get("confidential", "")
-    projectSkills = data.get("skills", [])
-    projectCategories = data.get("categories", [])
-    
+    projectObjectives = data.get("projectObjectives", "")
+    projectDescription = data.get("projectDescription", "")
+    projectStartDate = data.get("projectStartDate", "")
+    projectEndDate = data.get("projectEndDate", "")
+    projectCategory = data.get("projectCategories", "")
+    projectLocation = data.get("projectLocation", "")
+    projectKeyResponsibilities = data.get("projectKeyResponsibilites", "")
+    projectConfidentialInformation = data.get("projectConfidentialInformation", "")
+    projectSkills = data.get("projectSkills", [])
+    projectCategories = data.get("projectCategories", [])
+    professionalsWanted = data.get("professionalsWanted", "")
+    contactEmail = data.get("contactEmail", "")
     
     new_project = Projects(projectObjectives=projectObjectives,
-                           projectDescription=projectDescription, projectStartDate=projectStartDate, 
+                           projectDescription=projectDescription, projectStartDate=projectStartDate,
                            projectLocation=projectLocation, projectKeyResponsibilities=projectKeyResponsibilities,
                            projectConfidentialInformation=projectConfidentialInformation,
                            projectSkills=projectSkills, projectCategories=projectCategories,
-                           projectEndDate=projectEndDate
+                           projectEndDate=projectEndDate,
+                           professionalsWanted=professionalsWanted,
+                           contactEmail=contactEmail,
                            )
     
     if not company_exists(companyId):
         return jsonify({"error": "Company does not exist"}), 409
+    elif Projects.query.filter_by(projectName=projectName, pCompanyId=int(companyId)).first():
+        return jsonify({"error": "Company already has project under this name"}), 404
     elif Projects.query.filter_by(projectName=projectName, pCompanyId=int(companyId)).first():
         return jsonify({"error": "Company already has project under this name"}), 404
     
@@ -156,13 +164,23 @@ RETURN {
 def projectListAll():
     projects = Projects.query.filter_by(projectStatus='Incomplete').all()
 
+    projects = Projects.query.filter_by(projectStatus='Incomplete').all()
+
     # depends how front end wants to display
     project_list = [
         {
             "projectId": project.projectId,
             "projectName": project.projectName,
+            "projectCompany": getProjectCompany(project.pCompanyId),
+            # "projectCompanyRating": getProjectCompany(project.pCompanyId),
+            "projectCategory": project.projectCategories,
             "projectDescription": project.projectDescription,
+            "projectStartDate": project.projectStartDate,
+            "projectEndDate": project.projectEndDate,
             "projectStatus": project.projectStatus,
+            "projectLocation": project.projectLocation,
+            "professionalsWanted": project.professionalsWanted,
+            "projectSkills": project.projectSkills,
             "listOfApplicants": project.listOfApplicants,
             "listOfProfessionals": project.listOfProfessionals
         }
@@ -175,12 +193,17 @@ def projectListAll():
 '''
 PARAMETERS (query string)
 /project/details?projectId=PROJECTIDHERE
+PARAMETERS (query string)
+/project/details?projectId=PROJECTIDHERE
 
 RETURN {
     obj of project details
 }
 '''
 @app.route('/project/details', methods=['GET']) #tested
+def projectDetails():    
+    projectIdStr = request.args.get("projectId")
+    projectId = int(projectIdStr)
 def projectDetails():    
     projectIdStr = request.args.get("projectId")
     projectId = int(projectIdStr)
@@ -192,28 +215,38 @@ def projectDetails():
     project_details = {
         "projectId": project.projectId,
         "projectName": project.projectName,
+        "contactEmail": project.contactEmail,
         "projectCompany": getProjectCompany(project.pCompanyId),
         "projectCategory": project.projectCategories,
         "projectObjectives": project.projectObjectives,
         "projectDescription": project.projectDescription,
+        "projectDescription": project.projectDescription,
         "projectStartDate": project.projectStartDate,
         "projectEndDate": project.projectEndDate,
         "projectStatus": project.projectStatus,
+        "projectStatus": project.projectStatus,
         "projectLocation": project.projectLocation,
+        "professionalsWanted": project.professionalsWanted,
         "projectKeyResponsibilities": project.projectKeyResponsibilities,
         "projectSkills": project.projectSkills,
+        "projectSkills": project.projectSkills,
         "projectConfidentialInformation": project.projectConfidentialInformation,
+        "projectStatus": project.projectStatus,
         "projectStatus": project.projectStatus,
         "listOfApplicants": project.listOfApplicants,
         "listOfProfessionals": project.listOfProfessionals,
         # need to add rating systems
-        "projectRatings": 0
+        "projectRatings": 0,
     }
+    # return jsonify({"message": "hji"})
     # return jsonify({"message": "hji"})
     return jsonify(project_details), 200
 
 
 '''
+PARAMETERS (query string)
+/project/search?query_string=SEARCHQUERY&catagory=CATAGORYNAME&catagory=CATAGORYNAME
+?
 PARAMETERS (query string)
 /project/search?query_string=SEARCHQUERY&catagory=CATAGORYNAME&catagory=CATAGORYNAME
 ?
@@ -225,6 +258,14 @@ RETURN {
 # TO-DO filter by other things
 @app.route('/project/search', methods=['GET']) #tested
 def projectSearch():
+    query_string = request.args.get("query", "")
+    categories = set(request.args.getlist("category"))
+    skills = set(request.args.getlist("skills"))
+    location = request.args.get("location")
+    creator = request.args.get("creatorId")
+
+    # starts building query
+    query = Projects.query
     query_string = request.args.get("query", "")
     categories = set(request.args.getlist("category"))
     skills = set(request.args.getlist("skills"))
@@ -256,6 +297,7 @@ def projectSearch():
             Projects.projectCategories.like(f'%"{category}"%') for category in categories
         ]
         query = query.filter(and_(*category_conditions))
+        query = query.filter(and_(*category_conditions))
 
     # filter by skills (substring matching)
     if skills:
@@ -277,9 +319,28 @@ def projectSearch():
             Projects.pCompanyId == creator
         ]
         query = query.filter(and_(*creators_projects))
+        query = query.filter(and_(*skill_conditions))
+    
+    # Filtering by location (substring matching)
+    if location:
+        project_location = [
+            Projects.projectLocation.like(f'%"{location}"%')
+        ]
+        query = query.filter(and_(*project_location))
+    
+    # Filtering by User
+    if creator:
+        creators_projects = [
+            Projects.pCompanyId == creator
+        ]
+        query = query.filter(and_(*creators_projects))
         
     results = query.all()
 
+    if not results:
+        return jsonify({"message": "No projects found."}), 404
+
+    # returns all project infomation
     if not results:
         return jsonify({"message": "No projects found."}), 404
 
@@ -318,6 +379,8 @@ def projectProfessionalApply():
     
     if professionalId in [professional['professionalId'] for professional in project.listOfProfessionals]:
         return jsonify({"error": "Professional is already a part of this project"}), 409
+    elif professionalId in [applicant['professionalId'] for applicant in project.listOfApplicants]:
+        return jsonify({"error": "Already an applicant"}), 409
     elif professionalId in [applicant['professionalId'] for applicant in project.listOfApplicants]:
         return jsonify({"error": "Already an applicant"}), 409
     

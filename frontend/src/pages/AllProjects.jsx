@@ -21,6 +21,8 @@ import DateRangeIcon from '@mui/icons-material/DateRange';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import GroupsIcon from '@mui/icons-material/Groups';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
+import { PageContainer } from '@toolpad/core/PageContainer';
+import Stack from '@mui/material/Stack';
 
 import AppBar from '@mui/material/AppBar';
 import Paper from '@mui/material/Paper';
@@ -28,7 +30,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import Chip from '@mui/material/Chip';
 // import { PageContainer } from '@toolpad/core/PageContainer';
 // import { AppProvider } from '@toolpad/core/AppProvider';
-
+import { apiGet } from '../api';
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
 import BrowseCards from '../components/BrowseCards';
@@ -58,19 +60,13 @@ const StyledChip = styled(Chip)({
 
 const drawerWidth = '30%';
 
-// take this out
-const companybuttons = [
-  <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}}>Edit Project</Button>,
-  <Button key="candidateList" sx={{backgroundColor: "grey"}}>Candidate List</Button>,
-  <Button key="company-status" sx={{backgroundColor: "#21b6ae"}}>Project Status</Button>,
-];
 
 const professionalButtons = [
   <Button key="status" sx={{backgroundColor: "#21b6ae"}}>Status</Button>,
   <Button key="status" sx={{backgroundColor: "grey"}}>View More</Button>
 ];
 
-const statusOptions = ['Pending', 'Completed', 'Close'];
+const statusOptions = ['Pending', 'Completed', 'Closed'];
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -130,6 +126,25 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function AllProjects() {
   const [open, setOpen] = React.useState(false);
+  const [allProjects, setAllProjects] = React.useState([{}]);
+
+  React.useEffect(() => {
+    apiGet("/project/listall",)
+    .then((data) => {
+        console.log(data);
+        if (!data.error) {
+          setAllProjects(data);
+          // console.log("project details:", allProjects)
+          console.log("project details:", data)
+        } else {
+            throw new Error("Get Projects");
+        }
+    })
+    .catch(() => {
+        alert("not valid.");
+    });
+  }, []);
+
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -141,29 +156,30 @@ export default function AllProjects() {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      
-      <CssBaseline />
+      {/* <PageContainer className="container" maxWidth={false} sx={{width:"100%", "@media (min-width: 0px)": { paddingRight: "25px", paddingLeft: "25px" }, margin: "0px"}}> */}
+
+      {/* <CssBaseline /> */}
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <Header></Header>
       </AppBar>
-      <Drawer variant="permanent" open={open} sx={{ backgroundColour: 'none'}}>
+      <Drawer variant="permanent" open={open} sx={{ backgroundColour: 'none', paddingLeft:'25px'}}>
         <DrawerHeader></DrawerHeader>
         <DrawerHeader>
-
-            {open === false ? <SearchIcon />: 
-                <Paper sx={{width:'100%'}}>
-                <SearchBar> </SearchBar>
-                </Paper>
-            }
-            {open === false ? <IconButton onClick={handleDrawerOpen}><ChevronRightIcon />  </IconButton>: 
-            <IconButton onClick={handleDrawerClose}><ChevronLeftIcon/></IconButton>}
+          {open === false ? 
+          <Stack direction="row">
+            <IconButton onClick={handleDrawerOpen}><SearchIcon /><ChevronRightIcon />  </IconButton>
+          </Stack> : 
+          <Stack direction="row">
+            <SearchBar> </SearchBar><IconButton onClick={handleDrawerClose}><ChevronLeftIcon/></IconButton>
+          </Stack>
+          }
         </DrawerHeader>
         <Divider />
-        {/* open === false ?  */}
         <Box sx={{ overflow: 'auto' }}>
+          
         {/* <List>
-          {allProjects.map((project) => (
-            <ListItem key={project.id} disablePadding sx={{ display: 'block' }}>
+          {allProjects.map((project, idx) => (
+            <ListItem key={idx} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={[
                   {
@@ -226,23 +242,13 @@ export default function AllProjects() {
                     </ListItemButton>
                   </ListItem>
                 ))} */}
-                <ListItem disablePadding >
-                  <BrowseCards></BrowseCards>
+                {allProjects.map((project, idx) => (
+                <ListItem key={idx} id={project.projectId} disablePadding >
+                  <BrowseCards project={project} />
                 </ListItem>
-                <ListItem disablePadding >
-                  <BrowseCards></BrowseCards>
-                </ListItem>
-                <ListItem disablePadding >
-                  <BrowseCards></BrowseCards>
-                </ListItem>
-                <ListItem disablePadding >
-                  <BrowseCards></BrowseCards>
-                </ListItem>
-                
+                ))}
+                {allProjects.length == 0 && <ListItem sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', }}> Currently No Projects</ListItem>}
               </List>
-            //   <Paper>
-            //     <BrowseCards></BrowseCards>
-            //   </Paper>
               
             }
         </Box>
@@ -256,7 +262,6 @@ export default function AllProjects() {
             <b> Project Name</b>
           </Typography>
         </div>
-        
 
         <Box style={secondaryStyle}>
           <Box>
@@ -363,6 +368,7 @@ export default function AllProjects() {
           Contact email
         </Typography>
       </Box>
+      {/* </PageContainer> */}
     </Box>
   );
 }

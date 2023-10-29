@@ -6,12 +6,15 @@
    - source env/Scripts/activate
 4. Run 
  - "pip3 install -r requirements.txt" (mac)
- - "pip install -r requirements.txt" (windows) _someone with windows confirm pls_
+ - "pip3 install -r requirements.txt" (windows) 
 3. Run "flask shell"
 4. Now within flask shell:
  - Within flask shell, run "db.create_all()"
 5. Return to main directory (cd ..)
-6. docker-compose up build
+6. docker-compose up --build
+7. Run npm install
+
+
 
 # To view the database:
 1. Install "SQLite Viewer"

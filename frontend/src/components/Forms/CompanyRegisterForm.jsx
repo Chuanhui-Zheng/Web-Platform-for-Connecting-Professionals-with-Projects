@@ -5,6 +5,8 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisuallyHiddenInput from "../VisuallyHiddenInput";
 import { apiPost } from "../../api";
 import { useNavigate } from "react-router-dom";
+import { isValidEmail, isValidPassword, fileToDataUrl } from "../../helpers";
+import RegistrationErrorMessage from "../RegistrationErrorMessage";
 
 function CompanyRegisterForm() {
   const [formData, setFormData] = useState({
@@ -16,6 +18,7 @@ function CompanyRegisterForm() {
     companyLogo: "",
     companyDescription: ""
   });
+  const [isValid, setIsValid] = useState(true);
 
   const navigate = useNavigate();
 
@@ -27,9 +30,34 @@ function CompanyRegisterForm() {
     });
   }
 
+  // Update file
+  const handleFileChange = (event) => {
+    const file = event.target.files[0]; // Get the first uploaded file
+
+    fileToDataUrl(file).then((dataUrl) => {
+      setFormData({
+        ...formData,
+        companyLogo: dataUrl
+      });
+      console.log("File as data URL:", dataUrl);
+    }).catch((error) => {
+      console.error("Error converting file to data URL:", error);
+    });
+  };
+
+
   // Submit registration
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Set that it is valid (by default)
+    setIsValid(true)
+
+    // Check if valid email
+    if (!isValidEmail(formData.companyEmail) || !isValidPassword(formData.companyPassword)) {
+      setIsValid(false);
+      return;
+    }
 
     const {
       companyName,
@@ -70,6 +98,11 @@ function CompanyRegisterForm() {
       buttonName="Register"
       handleSubmit={handleSubmit}
     >
+      {isValid ? 
+        <></>
+        :
+        <RegistrationErrorMessage />
+      }
       <TextField
         variant="filled"
         margin="normal"
@@ -141,8 +174,8 @@ function CompanyRegisterForm() {
             type="file"
             accept="image/*"
             name="companyLogo"
-            value={formData.companyLogo}
-            onChange={onChange}
+            value=""
+            onChange={handleFileChange}
         />
       </Button>
     </Form>

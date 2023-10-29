@@ -8,8 +8,9 @@ import AccordionActions from '@mui/material/AccordionActions';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { PageContainer } from '@toolpad/core/PageContainer';
 import decodeJWT from '../decodeJWT.js';
-import { getProfessionalProjectsFromStatus } from '../helpers.js';
+import { getProfessionalProjectsFromStatus, getProjects } from '../helpers.js';
 
 const projectTitleStyle = {
   margin: '0px',
@@ -20,6 +21,7 @@ const projectTitleStyle = {
 
 const ProfessionalDashboard = () => {
     const [activeProjects, setActiveProjects] = React.useState([]);
+    const [pendingProjects, setPendingProjects] = React.useState([]);
     const [completedProjects, setCompletedProjects] = React.useState([]);
 
     const [ownUserId, setOwnUserId] = React.useState();
@@ -42,6 +44,8 @@ const ProfessionalDashboard = () => {
                 setActiveProjects(active);
                 const complete = await getProfessionalProjectsFromStatus(ownUserId, 'Complete');
                 setCompletedProjects(complete);
+                const pending = await getProjects(parseInt(ownUserId), 'Pending approval');
+                setPendingProjects(pending);
             }
             fetchProjects()
         }
@@ -49,6 +53,7 @@ const ProfessionalDashboard = () => {
 
     return (
       <>
+        <PageContainer className="container" maxWidth={false} sx={{width:"100%", "@media (min-width: 0px)": { paddingRight: "25px", paddingLeft: "25px" }, margin: "0px"}}>
         {TitleCard('Rating', '4/5')}
         {TitleCard('Projects Completed', '4/5')}
         {TitleCard('Current Projects', '4/5')}
@@ -73,6 +78,27 @@ const ProfessionalDashboard = () => {
                     ))}
             </AccordionDetails>
         </Accordion>
+
+        <Accordion defaultExpanded>
+            <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1-content"
+                id="panel1-header"
+                sx={{margin: '0px'}}
+                >
+                <div style={projectTitleStyle}>Pending Projects</div>
+            </AccordionSummary>
+            <AccordionDetails>
+                {pendingProjects.map((project, idx) => (
+                        <ProjectCard
+                            key={idx}
+                            projectName={project.projectName}
+                            projectDescription={project.projectDescription}
+                        />
+                    ))}
+            </AccordionDetails>
+        </Accordion>
+
         <Accordion>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -91,6 +117,7 @@ const ProfessionalDashboard = () => {
                     ))}
             </AccordionDetails>
         </Accordion>
+        </PageContainer>
       </>
     );
 }
