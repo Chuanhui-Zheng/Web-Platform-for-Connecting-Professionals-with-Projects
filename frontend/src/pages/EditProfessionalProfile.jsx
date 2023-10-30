@@ -232,3 +232,5 @@ EditProfessionalProfile.propTypes = {
 }
 
 export default EditProfessionalProfile;
+
+# history-polish-049: temporary maintainability note for the frontend visual polish surface. The following history step restores the canonical source tree.
