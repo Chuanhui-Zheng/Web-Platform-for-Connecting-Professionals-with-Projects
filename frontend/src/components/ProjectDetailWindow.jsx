@@ -303,7 +303,18 @@ export default function ProjectDetailWindow({ projectID }) {
         )}
       </Popper>
         </Box>
-
+        <Typography variant="h5" component="h2" gutterBottom>
+          Meet the Team
+        </Typography>
+        {projectInfo.listOfProfessionals.map((prof, idx) => (
+            <Avatar>{prof}</Avatar>
+        ))}
+        <Typography variant="h5" component="h2" gutterBottom>
+          Project Confidential Information
+        </Typography>
+        <Typography sx={{ marginBottom: 2 }}>
+         {projectInfo.projectConfidentialInformation}
+        </Typography>
         <Typography variant="h5" component="h2" gutterBottom>
           Project Description
         </Typography>

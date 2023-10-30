@@ -66,6 +66,7 @@ const CreateProject = (props) => {
     .catch(() => {
         alert("Project Details are not valid.")
     });
+    navigate("/companydashboard");
   }
 
   const handleSkillsChange = (value) => {
