@@ -23,6 +23,7 @@ from functions.projects import (
     projectSearch,
     getProfessionalProjectsFromStatus
 )
+from functions.certificate import giveCertificate, viewCertificate
 
 def create_app():
     app = Flask(__name__)
@@ -68,6 +69,8 @@ def create_app():
     app.add_url_rule('/project/professional/status', 'projectProfessionalStatus', projectProfessionalStatus, methods=['GET'])
     app.add_url_rule('/project/search', 'projectSearch', projectSearch, methods=['GET'])
     app.add_url_rule('/project/professional/get/projects/from/status', 'getProfessionalProjectsFromStatus', getProfessionalProjectsFromStatus, methods=['GET'])
+    app.add_url_rule('/giveCertificate', 'giveCertificate', giveCertificate, methods=['POST'])
+    app.add_url_rule('/profile/viewCertificate', 'viewCertificate', viewCertificate, methods=['GET'])
 
     return app
 

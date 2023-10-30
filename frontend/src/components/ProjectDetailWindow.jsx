@@ -27,6 +27,8 @@ import MenuList from '@mui/material/MenuList';
 import AppBar from '@mui/material/AppBar';
 import Chip from '@mui/material/Chip';
 import decodeJWT from '../decodeJWT';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import VisuallyHiddenInput from "../components/VisuallyHiddenInput";
 const headerStyle = {
     display: 'flex',
     alignItems: 'center',
@@ -64,10 +66,13 @@ export default function ProjectDetailWindow({ projectID }) {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const [selectedIndex2, setSelectedIndex2] = React.useState(0);
     const [open, setOpen] = React.useState(false);
-
+    const [isCompleted, setIsCompleted] = React.useState(false);
+    const [certificate, setCertificate]= React.useState(null);
+    const [token, setToken]= React.useState('');
 
     useEffect(() => {
         const glob = localStorage.getItem('token');
+        setToken(glob);
         if (glob != null) {
             const tokenData = decodeJWT(glob);
             setUserId(tokenData.userId)
@@ -83,6 +88,9 @@ export default function ProjectDetailWindow({ projectID }) {
                 if (!data.error) {
                     setProjectInfo(data);
                     setSkills(data.projectSkills)
+                    if (data.projectStatus === "Complete") {
+                        setIsCompleted(true)
+                    }
                     console.log("details:", data)
                     console.log("details:", data.listOfApplicants)
                     
@@ -180,6 +188,34 @@ export default function ProjectDetailWindow({ projectID }) {
         navigate(`/projectpage/:${projectID}/edit`);
     };
 
+    const handleFileChange = (event) => {
+        const file = event.target.files[0]; // Get the first uploaded file
+        fileToDataUrl(file).then((dataUrl) => {
+            setCertificate(dataUrl)
+          }).catch((error) => {
+            console.error("Error converting file to data URL:", error);
+        });
+    };
+
+    const giveCertificate = async (e) => {
+        e.preventDefault();
+        console.log("calling giveCert api");
+        apiPost("/giveCertificate", {
+            companyId: projectInfo.pCompanyId,
+            professionalCertificate: certificate,
+            projectId: projectID 
+                }).then((data) =>{
+                    if (!data.error) {
+                        console.log(data)
+                    } else {
+                        throw new Error("give Cert Failed");
+                    }
+                })
+                .catch(() => {
+                    alert("cert not valid.")
+                  });
+    }
+
     const companybuttons = [
         <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={navigateEdit} >Edit Project</Button>,
         <Button key="candidateList" sx={{backgroundColor: "grey"}} onClick={() => {navigate(`/project/${projectID}/applicants`)}}>Candidate List</Button>,
@@ -267,13 +303,28 @@ export default function ProjectDetailWindow({ projectID }) {
 
           </Box>
           </Box>
-          {userType === 'company' && userId === projectInfo.pCompanyId ? <ButtonGroup
+          {userType === 'company' && userId === projectInfo.pCompanyId && !isCompleted ? <ButtonGroup
             orientation="vertical"
             aria-label="Vertical button group"
             variant="contained"
           >
             {companybuttons} 
-          </ButtonGroup> : userType === 'professional'
+          </ButtonGroup> : userType === 'company' && userId === projectInfo.pCompanyId && isCompleted ? <Button
+                        sx={{ margin: '30px 0 0 0' }}
+                        className="upload"
+                        component="label"
+                        variant="contained"
+                        startIcon={<CloudUploadIcon />}
+                    >
+                        Give Certificate
+                        <VisuallyHiddenInput
+                            type="file"
+                            accept="image/*"
+                            name="companyLogo"
+                            value=''
+                            onChange={handleFileChange}
+                        />
+                    </Button> : userType === 'professional'
         ?
           <ButtonGroup
             orientation="vertical"
