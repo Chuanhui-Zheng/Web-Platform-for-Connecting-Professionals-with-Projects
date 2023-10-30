@@ -146,8 +146,12 @@ export default function ProjectDetail() {
     //     }
     // };
 
+    // const navigateEdit = (event) => {
+    //     navigate(`/projectpage/:${projectId}/edit`);
+    // };
+
     // const companybuttons = [
-    //     <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}}>Edit Project</Button>,
+    //     <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={navigateEdit}>Edit Project</Button>,
     //     <Button key="candidateList" sx={{backgroundColor: "grey"}}>Candidate List</Button>,
     //     // <Button key="company-status">Project Status</Button>,
     //     <Button
