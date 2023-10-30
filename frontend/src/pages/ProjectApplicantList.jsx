@@ -1,35 +1,81 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import ProjectCard from "../components/Professional/Dashboard/ProjectCard";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
-import { apiGet } from "../api";
+import { useParams, useNavigate } from "react-router-dom"
+import { apiGet, apiPost } from "../api";
 import decodeJWT from "../decodeJWT";
+import Card from "../components/Card"
 
 function ProjectApplicantList() {
   const params = useParams();
   const [projectList, setProjectList] = useState([]);
   // Set professional as default as it is the minimal amount of perms
   const [userType, setUserType] = useState("professional");
+  const [pCompanyId, setPCompanyId] = useState("professional");
   const [currUserId, setCurrUserId] = useState(0);
+  const [update, setUpdate] = useState(false);
 
-  // Check if they are the respective company
+  const projectId = params.projectId.replace(":","");
+  const navigate = useNavigate()
+
+  // Handle when the card is clicked
+  const handleCardClick = (professionalId) => {
+    navigate(`/profile/:${professionalId}`)
+  }
+
+  // Handle approving an applicant
+  const handleApprove = async (professionalId) => {
+    try {
+      const data = await apiPost("/project/company/approve", {
+        professionalId: professionalId,
+        projectId: projectId,
+      });
+  
+      if (data.error) {
+        throw new Error(data.error);
+      }
+  
+      setUpdate((update) => !update);
+    } catch (error) {
+      alert("Could not approve professional");
+    }
+  };
+  
+  // Handle rejecting an applicant
+  const handleReject = async (professionalId) => {
+    try {
+      const data = await apiPost("/project/company/reject", {
+        professionalId: professionalId,
+        projectId: projectId,
+      });
+  
+      if (data.error) {
+        throw new Error(data.error);
+      }
+  
+      // Update the page
+      setUpdate((update) => !update);
+    } catch (error) {
+      alert("Could not reject professional")
+    }
+  }
+
+  // Check if they are the a company and the project owner
   useEffect(() => {
     // Check if they are a professional
     const token = localStorage.getItem("token");
     const tokenData = decodeJWT(token);
     setUserType(tokenData.userType);
+    setCurrUserId(tokenData.userId);
 
     if (tokenData.userType == "professional") {
       return;
     }
 
-    console.log(`projectId = ${params.projectId.replace(":","")}`)
-    apiGet("/project/details", `projectId=${params.projectId.replace(":","")}`)
+    apiGet("/project/details", `projectId=${projectId}`)
       .then((data) => {
         if (!data.error) {
-          console.log(`data = ${data}`)
-          console.log(`data JSON = ${JSON.stringify(data[0], null, 2)}`);
-          // setCurrUserId(data.pCompanyId)
+          setPCompanyId(data.pCompanyId)
         } else {
           throw new Error("Get Project Candidate List Failed");
         }
@@ -40,27 +86,24 @@ function ProjectApplicantList() {
 
   }, [])
 
-  // insert api call here (turn into async)
+  // Get applicant list
   useEffect(() => {
-    // API call
-    apiGet("/project/applicant/list", `projectId=${params.projectId.replace(":","")}`)
+    apiGet("/project/applicant/list", `projectId=${projectId}`)
       .then((data) => {
         if (!data.error) {
+          console.log(JSON.stringify(data, null, 2));
           setProjectList(data)
-          console.log(JSON.stringify(data[0], null, 2));
         } else {
           throw new Error("Get Project Candidate List Failed");
         }
       })
       .catch((error) => {
-        alert("error")
+        alert("Get Project Candidate List Failed")
       })
-
-  }, [])
+  }, [update])
 
   return (
-    
-    userType === "company" ?
+    userType === "company" && currUserId == pCompanyId ?
       <Box
         display="flex"
         justifyContent="center"
@@ -79,20 +122,43 @@ function ProjectApplicantList() {
           alignItems="center"
           flexDirection="column"
           width="80vw"
+          gap="10px"
         >
-          {projectList.map((applicant, index) => (
-            <ProjectCard
-              key={index}
-              projectName={applicant.professionalFullName}
-              projectDescription={applicant.professionalSkills.join(', ')}
-              // projectDescription={applicant.professionalEmail}
-            />
+          {projectList.filter((applicant) => applicant.status == "Pending approval").map((applicant) => (
+            <Card
+              key={applicant.professionalId}
+              headerText={applicant.professionalFullName}
+              descriptionOneText={applicant.professionalSkills.join(', ')}
+              projectDescription={applicant.professionalEmail}
+              handleClick={() => handleCardClick(applicant.professionalId)}
+            >
+              <Button 
+                variant="contained" 
+                color="error"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleReject(applicant.professionalId);
+                }}
+              >
+                Reject
+              </Button>
+              <Button
+                variant="contained"
+                color="success"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleApprove(applicant.professionalId);
+                }}
+              >
+                Approve
+              </Button>
+            </Card>
           ))}
         </Box>
       </Box>
       : 
       <Box>
-        <Typography variant="h1">
+        <Typography variant="p">
           No access allowed
         </Typography>
       </Box>
