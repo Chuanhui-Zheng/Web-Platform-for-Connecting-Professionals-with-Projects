@@ -74,6 +74,7 @@ const ProfessionalDashboard = () => {
                             key={idx}
                             projectName={project.projectName}
                             projectDescription={project.projectDescription}
+                            projectId={project.projectId}
                         />
                     ))}
             </AccordionDetails>
@@ -94,6 +95,7 @@ const ProfessionalDashboard = () => {
                             key={idx}
                             projectName={project.projectName}
                             projectDescription={project.projectDescription}
+                            projectId={project.projectId}
                         />
                     ))}
             </AccordionDetails>
@@ -113,6 +115,7 @@ const ProfessionalDashboard = () => {
                             key={idx}
                             projectName={project.projectName}
                             projectDescription={project.projectDescription}
+                            projectId={project.projectId}
                         />
                     ))}
             </AccordionDetails>

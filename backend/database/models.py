@@ -196,8 +196,8 @@ class Projects(db.Model):
         self.pCompanyId = companyId
         self.projectName = projectName
         db.session.commit()
-
         
+    
     def edit_project_details(self, data):
         for field, value in data.items():
             if hasattr(self, field) and field not in ['projectId', 'pCompanyId']:

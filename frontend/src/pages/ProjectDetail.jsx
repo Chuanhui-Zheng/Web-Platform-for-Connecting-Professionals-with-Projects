@@ -26,11 +26,13 @@ import AppBar from '@mui/material/AppBar';
 import Chip from '@mui/material/Chip';
 // import { PageContainer } from '@toolpad/core/PageContainer';
 // import { AppProvider } from '@toolpad/core/AppProvider';
-import { apiGet } from '../api';
+import { apiGet, apiPost } from '../api';
 import { useLocation } from 'react-router-dom';
+import ProjectDetailWindow from '../components/ProjectDetailWindow';
 
 import Header from '../components/Header';
 import { useNavigate, useParams } from "react-router-dom";
+import decodeJWT from '../decodeJWT';
 
 const headerStyle = {
   display: 'flex',
@@ -56,14 +58,6 @@ const StyledChip = styled(Chip)({
 });
 
 
-const professionalButtons = [
-  <Button key="status" sx={{backgroundColor: "#21b6ae"}}>Status</Button>,
-];
-
-const companyButtons = [
-  <Button key="status" sx={{backgroundColor: "#21b6ae"}}>Status</Button>,
-];
-
 const statusOptions = ['Pending', 'Completed'];
 
 
@@ -75,90 +69,119 @@ export default function ProjectDetail() {
     const anchorRef = React.useRef(null);
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const [projectInfo, setprojectInfo] = React.useState([]);
-    const currentUrl = window.location.href;
-    const [projectId, setProjectId] = React.useState('');
+    const [skillsSet, setSkills] = React.useState([]);
+    const [userId, setUserId] = React.useState('');
+    const [userType, setUserType] = React.useState('');
 
-    React.useEffect(() => {
-      // const glob = localStorage.getItem('token');
-      // setToken(glob);
-      // fetchProjectDeets();
-      setProjectId(currentUrl.split('/').pop())
-      console.log(currentUrl.split('/').pop())
-      apiGet("/project/details", `projectId=${projectID}`)
-      .then((data) => {
-          console.log(data);
-          if (!data.error) {
-            setprojectInfo(data);
-            console.log("details:", data)
-          } else {
-              throw new Error("Get Project details");
-          }
-      })
-      .catch(() => {
-          alert("not valid.");
-      });
-    }, []);
+    // React.useEffect(() => {
+    //   const token = localStorage.getItem("token");
+    //   if (token != null) {
+    //     const tokenData = decodeJWT(token);
+    //     setUserId(tokenData.userId)
+    //     setUserType(tokenData.userType)
+    //   }
+    // }, []);
 
+    // React.useEffect(() => {
+    //   // const glob = localStorage.getItem('token');
+    //   // setToken(glob);
+    //   // fetchProjectDeets();
+    //   apiGet("/project/details", `projectId=${projectID}`)
+    //   .then((data) => {
+    //       console.log(data);
+    //       if (!data.error) {
+    //         setprojectInfo(data);
+    //         console.log("details:", data)
+    //       } else {
+    //           throw new Error("Get Project details");
+    //       }
+    //   })
+    //   .catch(() => {
+    //       alert("not valid.");
+    //   });
+    // }, []);
+    // React.useEffect(() => {
+    //   apiGet("/project/details", `projectId=${projectID}`)
+    //   .then((data) => {
+    //       if (!data.error) {
+    //         setprojectInfo(data);
+    //         setSkills(data.projectSkills)
+    //         console.log("details:", data)
+    //       } else {
+    //           throw new Error("Get Project details");
+    //       }
+    //   })
+    //   .catch(() => {
+    //       alert("not valid.");
+    //   });
+    // }, [])
 
-    const handleMenuItemClick = (event, index) => {
-        setSelectedIndex(index);
-        console.log(event)
-        if (index == 1) {
-          // complete project
-          apiPost("/project/company/complete", `projectId=${projectID}`)
-          .then((data) =>{
-              if (!data.error) {
-                  console.log(data)
-              } else {
-                  throw new Error("Project Complete Failed");
-              }
-          })
-          .catch(() => {
-              alert("Project Complete are not valid.")
-          });
+    // const handleMenuItemClick = (event, index) => {
+    //     setSelectedIndex(index);
+    //     console.log(event)
+    //     if (index == 1) {
+    //       // complete project
+    //       apiPost("/project/company/complete", `projectId=${projectID}`)
+    //       .then((data) =>{
+    //           if (!data.error) {
+    //               console.log(data)
+    //           } else {
+    //               throw new Error("Project Complete Failed");
+    //           }
+    //       })
+    //       .catch(() => {
+    //           alert("Project Complete are not valid.")
+    //       });
+    //     }
+    //     setOpen(false);
+    // };
 
-        }
-        setOpen(false);
-    };
+    // const handleToggle = () => {
+    //     setOpen((prevOpen) => !prevOpen);
+    // };
 
-    const handleToggle = () => {
-        setOpen((prevOpen) => !prevOpen);
-    };
+    // const handleClose = (event) => {
+    //     if (anchorRef.current && anchorRef.current.contains(event.target)) {
+    //         return;
+    //     }
+    // };
 
-    const handleClose = (event) => {
-        if (anchorRef.current && anchorRef.current.contains(event.target)) {
-            return;
-        }
-    };
+    // const navigateEdit = (event) => {
+    //     navigate(`/projectpage/:${projectId}/edit`);
+    // };
 
-    const companybuttons = [
-        <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}}>Edit Project</Button>,
-        <Button key="candidateList" sx={{backgroundColor: "grey"}}>Candidate List</Button>,
-        // <Button key="company-status">Project Status</Button>,
-        <Button
-            sx={{backgroundColor: "#21b6ae"}}
-            key="companyStatus"        
-            size="small"
-            ref={anchorRef}
-            aria-controls={open ? 'split-button-menu' : undefined}
-            aria-expanded={open ? 'true' : undefined}
-            aria-label="select merge strategy"
-            aria-haspopup="menu"
-            onClick={handleToggle}
-        >
-        {statusOptions[selectedIndex]}<ArrowDropDownIcon />
-        </Button>
-      ];
+    // const companybuttons = [
+    //     <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={navigateEdit}>Edit Project</Button>,
+    //     <Button key="candidateList" sx={{backgroundColor: "grey"}}>Candidate List</Button>,
+    //     // <Button key="company-status">Project Status</Button>,
+    //     <Button
+    //         sx={{backgroundColor: "#21b6ae"}}
+    //         key="companyStatus"        
+    //         size="small"
+    //         ref={anchorRef}
+    //         aria-controls={open ? 'split-button-menu' : undefined}
+    //         aria-expanded={open ? 'true' : undefined}
+    //         aria-label="select merge strategy"
+    //         aria-haspopup="menu"
+    //         onClick={handleToggle}
+    //     >
+    //     {statusOptions[selectedIndex]}<ArrowDropDownIcon />
+    //     </Button>
+    //   ];
+
+    // const professionalButtons = [
+    //   <Button key="status" sx={{backgroundColor: "#21b6ae"}}>Status</Button>
+    // ];
 
   return (
     <Box sx={{ display: 'flex' }}>
-      
       <CssBaseline />
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <Header></Header>
       </AppBar>
-
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <ProjectDetailWindow projectID={projectID}/>
+      
+      {/* <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
 
         <div style={headerStyle}>
           <Avatar sx={{ width: 32, height: 32 }} />
@@ -204,9 +227,9 @@ export default function ProjectDetail() {
               Required Skills:
             </Typography>
             <Box mb={2}>
-            {/* {projectInfo.projectSkills.map((skill, idx) => (
-              <StyledChip key={idx} label={skill} />
-            ))} */}
+            {skillsSet.map((skill, idx) => (
+              <StyledChip label={skill} />
+            ))}
             </Box>
 
 
@@ -216,7 +239,7 @@ export default function ProjectDetail() {
             aria-label="Vertical button group"
             variant="contained"
           >
-            {companybuttons}
+            {companybuttons} 
           </ButtonGroup>
           <Popper
         sx={{ zIndex: 1 }}
@@ -265,15 +288,6 @@ export default function ProjectDetail() {
           Key Responsibilities
         </Typography>
         <List sx={{ listStyleType: 'disc', padding: '10px 40px' }}>
-          {/* <ListItem sx={{ display: 'list-item' }}>
-            check
-          </ListItem>
-          <ListItem sx={{ display: 'list-item' }}>
-            check
-          </ListItem>
-          <ListItem sx={{ display: 'list-item' }}>
-            check
-          </ListItem> */}
           <ListItem>
             {projectInfo.projectKeyResponsibilities}
           </ListItem>
@@ -287,7 +301,7 @@ export default function ProjectDetail() {
         <Typography variant="h5" component="h2" gutterBottom>
         {projectInfo.contactEmail}
         </Typography>
-      </Box>
+      </Box> */}
     </Box>
   );
 }

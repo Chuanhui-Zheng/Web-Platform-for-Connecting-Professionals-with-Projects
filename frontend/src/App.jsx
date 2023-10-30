@@ -15,10 +15,11 @@ import NotFound from "./pages/NotFound"
 import CreateProject from './pages/CreateProject';
 import ProjectDetail from './pages/ProjectDetail';
 import ProjectPage from './pages/ProjectPage';
-import ProjectCandidateList from './pages/ProjectCandidateList';
+import ProjectApplicantList from './pages/ProjectApplicantList';
 import ProfilePage from './pages/ProfilePage';
-// import ProtectedRoute from "./components/ProtectedRoute"
+// import ProtectedRoute from "./components/ProtectedRoute";
 import EditProfilePage from './pages/EditProfilePage';
+import EditProject from './pages/EditProject';
 import RateProfessional from './pages/RateProfessional';
 
 
@@ -54,9 +55,6 @@ function App() {
             <Route path="/projectdetail/:projectID" element={<ProjectDetail />} />
             <Route path="/projectpage/:projectID" element={<ProjectPage />} />
             <Route path="/projectCandidateList" element={<ProjectCandidateList />} />
-            <Route path="/project/:projectId/rate" element={<RateProfessional />} />
-            <Route path="/project/rate" element={<RateProfessional />} />
-            {/* <Route path="/project/:projectId/rate/:profesionalId" element={<RateProfessional />} /> */}
         </Routes>
     </BrowserRouter>
   );

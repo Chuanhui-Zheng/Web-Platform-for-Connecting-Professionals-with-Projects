@@ -5,6 +5,7 @@ import VisuallyHiddenInput from "../VisuallyHiddenInput";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { apiPost } from "../../api";
 import { useNavigate } from "react-router-dom";
+import { useHeader } from "../../HeaderContext"; 
 import RegistrationErrorMessage from "../RegistrationErrorMessage";
 import { isValidEmail, isValidPassword, fileToDataUrl } from "../../helpers";
 
@@ -25,6 +26,7 @@ function ProfessionalRegisterForm() {
   const [isValid, setIsValid] = useState(true);
 
   const navigate = useNavigate();
+  const { triggerHeaderUpdate } = useHeader();
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -80,6 +82,7 @@ function ProfessionalRegisterForm() {
         if (!data.error) {
           localStorage.setItem("token", data.token);
           navigate("/prodashbaord"); // ???????
+          triggerHeaderUpdate();
         } else {
           throw new Error("Register failed.")
         }

@@ -1,15 +1,31 @@
 import { Box, Typography } from "@mui/material";
 import ProjectCard from "../components/Professional/Dashboard/ProjectCard";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { useParams } from "react-router-dom"
+import { apiGet } from "../api";
 
-
-function ProjectCandidateList() {
+function ProjectApplicantList() {
+  const params = useParams();
   const [projectList, setProjectList] = useState([]);
 
   // insert api call here (turn into async)
   useEffect(() => {
     // API call....
+    console.log(`projectId = ${params.projectId.replace(":","")}`);
+
+    apiGet("/project/applicant/list", `projectId=${params.projectId.replace(":","")}`)
+      .then((data) => {
+        if (!data.error) {
+          console.log(`data = ${data}`)
+          setProjectList(data)
+          console.log(JSON.stringify(data[0], null, 2));
+        } else {
+          throw new Error("Get Project Candidate List Failed");
+        }
+      })
+      .catch((error) => {
+        alert("error")
+      })
 
     // try {
     //   const res = await axios.get(`/projectCandidateList${projectId}`, "GET")
@@ -19,20 +35,6 @@ function ProjectCandidateList() {
     //   alert(error)
     // }
 
-    setProjectList([
-      {
-        name: "Candidate 1",
-        description: "Hi I am candidate 1"
-      },
-      {
-        name: "Candidate 2",
-        description: "Hi I am candidate 2"
-      },
-      {
-        name: "Candidate 3",
-        description: "Hi I am candidate 3"
-      }
-    ])
   }, [])
 
   return (
@@ -46,7 +48,7 @@ function ProjectCandidateList() {
         variant="h4"
         gutterBottom
       >
-        Project Candidate List
+        Project Applicant List
       </Typography>
       <Box
         display="flex"
@@ -55,11 +57,13 @@ function ProjectCandidateList() {
         flexDirection="column"
         width="80vw"
       >
-        {projectList.map((project, index) => (
+        {projectList.map((applicant, index) => (
           <ProjectCard
             key={index}
-            projectName={project.name}
-            projectDescription={project.description}
+            projectName={applicant.professionalFullName}
+            projectDescription={applicant.professionalSkills.join(', ')}
+            projectId={applicant.professionalId}
+            // projectDescription={applicant.professionalEmail}
           />
         ))}
       </Box>
@@ -67,4 +71,4 @@ function ProjectCandidateList() {
   );
 }
 
-export default ProjectCandidateList
+export default ProjectApplicantList

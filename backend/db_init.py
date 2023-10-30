@@ -1,6 +1,6 @@
 from app import create_app
 from extensions import db
-from database.models import Company, Professional, Projects, Skills, Categories  # Import your models
+from database.models import Company, Professional, Projects, Skills, Categories
 
 # Initialize your default data
 DEFAULT_SKILLS = ["Coding", "Project Management", "Data Analysis", "Design", "Marketing"]
@@ -8,13 +8,96 @@ DEFAULT_CATEGORIES = ["Software", "Finance", "Healthcare", "Education", "Constru
 
 # Sample data for other tables
 DEFAULT_COMPANIES = [
-    {"companyName": "Tech Corp", "companyEmail": "contact@techcorp.com", "companyPhoneNumber": "123-456-7890"},
-    {"companyName": "Health Solutions", "companyEmail": "info@healthsolutions.com", "companyPhoneNumber": "098-765-4321"}
+    {"companyName": "Microsoft", "companyEmail": "contact@techcorp.com", "companyPassword": "supersecure123","companyPhoneNumber": "123-456-7890", "companyWebsite": "microsoft.com", "companyDescription": "Macro Hard. New project seeking to revolutionise the new generation!"},
+    {"companyName": "Apple", "companyEmail": "info@healthsolutions.com", "companyPassword": "supersecure123","companyPhoneNumber": "098-765-4321", "companyWebsite": "apple.com", "companyDescription": "Apples? One of them a day definitely will keep the doctor away."}
 ]
 
 DEFAULT_PROFESSIONALS = [
-    {"professionalFullName": "John Doe", "professionalEmail": "john@example.com", "professionalSkills": ["Coding", "Design"]},
-    {"professionalFullName": "Jane Smith", "professionalEmail": "jane@example.com", "professionalSkills": ["Data Analysis", "Marketing"]}
+    {"professionalFullName": "Ce Min Pangastur", "professionalEmail": "min@example.com", "professionalPassword":"definitelysecure123","professionalSkills": ["Coding", "Design", "Data Analysis", "Marketing"]},
+    {"professionalFullName": "Edison Chang", "professionalEmail": "edison@example.com", "professionalPassword":"definitelysecure123","professionalSkills": ["Procrastinating"]},
+    {"professionalFullName": "Jerry Li", "professionalEmail": "jerry@example.com", "professionalPassword":"definitelysecure123","professionalSkills": ["Coding", "Design"]},
+    {"professionalFullName": "Millie Hai", "professionalEmail": "millie@example.com", "professionalPassword":"definitelysecure123","professionalSkills": ["Greetings", "Marketing"]},
+    {"professionalFullName": "Blair Zheng", "professionalEmail": "blair@example.com", "professionalPassword":"definitelysecure123","professionalSkills": ["Coding", "Design", "Database", "TFT"]},
+    {"professionalFullName": "Andrew Lin", "professionalEmail": "andrew@example.com", "professionalPassword":"definitelysecure123","professionalSkills": ["Data Analysis", "Marketing", "Pasta sauce"]}
+]
+
+# Sample projects to be created under a specific company
+DEFAULT_PROJECTS = [
+    {
+        "projectName": "AI Research Project",
+        "projectDescription": "Cutting edge new AI research project. Better than ChatGPT, could probably beat him in a 1v1.",
+        "projectObjectives":"To create a better AI than ChatGPT",
+        "projectCategories":["Software"],
+        "projectLocation": "North Ryde, 2113",
+        "projectSkills": ["Coding"]
+    },
+    {
+        "projectName": "Cloud Infrastructure Project",
+        "projectDescription": "There's a chance for precipitation today because look at all the clouds in the sky.",
+        "projectObjectives": "To create a bigger cloud than AWS",
+        "projectCategories": ["Construction"],
+        "projectLocation": "Sydney, 2000",
+        "projectSkills": ["Networks", "Coding"]
+    },
+    {
+        "projectName": "Cybersecurity Threat Analysis",
+        "projectDescription": "Develop a system for identifying, analyzing, and mitigating cybersecurity threats.",
+        "projectObjectives": "Enhance the company's cybersecurity resilience.",
+        "projectCategories": ["Software", "Finance"],
+        "projectLocation": "Melbourne, 3000",
+        "projectSkills": ["Data Analysis", "Project Management"]
+    },
+    {
+        "projectName": "Healthcare Management System",
+        "projectDescription": "A healthcare platform to streamline patient management and communication.",
+        "projectObjectives": "Build a scalable system to support patient care.",
+        "projectCategories": ["Healthcare", "Software"],
+        "projectLocation": "Brisbane, 4000",
+        "projectSkills": ["Coding", "Design"]
+    },
+    {
+        "projectName": "Sustainable Construction Initiative",
+        "projectDescription": "Implement eco-friendly practices in construction and material usage.",
+        "projectObjectives": "Reduce carbon footprint in construction processes.",
+        "projectCategories": ["Construction"],
+        "projectLocation": "Perth, 6000",
+        "projectSkills": ["Project Management", "Design"]
+    },
+    {
+        "projectName": "Educational App for Remote Learning",
+        "projectDescription": "An interactive learning platform tailored for remote students.",
+        "projectObjectives": "Improve accessibility and engagement in remote education.",
+        "projectCategories": ["Education", "Software"],
+        "projectLocation": "Adelaide, 5000",
+        "projectSkills": ["Coding", "Design", "Data Analysis"]
+    }
+]
+
+MORE_PROJECTS = [
+    {
+        "projectName": "Smart Agriculture Initiative",
+        "projectDescription": "A project focused on leveraging IoT for real-time monitoring of agricultural activities.",
+        "projectObjectives": "Increase crop yield and sustainability through precision farming technologies.",
+        "projectCategories": ["Agriculture", "Technology"],
+        "projectLocation": "Orange, 2800",
+        "projectSkills": ["Data Analysis", "Project Management", "IoT"]
+    },
+    {
+        "projectName": "Financial Literacy Platform",
+        "projectDescription": "Develop a platform to provide financial literacy courses and tools for young adults.",
+        "projectObjectives": "Promote financial independence and informed decision-making among youth.",
+        "projectCategories": ["Finance", "Education"],
+        "projectLocation": "Canberra, 2600",
+        "projectSkills": ["Coding", "Content Creation", "Data Analysis"]
+    },
+    {
+        "projectName": "Renewable Energy Mapping",
+        "projectDescription": "An initiative to create a digital map of renewable energy resources across Australia.",
+        "projectObjectives": "Help businesses and individuals identify local renewable energy opportunities.",
+        "projectCategories": ["Energy", "Environment"],
+        "projectLocation": "Hobart, 7000",
+        "projectSkills": ["Design", "Data Visualization", "Mapping"]
+    }
 ]
 
 app = create_app()
@@ -34,10 +117,16 @@ with app.app_context():
             db.session.add(categories_entry)
 
         # Initialize companies
+        company_instances = {}
         for company_data in DEFAULT_COMPANIES:
-            if Company.query.filter_by(companyEmail=company_data["companyEmail"]).first() is None:
+            existing_company = Company.query.filter_by(companyEmail=company_data["companyEmail"]).first()
+            if existing_company is None:
                 company = Company(**company_data)
                 db.session.add(company)
+                db.session.flush()  # Flush to get the company ID for project creation
+                company_instances[company.companyEmail] = company
+            else:
+                company_instances[company_data["companyEmail"]] = existing_company
 
         # Initialize professionals
         for professional_data in DEFAULT_PROFESSIONALS:
@@ -45,13 +134,47 @@ with app.app_context():
                 professional = Professional(
                     professionalFullName=professional_data["professionalFullName"],
                     professionalEmail=professional_data["professionalEmail"],
+                    professionalPassword=professional_data["professionalPassword"],
                     professionalSkills=professional_data["professionalSkills"]
                 )
                 db.session.add(professional)
 
+        # Initialize projects under a specific company (e.g., Microsoft)
+        microsoft_company = company_instances.get("contact@techcorp.com")  # Change email if needed
+        if microsoft_company:
+            for project_data in DEFAULT_PROJECTS:
+                if not Projects.query.filter_by(projectName=project_data["projectName"], pCompanyId=microsoft_company.companyId).first():
+                    project = Projects()
+                    project.create_project_details(
+                        companyId=microsoft_company.companyId,
+                        projectName=project_data["projectName"],
+                        projectDescription=project_data["projectDescription"],
+                        projectObjectives=project_data["projectObjectives"],
+                        projectCategories=project_data["projectCategories"],
+                        projectLocation=project_data["projectLocation"],
+                        projectSkills=project_data["projectSkills"]
+                    )
+                    db.session.add(project)
+
+        apple_company = company_instances.get("info@healthsolutions.com")  # Change email if needed
+        if apple_company:
+            for project_data in MORE_PROJECTS:
+                if not Projects.query.filter_by(projectName=project_data["projectName"], pCompanyId=apple_company.companyId).first():
+                    project = Projects()
+                    project.create_project_details(
+                        companyId=apple_company.companyId,
+                        projectName=project_data["projectName"],
+                        projectDescription=project_data["projectDescription"],
+                        projectObjectives=project_data["projectObjectives"],
+                        projectCategories=project_data["projectCategories"],
+                        projectLocation=project_data["projectLocation"],
+                        projectSkills=project_data["projectSkills"]
+                    )
+                    db.session.add(project)
+
         # Commit all the initialized data
         db.session.commit()
-        print("Database initialized with default values.")
+        print("Database initialized with default values, including projects for Microsoft.")
     except Exception as e:
         db.session.rollback()
         print("Error initializing the database:", str(e))

@@ -28,7 +28,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
 
 const StyledCardContent = styled(CardContent)({
   textAlign: "left",
-  padding: 16
+  padding: 16,
 });
 
 const StyledChip = styled(Chip)({

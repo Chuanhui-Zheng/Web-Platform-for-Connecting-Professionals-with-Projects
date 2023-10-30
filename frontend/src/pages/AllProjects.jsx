@@ -33,7 +33,9 @@ import Chip from '@mui/material/Chip';
 import { apiGet } from '../api';
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
-import BrowseCards from '../components/BrowseCards';
+import ProjectDetailWindow from '../components/ProjectDetailWindow';
+import SideBar from '../components/SideBar';
+import Dummy from '../components/Dummy';
 
 const headerStyle = {
   display: 'flex',
@@ -131,7 +133,6 @@ export default function AllProjects() {
   React.useEffect(() => {
     apiGet("/project/listall",)
     .then((data) => {
-        console.log(data);
         if (!data.error) {
           setAllProjects(data);
           // console.log("project details:", allProjects)
@@ -145,6 +146,7 @@ export default function AllProjects() {
     });
   }, []);
 
+  const [projectID, setSelectProjectID] = React.useState(null);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -152,6 +154,10 @@ export default function AllProjects() {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleSelectProject = (projectId) => {
+      setSelectProjectID(projectId);
   };
 
   return (
@@ -175,199 +181,17 @@ export default function AllProjects() {
           }
         </DrawerHeader>
         <Divider />
-        <Box sx={{ overflow: 'auto' }}>
-          
-        {/* <List>
-          {allProjects.map((project, idx) => (
-            <ListItem key={idx} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={[
-                  {
-                    minHeight: 48,
-                    px: 2.5,
-                  },
-                  open
-                    ? {
-                        justifyContent: 'initial',
-                      }
-                    : {
-                        justifyContent: 'center',
-                      },
-                ]}
-              >
-                <ListItemIcon
-                  sx={[
-                    {
-                      minWidth: 0,
-                      justifyContent: 'center',
-                    },
-                    open
-                      ? {
-                          mr: 3,
-                        }
-                      : {
-                          mr: 'auto',
-                        },
-                  ]}
-                >
-                  {project.companyPhoto}
-                </ListItemIcon>
-                <ListItemText
-                  primary={project.title}
-                  sx={[
-                    open
-                      ? {
-                          opacity: 1,
-                        }
-                      : {
-                          opacity: 0,
-                        },
-                  ]}
-                />
-
-
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List> */}
+        <Box sx={{ overflow: 'auto', width: '100%'}}>
+        
         {open === false ? <div></div>: 
-                <List>
-                {/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                  <ListItem key={text} disablePadding >
-                    <ListItemButton sx={{backgroundColour:'grey'}}>
-                      <ListItemIcon>
-                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                      </ListItemIcon>
-                      <ListItemText primary={text} />
-                    </ListItemButton>
-                  </ListItem>
-                ))} */}
-                {allProjects.map((project, idx) => (
-                <ListItem key={idx} id={project.projectId} disablePadding >
-                  <BrowseCards project={project} />
-                </ListItem>
-                ))}
-                {allProjects.length == 0 && <ListItem sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', }}> Currently No Projects</ListItem>}
-              </List>
+              <SideBar projectID={projectID} onSelectProject={handleSelectProject} />
               
             }
         </Box>
       </Drawer>
-
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-
-        <div style={headerStyle}>
-          <Avatar sx={{ width: 32, height: 32 }} />
-          <Typography variant="h4" component="h1" gutterBottom>
-            <b> Project Name</b>
-          </Typography>
-        </div>
-
-        <Box style={secondaryStyle}>
-          <Box>
-            <Typography variant="h6" component="h1" gutterBottom>
-              Company Name
-            </Typography>
-
-            <Container sx={{flexDirection: 'row'}}>
-              <Box display="flex" alignItems="center" mb={1}>
-                <BusinessCenterIcon style={{ marginRight: 8 }} />
-                <Typography variant="body2" color="textSecondary">
-                  Category
-                </Typography>
-              </Box>
-              <Box display="flex" alignItems="center" mb={1}>
-                <DateRangeIcon style={{ marginRight: 8 }} />
-                <Typography variant="body2" color="textSecondary">
-                  Start Date - End Date
-                </Typography>
-              </Box>
-              <Box display="flex" alignItems="center" mb={1}>
-                <LocationOnIcon style={{ marginRight: 8 }} />
-                <Typography variant="body2" color="textSecondary">
-                  Location
-                </Typography>
-              </Box>
-              <Box display="flex" alignItems="center" mb={1}>
-                <GroupsIcon style={{ marginRight: 8 }} />
-                <Typography variant="body2" color="textSecondary">
-                  Number of People
-                </Typography>
-              </Box>
-            </Container>
-
-            <Typography variant="body2" color="textSecondary" paragraph>
-              Required Skills:
-            </Typography>
-            <Box mb={2}>
-              <StyledChip label="React" />
-              <StyledChip label="Node.js" />
-              <StyledChip label="MongoDB" />
-              <StyledChip label="AWS" />
-            </Box>
-
-
-          </Box>
-          <ButtonGroup
-            orientation="vertical"
-            aria-label="Vertical button group"
-            variant="contained"
-          >
-            {professionalButtons}
-          </ButtonGroup>
-        </Box>
-
-        <Typography variant="h5" component="h2" gutterBottom>
-          Project Description
-        </Typography>
-        <Typography sx={{ marginBottom: 2 }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-          enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-          imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-          Convallis convallis tellus id interdum velit laoreet id donec ultrices.
-          Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra
-          nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum
-          leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
-          feugiat vivamus at augue. At augue eget arcu dictum varius duis at
-          consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
-          sapien faucibus et molestie ac.
-        </Typography>
-        <Typography variant="h5" component="h2" gutterBottom>
-          Key Responsibilities
-        </Typography>
-        <List sx={{ listStyleType: 'disc', padding: '10px 40px' }}>
-          <ListItem sx={{ display: 'list-item' }}>
-            check
-          </ListItem>
-          <ListItem sx={{ display: 'list-item' }}>
-            check
-          </ListItem>
-          <ListItem sx={{ display: 'list-item' }}>
-            check
-          </ListItem>
-          </List>
-          <Typography variant="h5" component="h2" gutterBottom>
-          Objectives
-        </Typography>
-        <Typography sx={{ marginBottom: 2 }}>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-          eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
-          neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
-          tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis
-          sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
-          tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit
-          gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
-          et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis
-          tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
-        <Typography variant="h5" component="h2" gutterBottom>
-          Contact email
-        </Typography>
-      </Box>
+      {console.log(projectID)}
+      {/* <ProjectDetailWindow projectID={parseInt(projectID)} token={token}/> */}
+      <ProjectDetailWindow projectID={projectID} />
       {/* </PageContainer> */}
     </Box>
   );

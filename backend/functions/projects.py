@@ -48,7 +48,7 @@ def projectCreate():
     projectDescription = data.get("projectDescription", "")
     projectStartDate = data.get("projectStartDate", "")
     projectEndDate = data.get("projectEndDate", "")
-    projectCategory = data.get("projectCategories", "")
+    projectCategories = data.get("projectCategories", "")
     projectLocation = data.get("projectLocation", "")
     projectKeyResponsibilities = data.get("projectKeyResponsibilites", "")
     projectConfidentialInformation = data.get("projectConfidentialInformation", "")
@@ -58,22 +58,20 @@ def projectCreate():
     contactEmail = data.get("contactEmail", "")
     
     new_project = Projects(projectObjectives=projectObjectives,
-                           projectDescription=projectDescription, projectStartDate=projectStartDate,
-                           projectLocation=projectLocation, projectKeyResponsibilities=projectKeyResponsibilities,
-                           projectConfidentialInformation=projectConfidentialInformation,
-                           projectSkills=projectSkills, projectCategories=projectCategories,
-                           projectEndDate=projectEndDate,
-                           professionalsWanted=professionalsWanted,
-                           contactEmail=contactEmail,
-                           )
-    
+                        projectDescription=projectDescription, projectStartDate=projectStartDate,
+                        projectLocation=projectLocation, projectKeyResponsibilities=projectKeyResponsibilities,
+                        projectConfidentialInformation=projectConfidentialInformation,
+                        projectSkills=projectSkills, projectCategories=projectCategories,
+                        projectEndDate=projectEndDate,
+                        professionalsWanted=professionalsWanted,
+                        contactEmail=contactEmail,
+                        )
+
     if not company_exists(companyId):
         return jsonify({"error": "Company does not exist"}), 409
     elif Projects.query.filter_by(projectName=projectName, pCompanyId=int(companyId)).first():
         return jsonify({"error": "Company already has project under this name"}), 404
-    elif Projects.query.filter_by(projectName=projectName, pCompanyId=int(companyId)).first():
-        return jsonify({"error": "Company already has project under this name"}), 404
-    
+
     new_project.create_project_details(companyId, projectName)
     
     new_project.save_project()
@@ -162,10 +160,8 @@ RETURN {
 '''
 @app.route('/project/listall', methods=['GET']) #tested
 def projectListAll():
-    projects = Projects.query.filter_by(projectStatus='Incomplete').all()
-
-    projects = Projects.query.filter_by(projectStatus='Incomplete').all()
-
+    projects = Projects.query.filter_by(projectStatus='Active').all()
+    
     # depends how front end wants to display
     project_list = [
         {
@@ -214,6 +210,7 @@ def projectDetails():
         "projectName": project.projectName,
         "contactEmail": project.contactEmail,
         "projectCompany": getProjectCompany(project.pCompanyId),
+        "pCompanyId": project.pCompanyId,
         "projectCategory": project.projectCategories,
         "projectObjectives": project.projectObjectives,
         "projectDescription": project.projectDescription,
@@ -263,17 +260,6 @@ def projectSearch():
 
     # starts building query
     query = Projects.query
-    query_string = request.args.get("query", "")
-    categories = set(request.args.getlist("category"))
-    skills = set(request.args.getlist("skills"))
-    location = request.args.get("location")
-    creator = request.args.get("creatorId")
-
-    # starts building query
-    query = Projects.query
-
-    # starts building query
-    query = Projects.query
 
     # add filters here as if statements on top of query
     if query_string:
@@ -293,7 +279,6 @@ def projectSearch():
         category_conditions = [
             Projects.projectCategories.like(f'%"{category}"%') for category in categories
         ]
-        query = query.filter(and_(*category_conditions))
         query = query.filter(and_(*category_conditions))
 
     # filter by skills (substring matching)
@@ -539,7 +524,7 @@ def projectIncomplete():
         return jsonify({"error": "Project does not exist"}), 409
 
     if project.projectStatus == "Complete":
-        project.projectStatus = "Incomplete"
+        project.projectStatus = "Active"
         db.session.commit()
         return jsonify({"success": "Project status set to incomplete"}), 200
     else:
@@ -564,11 +549,14 @@ def projectApplicantList():
     if project is None:
         return jsonify({"error": "Project does not exist"}), 409
     
-    applicants = Professional.query.filter(Professional.professionalId.in_(project.listOfApplicants)).all()
+    applicant_ids = [applicant['professionalId'] for applicant in project.listOfApplicants if 'professionalId' in applicant]
+    applicants = Professional.query.filter(Professional.professionalId.in_(applicant_ids)).all()
     applicant_list = [
         {
+            "professionalFullName": applicant.professionalFullName,
             "professionalId": applicant.professionalId,
             "professionalEmail": applicant.professionalEmail,
+            "professionalSkills": applicant.professionalSkills
         }
         for applicant in applicants
     ]
@@ -667,3 +655,4 @@ def getProfessionalProjectsFromStatus():
     ]
     
     return jsonify(project_dict), 200
+
