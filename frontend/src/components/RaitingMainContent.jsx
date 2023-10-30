@@ -11,15 +11,27 @@ import {
 } from '@mui/material';
 
 function RaitingMainContent({ selectedUser, projectId }) {
+  const { projectID } = useParams();
   const [rating, setRating] = React.useState(0);
   const [feedback, setFeedback] = React.useState('');
   const [name, setName] = React.useState('');
-  // const [name, setName] = React.useState('');
-  // const [professionalReview, setName] = React.useState('');
-  // const [rating, setName] = React.useState('');
+  // const [professionalRating, setRating] = React.useState('');
+  // const [professionalReview, setReview] = React.useState('');
+  const [professionalReview, setReview] = React.useState('');
   const [ownUserId, setOwnUserId] = React.useState('');
+  const [userType, setUserType] = React.useState('');
+
   // setName(selectedUser || '');
   console.log(selectedUser)
+  React.useEffect(() => {
+    const getToken = localStorage.getItem("token");
+    if (getToken != null) {
+        const tokenData = decodeJWT(getToken);
+        setOwnUserId(tokenData.userId);
+        setUserType(tokenData.userType);
+    }
+  }, []);
+
   const handleRatingChange = (event, newValue) => {
     setRating(newValue);
   };
@@ -30,22 +42,28 @@ function RaitingMainContent({ selectedUser, projectId }) {
 
   const handleSubmit = () => {
     // Handle form submission logic here
-    // console.log('calling');
-    // apiPost("/project/company/rateProfessional", {
-    //   userId: ownUserId,
-    //   projectId: 
-    //   professionalRating:
-    //   professionalReview: 
-    // }).then((data) =>{
-    //     if (!data.error) {
-    //         console.log(data)
-    //     } else {
-    //         throw new Error("Create Project Failed");
-    //     }
-    // })
-    // .catch(() => {
-    //     alert("Project Details are not valid.")
-    // });
+    console.log('calling');
+    apiPost("/project/company/rateProfessional", {
+      userId: ownUserId,
+      projectId: projectID,
+      professionalRating: rating,
+      professionalReview: professionalReview
+    }).then((data) =>{
+        if (!data.error) {
+            console.log(data)
+        } else {
+            throw new Error("Rate Project Failed");
+        }
+    })
+    .catch(() => {
+        alert("Project Rating are not valid.")
+    });
+
+    if (userType === 'company') {
+      navigate("/companydashboard");
+    } else {
+      navigate("/prodashbaord");
+    }
 
   };
 
