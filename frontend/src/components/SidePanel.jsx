@@ -120,7 +120,7 @@ function SidePanel({ projectID, onSelectProject }) {
           <Stack direction="row">
             <IconButton onClick={handleDrawerOpen}><SearchIcon /><ChevronRightIcon />  </IconButton>
           </Stack> : 
-          <Stack direction="row">
+          <Stack direction="row" sx={{width:'100%'}}>
             <SearchBar allProjects={allProjects} setSearch={setSearch}> </SearchBar><IconButton onClick={handleDrawerClose}><ChevronLeftIcon/></IconButton>
           </Stack>
           }
@@ -141,7 +141,7 @@ function SidePanel({ projectID, onSelectProject }) {
                   </ListItem>
               ))} */}
               
-              {console.log(allProjects)}
+              {console.log(searchResults)}
               {searchResults.length !== 0 && searchResults.map((project, idx) => (
               <ListItem key={idx} id={project.projectId} onClick={() => onSelectProject(project.projectId)} 
               className={`project-card ${projectID === project.projectId ? 'selected' : ''}`} disablePadding >
