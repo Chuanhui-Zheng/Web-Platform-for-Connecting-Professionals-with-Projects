@@ -123,7 +123,7 @@ function Header() {
         if (token1 != null) {
             const tokenData = decodeJWT(token1);
             console.log("navigating to id", tokenData.userId)
-            navigate(`/profile/:${tokenData.userId}`);
+            navigate(`/profile/${tokenData.userId}`);
         }
     }
     

@@ -86,6 +86,8 @@ export default function ProjectDetailWindow({ projectID }) {
                     console.log("details:", data)
                     console.log("details:", data.listOfApplicants)
                     
+                    setSelectedIndex2(0)
+
                     // STATUS: check if professional has applied
                     data.listOfApplicants.forEach(prof => {
                         if (userId === prof.professionalId) {
