@@ -2,7 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 from extensions import db, jwt
 from functions.auth import authRegisterCompany, authRegisterProfessional, login, logout
-from functions.notifications import getNotifications, sendNotifications
+from functions.notifications import getNotifications
 from functions.profiles import editCompanyProfile, editProfessionalProfile, userDetails, professionalEditProfile
 from functions.edit import editCompany, editProfessional, editProject
 from functions.user import companyDetails, professionalDetails, getUserType
@@ -39,7 +39,6 @@ def create_app():
     app.add_url_rule('/auth/login', 'login', login, methods=['POST'])
     app.add_url_rule('/auth/logout', 'logout', logout, methods=['POST'])
     app.add_url_rule('/notifications/get', 'getNotifications', getNotifications, methods=['GET'])
-    app.add_url_rule('/notifications/send', 'sendNotifications', sendNotifications, methods=['POST'])
     app.add_url_rule('/editcompanyprofile', 'editCompanyProfile', editCompanyProfile, methods=['PUT'])
     app.add_url_rule('/editProfessionalProfile', 'editProfessionalProfile', editProfessionalProfile, methods=['PUT'])
     app.add_url_rule('/user/details', 'userDetails', userDetails, methods=['GET'])

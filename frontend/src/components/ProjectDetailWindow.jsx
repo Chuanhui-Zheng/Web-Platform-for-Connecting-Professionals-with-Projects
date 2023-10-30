@@ -52,7 +52,7 @@ const headerStyle = {
   
   
   const statusCompOptions = ['Pending', 'Completed'];
-  const statusProfOptions = ['Apply', 'Pending', 'Approved'];
+  const statusProfOptions = ['Apply', 'Pending', 'Approved', 'Complete'];
 export default function ProjectDetailWindow({ projectID }) {
     const navigate = useNavigate();
     const [projectInfo, setProjectInfo] = useState(null);
@@ -100,6 +100,13 @@ export default function ProjectDetailWindow({ projectID }) {
                             setSelectedIndex2(2)
                         } 
                     })
+
+                    // if project complete
+                    if (data.projectStatus === 'Complete') {
+                        setSelectedIndex(1)
+                        setSelectedIndex2(3)
+                    }
+            
                     
                 } else {
                     console.error("Error fetching project list:", data.error);

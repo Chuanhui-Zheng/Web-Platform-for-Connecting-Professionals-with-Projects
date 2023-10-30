@@ -11,17 +11,30 @@ import IconButton from '@mui/material/IconButton';
 // import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import NotificationImportantOutlinedIcon from '@mui/icons-material/NotificationImportantOutlined';
 import { deepOrange } from '@mui/material/colors';
+import { Unstable_Popup as BasePopup } from '@mui/base/Unstable_Popup';
+import { styled } from '@mui/system';
+
+
 import decodeJWT from "../decodeJWT";
+import { apiGet } from '../api';
 
 function Header() {
     const navigate = useNavigate();
     const [token, setToken] = React.useState(localStorage.getItem("token"));
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchor, setAnchor] = React.useState(null);
+    const [notifications, setNotifs] = React.useState(null);
+    const [newNotif, setNewNotifs] = React.useState(false);
     const [userType, setUserType] = React.useState('');
     const [userId, setUserId] = React.useState();
     
     const open = Boolean(anchorEl);
+    const openNotif = Boolean(anchor);
+    const id = open ? 'simple-popper' : undefined;
+
+    // Profile menu handerls
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -29,6 +42,13 @@ function Header() {
         setAnchorEl(null);
     };
 
+    // Notification handler click
+    const handleNotifs = (event) => {
+        setAnchor(event.currentTarget);
+    };
+    const handleNotifs2 = (event) => {
+        setAnchor(null);
+    };
     React.useEffect(() => {
         setInterval(() => {
             const glob = localStorage.getItem("token");
@@ -44,7 +64,31 @@ function Header() {
             const tokenData = decodeJWT(token);
             setUserType(tokenData.userType)
             setUserId(tokenData.userId)
-            console.log("boing", tokenData.userId)
+            console.log("boing", tokenData.userType)
+            console.log("SSS", tokenData.userId)
+
+            // if (token.userType === 'professional') {
+            //     console.log('AAAAAAAAA')
+                apiGet('/notifications/get', `professionalId=${tokenData.userId}`)
+                .then(data => {
+                    if (!data.error) {
+                        setNotifs(data);
+                        console.log("notif details:", data)
+                        console.log("notif old details:", notifications)
+                        if (notifications.length !== data.length) {
+                            setNewNotifs(true);
+                        }
+                    } else {
+                        console.error("Error fetching notif list:", data.error);
+                    }
+                })
+                .catch(err => {
+                    console.error("Failed to fetch notif list:", err);
+                })
+                
+            // }
+            
+
         }
     }, 5000);
 
@@ -94,8 +138,21 @@ function Header() {
             {/* </>) : ( */}
             {/* <> */}
             {token ?  (<>
-                <Box>
-                <><Button name="notifBtn" color="green"> <NotificationsNoneIcon></NotificationsNoneIcon> </Button></>
+            <Box>
+                {/* <BasePopup sx={{ position: 'relative' }} id={id} open={openNotif} anchor={anchor}>
+                <PopupBody  disablePortal>The content of the Popup.</PopupBody>
+            </BasePopup> */}
+                <><IconButton
+                    onClick={handleNotifs}
+                    size="small"
+                    sx={{ ml: 2 }}
+                    aria-controls={open ? 'notif-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                > 
+                {newNotif ? <NotificationImportantOutlinedIcon sx={{color:'#f78e5b'}}></NotificationImportantOutlinedIcon>: <NotificationsNoneIcon sx={{color:'white'}}></NotificationsNoneIcon> }
+        
+                </IconButton></>
                 <IconButton
                     onClick={handleClick}
                     size="small"
@@ -107,6 +164,53 @@ function Header() {
                     <Avatar sx={{ bgcolor: deepOrange[500], width: 32, height: 32 }} />
                 </IconButton>
             </Box>
+            <Menu
+                anchorEl={anchor}
+                id="notif-menu"
+                open={openNotif}
+                onClose={handleNotifs2}
+                onClick={handleNotifs2}
+                slotProps={{
+                paper: {
+                    elevation: 0,
+                    sx: {
+                    overflow: 'visible',
+                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                    mt: 1.5,
+                    '&::before': {
+                        content: '""',
+                        display: 'block',
+                        position: 'absolute',
+                        top: 0,
+                        right: 14,
+                        width: 10,
+                        height: 10,
+                        bgcolor: 'background.paper',
+                        transform: 'translateY(-50%) rotate(45deg)',
+                        zIndex: 0,
+                    },
+                    },
+                },
+                }}
+                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            >
+                {console.log(notifications)}
+                {console.log(newNotif)}
+                {notifications === null ? <Box>Currently No Notifications! Check back Later! C:</Box>: <Box>
+                 {notifications.map((notif, idx) => (
+                    <MenuItem key={idx}>
+                        <Box sx={{display:'flex', flexDirection:'column', fontSize:'13px'}}>
+                            {notif.professionalNotificationMessage}
+                            <Box sx={{fontSize:'12px'}}>{notif.professionalNotificationTime} -
+                            {notif.professionalNotificationDate}</Box>
+                        </Box>
+                    {/* {notif.professionalNot/tificationDate} */}
+                    </MenuItem>
+                 ))}
+                {/* </MenuItem> */}
+                <Divider /></Box>}
+            </Menu>
             <Menu
                 anchorEl={anchorEl}
                 id="account-menu"
@@ -179,5 +283,36 @@ function Header() {
         </Box>
     );
 }
+
+const grey = {
+    50: '#F3F6F9',
+    100: '#E5EAF2',
+    200: '#DAE2ED',
+    300: '#C7D0DD',
+    400: '#B0B8C4',
+    500: '#9DA8B7',
+    600: '#6B7A90',
+    700: '#434D5B',
+    800: '#303740',
+    900: '#1C2025',
+};
+const PopupBody = styled('div')(
+  ({ theme }) => `
+  width: max-content;
+  padding: 12px 16px;
+  margin: 8px;
+  border-radius: 8px;
+  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
+  background-color: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
+  box-shadow: ${
+    theme.palette.mode === 'dark'
+      ? `0px 4px 8px rgb(0 0 0 / 0.7)`
+      : `0px 4px 8px rgb(0 0 0 / 0.1)`
+  };
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.875rem;
+  z-index: 1;
+`,
+);
 
 export default Header;

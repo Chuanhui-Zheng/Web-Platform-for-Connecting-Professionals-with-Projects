@@ -35,6 +35,8 @@ import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
 import ProjectDetailWindow from '../components/ProjectDetailWindow';
 import SideBar from '../components/SideBar';
+
+import SidePanel from '../components/SidePanel';
 import Dummy from '../components/Dummy';
 
 const headerStyle = {
@@ -142,6 +144,10 @@ export default function AllProjects() {
       setSelectProjectID(projectId);
   };
 
+  const updateListings = (projectId) => {
+    setSelectProjectID(projectId);
+  };
+
   return (
     <Box sx={{ display: 'flex' }}>
       {/* <PageContainer className="container" maxWidth={false} sx={{width:"100%", "@media (min-width: 0px)": { paddingRight: "25px", paddingLeft: "25px" }, margin: "0px"}}> */}
@@ -150,7 +156,9 @@ export default function AllProjects() {
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <Header></Header>
       </AppBar>
-      <Drawer variant="permanent" open={open} sx={{ backgroundColour: 'none', paddingLeft:'25px'}}>
+      <SidePanel projectID={projectID} onSelectProject={handleSelectProject} />
+
+      {/* <Drawer variant="permanent" open={open} sx={{ backgroundColour: 'none', paddingLeft:'25px'}}>
         <DrawerHeader></DrawerHeader>
         <DrawerHeader>
           {open === false ? 
@@ -158,7 +166,7 @@ export default function AllProjects() {
             <IconButton onClick={handleDrawerOpen}><SearchIcon /><ChevronRightIcon />  </IconButton>
           </Stack> : 
           <Stack direction="row">
-            <SearchBar> </SearchBar><IconButton onClick={handleDrawerClose}><ChevronLeftIcon/></IconButton>
+            <SearchBar projects={projects} setSearch={setSearch}> </SearchBar><IconButton onClick={handleDrawerClose}><ChevronLeftIcon/></IconButton>
           </Stack>
           }
         </DrawerHeader>
@@ -170,7 +178,7 @@ export default function AllProjects() {
               
             }
         </Box>
-      </Drawer>
+      </Drawer> */}
       {console.log(projectID)}
       {/* <ProjectDetailWindow projectID={parseInt(projectID)} token={token}/> */}
       <ProjectDetailWindow projectID={projectID} />
