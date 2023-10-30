@@ -54,7 +54,6 @@ function App() {
             <Route path="/projectdetail/:projectID" element={<ProjectDetail />} />
             <Route path="/projectpage/:projectID" element={<ProjectPage />} />
             <Route path="/projectpage/:projectID/edit" element={<EditProject />} />
-            <Route path="/projectCandidateList" element={<ProjectCandidateList />} />
             <Route path="/project/:projectId/applicants" element={<ProjectApplicantList />} />
         </Routes>
     </BrowserRouter>
