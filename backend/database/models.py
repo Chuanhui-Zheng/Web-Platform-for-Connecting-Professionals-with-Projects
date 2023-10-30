@@ -110,6 +110,10 @@ class Professional(db.Model):
     professionalPastProjects = db.Column(MutableList.as_mutable(JSON), default=list)
     professionalRatings = db.Column(MutableList.as_mutable(JSON), default=list)
     professionalCertificates = db.Column(MutableList.as_mutable(JSON), default=list)
+    professionalPastProjects = db.Column(JSON, default=list)
+    professionalRatings = db.Column(MutableList.as_mutable(JSON), default=list)
+    professionalCertificates = db.Column(MutableList.as_mutable(JSON), default=list)
+    professionalNotifications = db.Column(MutableList.as_mutable(JSON), default=list)
 
     def __repr__(self):
         return f"<Professional {self.professionalEmail}>"
@@ -132,6 +136,24 @@ class Professional(db.Model):
     def get_professional_by_id(cls, professionalId):
         return cls.query.filter_by(professionalId=professionalId).first()
     
+    def add_notification(self, professionalId, message):
+        target_list = getattr(self, "professionalNotifications", None)
+        notification_id = str(len(self.professionalNotifications) + 1)
+        
+        current_date = datetime.now().strftime("%d/%m/%Y")
+        current_time = datetime.now().strftime("%H:%M")
+        
+        notification = {
+            "professionalNotificationId": notification_id,
+            "professionalNotificationDate": current_date,
+            "professionalNotificationTime": current_time,
+            "professionalNotificationMessage": message
+        }
+        
+        # self.professionalNotifications[notification_id] = notification
+        target_list.append(notification)
+        db.session.commit()
+
     def save_professional(self):
         db.session.add(self)
         db.session.commit()
@@ -196,8 +218,26 @@ class Projects(db.Model):
         self.pCompanyId = companyId
         self.projectName = projectName
         db.session.commit()
-
         
+    def init_project_details_for_demo(
+        self, 
+        companyId=None, 
+        projectName=None, 
+        projectObjectives=None, 
+        projectDescription=None, 
+        projectCategories=None, 
+        projectLocation=None, 
+        projectSkills=None
+    ):
+        self.pCompanyId = companyId
+        self.projectName = projectName or "Default Project Name"  # Set a default name if missing
+        self.projectObjectives = projectObjectives or "No specific objectives"
+        self.projectDescription = projectDescription or "Description not provided"
+        self.projectCategories = projectCategories or []
+        self.projectLocation = projectLocation or "Location unspecified"
+        self.projectSkills = projectSkills or []
+        db.session.commit()
+
     def edit_project_details(self, data):
         for field, value in data.items():
             if hasattr(self, field) and field not in ['projectId', 'pCompanyId']:

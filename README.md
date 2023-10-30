@@ -22,4 +22,4 @@
 
 # To clear or initialise database:
 1. Go to /backend directory
-2. bash db_controller.sh <clear/init>
+2. bash db_controller.sh <clear/init/test>

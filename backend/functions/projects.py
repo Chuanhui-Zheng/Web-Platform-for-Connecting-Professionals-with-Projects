@@ -48,7 +48,7 @@ def projectCreate():
     projectDescription = data.get("projectDescription", "")
     projectStartDate = data.get("projectStartDate", "")
     projectEndDate = data.get("projectEndDate", "")
-    projectCategory = data.get("projectCategories", "")
+    projectCategories = data.get("projectCategories", "")
     projectLocation = data.get("projectLocation", "")
     projectKeyResponsibilities = data.get("projectKeyResponsibilites", "")
     projectConfidentialInformation = data.get("projectConfidentialInformation", "")
@@ -58,22 +58,20 @@ def projectCreate():
     contactEmail = data.get("contactEmail", "")
     
     new_project = Projects(projectObjectives=projectObjectives,
-                           projectDescription=projectDescription, projectStartDate=projectStartDate,
-                           projectLocation=projectLocation, projectKeyResponsibilities=projectKeyResponsibilities,
-                           projectConfidentialInformation=projectConfidentialInformation,
-                           projectSkills=projectSkills, projectCategories=projectCategories,
-                           projectEndDate=projectEndDate,
-                           professionalsWanted=professionalsWanted,
-                           contactEmail=contactEmail,
-                           )
-    
+                        projectDescription=projectDescription, projectStartDate=projectStartDate,
+                        projectLocation=projectLocation, projectKeyResponsibilities=projectKeyResponsibilities,
+                        projectConfidentialInformation=projectConfidentialInformation,
+                        projectSkills=projectSkills, projectCategories=projectCategories,
+                        projectEndDate=projectEndDate,
+                        professionalsWanted=professionalsWanted,
+                        contactEmail=contactEmail,
+                        )
+
     if not company_exists(companyId):
         return jsonify({"error": "Company does not exist"}), 409
     elif Projects.query.filter_by(projectName=projectName, pCompanyId=int(companyId)).first():
         return jsonify({"error": "Company already has project under this name"}), 404
-    elif Projects.query.filter_by(projectName=projectName, pCompanyId=int(companyId)).first():
-        return jsonify({"error": "Company already has project under this name"}), 404
-    
+
     new_project.create_project_details(companyId, projectName)
     
     new_project.save_project()
@@ -257,21 +255,12 @@ RETURN {
 @app.route('/project/search', methods=['GET']) #tested
 def projectSearch():
     query_string = request.args.get("query", "")
-    categories = set(request.args.getlist("category"))
-    skills = set(request.args.getlist("skills"))
+    # categories = set(request.args.getlist("category"))
+    # skills = set(request.args.getlist("skills"))
+    categories = request.args.get("categories")
+    skills = request.args.get("skills")
     location = request.args.get("location")
     creator = request.args.get("creatorId")
-
-    # starts building query
-    query = Projects.query
-    query_string = request.args.get("query", "")
-    categories = set(request.args.getlist("category"))
-    skills = set(request.args.getlist("skills"))
-    location = request.args.get("location")
-    creator = request.args.get("creatorId")
-
-    # starts building query
-    query = Projects.query
 
     # starts building query
     query = Projects.query
@@ -294,7 +283,6 @@ def projectSearch():
         category_conditions = [
             Projects.projectCategories.like(f'%"{category}"%') for category in categories
         ]
-        query = query.filter(and_(*category_conditions))
         query = query.filter(and_(*category_conditions))
 
     # filter by skills (substring matching)
@@ -451,6 +439,10 @@ def projectCompanyApprove():
     if project is None:
         return jsonify({"error": "Project does not exist"}), 409
     
+    professional = Projects.get_professional_by_id(professionalId)
+    if professional is None:
+        return jsonify({"error": "Professional does not exist"}), 409
+    
     # Checks if the professional has already been approved
     if any(applicant['professionalId'] == professionalId for applicant in project.listOfProfessionals):
         return jsonify({"error": "Professional already approved"}), 406
@@ -461,7 +453,14 @@ def projectCompanyApprove():
     
     project.remove_from_list(professionalId, "listOfApplicants")
     project.add_to_list(professionalId, "listOfProfessionals", "Approved")
-        
+    
+    # message = {
+    #     "success": f"Congratulations! You have been approved for the {project.projectName} project!"
+    # }
+    message = f"Congratulations! You have been approved for the {project.projectName} project!"
+
+    professional.add_notification(professionalId, message)
+
     return jsonify({"success": "Professional approved"}), 200
 
 
@@ -561,23 +560,26 @@ RETURN {
 @app.route('/project/applicant/list', methods=['GET']) #tested
 def projectApplicantList():
     projectId = request.args.get("projectId")
-    
     project = Projects.get_project_by_id(projectId)
     if project is None:
         return jsonify({"error": "Project does not exist"}), 409
-    
-    applicant_ids = [applicant['professionalId'] for applicant in project.listOfApplicants if 'professionalId' in applicant]
+
+    applicant_status_map = {
+        applicant['professionalId']: applicant['status'] for applicant in project.listOfApplicants if 'professionalId' in applicant
+    }
+    applicant_ids = list(applicant_status_map.keys())
     applicants = Professional.query.filter(Professional.professionalId.in_(applicant_ids)).all()
     applicant_list = [
         {
             "professionalFullName": applicant.professionalFullName,
             "professionalId": applicant.professionalId,
             "professionalEmail": applicant.professionalEmail,
-            "professionalSkills": applicant.professionalSkills
+            "professionalSkills": applicant.professionalSkills,
+            "status": applicant_status_map.get(applicant.professionalId)  # Get status from the mapping
         }
         for applicant in applicants
     ]
-    
+
     return jsonify(applicant_list), 200
 
 
@@ -672,3 +674,4 @@ def getProfessionalProjectsFromStatus():
     ]
     
     return jsonify(project_dict), 200
+
