@@ -57,6 +57,7 @@ def projectCreate():
     professionalsWanted = data.get("professionalsWanted", "")
     contactEmail = data.get("contactEmail", "")
     
+<<<<<<< HEAD
     new_project = Projects(projectStartDate=projectStartDate, projectKeyResponsibilities=projectKeyResponsibilities,
                            projectConfidentialInformation=projectConfidentialInformation,
                            projectEndDate=projectEndDate,
@@ -64,16 +65,33 @@ def projectCreate():
                            contactEmail=contactEmail,
                            )
     
+=======
+    new_project = Projects(projectObjectives=projectObjectives,
+                        projectDescription=projectDescription, projectStartDate=projectStartDate,
+                        projectLocation=projectLocation, projectKeyResponsibilities=projectKeyResponsibilities,
+                        projectConfidentialInformation=projectConfidentialInformation,
+                        projectSkills=projectSkills, projectCategories=projectCategories,
+                        projectEndDate=projectEndDate,
+                        professionalsWanted=professionalsWanted,
+                        contactEmail=contactEmail,
+                        )
+
+>>>>>>> main
     if not company_exists(companyId):
         return jsonify({"error": "Company does not exist"}), 409
     elif Projects.query.filter_by(projectName=projectName, pCompanyId=int(companyId)).first():
         return jsonify({"error": "Company already has project under this name"}), 404
+<<<<<<< HEAD
     elif Projects.query.filter_by(projectName=projectName, pCompanyId=int(companyId)).first():
         return jsonify({"error": "Company already has project under this name"}), 404
     
     new_project.create_project_details(companyId, projectName, projectObjectives,
                                        projectDescription, projectCategories, projectSkills,
                                        projectLocation)
+=======
+
+    new_project.create_project_details(companyId, projectName)
+>>>>>>> main
     
     new_project.save_project()
     
