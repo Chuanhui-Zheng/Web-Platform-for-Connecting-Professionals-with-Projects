@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from "react";
 import styles from '../styles/ProfileHeader.module.css'
 import {
     Card,
@@ -16,18 +16,52 @@ import {
   import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { apiGet } from '../api';
 
-function RaitingSideBar({professionals, projectName}) {
+function RaitingSideBar({professionals, projectName, selectedUser, onSelectName, onSelectUser }) {
     const [name, setNames] = React.useState('');
     const [profilePhoto, setProfilePhoto] = React.useState({});
-
-
+    const [professionalDetails, setProfessionalDetails] = useState({});
+    console.log(professionals)
+    
     const getName = (professionalId) => {
-        apiGet('/user/details/professional', professionalId)
+        // apiGet('/user/details/professional', professionalId)
+        // .then((data) => {
+        //     console.log(data)
+        //     // setNames(data)
+        //     // setProfilePhoto(d)
+        //     setProfessionalDetails((prevDetails) => ({
+        //     ...prevDetails,
+        //     [professionalId]: data,
+        //     }));
+        // }).catch((error) => console.error(`Failed to fetch details for professional`));
+
+        apiGet("/user/details/professional", `id=${professionalId}`)
         .then((data) => {
-            setNames(data)
-            setProfilePhoto(d)
+            console.log(data);
+            if (!data.error) {
+                setProfessionalDetails((prevDetails) => ({
+                ...prevDetails,
+                [professionalId]: data,
+                }));
+            } else {
+                throw new Error("Get Profile Failed");
+            }
         })
+        .catch(() => {
+            alert("Profile fetch5 failed.");
+        });
     }
+
+    // const handleClick = () => {
+    //     onSelectName(name)
+    // }
+
+    useEffect(() => {
+        professionals.forEach((professional) => {
+            if (!professionalDetails[professional.professionalId]) {
+                getName(professional.professionalId); // Fetch if details are not already loaded
+            }
+        });
+    }, [professionals]);
 
     return (
         <Card sx={{width: '100%', height: '100%', display: 'flex', flexDirection: 'column', marginRight: '4vw', paddingRight: '1vw'}}>
@@ -36,17 +70,18 @@ function RaitingSideBar({professionals, projectName}) {
             </Typography>
             <Typography variant='h7' sx={{marginLeft: 'auto', marginRight: 'auto'}}>Start Reviewing each Member</Typography>
 
-            
             <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', marginLeft: 'auto', marginRight: 'auto'}}>
-                {professionals.map((professional, idx) => (
-                    <>
-                        <ListItemButton alignItems="flex-start">
-                            
+                {professionals.map((professional, idx) => {
+                    const details = professionalDetails[professional.professionalId] || {};
+                    return(
+                        <ListItem key={professional.professionalId} alignItems="flex-start">
+                        <ListItemButton id={professional.professionalId} onClick={() => onSelectUser(details)} alignItems="flex-start">
+                                
                         <ListItemAvatar>
                             <AccountCircleIcon sx={{color: 'grey', fontSize: '3rem'}}/> 
                         </ListItemAvatar>
                         <ListItemText
-                        primary='NAME here'
+                        primary={details.professionalFullName}
                         secondary={
                             <React.Fragment>
                             <Typography
@@ -64,8 +99,8 @@ function RaitingSideBar({professionals, projectName}) {
                         />
                     </ListItemButton>
                     <Divider variant="inset" component="li" />
-                </>    
-                ))}
+                    </ListItem>
+                    )})}
                 
             </List>
         </Card>

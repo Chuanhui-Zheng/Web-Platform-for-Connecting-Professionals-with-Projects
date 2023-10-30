@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -10,10 +10,16 @@ import {
   Typography,
 } from '@mui/material';
 
-function RaitingMainContent({ name }) {
+function RaitingMainContent({ selectedUser, projectId }) {
   const [rating, setRating] = React.useState(0);
   const [feedback, setFeedback] = React.useState('');
-
+  const [name, setName] = React.useState('');
+  // const [name, setName] = React.useState('');
+  // const [professionalReview, setName] = React.useState('');
+  // const [rating, setName] = React.useState('');
+  const [ownUserId, setOwnUserId] = React.useState('');
+  // setName(selectedUser || '');
+  console.log(selectedUser)
   const handleRatingChange = (event, newValue) => {
     setRating(newValue);
   };
@@ -24,7 +30,30 @@ function RaitingMainContent({ name }) {
 
   const handleSubmit = () => {
     // Handle form submission logic here
+    // console.log('calling');
+    // apiPost("/project/company/rateProfessional", {
+    //   userId: ownUserId,
+    //   projectId: 
+    //   professionalRating:
+    //   professionalReview: 
+    // }).then((data) =>{
+    //     if (!data.error) {
+    //         console.log(data)
+    //     } else {
+    //         throw new Error("Create Project Failed");
+    //     }
+    // })
+    // .catch(() => {
+    //     alert("Project Details are not valid.")
+    // });
+
   };
+
+  useEffect(() => {
+      if (selectedUser !== null) {
+        setName(selectedUser.professionalFullName);
+      }
+  }, [selectedUser])
 
   return (
     <Card sx={{width: '100%', paddingLeft: '2vw', height: '100%'}}>
@@ -32,7 +61,7 @@ function RaitingMainContent({ name }) {
         <Typography variant="body1">Full Name</Typography>
         <TextField
           fullWidth
-          label="Full Name"
+          label={name}
           placeholder={`${name} autofilled`}
               />
               <Typography style={{marginTop: '3vh'}} variant="body1">Give {name} a star rating out of 5</Typography>

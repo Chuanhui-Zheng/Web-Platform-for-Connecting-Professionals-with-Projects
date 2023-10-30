@@ -55,7 +55,7 @@ function App() {
             <Route path="/projectpage/:projectID" element={<ProjectPage />} />
             <Route path="/projectpage/:projectID/edit" element={<EditProject />} />
             <Route path="/project/:projectId/rate" element={<RateProfessional />} />
-            <Route path="/project/rate" element={<RateProfessional />} />
+            {/* <Route path="/project/rate" element={<RateProfessional />} /> */}
             <Route path="/project/:projectId/applicants" element={<ProjectApplicantList />} />
         </Routes>
     </BrowserRouter>
