@@ -24,6 +24,7 @@ const ProfessionalProfile = ( { userId } ) => {
     const [professionalEducation, setProfessionalEducation] = React.useState('');
     const [professionalQualifications, setProfessionalQualifications] = React.useState('');
     const [projects, setProjects] = React.useState([]);
+    const [certificates, setCertificates] = React.useState([]);
 
     React.useEffect(() => {
         const getToken = localStorage.getItem("token");
@@ -69,7 +70,20 @@ const ProfessionalProfile = ( { userId } ) => {
                 .catch(() => {
                     alert("Profile fetch5 failed.");
                 });
-                
+            
+                apiGet("/profile/viewCertificate", `id=${userId}`)
+                .then((data) => {
+                    console.log(data);
+                    if (!data.error) {
+                        setCertificates(data.professionalCertificates)
+                    } else {
+                        throw new Error("Get Cert Failed");
+                    }
+                })
+                .catch(() => {
+                    alert("Profile fetch6 failed.");
+                });
+
         } else {
             console.log("fuck this shit")
         }
@@ -108,6 +122,12 @@ const ProfessionalProfile = ( { userId } ) => {
                         projectDescription={project.projectDescription}
                         projectId={project.projectId}
                     />
+                ))}
+            </div>
+            <h1 className={styles.ProfessionalProfileBodyTitle}>Certificates</h1>
+            <div class={styles.ProfessionalProfileProjectList}>
+                {certificates.map((cert, idx) => (
+                    <a href={cert.professionalCertificate} download>Cert {idx}</a>
                 ))}
             </div>
         </div>
