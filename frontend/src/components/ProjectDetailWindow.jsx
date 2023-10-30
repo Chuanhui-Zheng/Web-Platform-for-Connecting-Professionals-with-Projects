@@ -52,7 +52,7 @@ const headerStyle = {
   
   
   const statusCompOptions = ['Pending', 'Completed'];
-  const statusProfOptions = ['Apply', 'Pending', 'Approved'];
+  const statusProfOptions = ['Apply', 'Pending', 'Approved', 'Complete'];
 export default function ProjectDetailWindow({ projectID }) {
     const navigate = useNavigate();
     const [projectInfo, setProjectInfo] = useState(null);
@@ -64,7 +64,7 @@ export default function ProjectDetailWindow({ projectID }) {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const [selectedIndex2, setSelectedIndex2] = React.useState(0);
     const [open, setOpen] = React.useState(false);
-
+    const [approved, setApproved] = React.useState(false);
 
     useEffect(() => {
         const glob = localStorage.getItem('token');
@@ -98,8 +98,16 @@ export default function ProjectDetailWindow({ projectID }) {
                     data.listOfProfessionals.forEach(prof => {
                         if (userId === prof.professionalId) {
                             setSelectedIndex2(2)
+                            setApproved(true)
                         } 
                     })
+
+                    // if project complete
+                    if (data.projectStatus === 'Complete') {
+                        setSelectedIndex(1)
+                        setSelectedIndex2(3)
+                    }
+            
                     
                 } else {
                     console.error("Error fetching project list:", data.error);
@@ -171,7 +179,7 @@ export default function ProjectDetailWindow({ projectID }) {
                 }
             })
             .catch((err) => {
-                alert("Project Apply are not valid.", err)
+                alert("Project leave are not valid.", err)
             });
         }
     };
@@ -229,7 +237,7 @@ export default function ProjectDetailWindow({ projectID }) {
               <Box display="flex" alignItems="center" mb={1}>
                 <BusinessCenterIcon style={{ marginRight: 8 }} />
                 <Typography variant="body2" color="textSecondary">
-                {projectInfo.Category}
+                {projectInfo.projectCategory}
                 </Typography>
               </Box>
               <Box display="flex" alignItems="center" mb={1}>
@@ -321,18 +329,21 @@ export default function ProjectDetailWindow({ projectID }) {
         )}
       </Popper>
         </Box>
+        {approved===true ?
+        <Box> 
         <Typography variant="h5" component="h2" gutterBottom>
           Meet the Team
         </Typography>
-        {projectInfo.listOfProfessionals.map((prof, idx) => (
-            <Avatar>{prof}</Avatar>
-        ))}
+        // {/* {projectInfo.listOfProfessionals.map((prof, idx) => (
+        //     <Avatar>{prof}</Avatar>
+        // ))} */}
         <Typography variant="h5" component="h2" gutterBottom>
           Project Confidential Information
         </Typography>
         <Typography sx={{ marginBottom: 2 }}>
          {projectInfo.projectConfidentialInformation}
-        </Typography>
+        </Typography></Box>: <Box></Box>}
+    
         <Typography variant="h5" component="h2" gutterBottom>
           Project Description
         </Typography>
