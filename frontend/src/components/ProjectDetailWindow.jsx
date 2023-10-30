@@ -237,7 +237,7 @@ export default function ProjectDetailWindow({ projectID }) {
               <Box display="flex" alignItems="center" mb={1}>
                 <BusinessCenterIcon style={{ marginRight: 8 }} />
                 <Typography variant="body2" color="textSecondary">
-                {projectInfo.Category}
+                {projectInfo.projectCategory}
                 </Typography>
               </Box>
               <Box display="flex" alignItems="center" mb={1}>

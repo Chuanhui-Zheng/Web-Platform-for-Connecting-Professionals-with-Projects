@@ -34,74 +34,80 @@ export default function SearchBar(props) {
   const [locations, setLocations] = React.useState([]);
   const [skills, setSkills] = React.useState([]);
 
-  const [selCategories, setSelCategories] = React.useState([]);
+  const [selCategories, setSelCategories] = React.useState('');
   const [selLocation, setSelLocation] = React.useState('');
-  const [selSkills, setSelSkills] = React.useState([]);
+  const [selSkills, setSelSkills] = React.useState('');
 
   const handleSearchChange = (event) => {
     const value = event.target.value.toLowerCase();
     setSearchTerm(value);
-
+    //  depends if we want this to search each change
     // Filter the items based on the search term
-    console.log(props.allProjects)
-    const filtered = props.allProjects.filter(item => 
-      item.projectName.toLowerCase().includes(value) ||     
-      item.projectCompany.toLowerCase().includes(value) || 
-      item.projectDescription.toLowerCase().includes(value) 
-    );
-    // console.log(filtered)
-    
-    // Filter Select 
-    // const body = {
-    //   text: data.get('searchText'),
-    //   minBedrooms: data.get('minBedrooms'),
-    //   maxBedrooms: data.get('maxBedrooms'),
-    //   startDate: data.get('startDate'),
-    //   endDate: data.get('endDate'),
-    //   minPrice: data.get('minPrice'),
-    //   maxPrice: data.get('maxPrice'),
-    //   reviewOrder: data.get('reviewOrder'),
-    // }
-    // console.log(data)
-    const resultsArray = Object.values(filtered).filter(da => {
-      const categoryMatches = da.projectCategory.toLowerCase().includes(selCategories.toLowerCase())
-      const locationMatches = da.projectLocation.toLowerCase().includes(selLocation.toLowerCase())
-      const skillMatches = da.projectSkills.toLowerCase().includes(selSkills.toLowerCase()) 
+    // console.log(props.allProjects)
+    // const filtered = props.allProjects.filter(item => 
+    //   item.projectName.toLowerCase().includes(value) ||     
+    //   item.projectCompany.toLowerCase().includes(value) || 
+    //   item.projectDescription.toLowerCase().includes(value) 
+    // );
+    // // console.log(filtered)
+  
 
-      const finalResults = categoryMatches && locationMatches && locationMatches && skillMatches;
-      console.log(finalResults);
-    })
-
-      // return textMatches && bedroomMatches && dateMatches && priceMatches;
-
-      // setFilteredItems(filtered);
-      console.log(filtered);
-      props.setSearch(filtered);
+    //   console.log(filtered);
+    //   props.setSearch(filtered);
+    //   setFilteredItems(filtered)
   };
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    console.log("calling search project api", searchTerm)
-    console.log(selCategories,selLocation,selSkills)
-    apiGet("/project/search", `query=${searchTerm}&category=${selCategories}`,).then((data) =>{
-        if (!data.error) {
-            console.log(data.message)
-            if (data.message === 'No projects found.') {
-              console.log('AHFSJ')
-              props.setSearch([]);
 
-            } else {
-              props.setSearch(data);
-            }
-        } else {
-            throw new Error("Search Project Failed");
-        }
-        
-        props.setSearch(filtered);
+    // Filter the items based on the search term
+    console.log(props.allProjects)
+    const filtered = props.allProjects.filter(item => 
+      item.projectName.toLowerCase().includes(searchTerm) ||     
+      item.projectCompany.toLowerCase().includes(searchTerm) || 
+      item.projectDescription.toLowerCase().includes(searchTerm) 
+    );
+
+    // Filter Select 
+    const resultsArray = Object.values(filtered).filter(da => {
+      console.log(da.projectCategory, selCategories)
+      const categoryMatches = da.projectCategory.includes(selCategories) || selCategories === '';
+      const locationMatches = da.projectLocation === selLocation || selLocation === '';
+      const skillMatches = da.projectSkills.includes(selSkills) || selSkills === '' ;
+      console.log(categoryMatches, locationMatches, skillMatches)
+      return categoryMatches && locationMatches && skillMatches;
     })
-    .catch(() => {
-        // alert("Project Search are not valid.")
-    });
+
+    if (selCategories === '' && selLocation === '' && selSkills === '') {
+      props.setSearch(filtered);
+    } else {
+      props.setSearch(resultsArray);
+    }
+
+    console.log(resultsArray)
+    console.log(filtered);
+    // setFilteredItems(filtered)
+
+    // Backend Call Search
+    // apiGet("/project/search", `query=${searchTerm}&category=${selCategories}`,).then((data) =>{
+    //     if (!data.error) {
+    //         console.log(data.message)
+    //         if (data.message === 'No projects found.') {
+    //           console.log('AHFSJ')
+    //           props.setSearch([]);
+
+    //         } else {
+    //           props.setSearch(data);
+    //         }
+    //     } else {
+    //         throw new Error("Search Project Failed");
+    //     }
+        
+    //     props.setSearch(filtered);
+    // })
+    // .catch(() => {
+    //     // alert("Project Search are not valid.")
+    // });
   }
 
   const handleOpen1 = (value) => {
@@ -115,27 +121,29 @@ export default function SearchBar(props) {
     })();
   };
 
-  const handleClose1 = (value) => {
+  const handleClose1 = (event) => {
+   
     setOpen1(false);
     setCategories([]);
-    setSelCategories(typeof value === 'string' ? value.split(',') : value,)
+    console.log(event.target.textContent)
+    setSelCategories(event.target.textContent);
   };
 
   const handleOpen2 = (value) => {
     setOpen2(true);
     (async () => {
       setLoading(true);
-      // await sleep(1e3); // For demo purposes.
       setLoading(false);
 
       setLocations([...fetchedLocations]);
     })();
   };
 
-  const handleClose2 = (value) => {
+  const handleClose2 = (event) => {
     setOpen2(false);
     setLocations([]);
-    setSelLocation(value)
+    console.log(event.target.textContent)
+    setSelLocation(event.target.textContent);
   };
 
   const handleOpen3 = (value) => {
@@ -149,10 +157,12 @@ export default function SearchBar(props) {
     })();
   };
 
-  const handleClose3 = (value) => {
+  const handleClose3 = (event) => {
     setOpen3(false);
     setSkills([]);
-    setSelSkills(typeof value === 'string' ? value.split(',') : value,)
+    console.log(event.target.textContent)
+    setSelSkills(event.target.textContent);
+    
   };
 
   return (
@@ -191,6 +201,7 @@ export default function SearchBar(props) {
         <TextField
           {...params}
           label="Category"
+          onChange={handleClose1}
           value={selCategories}
           slotProps={{
             input: {
