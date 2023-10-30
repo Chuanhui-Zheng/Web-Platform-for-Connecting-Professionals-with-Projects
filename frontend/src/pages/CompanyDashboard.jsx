@@ -95,6 +95,7 @@ function CompanyDashboard() {
                         key={idx}
                         projectName={project.projectName}
                         projectDescription={project.projectDescription}
+                        projectId={project.projectId}
                     />
                 ))}
             </AccordionDetails>
@@ -114,6 +115,7 @@ function CompanyDashboard() {
                         key={idx}
                         projectName={project.projectName}
                         projectDescription={project.projectDescription}
+                        projectId={project.projectId}
                     />
                 ))}
             </AccordionDetails>

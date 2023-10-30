@@ -162,9 +162,9 @@ RETURN {
 '''
 @app.route('/project/listall', methods=['GET']) #tested
 def projectListAll():
-    projects = Projects.query.filter_by(projectStatus='Incomplete').all()
+    projects = Projects.query.filter_by(projectStatus='Active').all()
 
-    projects = Projects.query.filter_by(projectStatus='Incomplete').all()
+    projects = Projects.query.filter_by(projectStatus='Active').all()
 
     # depends how front end wants to display
     project_list = [
@@ -540,7 +540,7 @@ def projectIncomplete():
         return jsonify({"error": "Project does not exist"}), 409
 
     if project.projectStatus == "Complete":
-        project.projectStatus = "Incomplete"
+        project.projectStatus = "Active"
         db.session.commit()
         return jsonify({"success": "Project status set to incomplete"}), 200
     else:

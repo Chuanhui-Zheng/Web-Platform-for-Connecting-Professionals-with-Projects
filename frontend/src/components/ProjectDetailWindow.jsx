@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { apiGet, apiPut } from '../api';
+import { apiGet, apiPut, apiPost  } from '../api';
 import { styled } from '@mui/material/styles';
-
+import { useNavigate, Navigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import List from '@mui/material/List';
@@ -52,8 +52,9 @@ const headerStyle = {
   
   
   const statusCompOptions = ['Pending', 'Completed'];
-  const statusProfOptions = ['Apply', 'Pending'];
+  const statusProfOptions = ['Apply', 'Pending', 'Approved'];
 export default function ProjectDetailWindow({ projectID }) {
+    const navigate = useNavigate();
     const [projectInfo, setProjectInfo] = useState(null);
     const [skills, setSkills] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -83,6 +84,23 @@ export default function ProjectDetailWindow({ projectID }) {
                     setProjectInfo(data);
                     setSkills(data.projectSkills)
                     console.log("details:", data)
+                    console.log("details:", data.listOfApplicants)
+                    
+                    // STATUS: check if professional has applied
+                    data.listOfApplicants.forEach(prof => {
+                        if (userId === prof.professionalId) {
+                            setSelectedIndex2(1)
+                        } 
+                    })
+                    
+                    // STATUS: check if professional has been approved
+
+                    data.listOfProfessionals.forEach(prof => {
+                        if (userId === prof.professionalId) {
+                            setSelectedIndex2(2)
+                        } 
+                    })
+                    
                 } else {
                     console.error("Error fetching project list:", data.error);
                 }
@@ -159,9 +177,9 @@ export default function ProjectDetailWindow({ projectID }) {
     };
 
     const companybuttons = [
-        <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}}>Edit Project</Button>,
-        <Button key="candidateList" sx={{backgroundColor: "grey"}}>Candidate List</Button>,
-        // <Button key="company-status">Project Status</Button>,
+        <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} >Edit Project</Button>,
+        <Button key="candidateList" sx={{backgroundColor: "grey"}} onClick={() => {navigate(`/project/${projectID}/applicants`)}}>Candidate List</Button>,
+        // <Button key="company-status">Project Status</Button>,`/profile/:${tokenData.userId}`
         <Button
             sx={{backgroundColor: "#21b6ae"}}
             key="companyStatus"        

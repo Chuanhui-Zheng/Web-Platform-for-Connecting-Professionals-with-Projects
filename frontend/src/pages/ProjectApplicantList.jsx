@@ -62,6 +62,7 @@ function ProjectApplicantList() {
             key={index}
             projectName={applicant.professionalFullName}
             projectDescription={applicant.professionalSkills.join(', ')}
+            projectId={applicant.professionalId}
             // projectDescription={applicant.professionalEmail}
           />
         ))}
