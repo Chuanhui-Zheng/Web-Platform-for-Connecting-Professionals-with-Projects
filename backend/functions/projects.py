@@ -373,7 +373,7 @@ def projectProfessionalApply():
     res = project.add_to_list(professionalId, "listOfApplicants", "Pending approval")
     
     if res:
-        redirect("http://localhost:5173//prodashbaord", code=302)
+        # redirect("http://localhost:5173//prodashbaord", code=302)
         return jsonify({
             "success": "Professional added to applicants list",
             "current_list": project.listOfApplicants
