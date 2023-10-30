@@ -253,8 +253,10 @@ RETURN {
 @app.route('/project/search', methods=['GET']) #tested
 def projectSearch():
     query_string = request.args.get("query", "")
-    categories = set(request.args.getlist("category"))
-    skills = set(request.args.getlist("skills"))
+    # categories = set(request.args.getlist("category"))
+    # skills = set(request.args.getlist("skills"))
+    categories = request.args.get("categories")
+    skills = request.args.get("skills")
     location = request.args.get("location")
     creator = request.args.get("creatorId")
 
@@ -434,6 +436,10 @@ def projectCompanyApprove():
     if project is None:
         return jsonify({"error": "Project does not exist"}), 409
     
+    professional = Projects.get_professional_by_id(professionalId)
+    if professional is None:
+        return jsonify({"error": "Professional does not exist"}), 409
+    
     # Checks if the professional has already been approved
     if any(applicant['professionalId'] == professionalId for applicant in project.listOfProfessionals):
         return jsonify({"error": "Professional already approved"}), 406
@@ -444,7 +450,14 @@ def projectCompanyApprove():
     
     project.remove_from_list(professionalId, "listOfApplicants")
     project.add_to_list(professionalId, "listOfProfessionals", "Approved")
-        
+    
+    # message = {
+    #     "success": f"Congratulations! You have been approved for the {project.projectName} project!"
+    # }
+    message = f"Congratulations! You have been approved for the {project.projectName} project!"
+
+    professional.add_notification(professionalId, message)
+
     return jsonify({"success": "Professional approved"}), 200
 
 

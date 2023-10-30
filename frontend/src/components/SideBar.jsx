@@ -20,7 +20,6 @@ function SideBar({ projectID, onSelectProject }) {
         // }
     
         apiGet('/project/listall', )
-        // .then(response => response.json())
         .then(data => {
             if (!data.error) {
                 setAllProjects(data);
@@ -50,6 +49,7 @@ function SideBar({ projectID, onSelectProject }) {
             </ListItemButton>
             </ListItem>
         ))} */}
+
         {console.log(allProjects)}
         {allProjects.length !== 0 && allProjects.map((project, idx) => (
         <ListItem key={idx} id={project.projectId} onClick={() => onSelectProject(project.projectId)} 
