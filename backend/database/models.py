@@ -192,12 +192,16 @@ class Projects(db.Model):
     def get_professional_by_id(cls, professionalId):
         return Professional.query.filter_by(professionalId=professionalId).first()
     
-    def create_project_details(self, companyId, projectName):
+    def create_project_details(self, companyId, projectName, projectObjectives, projectDescription, projectCategories, projectLocation, projectSkills):
         self.pCompanyId = companyId
         self.projectName = projectName
+        self.projectObjectives = projectObjectives
+        self.projectDescription = projectDescription
+        self.projectCategories = projectCategories
+        self.projectLocation = projectLocation
+        self.projectSkills = projectSkills
         db.session.commit()
-
-        
+            
     def edit_project_details(self, data):
         for field, value in data.items():
             if hasattr(self, field) and field not in ['projectId', 'pCompanyId']:

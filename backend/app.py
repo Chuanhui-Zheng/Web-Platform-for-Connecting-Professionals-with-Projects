@@ -3,6 +3,7 @@ from flask_cors import CORS
 from extensions import db, jwt
 from functions.auth import authRegisterCompany, authRegisterProfessional, login, logout
 from functions.notifications import getNotifications, sendNotifications
+from functions.filter import getCategories, getSkills
 from functions.profiles import editCompanyProfile, editProfessionalProfile, userDetails, professionalEditProfile
 from functions.edit import editCompany, editProfessional, editProject
 from functions.user import companyDetails, professionalDetails, getUserType
@@ -68,6 +69,9 @@ def create_app():
     app.add_url_rule('/project/professional/status', 'projectProfessionalStatus', projectProfessionalStatus, methods=['GET'])
     app.add_url_rule('/project/search', 'projectSearch', projectSearch, methods=['GET'])
     app.add_url_rule('/project/professional/get/projects/from/status', 'getProfessionalProjectsFromStatus', getProfessionalProjectsFromStatus, methods=['GET'])
+
+    app.add_url_rule('/get/skills', 'getSkills', getSkills, methods=['GET'])
+    app.add_url_rule('/get/categories', 'getCategories', getCategories, methods=['GET'])
 
     return app
 
