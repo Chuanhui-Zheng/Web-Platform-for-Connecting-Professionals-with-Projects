@@ -105,11 +105,11 @@ class Professional(db.Model):
     professionalDescription = db.Column(db.String(), default="")
     professionalQualifications = db.Column(db.String(), default="")
     professionalEducation = db.Column(db.String(), default="")
-    professionalSkills = db.Column(JSON, default=list)
+    professionalSkills = db.Column(MutableList.as_mutable(JSON), default=list)
     professionalPassword = db.Column(db.Text())
-    professionalPastProjects = db.Column(JSON, default=list)
-    professionalRatings = db.Column(JSON, default=dict)
-    professionalCertificates = db.Column(JSON, default=dict)
+    professionalPastProjects = db.Column(MutableList.as_mutable(JSON), default=list)
+    professionalRatings = db.Column(MutableList.as_mutable(JSON), default=list)
+    professionalCertificates = db.Column(MutableList.as_mutable(JSON), default=list)
 
     def __repr__(self):
         return f"<Professional {self.professionalEmail}>"
@@ -211,7 +211,7 @@ class Projects(db.Model):
             if professionalId not in target_list:
                 entry = {
                     "professionalId": professionalId,
-                    "status": status
+                    "status": status,
                 }
                 target_list.append(entry)
                 db.session.commit()
