@@ -557,23 +557,26 @@ RETURN {
 @app.route('/project/applicant/list', methods=['GET']) #tested
 def projectApplicantList():
     projectId = request.args.get("projectId")
-    
     project = Projects.get_project_by_id(projectId)
     if project is None:
         return jsonify({"error": "Project does not exist"}), 409
-    
-    applicant_ids = [applicant['professionalId'] for applicant in project.listOfApplicants if 'professionalId' in applicant]
+
+    applicant_status_map = {
+        applicant['professionalId']: applicant['status'] for applicant in project.listOfApplicants if 'professionalId' in applicant
+    }
+    applicant_ids = list(applicant_status_map.keys())
     applicants = Professional.query.filter(Professional.professionalId.in_(applicant_ids)).all()
     applicant_list = [
         {
             "professionalFullName": applicant.professionalFullName,
             "professionalId": applicant.professionalId,
             "professionalEmail": applicant.professionalEmail,
-            "professionalSkills": applicant.professionalSkills
+            "professionalSkills": applicant.professionalSkills,
+            "status": applicant_status_map.get(applicant.professionalId)  # Get status from the mapping
         }
         for applicant in applicants
     ]
-    
+
     return jsonify(applicant_list), 200
 
 

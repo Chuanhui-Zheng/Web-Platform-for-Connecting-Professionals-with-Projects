@@ -8,17 +8,17 @@ DEFAULT_CATEGORIES = ["Software", "Finance", "Healthcare", "Education", "Constru
 
 # Sample data for other tables
 DEFAULT_COMPANIES = [
-    {"companyName": "Microsoft", "companyEmail": "contact@techcorp.com", "companyPassword": "supersecure123","companyPhoneNumber": "123-456-7890", "companyWebsite": "microsoft.com", "companyDescription": "Macro Hard. New project seeking to revolutionise the new generation!"},
-    {"companyName": "Apple", "companyEmail": "info@healthsolutions.com", "companyPassword": "supersecure123","companyPhoneNumber": "098-765-4321", "companyWebsite": "apple.com", "companyDescription": "Apples? One of them a day definitely will keep the doctor away."}
+    {"companyName": "Microsoft", "companyEmail": "contact@techcorp.com", "companyPassword": "Password","companyPhoneNumber": "123-456-7890", "companyWebsite": "microsoft.com", "companyDescription": "Macro Hard. New project seeking to revolutionise the new generation!"},
+    {"companyName": "Apple", "companyEmail": "info@healthsolutions.com", "companyPassword": "Password","companyPhoneNumber": "098-765-4321", "companyWebsite": "apple.com", "companyDescription": "Apples? One of them a day definitely will keep the doctor away."}
 ]
 
 DEFAULT_PROFESSIONALS = [
-    {"professionalFullName": "Ce Min Pangastur", "professionalEmail": "min@example.com", "professionalPassword":"definitelysecure123","professionalSkills": ["Coding", "Design", "Data Analysis", "Marketing"]},
-    {"professionalFullName": "Edison Chang", "professionalEmail": "edison@example.com", "professionalPassword":"definitelysecure123","professionalSkills": ["Procrastinating"]},
-    {"professionalFullName": "Jerry Li", "professionalEmail": "jerry@example.com", "professionalPassword":"definitelysecure123","professionalSkills": ["Coding", "Design"]},
-    {"professionalFullName": "Millie Hai", "professionalEmail": "millie@example.com", "professionalPassword":"definitelysecure123","professionalSkills": ["Greetings", "Marketing"]},
-    {"professionalFullName": "Blair Zheng", "professionalEmail": "blair@example.com", "professionalPassword":"definitelysecure123","professionalSkills": ["Coding", "Design", "Database", "TFT"]},
-    {"professionalFullName": "Andrew Lin", "professionalEmail": "andrew@example.com", "professionalPassword":"definitelysecure123","professionalSkills": ["Data Analysis", "Marketing", "Pasta sauce"]}
+    {"professionalFullName": "Ce Min Pangastur", "professionalEmail": "min@example.com", "professionalPassword":"Password","professionalSkills": ["Coding", "Design", "Data Analysis", "Marketing"]},
+    {"professionalFullName": "Edison Chang", "professionalEmail": "edison@example.com", "professionalPassword":"Password","professionalSkills": ["Procrastinating"]},
+    {"professionalFullName": "Jerry Li", "professionalEmail": "jerry@example.com", "professionalPassword":"Password","professionalSkills": ["Coding", "Design"]},
+    {"professionalFullName": "Millie Hai", "professionalEmail": "millie@example.com", "professionalPassword":"Password","professionalSkills": ["Greetings", "Marketing"]},
+    {"professionalFullName": "Blair Zheng", "professionalEmail": "blair@example.com", "professionalPassword":"Password","professionalSkills": ["Coding", "Design", "Database", "TFT"]},
+    {"professionalFullName": "Andrew Lin", "professionalEmail": "andrew@example.com", "professionalPassword":"Password","professionalSkills": ["Data Analysis", "Marketing", "Pasta sauce"]}
 ]
 
 # Sample projects to be created under a specific company
@@ -122,6 +122,7 @@ with app.app_context():
             existing_company = Company.query.filter_by(companyEmail=company_data["companyEmail"]).first()
             if existing_company is None:
                 company = Company(**company_data)
+                company.set_company_password(company_data["companyPassword"])
                 db.session.add(company)
                 db.session.flush()  # Flush to get the company ID for project creation
                 company_instances[company.companyEmail] = company
@@ -137,6 +138,7 @@ with app.app_context():
                     professionalPassword=professional_data["professionalPassword"],
                     professionalSkills=professional_data["professionalSkills"]
                 )
+                professional.set_professional_password(professional_data["professionalPassword"])
                 db.session.add(professional)
 
         # Initialize projects under a specific company (e.g., Microsoft)
@@ -145,7 +147,7 @@ with app.app_context():
             for project_data in DEFAULT_PROJECTS:
                 if not Projects.query.filter_by(projectName=project_data["projectName"], pCompanyId=microsoft_company.companyId).first():
                     project = Projects()
-                    project.create_project_details(
+                    project.init_project_details_for_demo(
                         companyId=microsoft_company.companyId,
                         projectName=project_data["projectName"],
                         projectDescription=project_data["projectDescription"],
@@ -161,7 +163,7 @@ with app.app_context():
             for project_data in MORE_PROJECTS:
                 if not Projects.query.filter_by(projectName=project_data["projectName"], pCompanyId=apple_company.companyId).first():
                     project = Projects()
-                    project.create_project_details(
+                    project.init_project_details_for_demo(
                         companyId=apple_company.companyId,
                         projectName=project_data["projectName"],
                         projectDescription=project_data["projectDescription"],
