@@ -98,7 +98,7 @@ const EditProject = ( { userId }) => {
 
   return (
     <>
-        <EditForm buttonName="Save Changes" handleSubmit={handleSubmit}> 
+        <EditForm formName="Edit Project" buttonName="Save Changes" handleSubmit={handleSubmit}> 
             <div className="split-row">
                 <div>
                     <TextField
