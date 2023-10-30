@@ -248,7 +248,7 @@ class Projects(db.Model):
             if professionalId not in target_list:
                 entry = {
                     "professionalId": professionalId,
-                    "status": status,
+                    "status": status
                 }
                 target_list.append(entry)
                 db.session.commit()
