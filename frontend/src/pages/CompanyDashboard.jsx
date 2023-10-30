@@ -71,6 +71,18 @@ function CompanyDashboard() {
     }, [ownUserId])
 
     
+    const [isCompany, setIsCompany] = React.useState(false);
+
+    React.useEffect(() => {
+        const getToken = localStorage.getItem("token");
+        if (getToken != null) {
+            const tokenData = decodeJWT(getToken);
+            if (tokenData.userType === "company") {
+                setIsCompany(true);
+            }
+        }
+      }, []);
+
     return (
         <AppProvider className="APP" sx={{ backgroundColour: 'none' }} navigation={NAVIGATION} router={router} theme={theme}>
         <PageContainer className="container" maxWidth={false} sx={{width:"100%", "@media (min-width: 0px)": { paddingRight: "25px", paddingLeft: "25px" }, margin: "0px"}}>
@@ -78,7 +90,7 @@ function CompanyDashboard() {
             <div>
                 <h1>Dashboard</h1>
             </div>
-            <Button variant="contained" onClick={() => { navigate('createproject') }}> + Create Project</Button>     
+            {isCompany ? <Button variant="contained" onClick={() => { navigate('createproject') }}> + Create Project</Button>  : <></>   }
         </Box>    
         <Accordion defaultExpanded>
             <AccordionSummary
@@ -95,6 +107,7 @@ function CompanyDashboard() {
                         key={idx}
                         projectName={project.projectName}
                         projectDescription={project.projectDescription}
+                        projectId={project.projectId}
                     />
                 ))}
             </AccordionDetails>
@@ -114,6 +127,7 @@ function CompanyDashboard() {
                         key={idx}
                         projectName={project.projectName}
                         projectDescription={project.projectDescription}
+                        projectId={project.projectId}
                     />
                 ))}
             </AccordionDetails>

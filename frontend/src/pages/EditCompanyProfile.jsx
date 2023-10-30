@@ -10,6 +10,7 @@ import ProfileHeader from "../components/ProfileHeader";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisuallyHiddenInput from "../components/VisuallyHiddenInput";
 import { fileToDataUrl } from '../helpers';
+import { useHeader } from '../HeaderContext';
 
 import {
   useNavigate,
@@ -28,6 +29,8 @@ const EditCompanyProfile = ( { userId }) => {
   
   const [ownUserId, setOwnUserId] = React.useState('');
   const [refresh, setRefresh] = React.useState(false);
+  const { triggerHeaderUpdate } = useHeader();
+  
   
   const navigate = useNavigate();
 
@@ -68,6 +71,7 @@ const EditCompanyProfile = ( { userId }) => {
             if (!data.error) {
                 console.log("gots here")
                 setRefresh((prev) => !prev);
+                triggerHeaderUpdate();
                 console.log("worked1");
             } else {
                 throw new Error("Edit Failed");
