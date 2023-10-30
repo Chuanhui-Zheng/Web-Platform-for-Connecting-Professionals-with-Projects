@@ -163,8 +163,7 @@ RETURN {
 @app.route('/project/listall', methods=['GET']) #tested
 def projectListAll():
     projects = Projects.query.filter_by(projectStatus='Active').all()
-    print("hello")
-    print(projects)
+    
     # depends how front end wants to display
     project_list = [
         {
@@ -213,6 +212,7 @@ def projectDetails():
         "projectName": project.projectName,
         "contactEmail": project.contactEmail,
         "projectCompany": getProjectCompany(project.pCompanyId),
+        "pCompanyId": project.pCompanyId,
         "projectCategory": project.projectCategories,
         "projectObjectives": project.projectObjectives,
         "projectDescription": project.projectDescription,
@@ -538,7 +538,7 @@ def projectIncomplete():
         return jsonify({"error": "Project does not exist"}), 409
 
     if project.projectStatus == "Complete":
-        project.projectStatus = "Incomplete"
+        project.projectStatus = "Active"
         db.session.commit()
         return jsonify({"success": "Project status set to incomplete"}), 200
     else:
@@ -563,11 +563,14 @@ def projectApplicantList():
     if project is None:
         return jsonify({"error": "Project does not exist"}), 409
     
-    applicants = Professional.query.filter(Professional.professionalId.in_(project.listOfApplicants)).all()
+    applicant_ids = [applicant['professionalId'] for applicant in project.listOfApplicants if 'professionalId' in applicant]
+    applicants = Professional.query.filter(Professional.professionalId.in_(applicant_ids)).all()
     applicant_list = [
         {
+            "professionalFullName": applicant.professionalFullName,
             "professionalId": applicant.professionalId,
             "professionalEmail": applicant.professionalEmail,
+            "professionalSkills": applicant.professionalSkills
         }
         for applicant in applicants
     ]

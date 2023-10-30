@@ -15,7 +15,7 @@ import NotFound from "./pages/NotFound"
 import CreateProject from './pages/CreateProject';
 import ProjectDetail from './pages/ProjectDetail';
 import ProjectPage from './pages/ProjectPage';
-import ProjectCandidateList from './pages/ProjectCandidateList';
+import ProjectApplicantList from './pages/ProjectApplicantList';
 import ProfilePage from './pages/ProfilePage';
 // import ProtectedRoute from "./components/ProtectedRoute";
 import EditProfilePage from './pages/EditProfilePage';
@@ -55,6 +55,7 @@ function App() {
             <Route path="/projectpage/:projectID" element={<ProjectPage />} />
             <Route path="/projectpage/:projectID/edit" element={<EditProject />} />
             <Route path="/projectCandidateList" element={<ProjectCandidateList />} />
+            <Route path="/project/:projectId/applicants" element={<ProjectApplicantList />} />
         </Routes>
     </BrowserRouter>
   );

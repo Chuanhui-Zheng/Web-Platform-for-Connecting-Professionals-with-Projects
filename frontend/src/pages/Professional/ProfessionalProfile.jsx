@@ -106,6 +106,7 @@ const ProfessionalProfile = ( { userId } ) => {
                         key={idx}
                         projectName={project.projectName}
                         projectDescription={project.projectDescription}
+                        projectId={project.projectId}
                     />
                 ))}
             </div>
