@@ -57,23 +57,22 @@ def projectCreate():
     professionalsWanted = data.get("professionalsWanted", "")
     contactEmail = data.get("contactEmail", "")
     
-    new_project = Projects(projectStartDate=projectStartDate, projectKeyResponsibilities=projectKeyResponsibilities,
-                           projectConfidentialInformation=projectConfidentialInformation,
-                           projectEndDate=projectEndDate,
-                           professionalsWanted=professionalsWanted,
-                           contactEmail=contactEmail,
-                           )
-    
+    new_project = Projects(projectObjectives=projectObjectives,
+                        projectDescription=projectDescription, projectStartDate=projectStartDate,
+                        projectLocation=projectLocation, projectKeyResponsibilities=projectKeyResponsibilities,
+                        projectConfidentialInformation=projectConfidentialInformation,
+                        projectSkills=projectSkills, projectCategories=projectCategories,
+                        projectEndDate=projectEndDate,
+                        professionalsWanted=professionalsWanted,
+                        contactEmail=contactEmail,
+                        )
+
     if not company_exists(companyId):
         return jsonify({"error": "Company does not exist"}), 409
     elif Projects.query.filter_by(projectName=projectName, pCompanyId=int(companyId)).first():
         return jsonify({"error": "Company already has project under this name"}), 404
-    elif Projects.query.filter_by(projectName=projectName, pCompanyId=int(companyId)).first():
-        return jsonify({"error": "Company already has project under this name"}), 404
-    
-    new_project.create_project_details(companyId, projectName, projectObjectives,
-                                       projectDescription, projectCategories, projectSkills,
-                                       projectLocation)
+
+    new_project.create_project_details(companyId, projectName)
     
     new_project.save_project()
     
