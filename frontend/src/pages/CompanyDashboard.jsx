@@ -16,8 +16,6 @@ import ProjectCard from '../components/Professional/Dashboard/ProjectCard.jsx';
 import { getProjects } from '../helpers.js';
 import decodeJWT from '../decodeJWT.js';
 
-import decodeJWT from "../decodeJWT";
-
 // import Form from "../components/Form"
 const titleStyle = {
     display: 'flex',

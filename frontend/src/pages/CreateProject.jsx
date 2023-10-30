@@ -106,7 +106,9 @@ const CreateProject = (props) => {
                 <label className="formlabel">Category</label>
                 <MultipleSelectCategoryChip 
                     value={categories}
-                    set={handleCategoriesChange} />
+                    set={handleCategoriesChange} 
+                    names={["Software", "Construction"]}
+                    label="Category" />
             </div>
         </div>
 
