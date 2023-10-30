@@ -64,7 +64,7 @@ export default function ProjectDetailWindow({ projectID }) {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const [selectedIndex2, setSelectedIndex2] = React.useState(0);
     const [open, setOpen] = React.useState(false);
-
+    const [approved, setApproved] = React.useState(false);
 
     useEffect(() => {
         const glob = localStorage.getItem('token');
@@ -98,6 +98,7 @@ export default function ProjectDetailWindow({ projectID }) {
                     data.listOfProfessionals.forEach(prof => {
                         if (userId === prof.professionalId) {
                             setSelectedIndex2(2)
+                            setApproved(true)
                         } 
                     })
 
@@ -178,7 +179,7 @@ export default function ProjectDetailWindow({ projectID }) {
                 }
             })
             .catch((err) => {
-                alert("Project Apply are not valid.", err)
+                alert("Project leave are not valid.", err)
             });
         }
     };
@@ -328,18 +329,21 @@ export default function ProjectDetailWindow({ projectID }) {
         )}
       </Popper>
         </Box>
+        {approved===true ?
+        <Box> 
         <Typography variant="h5" component="h2" gutterBottom>
           Meet the Team
         </Typography>
-        {projectInfo.listOfProfessionals.map((prof, idx) => (
-            <Avatar>{prof}</Avatar>
-        ))}
+        // {/* {projectInfo.listOfProfessionals.map((prof, idx) => (
+        //     <Avatar>{prof}</Avatar>
+        // ))} */}
         <Typography variant="h5" component="h2" gutterBottom>
           Project Confidential Information
         </Typography>
         <Typography sx={{ marginBottom: 2 }}>
          {projectInfo.projectConfidentialInformation}
-        </Typography>
+        </Typography></Box>: <Box></Box>}
+    
         <Typography variant="h5" component="h2" gutterBottom>
           Project Description
         </Typography>

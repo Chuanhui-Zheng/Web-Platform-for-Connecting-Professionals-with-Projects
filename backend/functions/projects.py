@@ -48,7 +48,7 @@ def projectCreate():
     projectDescription = data.get("projectDescription", "")
     projectStartDate = data.get("projectStartDate", "")
     projectEndDate = data.get("projectEndDate", "")
-    projectCategory = data.get("projectCategories", "")
+    projectCategories = data.get("projectCategories", "")
     projectLocation = data.get("projectLocation", "")
     projectKeyResponsibilities = data.get("projectKeyResponsibilites", "")
     projectConfidentialInformation = data.get("projectConfidentialInformation", "")
@@ -163,9 +163,7 @@ RETURN {
 @app.route('/project/listall', methods=['GET']) #tested
 def projectListAll():
     projects = Projects.query.filter_by(projectStatus='Active').all()
-
-    projects = Projects.query.filter_by(projectStatus='Active').all()
-
+    
     # depends how front end wants to display
     project_list = [
         {
@@ -264,17 +262,6 @@ def projectSearch():
 
     # starts building query
     query = Projects.query
-    query_string = request.args.get("query", "")
-    categories = set(request.args.getlist("category"))
-    skills = set(request.args.getlist("skills"))
-    location = request.args.get("location")
-    creator = request.args.get("creatorId")
-
-    # starts building query
-    query = Projects.query
-
-    # starts building query
-    query = Projects.query
 
     # add filters here as if statements on top of query
     if query_string:
@@ -294,7 +281,6 @@ def projectSearch():
         category_conditions = [
             Projects.projectCategories.like(f'%"{category}"%') for category in categories
         ]
-        query = query.filter(and_(*category_conditions))
         query = query.filter(and_(*category_conditions))
 
     # filter by skills (substring matching)
@@ -682,3 +668,4 @@ def getProfessionalProjectsFromStatus():
     ]
     
     return jsonify(project_dict), 200
+

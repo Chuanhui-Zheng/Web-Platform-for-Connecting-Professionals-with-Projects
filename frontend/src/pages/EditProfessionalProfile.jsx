@@ -9,6 +9,7 @@ import { fileToDataUrl } from '../helpers';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisuallyHiddenInput from "../components/VisuallyHiddenInput";
 import MultipleSelectChip from '../components/MultiSelect';
+import { useHeader } from '../HeaderContext';
 
 import {
   useNavigate,
@@ -32,6 +33,7 @@ const EditProfessionalProfile = ( { userId } ) => {
   const [ownUserId, setOwnUserId] = React.useState('');
   const [refresh, setRefresh] = React.useState(false);
   const navigate = useNavigate();
+  const { triggerHeaderUpdate } = useHeader();
 
   React.useEffect(() => {
     const getToken = localStorage.getItem("token");
@@ -81,6 +83,7 @@ const EditProfessionalProfile = ( { userId } ) => {
         if (!data.error) {
             setRefresh((prev) => !prev);
             console.log("worked editprof");
+            triggerHeaderUpdate();
             console.log(data)
         } else {
             throw new Error("Edit Failed");

@@ -19,8 +19,10 @@ import { styled } from '@mui/system';
 
 import decodeJWT from "../decodeJWT";
 import { apiGet } from '../api';
+import { useHeader } from '../HeaderContext';
 
 function Header() {
+    console.log("Render Header")
     const navigate = useNavigate();
     const [token, setToken] = React.useState(localStorage.getItem("token"));
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -29,6 +31,8 @@ function Header() {
     const [newNotif, setNewNotifs] = React.useState(false);
     const [userType, setUserType] = React.useState('');
     const [userId, setUserId] = React.useState();
+    const [photo, setNewPhoto] = React.useState(null);
+    const { reloadHeader } = useHeader();
     
     const open = Boolean(anchorEl);
     const openNotif = Boolean(anchor);
@@ -54,11 +58,10 @@ function Header() {
             const glob = localStorage.getItem("token");
             setToken(glob);
         }, [])
-        // const glob = localStorage.getItem(ACCESS_TOKEN);
-        // setToken(glob);
     }, 5000);
 
     React.useEffect(() => {
+        console.log('Header re-rendered or updated due to state change!');
         const token = localStorage.getItem("token");
         if (token != null) {
             const tokenData = decodeJWT(token);
@@ -66,16 +69,17 @@ function Header() {
             setUserId(tokenData.userId)
             console.log("boing", tokenData.userType)
             console.log("SSS", tokenData.userId)
+            console.log("boisdsdng", userType)
 
-            // if (token.userType === 'professional') {
-            //     console.log('AAAAAAAAA')
+            if (tokenData.userType === 'professional') {
+                console.log('AAAAAAAAA')
                 apiGet('/notifications/get', `professionalId=${tokenData.userId}`)
                 .then(data => {
                     if (!data.error) {
                         setNotifs(data);
                         console.log("notif details:", data)
                         console.log("notif old details:", notifications)
-                        if (notifications.length !== data.length) {
+                        if (notifications !== null && notifications.length !== data.length) {
                             setNewNotifs(true);
                         }
                     } else {
@@ -86,11 +90,27 @@ function Header() {
                     console.error("Failed to fetch notif list:", err);
                 })
                 
-            // }
+            }
             
-
+            apiGet(`/user/details/${tokenData.userType}`, `id=${tokenData.userId}`)
+                    .then((data) => {
+                        console.log(data);
+                        if (!data.error) {
+                            if (tokenData.userType === "company") {
+                                setNewPhoto(data.companyLogo);
+                            } else if (tokenData.userType === "professional") {
+                                setNewPhoto(data.professionalPhoto);
+                            }
+                        } else {
+                            throw new Error("Get Profile Failed");
+                        }
+                    })
+                    .catch(() => {
+                        alert("Profile fetch5 failed.");
+                    });
         }
-    }, 5000);
+      }, [reloadHeader])
+
 
     function logout() {
         localStorage.clear()
@@ -104,11 +124,6 @@ function Header() {
             const tokenData = decodeJWT(token1);
             console.log("navigating to id", tokenData.userId)
             navigate(`/profile/:${tokenData.userId}`);
-            // if (tokenData.userType === "company") {
-            //     navigate("/companyprofile");
-            // } else if (tokenData.userType === "professional") {
-            //     navigate("/proprofile");
-            // }
         }
     }
     
@@ -161,7 +176,8 @@ function Header() {
                     aria-haspopup="true"
                     aria-expanded={open ? 'true' : undefined}
                 >
-                    <Avatar sx={{ bgcolor: deepOrange[500], width: 32, height: 32 }} />
+                    {/* {photo ? <Avatar src={photo} sx={{ bgcolor: deepOrange[500], width: 32, height: 32 }} /> : <></>} */}
+                    <Avatar src={photo} sx={{ bgcolor: deepOrange[500], width: 32, height: 32 }} />
                 </IconButton>
             </Box>
             <Menu
@@ -205,10 +221,8 @@ function Header() {
                             <Box sx={{fontSize:'12px'}}>{notif.professionalNotificationTime} -
                             {notif.professionalNotificationDate}</Box>
                         </Box>
-                    {/* {notif.professionalNot/tificationDate} */}
                     </MenuItem>
                  ))}
-                {/* </MenuItem> */}
                 <Divider /></Box>}
             </Menu>
             <Menu

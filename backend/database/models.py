@@ -211,12 +211,25 @@ class Projects(db.Model):
     def get_professional_by_id(cls, professionalId):
         return Professional.query.filter_by(professionalId=professionalId).first()
     
-    def create_project_details(self, companyId, projectName):
+    def create_project_details(
+        self, 
+        companyId=None, 
+        projectName=None, 
+        projectObjectives=None, 
+        projectDescription=None, 
+        projectCategories=None, 
+        projectLocation=None, 
+        projectSkills=None
+    ):
         self.pCompanyId = companyId
-        self.projectName = projectName
+        self.projectName = projectName or "Default Project Name"  # Set a default name if missing
+        self.projectObjectives = projectObjectives or "No specific objectives"
+        self.projectDescription = projectDescription or "Description not provided"
+        self.projectCategories = projectCategories or []
+        self.projectLocation = projectLocation or "Location unspecified"
+        self.projectSkills = projectSkills or []
         db.session.commit()
-
-        
+            
     def edit_project_details(self, data):
         for field, value in data.items():
             if hasattr(self, field) and field not in ['projectId', 'pCompanyId']:

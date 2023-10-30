@@ -17,8 +17,9 @@ import ProjectDetail from './pages/ProjectDetail';
 import ProjectPage from './pages/ProjectPage';
 import ProjectApplicantList from './pages/ProjectApplicantList';
 import ProfilePage from './pages/ProfilePage';
-// import ProtectedRoute from "./components/ProtectedRoute"
+// import ProtectedRoute from "./components/ProtectedRoute";
 import EditProfilePage from './pages/EditProfilePage';
+import EditProject from './pages/EditProject';
 
 
 function Logout() {
@@ -52,6 +53,7 @@ function App() {
             <Route path="/profile/:userId" element={<ProfilePage />} />
             <Route path="/projectdetail/:projectID" element={<ProjectDetail />} />
             <Route path="/projectpage/:projectID" element={<ProjectPage />} />
+            <Route path="/projectpage/:projectID/edit" element={<EditProject />} />
             <Route path="/project/:projectId/applicants" element={<ProjectApplicantList />} />
         </Routes>
     </BrowserRouter>
