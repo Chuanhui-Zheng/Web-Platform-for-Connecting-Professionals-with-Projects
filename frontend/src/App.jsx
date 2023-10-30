@@ -1,38 +1,26 @@
+import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
-import Header from './components/Header';
-import Login from "./pages/Auth/Login"
-import Register from "./pages/Auth/Register"
-import Home from "./pages/Home"
-import AllProjects from "./pages/ProjectPages/AllProjects"
-import AboutUs from "./pages/AboutUs"
-import NotFound from "./pages/ErrorPages/NotFound"
-import CreateProject from './pages/ProjectPages/CreateProject';
-import ProjectDetail from './pages/ProjectPages/ProjectDetail';
-import ProfilePage from './pages/ProfilePages/ProfilePage';
-import Dashboard from './pages/Dashboard/Dashboard';
-import ReviewPage from "./pages/RatingPages/ReviewPage";
-import { PageContainer } from '@toolpad/core/PageContainer';
-import './styles/App.css';
-import './styles/Polish.css';
-import './styles/Motion.css';
-import './styles/Responsive.css';
-import './styles/Layout.css';
-import './styles/Feedback.css';
-import './styles/Forms.css';
-import './styles/Surfaces.css';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-const theme = createTheme({  
-  palette: {
-    primary: { main: '#3b7c84' },
-    secondary: { main: '#f29465' },
-    text: { primary: '#173b42', secondary: '#617579' },
-  },
-  typography: {
-    fontFamily: 
-      '"Poppins", sans-serif',
-  },
-});
+import Header from './components/Header';
+
+
+import Login from "./pages/Login"
+import Register from "./pages/Register"
+import Home from "./pages/Home"
+import ProfessionalDashboard from "./pages/ProfessionalDashboard"
+import CompanyDashboard from "./pages/CompanyDashboard"
+import AllProjects from "./pages/AllProjects"
+import AboutUs from "./pages/AboutUs"
+import NotFound from "./pages/NotFound"
+import CreateProject from './pages/CreateProject';
+import ProjectDetail from './pages/ProjectDetail';
+import ProjectPage from './pages/ProjectPage';
+import ProjectApplicantList from './pages/ProjectApplicantList';
+import ProfilePage from './pages/ProfilePage';
+// import ProtectedRoute from "./components/ProtectedRoute";
+import EditProfilePage from './pages/EditProfilePage';
+import EditProject from './pages/EditProject';
+
 
 function Logout() {
     localStorage.clear()
@@ -44,45 +32,31 @@ function RegisterAndLogout() {
     return <Register />
 }
 
-/**
- * App component for Projector platform.
- * 
- * @returns 
- */
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
+    <BrowserRouter>
+        {/* <NavBar /> */}
         <Header />
-        <PageContainer 
-          className="container" 
-          maxWidth={false} 
-          sx={{
-            width: "100%", 
-            height:"calc(100vh - 80px)",
-            margin: "0px", 
-            paddingRight: { xs: "16px", sm: "25px", md: "60px" }, 
-            paddingLeft: { xs: "16px", sm: "25px", md: "60px" },
-            paddingTop: { xs: "100px", sm: "60px", md: "60px" },
-          }}
-        >
-          <Routes>
+        {/* <br/> */}
+        <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/register" element={<RegisterAndLogout />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/dashboard/createproject" element={<CreateProject />} />
+            <Route path="/companydashboard" element={<CompanyDashboard />} />
+            <Route path="/companydashboard/createproject" element={<CreateProject />} />
+            <Route path="/prodashbaord" element={<ProfessionalDashboard />} />
+            <Route path="/profile/:userId/edit" element={<EditProfilePage />} />
             <Route path="/allprojects" element={<AllProjects />} />
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="*" element={<NotFound />}></Route>
             <Route path="/profile/:userId" element={<ProfilePage />} />
             <Route path="/projectdetail/:projectID" element={<ProjectDetail />} />
-            <Route path="/project/:projectId/rate" element={<ReviewPage />} />
-          </Routes>
-        </PageContainer>
-      </BrowserRouter>
-    </ThemeProvider>
+            <Route path="/projectpage/:projectID" element={<ProjectPage />} />
+            <Route path="/projectpage/:projectID/edit" element={<EditProject />} />
+            <Route path="/project/:projectId/applicants" element={<ProjectApplicantList />} />
+        </Routes>
+    </BrowserRouter>
   );
 }
 
