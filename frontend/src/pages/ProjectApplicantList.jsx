@@ -15,12 +15,12 @@ function ProjectApplicantList() {
   const [currUserId, setCurrUserId] = useState(0);
   const [update, setUpdate] = useState(false);
 
-  const projectId = params.projectId.replace(":","");
+  const projectId = params.projectId;
   const navigate = useNavigate()
 
   // Handle when the card is clicked
   const handleCardClick = (professionalId) => {
-    navigate(`/profile/:${professionalId}`)
+    navigate(`/profile/${professionalId}`)
   }
 
   // Handle approving an applicant
