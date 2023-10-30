@@ -105,11 +105,12 @@ class Professional(db.Model):
     professionalDescription = db.Column(db.String(), default="")
     professionalQualifications = db.Column(db.String(), default="")
     professionalEducation = db.Column(db.String(), default="")
-    professionalSkills = db.Column(JSON, default=list)
+    professionalSkills = db.Column(MutableList.as_mutable(JSON), default=list)
     professionalPassword = db.Column(db.Text())
     professionalPastProjects = db.Column(JSON, default=list)
     professionalRatings = db.Column(JSON, default=dict)
     professionalCertificates = db.Column(JSON, default=dict)
+    professionalNotifications = db.Column(MutableList.as_mutable(JSON), default=list)
 
     def __repr__(self):
         return f"<Professional {self.professionalEmail}>"
@@ -132,6 +133,24 @@ class Professional(db.Model):
     def get_professional_by_id(cls, professionalId):
         return cls.query.filter_by(professionalId=professionalId).first()
     
+    def add_notification(self, professionalId, message):
+        target_list = getattr(self, "professionalNotifications", None)
+        notification_id = str(len(self.professionalNotifications) + 1)
+        
+        current_date = datetime.now().strftime("%d/%m/%Y")
+        current_time = datetime.now().strftime("%H:%M")
+        
+        notification = {
+            "professionalNotificationId": notification_id,
+            "professionalNotificationDate": current_date,
+            "professionalNotificationTime": current_time,
+            "professionalNotificationMessage": message
+        }
+        
+        # self.professionalNotifications[notification_id] = notification
+        target_list.append(notification)
+        db.session.commit()
+
     def save_professional(self):
         db.session.add(self)
         db.session.commit()
@@ -196,8 +215,8 @@ class Projects(db.Model):
         self.pCompanyId = companyId
         self.projectName = projectName
         db.session.commit()
-
         
+    
     def edit_project_details(self, data):
         for field, value in data.items():
             if hasattr(self, field) and field not in ['projectId', 'pCompanyId']:
