@@ -162,10 +162,9 @@ RETURN {
 '''
 @app.route('/project/listall', methods=['GET']) #tested
 def projectListAll():
-    projects = Projects.query.filter_by(projectStatus='Incomplete').all()
-
-    projects = Projects.query.filter_by(projectStatus='Incomplete').all()
-
+    projects = Projects.query.filter_by(projectStatus='Active').all()
+    print("hello")
+    print(projects)
     # depends how front end wants to display
     project_list = [
         {
