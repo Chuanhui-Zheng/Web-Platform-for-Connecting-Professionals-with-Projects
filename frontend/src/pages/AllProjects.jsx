@@ -189,7 +189,7 @@ export default function AllProjects() {
             }
         </Box>
       </Drawer>
-      {console.log(projectID)}
+      {/* {console.log(projectID)} */}
       {/* <ProjectDetailWindow projectID={parseInt(projectID)} token={token}/> */}
       <ProjectDetailWindow projectID={projectID} />
       {/* </PageContainer> */}

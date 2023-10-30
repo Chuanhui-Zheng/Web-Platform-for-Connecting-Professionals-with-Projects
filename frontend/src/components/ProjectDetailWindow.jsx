@@ -176,8 +176,12 @@ export default function ProjectDetailWindow({ projectID }) {
         }
     };
 
+    const navigateEdit = (event) => {
+        navigate(`/projectpage/:${projectID}/edit`);
+    };
+
     const companybuttons = [
-        <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} >Edit Project</Button>,
+        <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={navigateEdit} >Edit Project</Button>,
         <Button key="candidateList" sx={{backgroundColor: "grey"}} onClick={() => {navigate(`/project/${projectID}/applicants`)}}>Candidate List</Button>,
         // <Button key="company-status">Project Status</Button>,`/profile/:${tokenData.userId}`
         <Button

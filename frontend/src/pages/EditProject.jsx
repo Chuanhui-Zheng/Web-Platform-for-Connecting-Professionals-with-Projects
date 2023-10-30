@@ -257,7 +257,7 @@ const EditProject = ( { userId }) => {
                 <BasicSelect 
                     value={projectStatus}
                     set={handleStatusChange} 
-                    names={["Complete", "Incomplete"]}
+                    names={["Complete", "Active"]}
                     label="Project Status"
                     
                  />
