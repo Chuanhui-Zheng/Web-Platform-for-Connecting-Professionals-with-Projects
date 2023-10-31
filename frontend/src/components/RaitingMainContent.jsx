@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, } from 'react';
 import {
   Box,
   Button,
@@ -9,9 +9,13 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { apiPost } from '../api';
+
+import { useNavigate, useParams } from "react-router-dom";
+import decodeJWT from '../decodeJWT';
 
 function RaitingMainContent({ selectedUser, projectId }) {
-  const { projectID } = useParams();
+  const navigate = useNavigate();
   const [rating, setRating] = React.useState(0);
   const [feedback, setFeedback] = React.useState('');
   const [name, setName] = React.useState('');
@@ -22,7 +26,7 @@ function RaitingMainContent({ selectedUser, projectId }) {
   const [userType, setUserType] = React.useState('');
 
   // setName(selectedUser || '');
-  console.log(selectedUser)
+  // console.log(projectId)
   React.useEffect(() => {
     const getToken = localStorage.getItem("token");
     if (getToken != null) {
@@ -40,14 +44,15 @@ function RaitingMainContent({ selectedUser, projectId }) {
     setFeedback(event.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     // Handle form submission logic here
-    console.log('calling');
+    console.log('calling', selectedUser.professionalId, projectId, rating, professionalReview);
     apiPost("/project/company/rateProfessional", {
-      userId: ownUserId,
-      projectId: projectID,
+      userId: selectedUser.professionalId,
+      projectId: projectId,
       professionalRating: rating,
-      professionalReview: professionalReview
+      professionalReview: feedback
     }).then((data) =>{
         if (!data.error) {
             console.log(data)
