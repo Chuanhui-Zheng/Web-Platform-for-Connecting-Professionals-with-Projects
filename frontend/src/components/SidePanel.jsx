@@ -109,7 +109,13 @@ function SidePanel({ projectID, onSelectProject }) {
     }, []);
 
     if (isLoading) {
-        return <div>Loading projects...</div>;
+        return <Box sx={{width: '100%', height: '100%'}}><Box sx={{display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100vh', // Full viewport height
+          textAlign: 'center'}}><Typography variant="h6" component="h1" gutterBottom>
+        Loading projects...
+        </Typography></Box></Box>
     }
 
     return (

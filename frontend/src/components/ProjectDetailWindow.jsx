@@ -251,7 +251,13 @@ export default function ProjectDetailWindow({ projectID }) {
     ];
 
     if (isLoading) {
-        return <div>Loading project details...</div>;
+        return <Box sx={{width: '100%', height: '100%'}}><Box sx={{display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100vh', // Full viewport height
+          textAlign: 'center'}}><Typography variant="h6" component="h1" gutterBottom>
+        Loading project details...
+        </Typography></Box></Box>;
     }
 
     if (!projectInfo) {
