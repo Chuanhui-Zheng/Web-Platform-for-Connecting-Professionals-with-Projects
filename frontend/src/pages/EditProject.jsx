@@ -98,7 +98,7 @@ const EditProject = ( { userId }) => {
 
   return (
     <>
-        <EditForm buttonName="Save Changes" handleSubmit={handleSubmit}> 
+        <EditForm formName="Edit Project" buttonName="Save Changes" handleSubmit={handleSubmit}> 
             <div className="split-row">
                 <div>
                     <TextField
@@ -257,7 +257,7 @@ const EditProject = ( { userId }) => {
                 <BasicSelect 
                     value={projectStatus}
                     set={handleStatusChange} 
-                    names={["Complete", "Incomplete"]}
+                    names={["Complete", "Active"]}
                     label="Project Status"
                     
                  />

@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, redirect
 from flask_cors import CORS
 from database.models import Company, Professional, Projects
 from extensions import db
@@ -84,7 +84,7 @@ PARAMETERS (query string) {id, status}:
 /project/list?id=USERID&status=STATUS
 
 Status for Company:
-status = {'Avtive', 'Complete'}
+status = {'Ative', 'Complete'}
 
 Status for professional:
 status = {'Pending', 'Approved', 'rejected'
@@ -119,15 +119,15 @@ def projectList():
             # Converts professionals and applicants into lists
             professionals = json.loads(project.listOfProfessionals) if isinstance(project.listOfProfessionals, str) else project.listOfProfessionals
             applicants = json.loads(project.listOfApplicants) if isinstance(project.listOfApplicants, str) else project.listOfApplicants
-
             # if a status is given then we check for direct matches in either
             # the listOfProfessionals or listOfApplicants otherwise we find any matches
             if status:
-                if any(pro["professionalId"] == id and pro["status"] == status for pro in professionals):
+                if any(int(pro["professionalId"]) == int(id) and pro["status"] == status for pro in professionals):
                     filtered_projects.append(project)
                     continue
-                if any(app["professionalId"] == id and app["status"] == status for app in applicants):
-                    filtered_projects.append(project)
+                if any(int(app["professionalId"]) == (id) and app["status"] == status for app in applicants):
+                    print("gots here")
+                    filtered_projects.append(project)                    
                     continue
             else:
                 if any(pro["professionalId"] == id for pro in professionals):
@@ -137,7 +137,9 @@ def projectList():
                     filtered_projects.append(project)
 
         projects = filtered_projects
-
+        print("sdfsd ")
+        print(projects)
+       
     if not projects:
         return jsonify([]), 200
 
@@ -371,6 +373,7 @@ def projectProfessionalApply():
     res = project.add_to_list(professionalId, "listOfApplicants", "Pending approval")
     
     if res:
+        # redirect("http://localhost:5173//prodashbaord", code=302)
         return jsonify({
             "success": "Professional added to applicants list",
             "current_list": project.listOfApplicants

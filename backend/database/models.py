@@ -108,8 +108,8 @@ class Professional(db.Model):
     professionalSkills = db.Column(MutableList.as_mutable(JSON), default=list)
     professionalPassword = db.Column(db.Text())
     professionalPastProjects = db.Column(JSON, default=list)
-    professionalRatings = db.Column(JSON, default=dict)
-    professionalCertificates = db.Column(JSON, default=dict)
+    professionalRatings = db.Column(MutableList.as_mutable(JSON), default=list)
+    professionalCertificates = db.Column(MutableList.as_mutable(JSON), default=list)
     professionalNotifications = db.Column(MutableList.as_mutable(JSON), default=list)
 
     def __repr__(self):
