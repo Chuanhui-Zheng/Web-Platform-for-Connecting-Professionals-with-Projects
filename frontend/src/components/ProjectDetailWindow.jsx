@@ -29,6 +29,7 @@ import Chip from '@mui/material/Chip';
 import decodeJWT from '../decodeJWT';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisuallyHiddenInput from "../components/VisuallyHiddenInput";
+import { fileToDataUrl } from '../helpers';
 const headerStyle = {
     display: 'flex',
     alignItems: 'center',
@@ -208,24 +209,25 @@ export default function ProjectDetailWindow({ projectID }) {
         });
     };
 
-    const giveCertificate = async (e) => {
-        e.preventDefault();
-        console.log("calling giveCert api");
-        apiPost("/giveCertificate", {
-            companyId: projectInfo.pCompanyId,
-            professionalCertificate: certificate,
-            projectId: projectID 
-                }).then((data) =>{
-                    if (!data.error) {
-                        console.log(data)
-                    } else {
-                        throw new Error("give Cert Failed");
-                    }
-                })
-                .catch(() => {
-                    alert("cert not valid.")
-                  });
-    }
+    useEffect(() => {
+        if (certificate) {
+            console.log("calling giveCert api", certificate);
+            apiPost("/giveCertificate", {
+                companyId: projectInfo.pCompanyId,
+                professionalCertificate: certificate,
+                projectId: projectID 
+            }).then((data) =>{
+                if (!data.error) {
+                    console.log("give cert api",data)
+                } else {
+                    throw new Error("give Cert Failed");
+                }
+            })
+            .catch(() => {
+                alert("cert not valid.")
+                });
+        }
+    }, [certificate]);
 
     const companybuttons = [
         <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={navigateEdit} >Edit Project</Button>,
@@ -330,7 +332,7 @@ export default function ProjectDetailWindow({ projectID }) {
                         Give Certificate
                         <VisuallyHiddenInput
                             type="file"
-                            accept="image/*"
+                            accept="application/pdf"
                             name="companyLogo"
                             value=''
                             onChange={handleFileChange}
