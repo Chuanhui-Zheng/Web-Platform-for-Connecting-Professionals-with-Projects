@@ -1,7 +1,7 @@
 from extensions import db
 from uuid import uuid4
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime
+from datetime import datetime, timedelta
 from sqlalchemy import JSON
 import random
 from sqlalchemy.ext.mutable import MutableList
@@ -30,7 +30,14 @@ def create_id():
     while newId in existingIds:
         newId = random.randint(1, 1000000)
     
-    return newId
+    return str(newId)
+
+### HAVE NOT BEEN TESTED (also make the create_id return a string)
+def create_admin_id():
+    if db.session.query(Admin).count() == 0:
+        return "1"
+    else:
+        return create_id()
 
 class Company(db.Model):
     __tablename__ = "companies"
@@ -80,19 +87,14 @@ class Company(db.Model):
     @classmethod
     def get_company_by_id(cls, companyId):
         return cls.query.filter_by(companyId=companyId).first()
-    
-    # Gets the company based on id
-    @classmethod
-    def get_company_by_id(cls, companyId):
-        return cls.query.filter_by(companyId=companyId).first()
 
     def save_company(self):
         db.session.add(self)
         db.session.commit()
 
-    # def delete_company(self):
-    #     db.session.delete(self)
-    #     db.session.commit()
+    def delete_company(self):
+        db.session.delete(self)
+        db.session.commit()
 
 class Professional(db.Model):
     __tablename__ = "professionals"
@@ -108,9 +110,10 @@ class Professional(db.Model):
     professionalSkills = db.Column(MutableList.as_mutable(JSON), default=list)
     professionalPassword = db.Column(db.Text())
     professionalPastProjects = db.Column(JSON, default=list)
-    professionalRatings = db.Column(MutableList.as_mutable(JSON), default=list)
+    listOfProfessionalRatings = db.Column(MutableList.as_mutable(JSON), default=list)
     professionalCertificates = db.Column(MutableList.as_mutable(JSON), default=list)
     professionalNotifications = db.Column(MutableList.as_mutable(JSON), default=list)
+    professionalRatings = db.Column(JSON, default=dict)
 
     def __repr__(self):
         return f"<Professional {self.professionalEmail}>"
@@ -138,7 +141,7 @@ class Professional(db.Model):
         notification_id = str(len(self.professionalNotifications) + 1)
         
         current_date = datetime.now().strftime("%d/%m/%Y")
-        current_time = datetime.now().strftime("%H:%M")
+        current_time = (datetime.now() + timedelta(hours=11)).strftime("%H:%M")
         
         notification = {
             "professionalNotificationId": notification_id,
@@ -148,11 +151,15 @@ class Professional(db.Model):
         }
         
         # self.professionalNotifications[notification_id] = notification
-        target_list.append(notification)
+        target_list.insert(0, notification)
         db.session.commit()
 
     def save_professional(self):
         db.session.add(self)
+        db.session.commit()
+
+    def delete_professional(self):
+        db.session.delete(self)
         db.session.commit()
 
 
@@ -161,7 +168,7 @@ class Professional(db.Model):
         newDetails = {
             "professionalFullName": name,
             "professionalWebsite": website,
-            "professionalNumber": number,
+            "professionalPhoneNumber": number,
             "professionalDescription": description,
             "professionalQualification": qualification,
             "professionalEducation": education,
@@ -174,8 +181,44 @@ class Professional(db.Model):
                 setattr(self, dbField, value)
         db.session.commit()
 
+class Admin(db.Model):
+    __tablename__ = "admins"
+    adminId = db.Column(db.String(), primary_key=True, default=create_admin_id)
+    adminEmail = db.Column(db.String(), nullable=False)
+    adminPassword = db.Column(db.Text())
+
+    def __repr__(self):
+        return f"<Admin {self.adminEmail}>"
+
+    def set_admin_password(self, adminPassword):
+        if not adminPassword:
+            return
+        
+        self.adminPassword = generate_password_hash(adminPassword)
+        db.session.commit()
+
+    def check_admin_password(self, adminPassword):
+        return check_password_hash(self.adminPassword, adminPassword)
+    
+    @classmethod
+    def get_admin_by_email(cls, adminEmail):
+        return cls.query.filter_by(adminEmail=adminEmail).first()
+    
+    @classmethod
+    def get_admin_by_id(cls, adminId):
+        return cls.query.filter_by(adminId=adminId).first()
+    
+    def save_admin(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete_admin(self):
+        db.session.delete(self)
+        db.session.commit()
+        
 class Projects(db.Model):
     __tablename__ = 'projects'
+    name = db.Column(db.String(), primary_key=True, default="projects")
     projectId = db.Column(db.String(), primary_key=True, default=create_id)
     pCompanyId = db.Column(db.String(), default="")
     projectName = db.Column(db.String(), default="")
@@ -193,7 +236,9 @@ class Projects(db.Model):
     listOfProfessionals = db.Column(MutableList.as_mutable(JSON), default=list)
     listOfApplicants = db.Column(MutableList.as_mutable(JSON), default=list)
     projectStatus = db.Column(db.String(), default="Active")
-    #projectRatings = db.Column(JSON, default="")
+    projectCertificate = db.Column(JSON, default=dict)
+    listOfProjectRatings = db.Column(MutableList.as_mutable(JSON), default=list)
+    projectRatings = db.Column(JSON, default="")
     
     @classmethod
     def get_project_by_id(cls, projectId):
@@ -279,6 +324,10 @@ class Projects(db.Model):
         
     def save_project(self):
         db.session.add(self)
+        db.session.commit()
+
+    def delete_project(self):
+        db.session.delete(self)
         db.session.commit()
         
 class Skills(db.Model):
