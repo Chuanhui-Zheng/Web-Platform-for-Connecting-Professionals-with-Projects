@@ -53,7 +53,7 @@ const headerStyle = {
   });
   
   
-  const statusCompOptions = ['Pending', 'Completed'];
+  const statusCompOptions = ['Active', 'Completed'];
   const statusProfOptions = ['Apply', 'Pending', 'Approved', 'Complete'];
 export default function ProjectDetailWindow({ projectID }) {
     const navigate = useNavigate();
@@ -250,6 +250,16 @@ export default function ProjectDetailWindow({ projectID }) {
       <Button key="status" sx={{backgroundColor: "#21b6ae"}} onClick={handleApply}>{statusProfOptions[selectedIndex2]}</Button>
     ];
 
+    if (!projectInfo) {
+      return <Box sx={{width: '100%', height: '100%'}}><Box sx={{display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh', // Full viewport height
+        textAlign: 'center'}}><Typography variant="h6" component="h1" gutterBottom>
+      Select a project to see full details! 
+      </Typography></Box></Box>;
+  }
+
     if (isLoading) {
         return <Box sx={{width: '100%', height: '100%'}}><Box sx={{display: 'flex',
           alignItems: 'center',
@@ -260,9 +270,7 @@ export default function ProjectDetailWindow({ projectID }) {
         </Typography></Box></Box>;
     }
 
-    if (!projectInfo) {
-        return <div>Select a project to view details</div>;
-    }
+    
 
     return (
         <Box sx={{width: '100%'}}>
