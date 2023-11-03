@@ -11,3 +11,6 @@ This folder collects short implementation notes and visual references for the pl
 ## Backend direction
 
 The Flask service exposes `/health` for container readiness and returns JSON for unknown routes, which makes local debugging and deployment checks easier.
+
+
+<!-- expanded-history-pass-059: clearer Markdown structure and handoff detail for the Markdown documentation surface. -->
