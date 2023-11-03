@@ -21,7 +21,8 @@ def companyDetails():
                 "companyWebsite": company.companyWebsite,
                 "companyDescription": company.companyDescription,
                 "companyLogo": company.companyLogo,
-                "companyRating": 1
+                "companyRating": 1,
+                "companyId": id,
             }
 
     return data, 200
@@ -35,7 +36,15 @@ def professionalDetails():
     if not professional:
         return jsonify({"error": "Professional not found"}), 404
 
-    # need to do raitings when implemented
+    # need to do raitings when implemented// Done
+    sum_rating = 0
+    avg_rating = 0
+    if professional.listOfProfessionalRatings:
+        for dict in professional.listOfProfessionalRatings:
+            rating = dict["professionalRating"]
+            sum_rating += rating
+        avg_rating = round(sum_rating/len(professional.listOfProfessionalRatings),1)
+    
     data =  {
                 "professionalFullName": professional.professionalFullName,
                 "professionalEmail": professional.professionalEmail,
@@ -46,8 +55,9 @@ def professionalDetails():
                 "professionalEducation": professional.professionalEducation,
                 "professionalSkills": professional.professionalSkills,
                 "professionalPhoto": professional.professionalPhoto,
-                "professionalAvgRating": 1,
-                "professionalRatings": professional.professionalRatings
+                "professionalAvgRating": avg_rating,
+                "professionalRatings": professional.listOfProfessionalRatings,
+                "professionalId": id
             }
 
     return data, 200

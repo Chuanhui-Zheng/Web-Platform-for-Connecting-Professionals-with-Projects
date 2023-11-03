@@ -44,21 +44,21 @@ def projectRateProject():
     if project is None:
         return jsonify({"error": "Project does not exist"}), 409
     
-    professional = Projects.get_professional_by_id(professionalId)
+    professional = Professional.get_professional_by_id(professionalId=professionalId)
     if professional is None:
-        return jsonify({"error": "Professional User does not exist"})
+        return jsonify({"error": "Professional User does not exist"}), 409
     
     # check if professional is in this project
     stat = 0
-    for professional in project.listOfProfessionals:
-        if professionalId == professional["professionalId"]:
+    for pro in project.listOfProfessionals:
+        if professionalId == pro["professionalId"]:
             stat = 1
     if stat == 0:
-        return jsonify({"error": "Professional User is not in this project"})
+        return jsonify({"error": "Professional User is not in this project"}), 409
     
     if project.projectStatus == "incomplete":
         return jsonify({"error": "Project is not yet complete"}), 409
-    
+
     # generate random unique ratingsId
     ratingId = str(uuid.uuid4())
 
@@ -68,7 +68,8 @@ def projectRateProject():
         'professionalId': professionalId,
         'projectId': projectId,
         'projectRating': rating,
-        'projectRatingReview': review
+        'projectRatingReview': review,
+        'professionalName': professional.professionalFullName
     }
     
     # append dictionary to this project rating list
@@ -94,7 +95,7 @@ RETURN {
 def projectRateProfessional():
     data = request.get_json()
     professionalId = data.get("userId")
-    projectId = data.get("professionalRatingProjectId")
+    projectId = data.get("projectId")
     rating = data.get("professionalRating")
     review = data.get("professionalReview")
     
@@ -115,12 +116,12 @@ def projectRateProfessional():
         if professionalId == professional["professionalId"]:
             stat = 1
     if stat == 0:
-        return jsonify({"error": "Professional User is not in this project"})
+        return jsonify({"error": "Professional User is not in this project"}), 409
     
     professional = Professional.get_professional_by_id(professionalId)
     
     if project.projectStatus == "incomplete":
-        return jsonify({"error": "Project is not yet complete"})
+        return jsonify({"error": "Project is not yet complete"}), 409
     
     # generate random unique ratingsId
     ratingId = str(uuid.uuid4())
@@ -132,7 +133,9 @@ def projectRateProfessional():
         'professionalRatingCompanyId': companyId,
         'professionalRatingProjectId': projectId,
         'professionalRating': rating,
-        'professioanlRatingReview': review
+        'professioanlRatingReview': review,
+        'projectName': project.projectName,
+        'projectCompany': Company.get_company_by_id(companyId=companyId).companyName
     }
     
     # append dictionary to list
@@ -154,7 +157,10 @@ RETURN {
 @app.route('/user/details/professional/achievement', methods=['GET'])
 def professionalAchievement():
     professionalId = request.args.get('professionalId')
-    professional = Projects.get_professional_by_id(professionalId)
+    professional = Professional.get_professional_by_id(professionalId)
+    
+    if not professional:
+        return jsonify({"error": "Professional not found"}), 404
     
     sum_rating = 0
     listOfRatingId = []
@@ -165,4 +171,4 @@ def professionalAchievement():
         listOfRatingId.append(dict["professionalRatingId"])
         
     avg_rating = round(sum_rating/len(professional.listOfProfessionalRatings),1)
-    return jsonify({"avg_rating": avg_rating}, {"listOfRatingId":listOfRatingId})
+    return jsonify({"avg_rating": avg_rating}, {"listOfRatingId":listOfRatingId}), 200
