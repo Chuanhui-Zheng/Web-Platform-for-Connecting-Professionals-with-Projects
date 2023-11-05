@@ -19,7 +19,6 @@ import Typography from '@mui/material/Typography';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import SearchIcon from '@mui/icons-material/Search';
-import Typography from "@mui/material/Typography";
 
 
 const drawerWidth = '30%';
