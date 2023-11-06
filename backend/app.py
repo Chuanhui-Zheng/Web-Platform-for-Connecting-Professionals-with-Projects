@@ -25,6 +25,7 @@ from functions.projects import (
     getProfessionalProjectsFromStatus
 )
 from functions.certificate import giveCertificate, viewCertificate
+from functions.rating import projectRateProject, projectRateProfessional, professionalAchievement
 
 def create_app():
     app = Flask(__name__)
@@ -53,7 +54,8 @@ def create_app():
     app.add_url_rule('/user/details/company', 'companyDetails', companyDetails, methods=['GET'])
     app.add_url_rule('/user/details/professional', 'professionalDetails', professionalDetails, methods=['GET'])
     app.add_url_rule('/user/type', 'getUserType', getUserType, methods=['GET'])
-    
+    app.add_url_rule('/user/details/professional/achievement', 'professionalAchievement', professionalAchievement, methods=['GET'])
+
     app.add_url_rule('/project/create', 'projectCreate', projectCreate, methods=['POST'])
     app.add_url_rule('/project/list', 'projectList', projectList, methods=['GET'])
     app.add_url_rule('/project/listall', 'projectListAll', projectListAll, methods=['GET'])
@@ -74,7 +76,8 @@ def create_app():
 
     app.add_url_rule('/get/skills', 'getSkills', getSkills, methods=['GET'])
     app.add_url_rule('/get/categories', 'getCategories', getCategories, methods=['GET'])
-
+    app.add_url_rule('/project/professional/rateProject', 'rateProject', projectRateProject, methods=['POST'])
+    app.add_url_rule('/project/company/rateProfessional', 'rateProefssionals', projectRateProfessional, methods=['POST'])
     return app
 
 if __name__ == '__main__':

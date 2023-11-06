@@ -27,7 +27,7 @@ function RateProfessional() {
 		if (projectId) {
 			apiGet('/project/details', `projectId=${projectId}`)
 			.then((data) => {
-				console.log("fuck::", data.listOfProfessionals)
+				console.log("fuck::", data)
 				setProfessionals(data.listOfProfessionals);
 				setProjectName(data.projectName);
 			})
@@ -51,7 +51,7 @@ function RateProfessional() {
 					<RaitingSideBar selectedUser={selectedUser} selectName={selectName} onSelectUser={handleSelectUser} professionals={professionals} projectName={projectName}/>
 				</Box>
 				<Box sx={{ flex: '3' }}>
-					<RaitingMainContent selectedUser={selectedUser}/>
+					<RaitingMainContent selectedUser={selectedUser} projectId={projectId}/>
 				</Box>
 			</div>
 		</div>

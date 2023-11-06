@@ -14,11 +14,12 @@ import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import Divider from '@mui/material/Divider';
 import SearchBar from '../components/SearchBar';
+import Typography from '@mui/material/Typography';
 
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import SearchIcon from '@mui/icons-material/Search';
-
+import Typography from "@mui/material/Typography";
 
 
 const drawerWidth = '30%';
@@ -109,7 +110,13 @@ function SidePanel({ projectID, onSelectProject }) {
     }, []);
 
     if (isLoading) {
-        return <div>Loading projects...</div>;
+        return <Box sx={{width: '100%', height: '100%'}}><Box sx={{display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100vh', // Full viewport height
+          textAlign: 'center'}}><Typography variant="h6" component="h1" gutterBottom>
+        Loading projects...
+        </Typography></Box></Box>
     }
 
     return (

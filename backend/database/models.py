@@ -108,9 +108,10 @@ class Professional(db.Model):
     professionalSkills = db.Column(MutableList.as_mutable(JSON), default=list)
     professionalPassword = db.Column(db.Text())
     professionalPastProjects = db.Column(JSON, default=list)
-    professionalRatings = db.Column(MutableList.as_mutable(JSON), default=list)
-    professionalCertificates = db.Column(MutableList.as_mutable(JSON), default=list)
+    listOfProfessionalRatings = db.Column(MutableList.as_mutable(JSON), default=list)
+    professionalCertificates = db.Column(JSON, default=dict)
     professionalNotifications = db.Column(MutableList.as_mutable(JSON), default=list)
+    professionalRatings = db.Column(JSON, default=dict)
 
     def __repr__(self):
         return f"<Professional {self.professionalEmail}>"
@@ -193,6 +194,8 @@ class Projects(db.Model):
     listOfProfessionals = db.Column(MutableList.as_mutable(JSON), default=list)
     listOfApplicants = db.Column(MutableList.as_mutable(JSON), default=list)
     projectStatus = db.Column(db.String(), default="Active")
+    projectCertificate = db.Column(JSON, default=dict)
+    listOfProjectRatings = db.Column(MutableList.as_mutable(JSON), default=list)
     #projectRatings = db.Column(JSON, default="")
     
     @classmethod
