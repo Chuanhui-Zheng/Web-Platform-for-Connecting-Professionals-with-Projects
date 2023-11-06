@@ -14,6 +14,7 @@ import ReviewPage from "./pages/RatingPages/ReviewPage";
 import { PageContainer } from '@toolpad/core/PageContainer';
 import './styles/App.css';
 import './styles/Polish.css';
+import './styles/Forms.css';
 import './styles/Surfaces.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
