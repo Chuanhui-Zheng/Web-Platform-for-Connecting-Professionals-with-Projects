@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import Form from "./Form"
 import { Button, TextField } from "@mui/material";
@@ -8,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useHeader } from "../../HeaderContext"; 
 import RegistrationErrorMessage from "../RegistrationErrorMessage";
 import { isValidEmail, isValidPassword, fileToDataUrl } from "../../helpers";
+import ErrorPopup from "../ErrorPopup";
 
 
 function ProfessionalRegisterForm() {
@@ -15,16 +17,11 @@ function ProfessionalRegisterForm() {
     professionalFullName: "",
     professionalEmail: "",
     professionalPassword: "",
-    // professionalWebsite: "",
-    // professionalPhoneNumber: "",
-    // professionalDescription: "",
-    // professionalQualifications: "",
-    // professionalEducation: "",
-    // professionalSkills: "",
     professionalPhoto: ""
   });
   const [isValid, setIsValid] = useState(true);
-
+  const [errorMessage, setErrorMessage] = React.useState('');
+  const [error, setError] = React.useState(false);
   const navigate = useNavigate();
   const { triggerHeaderUpdate } = useHeader();
 
@@ -34,6 +31,11 @@ function ProfessionalRegisterForm() {
       ...formData,
       [name]: value
     });
+  }
+
+
+  const toggleError = () => {
+    setError(!error);
   }
 
   // Update file
@@ -88,128 +90,132 @@ function ProfessionalRegisterForm() {
         }
       })
       .catch(() => {
-        alert("Registration details are not valid.")
+        setErrorMessage('Registration details are not valid');
+        toggleError();
       });
   }
 
   return (
+    <>
     <Form
-      formName="Professional Register"
-      buttonName="Register"
-      handleSubmit={handleSubmit}
-    >
-      {isValid ? 
-        <></>
-        :
-        <RegistrationErrorMessage />
-      }
-      <TextField
-        variant="filled"
-        margin="normal"
-        className="form-input"
-        type="text"
-        label="Full name"
-        name="professionalFullName"
-        value={formData.professionalFullName}
-        onChange={onChange}
-      />
-      <TextField
-        variant="filled"
-        margin="normal"
-        className="form-input"
-        type="text"
-        label="Email"
-        name="professionalEmail"
-        value={formData.professionalEmail}
-        onChange={onChange}
-      />
-      <TextField
-        variant="filled"
-        margin="normal"
-        className="form-input"
-        type="text"
-        label="Password"
-        name="professionalPassword"
-        value={formData.professionalPassword}
-        onChange={onChange}
-      />
-      {/* <TextField
-        variant="filled"
-        margin="normal"
-        className="form-input"
-        type="text"
-        label="Website"
-        name="professionalWebsite"
-        value={formData.professionalWebsite}
-        onChange={onChange}
-      />
-      <TextField
-        variant="filled"
-        margin="normal"
-        className="form-input"
-        type="text"
-        label="Phone Number"
-        name="professionalPhoneNumber"
-        value={formData.professionalPhoneNumber}
-        onChange={onChange}
-      />
-      <TextField
-        variant="filled"
-        margin="normal"
-        className="form-input"
-        type="text"
-        label="Description"
-        name="professionalDescription"
-        value={formData.professionalDescription}
-        onChange={onChange}
-      />
-      <TextField
-        variant="filled"
-        margin="normal"
-        className="form-input"
-        type="text"
-        label="Qualifications"
-        name="professionalQualifications"
-        value={formData.professionalQualifications}
-        onChange={onChange}
-      />
-      <TextField
-        variant="filled"
-        margin="normal"
-        className="form-input"
-        type="text"
-        label="Education"
-        name="professionalEducation"
-        value={formData.professionalEducation}
-        onChange={onChange}
-      />
-      <TextField
-        variant="filled"
-        margin="normal"
-        className="form-input"
-        type="text"
-        label="Skills"
-        name="professionalSkills"
-        value={formData.professionalSkills}
-        onChange={onChange}
-      /> */}
-      <Button
-        sx={{ margin: '16px 0' }}
-        className="form-input"
-        component="label"
-        variant="contained"
-        startIcon={<CloudUploadIcon />}
+        formName="Professional Register"
+        buttonName="Register"
+        handleSubmit={handleSubmit}
       >
-        Upload Profile Photo
-        <VisuallyHiddenInput
-          type="file"
-          accept="image/*"
-          name="professionalPhoto"
-          value=""
-          onChange={handleFileChange}
+        {isValid ? 
+          <></>
+          :
+          <RegistrationErrorMessage />
+        }
+        <TextField
+          variant="filled"
+          margin="normal"
+          className="form-input"
+          type="text"
+          label="Full name"
+          name="professionalFullName"
+          value={formData.professionalFullName}
+          onChange={onChange}
         />
-      </Button>
-    </Form>
+        <TextField
+          variant="filled"
+          margin="normal"
+          className="form-input"
+          type="text"
+          label="Email"
+          name="professionalEmail"
+          value={formData.professionalEmail}
+          onChange={onChange}
+        />
+        <TextField
+          variant="filled"
+          margin="normal"
+          className="form-input"
+          type="text"
+          label="Password"
+          name="professionalPassword"
+          value={formData.professionalPassword}
+          onChange={onChange}
+        />
+        {/* <TextField
+          variant="filled"
+          margin="normal"
+          className="form-input"
+          type="text"
+          label="Website"
+          name="professionalWebsite"
+          value={formData.professionalWebsite}
+          onChange={onChange}
+        />
+        <TextField
+          variant="filled"
+          margin="normal"
+          className="form-input"
+          type="text"
+          label="Phone Number"
+          name="professionalPhoneNumber"
+          value={formData.professionalPhoneNumber}
+          onChange={onChange}
+        />
+        <TextField
+          variant="filled"
+          margin="normal"
+          className="form-input"
+          type="text"
+          label="Description"
+          name="professionalDescription"
+          value={formData.professionalDescription}
+          onChange={onChange}
+        />
+        <TextField
+          variant="filled"
+          margin="normal"
+          className="form-input"
+          type="text"
+          label="Qualifications"
+          name="professionalQualifications"
+          value={formData.professionalQualifications}
+          onChange={onChange}
+        />
+        <TextField
+          variant="filled"
+          margin="normal"
+          className="form-input"
+          type="text"
+          label="Education"
+          name="professionalEducation"
+          value={formData.professionalEducation}
+          onChange={onChange}
+        />
+        <TextField
+          variant="filled"
+          margin="normal"
+          className="form-input"
+          type="text"
+          label="Skills"
+          name="professionalSkills"
+          value={formData.professionalSkills}
+          onChange={onChange}
+        /> */}
+        <Button
+          sx={{ margin: '16px 0' }}
+          className="form-input"
+          component="label"
+          variant="contained"
+          startIcon={<CloudUploadIcon />}
+        >
+          Upload Profile Photo
+          <VisuallyHiddenInput
+            type="file"
+            accept="image/*"
+            name="professionalPhoto"
+            value=""
+            onChange={handleFileChange}
+          />
+        </Button>
+      </Form>
+      {error && <ErrorPopup message={errorMessage} toggleError={toggleError}/>}
+    </>
   )
 }
 
