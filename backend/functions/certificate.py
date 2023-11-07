@@ -43,7 +43,9 @@ def giveCertificate():
                 "professionalCertificateId": newId,
                 "professionalCertificate": certificate,
                 "professionalCertificateProjectId": projectId,
-                "professionalCertificateCompanyId": currProject.pCompanyId
+                "professionalCertificateProjectName": currProject.projectName,
+                "professionalCertificateCompanyId": currProject.pCompanyId,
+                "professionalCertificateCompanyName": Company.get_company_by_id(companyId=currProject.pCompanyId).companyName
             })
         db.session.commit()
     return jsonify({"message" : "worked"}), 200
