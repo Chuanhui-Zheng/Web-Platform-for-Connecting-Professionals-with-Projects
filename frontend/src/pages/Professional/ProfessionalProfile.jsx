@@ -75,6 +75,7 @@ const ProfessionalProfile = ( { userId } ) => {
                 .then((data) => {
                     console.log(data);
                     if (!data.error) {
+                        console.log("certs: ", data.professionalCertificates)
                         setCertificates(data.professionalCertificates)
                     } else {
                         throw new Error("Get Cert Failed");
@@ -84,8 +85,6 @@ const ProfessionalProfile = ( { userId } ) => {
                     alert("Profile fetch6 failed.");
                 });
 
-        } else {
-            console.log("fuck this shit")
         }
     }, [ownUserId, userType]);
     return (
