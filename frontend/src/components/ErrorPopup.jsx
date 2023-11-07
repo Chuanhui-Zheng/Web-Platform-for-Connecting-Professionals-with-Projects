@@ -1,35 +1,32 @@
-import { Button, DialogContentText } from '@mui/material';
-import JEMMADialog from './JEMMADialog';
-import PropTypes from 'prop-types';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
-/**
- * 
- * @param {*} param0 
- * @returns 
- * 
- * Component for a modal that is used to alert users of an error.
- */
 const ErrorPopup = ({ message, toggleError }) => {    
   return (
-    <JEMMADialog
-      titleText={message}
-      bodyChildren={
+    <Dialog
+      open={true}
+      aria-labelledby="error-dialog-title"
+      aria-describedby="error-dialog-description"
+    >
+      <DialogTitle id="error-dialog-title">
+        {message}
+      </DialogTitle>
+      <DialogContent>
         <DialogContentText id="error-dialog-description">
-          {"Please try again."}
+          Please try again
         </DialogContentText>
-      }
-      actionChildren={
+      </DialogContent>
+      <DialogActions>
         <Button onClick={toggleError} color="primary">
           Close
         </Button>
-      }
-    />
+      </DialogActions>
+    </Dialog>
   );
-}
-
-ErrorPopup.propTypes = {
-	message: PropTypes.string,
-	toggleError: PropTypes.object,
 }
 
 export default ErrorPopup;

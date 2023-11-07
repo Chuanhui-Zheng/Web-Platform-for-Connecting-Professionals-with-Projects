@@ -1,28 +1,10 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from database.models import Company, Professional, Projects
+from database.models import Company, Professional
 from flask_jwt_extended import decode_token
 
 app = Flask(__name__)
 
-
-"""
-companyDetails() retrieves details of a specific company.
-
-Parameters:
-?id=COMPANYID
-
-Returns:
-{
-    "companyName": string,
-    "companyEmail": string,
-    "companyPhoneNumber": string,
-    "companyWebsite": string,
-    "companyDescription": string,
-    "companyLogo": string,
-    "companyId": string
-}
-"""
 @app.route('/user/details/company', methods=['GET'])
 def companyDetails():
     id = request.args.get('id')
@@ -31,6 +13,7 @@ def companyDetails():
     if not company:
         return jsonify({"error": "Company not found"}), 404
     
+    # need to add functionality to get raiting once they are implemented
     data = {
                 "companyName": company.companyName,
                 "companyEmail": company.companyEmail,
@@ -38,34 +21,13 @@ def companyDetails():
                 "companyWebsite": company.companyWebsite,
                 "companyDescription": company.companyDescription,
                 "companyLogo": company.companyLogo,
+                "companyRating": 1,
                 "companyId": id,
             }
 
     return data, 200
 
 
-"""
-professionalDetails() retrieves details of a specific professional.
-
-Parameters:
-?id=PROFESSIONALID
-
-Returns:
-{
-    "professionalFullName": string,
-    "professionalEmail": string,
-    "professionalWebsite": string,
-    "professionalPhoneNumber": string,
-    "professionalDescription": string,
-    "professionalQualifications": list of strings,
-    "professionalEducation": string,
-    "professionalSkills": list of strings,
-    "professionalPhoto": string,
-    "professionalAvgRating": float,
-    "professionalRatings": list of ratings,
-    "professionalId": string
-}
-"""
 @app.route('/user/details/professional', methods=['GET'])
 def professionalDetails():
     id = request.args.get('id')
@@ -101,17 +63,6 @@ def professionalDetails():
     return data, 200
 
 
-"""
-getUserType() identifies the type of user based on their ID.
-
-Parameters:
-?id=USERID
-
-Returns:
-{
-    "type": "Company" | "Professional"
-}
-"""
 @app.route('/user/type', methods=['GET'])
 def getUserType():
     id = request.args.get('id')
