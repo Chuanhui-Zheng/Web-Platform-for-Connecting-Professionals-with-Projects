@@ -21,6 +21,7 @@ import ProfilePage from './pages/ProfilePage';
 import EditProfilePage from './pages/EditProfilePage';
 import EditProject from './pages/EditProject';
 import RateProfessional from './pages/RateProfessional';
+import AdminDashboard from './pages/AdminDashboard';
 
 function Logout() {
     localStorage.clear()
@@ -46,6 +47,7 @@ function App() {
             <Route path="/companydashboard" element={<CompanyDashboard />} />
             <Route path="/companydashboard/createproject" element={<CreateProject />} />
             <Route path="/prodashbaord" element={<ProfessionalDashboard />} />
+            <Route path="/admindashboard" element={<AdminDashboard />} />
             <Route path="/profile/:userId/edit" element={<EditProfilePage />} />
             <Route path="/allprojects" element={<AllProjects />} />
             <Route path="/aboutus" element={<AboutUs />} />
