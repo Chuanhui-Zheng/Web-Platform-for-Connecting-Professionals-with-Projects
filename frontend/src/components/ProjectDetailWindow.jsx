@@ -336,7 +336,7 @@ export default function ProjectDetailWindow({ projectID }) {
             variant="contained"
           >
             {companybuttons} 
-          </ButtonGroup> : userType === 'company' && userId === projectInfo.pCompanyId && isCompleted ? <Button
+          </ButtonGroup> : userType === 'company' && userId === projectInfo.pCompanyId && isCompleted ? <ButtonGroup> <Button
                         sx={{ margin: '30px 0 0 0' }}
                         className="upload"
                         component="label"
@@ -351,7 +351,10 @@ export default function ProjectDetailWindow({ projectID }) {
                             value=''
                             onChange={handleFileChange}
                         />
-                    </Button> : userType === 'professional'
+                    </Button> 
+                            <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={() => navigate(`/project/${projectID}/rate`)} >Rate Project</Button></ButtonGroup> 
+
+                            : userType === 'professional'
         ?
           <ButtonGroup
             orientation="vertical"
