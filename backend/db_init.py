@@ -1,12 +1,16 @@
 from app import create_app
 from extensions import db
-from database.models import Company, Professional, Projects, Skills, Categories
+from database.models import Company, Professional, Projects, Skills, Categories, Admin
 
 # Initialize your default data
 DEFAULT_SKILLS = ["Coding", "Project Management", "Data Analysis", "Design", "Marketing"]
 DEFAULT_CATEGORIES = ["Software", "Finance", "Healthcare", "Education", "Construction"]
 
 # Sample data for other tables
+DEFAULT_ADMINS = [
+    {"adminEmail": "admin", "adminPassword": "Password"}
+]
+
 DEFAULT_COMPANIES = [
     {"companyName": "Microsoft", "companyEmail": "contact@techcorp.com", "companyPassword": "Password","companyPhoneNumber": "123-456-7890", "companyWebsite": "microsoft.com", "companyDescription": "Macro Hard. New project seeking to revolutionise the new generation!"},
     {"companyName": "Apple", "companyEmail": "info@healthsolutions.com", "companyPassword": "Password","companyPhoneNumber": "098-765-4321", "companyWebsite": "apple.com", "companyDescription": "Apples? One of them a day definitely will keep the doctor away."}
@@ -115,6 +119,20 @@ with app.app_context():
         if categories_entry is None:
             categories_entry = Categories(listOfCategories=DEFAULT_CATEGORIES)
             db.session.add(categories_entry)
+
+        # Initialize admins
+        admin_instances = {}
+        for admin_data in DEFAULT_ADMINS:
+            existing_admin = Admin.query.filter_by(adminEmail=admin_data["adminEmail"]).first()
+            if existing_admin is None:
+                admin = Admin(**admin_data)
+                admin.set_admin_password(admin_data["adminPassword"])
+                db.session.add(admin)
+                db.session.flush()
+                admin_instances[admin.adminEmail] = admin
+            else:
+                admin_instances[admin_data["adminEmail"]] = existing_admin
+
 
         # Initialize companies
         company_instances = {}
