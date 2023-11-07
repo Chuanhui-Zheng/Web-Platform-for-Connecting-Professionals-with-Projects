@@ -7,6 +7,7 @@ from functions.filter import getCategories, getSkills
 from functions.profiles import editCompanyProfile, editProfessionalProfile, userDetails, professionalEditProfile
 from functions.edit import editCompany, editProfessional, editProject
 from functions.user import companyDetails, professionalDetails, getUserType
+from functions.admin import allCompanies, allProfessionals, allAdmins
 from functions.projects import (
     projectCreate, 
     projectList, 
@@ -74,6 +75,11 @@ def create_app():
 
     app.add_url_rule('/get/skills', 'getSkills', getSkills, methods=['GET'])
     app.add_url_rule('/get/categories', 'getCategories', getCategories, methods=['GET'])
+
+    # Admin API
+    app.add_url_rule('/admin/allCompanies', 'allCompanies', allCompanies, methods=['GET'])
+    app.add_url_rule('/admin/allProfessionals', 'allProfessionals', allProfessionals, methods=['GET'])
+    app.add_url_rule('/admin/allAdmins', 'allAdmins', allAdmins, methods=['GET'])
 
     return app
 
