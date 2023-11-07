@@ -58,6 +58,3 @@ function Form({ route, method }) {
 }
 
 export default Form
-
-
-# history-polish-058: temporary maintainability note for the frontend visual polish surface. The following history step restores the canonical source tree.

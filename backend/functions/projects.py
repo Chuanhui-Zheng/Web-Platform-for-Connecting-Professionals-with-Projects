@@ -125,15 +125,15 @@ def projectList():
                 if any(int(pro["professionalId"]) == int(id) and pro["status"] == status for pro in professionals):
                     filtered_projects.append(project)
                     continue
-                if any(int(app["professionalId"]) == (id) and app["status"] == status for app in applicants):
+                if any(int(app["professionalId"]) == int(id) and app["status"] == status for app in applicants):
                     print("gots here")
                     filtered_projects.append(project)                    
                     continue
             else:
-                if any(pro["professionalId"] == id for pro in professionals):
+                if any(int(pro["professionalId"]) == int(id) for pro in professionals):
                     filtered_projects.append(project)
                     continue
-                if any(app["professionalId"] == id for app in applicants):
+                if any(int(app["professionalId"]) == int(id) for app in applicants):
                     filtered_projects.append(project)
 
         projects = filtered_projects
