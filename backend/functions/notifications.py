@@ -9,15 +9,18 @@ import json
 app = Flask(__name__)
 
 CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
-'''
-PARAMETERS (query string)
-/notifications/get?professionalId=PROFESSIONALIDHERE
 
+"""
+getNotifications() returns a list of a professionals notifications.
 
-RETURN {
+Query string parameters:
+?professionalId=ID
+
+Returns:
+{
     list of notification objects
 }
-'''
+"""
 @app.route('/notifications/get', methods=['GET'])
 def getNotifications():
     professionalId = int(request.args.get("professionalId"))
