@@ -44,6 +44,8 @@ function Login() {
             navigate("/companydashboard");
           } else if (tokenData.userType === "professional") {
             navigate("/prodashbaord");
+          } else if (tokenData.userType === "admin") {
+            navigate("/admindashboard");
           }
         } else {
           throw new Error("Login failed.");
