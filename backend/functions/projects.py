@@ -207,6 +207,14 @@ def projectDetails():
     if project is None: 
         return jsonify({"error": "Project does not exist"}), 409
     
+    sum_rating = 0
+    avg_rating = 0
+    if project.listOfProjectRatings:
+        for dict in project.listOfProjectRatings:
+            rating = dict["projectRating"]
+            sum_rating += rating
+        avg_rating = round(sum_rating/len(project.listOfProjectRatings),1)
+    
     project_details = {
         "projectId": project.projectId,
         "projectName": project.projectName,
@@ -232,8 +240,7 @@ def projectDetails():
         "listOfApplicants": project.listOfApplicants,
         "listOfProfessionals": project.listOfProfessionals,
         "listOfProjectRatings": project.listOfProjectRatings,
-        # need to add rating systems
-        "projectRatings": 0,
+        "projectAvgRating": avg_rating,
     }
     # return jsonify({"message": "hji"})
     # return jsonify({"message": "hji"})
