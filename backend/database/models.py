@@ -32,6 +32,13 @@ def create_id():
     
     return newId
 
+### HAVE NOT BEEN TESTED (also make the create_id return a string)
+def create_admin_id():
+    if db.session.query(Admin).count() == 0:
+        return "1"
+    else:
+        return create_id()
+
 class Company(db.Model):
     __tablename__ = "companies"
     companyId = db.Column(db.String(), primary_key=True, default=create_id)
@@ -176,7 +183,7 @@ class Professional(db.Model):
 
 class Admin(db.Model):
     __tablename__ = "admins"
-    adminId = db.Column(db.String(), primary_key=True, default=create_id)
+    adminId = db.Column(db.String(), primary_key=True, default=create_admin_id)
     adminEmail = db.Column(db.String(), nullable=False)
     adminPassword = db.Column(db.Text())
 
