@@ -121,19 +121,19 @@ export default function AdminDashboard() {
   // Handle button click to log selected company rows
   const handleLogSelectedCompanies = () => {
     const selectedCompanies = companyRows.filter((row) => selectedCompanyRowIds.includes(row.id));
-    console.log(`selectedCompanies = ${selectedCompanies}`)
+    console.log(`selectedCompanies = ${JSON.stringify(selectedCompanies)}`);
   };
 
   // Handle button click to log selected professional rows
   const handleLogSelectedProfessionals = () => {
     const selectedProfessionals = professionalRows.filter((row) => selectedProfessionalRowIds.includes(row.id));
-    console.log(`selectedProfessionals = ${selectedProfessionals}`)
+    console.log(`selectedProfessionals = ${JSON.stringify(selectedProfessionals)}`);
   };
 
-  // Handle button click to log selected professional rows
+  // Handle button click to log selected admin rows
   const handleLogSelectedAdmins = () => {
     const selectedAdmins = adminRows.filter((row) => selectedAdminRowIds.includes(row.id));
-    console.log(`selectedAdmins = ${selectedAdmins}`)
+    console.log(`selectedAdmins = ${JSON.stringify(selectedAdmins)}`);
   };
 
   return (
