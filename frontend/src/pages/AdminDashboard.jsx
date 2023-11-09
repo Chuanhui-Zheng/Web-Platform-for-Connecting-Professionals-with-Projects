@@ -79,79 +79,67 @@ export default function AdminDashboard() {
     adminEmail: "",
     adminPassword: ""
   });
-  const [reFetchData, setReFetchData] = useState(false);
   const adminId = decodeJWT(localStorage.getItem("token")).userId;
 
   // Function to fetch all data
   const fetchData = () => {
-    apiGet("/admin/allCompanies")
-      .then((data) => {
-        if (!data.error) {
-          setCompanyRows(data);
-        } else {
-          throw new Error();
-        }
-      })
-      .catch(() => {
-        alert("Could not load company table");
-      });
-
-    apiGet("/admin/allProfessionals")
-      .then((data) => {
-        if (!data.error) {
-          setProfessionalRows(data);
-        } else {
-          throw new Error();
-        }
-      })
-      .catch(() => {
-        alert("Could not load professional table");
-      });
-
-    apiGet("/admin/allAdmins")
-      .then((data) => {
-        if (!data.error) {
-          setAdminRows(data);
-        } else {
-          throw new Error();
-        }
-      })
-      .catch(() => {
-        alert("Could not load admin table");
-      });
-  };
+    Promise.all([
+      apiGet("/admin/allCompanies"),
+      apiGet("/admin/allProfessionals"),
+      apiGet("/admin/allAdmins")
+    ])
+    .then(([companies, professionals, admins]) => {
+      if (!companies.error) {
+        setCompanyRows(companies);
+      } else {
+        throw new Error();
+      }
+  
+      if (!professionals.error) {
+        setProfessionalRows(professionals);
+      } else {
+        throw new Error();
+      }
+  
+      if (!admins.error) {
+        setAdminRows(admins);
+      } else {
+        throw new Error();
+      }
+    })
+    .catch(data => {
+      alert(data.error);
+    });
+  };  
 
   // useEffect to run fetchData every 10 seconds or when instructed to
   useEffect(() => {
-    fetchData(); // Fetch data immediately on mount
-    const intervalId = setInterval(fetchData,10000); // Fetch data every 10 seconds
-
-    // Cleanup interval on component unmount
+    fetchData();
+    const intervalId = setInterval(fetchData, 10000);
     return () => clearInterval(intervalId);
-  }, [reFetchData]);
+  }, []);
 
   // Handle create admin modal
   const handleCreateAdminOpen = () => setCreateAdminOpen(true);
   const handleCreateAdminClose = () => setCreateAdminOpen(false);
   const handleCreateAdminSubmit = (e) => {
     e.preventDefault();
-
-    apiPost("/admin/createAdmin", {
-      ...createAdminDetails,
-      "adminId": adminId
-    })
+    apiPost("/admin/createAdmin", { ...createAdminDetails, "adminId": adminId })
       .then((data) => {
         if (data.error) {
           throw new Error();
         }
+        // Fetch new data, reset form and close modal
+        fetchData();
+        setCreateAdminDetails({ adminEmail: "", adminPassword: "" })
+        handleCreateAdminClose();
       })
       .catch((data) => {
         alert(data.error);
       });
-    
-    // Refetch
-    setReFetchData(!reFetchData);
   };
+  
+  // Handle when creating admin details is changing
   const handleCreateAdminOnChange = (e) => {
     const { name, value } = e.target;
     setCreateAdminDetails({
@@ -179,7 +167,7 @@ export default function AdminDashboard() {
       });
     
     // Re Fetch the data 
-    setReFetchData(!reFetchData);
+    fetchData();
   };
 
   // Handle button click to log selected professional rows
@@ -201,15 +189,29 @@ export default function AdminDashboard() {
       });
     
     // Re Fetch the data 
-    setReFetchData(!reFetchData);
+    fetchData();
   };
 
   // Handle button click to log selected admin rows
-  const handleLogSelectedAdmins = () => {
-    const selectedAdmins = adminRows.filter((row) =>
+  const handleDeleteAdmins = () => {
+    const deleteAdminIds = adminRows.filter((row) =>
       selectedAdminRowIds.includes(row.id)
-    );
-    console.log(`selectedAdmins = ${JSON.stringify(selectedAdmins)}`);
+    ).map((row) => row.id);
+    apiDelete("/delete/admins", {
+      "adminId": adminId,
+      "deleteAdminIds": deleteAdminIds
+    })
+      .then((data) => {
+        if (data.error) {
+          throw new Error();
+        }
+      })
+      .catch((data) => {
+        alert(data.error);
+      });
+    
+    // Re Fetch the data 
+    fetchData();
   };
 
   return (
@@ -217,17 +219,17 @@ export default function AdminDashboard() {
       <Box display="flex" flexDirection="column" gap="20px" width="100%">
         <Box display="flex" flexDirection="row" gap="10px">
           <Button onClick={handleDeleteCompanies} variant="contained" color="error">
-            Delete
+            Delete Company
           </Button>
         </Box>
         <DataTable rows={companyRows} columns={companyColumns} onSelectionChange={setSelectedCompanyRowIds} />
       </Box>
       <Button onClick={handleDeleteProfessionals} variant="contained" color="error" sx={{ mt: 2 }}>
-        Delete
+        Delete Professional
       </Button>
       <DataTable rows={professionalRows} columns={professionalColumns} onSelectionChange={setSelectedProfessionalRowIds} />
-      <Button onClick={handleLogSelectedAdmins} variant="contained" color="secondary" sx={{ mt: 2 }}>
-        Log Selected Admins
+      <Button onClick={handleDeleteAdmins} variant="contained" color="secondary" sx={{ mt: 2 }}>
+        Delete Admin
       </Button>
       <Button onClick={handleCreateAdminOpen} variant="contained" color="secondary" sx={{ mt: 2 }}>
         Create admin
