@@ -8,6 +8,7 @@ from functions.profiles import editCompanyProfile, editProfessionalProfile, user
 from functions.edit import editCompany, editProfessional, editProject
 from functions.user import companyDetails, professionalDetails, getUserType
 from functions.admin import allCompanies, allProfessionals, allAdmins, createAdmin
+from functions.delete import deleteProfessionals
 from functions.projects import (
     projectCreate, 
     projectList, 
@@ -82,6 +83,8 @@ def create_app():
     app.add_url_rule('/admin/allAdmins', 'allAdmins', allAdmins, methods=['GET'])
     app.add_url_rule('/admin/createAdmin', 'createAdmin', createAdmin, methods=['POST'])
 
+    # Delete API
+    app.add_url_rule('/delete/professionals', 'deleteProfessionals', deleteProfessionals, methods=["DELETE"])
 
 
     return app
