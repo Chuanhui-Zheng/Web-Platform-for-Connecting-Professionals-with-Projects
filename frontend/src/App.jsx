@@ -4,24 +4,22 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import Header from './components/Header';
 
 
-import Login from "./pages/Login"
-import Register from "./pages/Register"
+import Login from "./pages/Auth/Login"
+import Register from "./pages/Auth/Register"
 import Home from "./pages/Home"
-import ProfessionalDashboard from "./pages/ProfessionalDashboard"
-import CompanyDashboard from "./pages/CompanyDashboard"
-import AllProjects from "./pages/AllProjects"
+import AllProjects from "./pages/ProjectPages/AllProjects"
 import AboutUs from "./pages/AboutUs"
-import NotFound from "./pages/NotFound"
-import CreateProject from './pages/CreateProject';
-import ProjectDetail from './pages/ProjectDetail';
-import ProjectPage from './pages/ProjectPage';
-import ProjectApplicantList from './pages/ProjectApplicantList';
-import ProfilePage from './pages/ProfilePage';
+import NotFound from "./pages/ErrorPages/NotFound"
+import CreateProject from './pages/ProjectPages/CreateProject';
+import ProjectDetail from './pages/ProjectPages/ProjectDetail';
+import ProjectPage from './pages/ProjectPages/ProjectPage';
+import ProjectApplicantList from './pages/ProjectPages/ProjectApplicantList';
+import ProfilePage from './pages/ProfilePages/ProfilePage';
 // import ProtectedRoute from "./components/ProtectedRoute";
-import EditProfilePage from './pages/EditProfilePage';
-import EditProject from './pages/EditProject';
-import RateProfessional from './pages/RateProfessional';
-import AdminDashboard from './pages/AdminDashboard';
+import EditProfilePage from './pages/ProfilePages/EditProfilePage';
+import EditProject from './pages/ProjectPages/EditProject';
+import RateProfessional from './pages/RatingPages/RateProfessional';
+import Dashboard from './pages/Dashboard/Dashboard';
 
 function Logout() {
     localStorage.clear()
@@ -44,10 +42,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/register" element={<RegisterAndLogout />} />
-            <Route path="/companydashboard" element={<CompanyDashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/companydashboard/createproject" element={<CreateProject />} />
-            <Route path="/prodashbaord" element={<ProfessionalDashboard />} />
-            <Route path="/admindashboard" element={<AdminDashboard />} />
             <Route path="/profile/:userId/edit" element={<EditProfilePage />} />
             <Route path="/allprojects" element={<AllProjects />} />
             <Route path="/aboutus" element={<AboutUs />} />
