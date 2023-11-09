@@ -162,16 +162,15 @@ export default function AdminDashboard() {
       "companyIds": companyIds
     })
       .then((data) => {
-        if (data.error) {
+        if (!data.error) {
+          fetchData();
+        } else {
           throw new Error();
         }
       })
       .catch((data) => {
         alert(data.error);
       });
-    
-    // Re Fetch the data 
-    fetchData();
   };
 
   // Handle button click to log selected professional rows
@@ -184,16 +183,15 @@ export default function AdminDashboard() {
       "professionalIds": professionalIds
     })
       .then((data) => {
-        if (data.error) {
+        if (!data.error) {
+          fetchData();
+        } else {
           throw new Error();
         }
       })
       .catch((data) => {
         alert(data.error);
       });
-    
-    // Re Fetch the data 
-    fetchData();
   };
 
   // Handle button click to log selected admin rows
@@ -206,16 +204,15 @@ export default function AdminDashboard() {
       "deleteAdminIds": deleteAdminIds
     })
       .then((data) => {
-        if (data.error) {
+        if (!data.error) {
+          fetchData();
+        } else {
           throw new Error();
         }
       })
       .catch((data) => {
         alert(data.error);
       });
-    
-    // Re Fetch the data 
-    fetchData();
   };
 
   return (
