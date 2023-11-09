@@ -51,13 +51,20 @@ def allAdmins():
 @app.route('/admin/createAdmin', methods=['POST'])
 def createAdmin():
     data = request.get_json()
+    adminEmail = data.get("adminEmail")
+    adminPassword = data.get("adminPassword")
+
+    # Check if an admin of that email already exists
+    admin = Admin.get_admin_by_email(adminEmail=adminEmail)
+    if admin is not None:
+        return jsonify({"error": "Admin already exists"}), 409
 
     # If not the super admin
     if data.get("adminId") != "1":
         return jsonify({"error": "User does not have permission"}), 403
 
-    new_admin = Admin(adminEmail=data.get("adminEmail"))
-    new_admin.set_admin_password(adminPassword=data.get("adminPassword"))
+    new_admin = Admin(adminEmail=adminEmail)
+    new_admin.set_admin_password(adminPassword=adminPassword)
     new_admin.save_admin()
 
     return jsonify({"adminId": new_admin.adminId}), 200
