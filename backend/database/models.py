@@ -326,6 +326,10 @@ class Projects(db.Model):
     def save_project(self):
         db.session.add(self)
         db.session.commit()
+
+    def delete_project(self):
+        db.session.delete(self)
+        db.session.commit()
         
 class Skills(db.Model):
     __tablename__ = 'skills'
