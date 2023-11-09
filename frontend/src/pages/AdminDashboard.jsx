@@ -161,15 +161,29 @@ export default function AdminDashboard() {
   };
 
   // Handle button click to log selected company rows
-  const handleLogSelectedCompanies = () => {
-    const selectedCompanies = companyRows.filter((row) =>
+  const handleDeleteCompanies = () => {
+    const companyIds = companyRows.filter((row) =>
       selectedCompanyRowIds.includes(row.id)
-    );
-    console.log(`selectedCompanies = ${JSON.stringify(selectedCompanies)}`);
+    ).map((row) => row.id);
+    apiDelete("/delete/companies", {
+      "userId": adminId,
+      "companyIds": companyIds
+    })
+      .then((data) => {
+        if (data.error) {
+          throw new Error();
+        }
+      })
+      .catch((data) => {
+        alert(data.error);
+      });
+    
+    // Re Fetch the data 
+    setReFetchData(!reFetchData);
   };
 
   // Handle button click to log selected professional rows
-  const handleLogSelectedProfessionals = () => {
+  const handleDeleteProfessionals = () => {
     const professionalIds = professionalRows.filter((row) =>
       selectedProfessionalRowIds.includes(row.id)
     ).map((row) => row.id);
@@ -186,7 +200,7 @@ export default function AdminDashboard() {
         alert(data.error);
       });
     
-    // refect the data 
+    // Re Fetch the data 
     setReFetchData(!reFetchData);
   };
 
@@ -202,13 +216,13 @@ export default function AdminDashboard() {
     <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column">
       <Box display="flex" flexDirection="column" gap="20px" width="100%">
         <Box display="flex" flexDirection="row" gap="10px">
-          <Button onClick={handleLogSelectedCompanies} variant="contained" color="error">
+          <Button onClick={handleDeleteCompanies} variant="contained" color="error">
             Delete
           </Button>
         </Box>
         <DataTable rows={companyRows} columns={companyColumns} onSelectionChange={setSelectedCompanyRowIds} />
       </Box>
-      <Button onClick={handleLogSelectedProfessionals} variant="contained" color="error" sx={{ mt: 2 }}>
+      <Button onClick={handleDeleteProfessionals} variant="contained" color="error" sx={{ mt: 2 }}>
         Delete
       </Button>
       <DataTable rows={professionalRows} columns={professionalColumns} onSelectionChange={setSelectedProfessionalRowIds} />
