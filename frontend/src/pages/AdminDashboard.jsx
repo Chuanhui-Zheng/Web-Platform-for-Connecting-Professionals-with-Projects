@@ -140,11 +140,11 @@ export default function AdminDashboard() {
     })
       .then((data) => {
         if (data.error) {
-          throw new Error(data.error);
+          throw new Error();
         }
       })
-      .catch((error) => {
-        alert(error);
+      .catch((data) => {
+        alert(data.error);
       });
   };
   const handleCreateAdminOnChange = (e) => {
