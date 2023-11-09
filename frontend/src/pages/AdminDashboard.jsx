@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
 import { Box, Button, ButtonGroup, Input, Modal, TextField, Typography } from "@mui/material";
-import { apiGet, apiPost } from "../api";
+import { apiDelete, apiGet, apiPost } from "../api";
 import { useNavigate } from "react-router-dom";
 import Form from "../components/Forms/Form"
 import decodeJWT from "../decodeJWT";
@@ -79,6 +79,8 @@ export default function AdminDashboard() {
     adminEmail: "",
     adminPassword: ""
   });
+  const [reFetchData, setReFetchData] = useState(false);
+  const adminId = decodeJWT(localStorage.getItem("token")).userId;
 
   // Function to fetch all data
   const fetchData = () => {
@@ -119,14 +121,14 @@ export default function AdminDashboard() {
       });
   };
 
-  // useEffect to run fetchData every 5 seconds
+  // useEffect to run fetchData every 10 seconds or when instructed to
   useEffect(() => {
     fetchData(); // Fetch data immediately on mount
-    const intervalId = setInterval(fetchData, 5000); // Fetch data every 5 seconds
+    const intervalId = setInterval(fetchData,10000); // Fetch data every 10 seconds
 
     // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
-  }, []);
+  }, [reFetchData]);
 
   // Handle create admin modal
   const handleCreateAdminOpen = () => setCreateAdminOpen(true);
@@ -136,7 +138,7 @@ export default function AdminDashboard() {
 
     apiPost("/admin/createAdmin", {
       ...createAdminDetails,
-      adminId: decodeJWT(localStorage.getItem("token")).userId
+      "adminId": adminId
     })
       .then((data) => {
         if (data.error) {
@@ -146,6 +148,9 @@ export default function AdminDashboard() {
       .catch((data) => {
         alert(data.error);
       });
+    
+    // Refetch
+    setReFetchData(!reFetchData);
   };
   const handleCreateAdminOnChange = (e) => {
     const { name, value } = e.target;
@@ -165,10 +170,24 @@ export default function AdminDashboard() {
 
   // Handle button click to log selected professional rows
   const handleLogSelectedProfessionals = () => {
-    const selectedProfessionals = professionalRows.filter((row) =>
+    const professionalIds = professionalRows.filter((row) =>
       selectedProfessionalRowIds.includes(row.id)
-    );
-    console.log(`selectedProfessionals = ${JSON.stringify(selectedProfessionals)}`);
+    ).map((row) => row.id);
+    apiDelete("/delete/professionals", {
+      "userId": adminId,
+      "professionalIds": professionalIds
+    })
+      .then((data) => {
+        if (data.error) {
+          throw new Error();
+        }
+      })
+      .catch((data) => {
+        alert(data.error);
+      });
+    
+    // refect the data 
+    setReFetchData(!reFetchData);
   };
 
   // Handle button click to log selected admin rows
@@ -183,17 +202,14 @@ export default function AdminDashboard() {
     <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column">
       <Box display="flex" flexDirection="column" gap="20px" width="100%">
         <Box display="flex" flexDirection="row" gap="10px">
-          <Button onClick={handleLogSelectedCompanies} variant="contained" color="primary">
-            Edit
-          </Button>
           <Button onClick={handleLogSelectedCompanies} variant="contained" color="error">
             Delete
           </Button>
         </Box>
         <DataTable rows={companyRows} columns={companyColumns} onSelectionChange={setSelectedCompanyRowIds} />
       </Box>
-      <Button onClick={handleLogSelectedProfessionals} variant="contained" color="secondary" sx={{ mt: 2 }}>
-        Log Selected Professionals
+      <Button onClick={handleLogSelectedProfessionals} variant="contained" color="error" sx={{ mt: 2 }}>
+        Delete
       </Button>
       <DataTable rows={professionalRows} columns={professionalColumns} onSelectionChange={setSelectedProfessionalRowIds} />
       <Button onClick={handleLogSelectedAdmins} variant="contained" color="secondary" sx={{ mt: 2 }}>
