@@ -28,7 +28,7 @@ RETURN {
 def giveCertificate():
     
     data = request.get_json()
-    projectId = data.get("projectId")
+    projectId = int(data.get("projectId"))
     certificate = data.get("professionalCertificate")
 
     currProject = Projects.get_project_by_id(projectId=projectId)
@@ -38,7 +38,6 @@ def giveCertificate():
 
     for professional in professionals:
         currProfessional = Professional.query.filter(Professional.professionalId == professional['professionalId']).first()
-        print("asdfdasf",currProfessional.professionalCertificates)
         if currProfessional:
             currProfessional.professionalCertificates.append({
                 "professionalCertificateId": newId,
@@ -47,7 +46,6 @@ def giveCertificate():
                 "professionalCertificateCompanyId": currProject.pCompanyId
             })
         db.session.commit()
-        
     return jsonify({"message" : "worked"}), 200
 
 

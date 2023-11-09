@@ -20,6 +20,7 @@ import EditProfilePage from './pages/ProfilePages/EditProfilePage';
 import EditProject from './pages/ProjectPages/EditProject';
 import RateProfessional from './pages/RatingPages/RateProfessional';
 import Dashboard from './pages/Dashboard/Dashboard';
+import ReviewPage from "./pages/RatingPages/ReviewPage";
 
 function Logout() {
     localStorage.clear()
@@ -52,7 +53,7 @@ function App() {
             <Route path="/projectdetail/:projectID" element={<ProjectDetail />} />
             <Route path="/projectpage/:projectID" element={<ProjectPage />} />
             <Route path="/projectpage/:projectID/edit" element={<EditProject />} />
-            <Route path="/project/:projectId/rate" element={<RateProfessional />} />
+            <Route path="/project/:projectId/rate" element={<ReviewPage />} />
             {/* <Route path="/project/rate" element={<RateProfessional />} /> */}
             <Route path="/project/:projectId/applicants" element={<ProjectApplicantList />} />
         </Routes>

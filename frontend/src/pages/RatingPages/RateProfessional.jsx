@@ -27,7 +27,7 @@ function RateProfessional() {
 		if (projectId) {
 			apiGet('/project/details', `projectId=${projectId}`)
 			.then((data) => {
-				console.log("fuck::", data.listOfProfessionals)
+				console.log("fuck::", data)
 				setProfessionals(data.listOfProfessionals);
 				setProjectName(data.projectName);
 			})

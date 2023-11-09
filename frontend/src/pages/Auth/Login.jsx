@@ -4,7 +4,6 @@ import Form from "../../components/Forms/Form"
 import { useState } from "react";
 import { TextField } from "@mui/material";
 import { apiPost } from "../../api";
-import decodeJWT from "../../decodeJWT";
 import { useHeader } from '../../HeaderContext';
 
 function Login() {
@@ -13,9 +12,16 @@ function Login() {
     password: ""
   });
 
+  const [errorMessage, setErrorMessage] = React.useState('');
+  const [error, setError] = React.useState(false);
+
   const navigate = useNavigate();
   const [refresh, setRefresh] = React.useState(false);
   const { triggerHeaderUpdate } = useHeader();
+
+  const toggleError = () => {
+    setError(!error);
+  }
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -41,41 +47,47 @@ function Login() {
           triggerHeaderUpdate();
           navigate("/dashboard");
         } else {
+          setErrorMessage('Login failed');
+          toggleError();
           throw new Error("Login failed.");
         }
       })
       .catch(() => {
-        alert("Username and password is incorrect or does not exist.");
+        setErrorMessage('Username and password is incorrect or does not exist.');
+        toggleError();
       });
   }
 
   return (
-    <Form
-      formName="Login"
-      buttonName="Login"
-      handleSubmit={handleSubmit}
-    >
-      <TextField
-        variant="filled"
-        margin="normal"
-        className="form-input"
-        type="text"
-        label="Email"
-        name="email"
-        value={formData.email}
-        onChange={onChange}
-      />
-      <TextField
-        variant="filled"
-        margin="normal"
-        className="form-input"
-        type="text"
-        label="Password"
-        name="password"
-        value={formData.password}
-        onChange={onChange}
-      />
-    </Form>
+    <>
+      <Form
+        formName="Login"
+        buttonName="Login"
+        handleSubmit={handleSubmit}
+      >
+        <TextField
+          variant="filled"
+          margin="normal"
+          className="form-input"
+          type="text"
+          label="Email"
+          name="email"
+          value={formData.email}
+          onChange={onChange}
+        />
+        <TextField
+          variant="filled"
+          margin="normal"
+          className="form-input"
+          type="text"
+          label="Password"
+          name="password"
+          value={formData.password}
+          onChange={onChange}
+        />
+      </Form>
+      {error && <ErrorPopup message={errorMessage} toggleError={toggleError}/>}
+    </>
   );
 }
 

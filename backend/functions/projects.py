@@ -231,6 +231,7 @@ def projectDetails():
         "projectStatus": project.projectStatus,
         "listOfApplicants": project.listOfApplicants,
         "listOfProfessionals": project.listOfProfessionals,
+        "listOfProjectRatings": project.listOfProjectRatings,
         # need to add rating systems
         "projectRatings": 0,
     }

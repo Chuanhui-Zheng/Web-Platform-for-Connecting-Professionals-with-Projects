@@ -135,16 +135,16 @@ export default function AllProjects() {
   React.useEffect(() => {
     apiGet("/project/listall",)
     .then((data) => {
-        if (!data.error) {
-          setAllProjects(data);
-          // console.log("project details:", allProjects)
-          console.log("project details:", data)
-        } else {
-            throw new Error("Get Projects");
-        }
+      if (!data.error) {
+        setAllProjects(data);
+        // console.log("project details:", allProjects)
+        console.log("project details:", data)
+      } else {
+          throw new Error();
+      }
     })
-    .catch(() => {
-        alert("not valid.");
+    .catch((data) => {
+        alert(data.error);
     });
   }, []);
 
