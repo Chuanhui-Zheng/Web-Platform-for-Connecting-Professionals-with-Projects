@@ -215,25 +215,44 @@ export default function AdminDashboard() {
   };
 
   return (
-    <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column">
-      <Box display="flex" flexDirection="column" gap="20px" width="100%">
-        <Box display="flex" flexDirection="row" gap="10px">
-          <Button onClick={handleDeleteCompanies} variant="contained" color="error">
-            Delete Company
-          </Button>
-        </Box>
+    <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" gap="50px">
+      <Box display="flex" flexDirection="column" width="100%">
+        <Button 
+          onClick={handleDeleteCompanies} 
+          variant="contained" 
+          color="error"
+          disabled={selectedCompanyRowIds.length === 0}
+        >
+          Delete Company
+        </Button>
         <DataTable rows={companyRows} columns={companyColumns} onSelectionChange={setSelectedCompanyRowIds} />
       </Box>
-      <Button onClick={handleDeleteProfessionals} variant="contained" color="error" sx={{ mt: 2 }}>
-        Delete Professional
-      </Button>
-      <DataTable rows={professionalRows} columns={professionalColumns} onSelectionChange={setSelectedProfessionalRowIds} />
-      <Button onClick={handleDeleteAdmins} variant="contained" color="secondary" sx={{ mt: 2 }}>
-        Delete Admin
-      </Button>
-      <Button onClick={handleCreateAdminOpen} variant="contained" color="secondary" sx={{ mt: 2 }}>
-        Create admin
-      </Button>
+      <Box display="flex" flexDirection="column" width="100%">
+        <Button 
+          onClick={handleDeleteProfessionals} 
+          variant="contained" 
+          color="error" 
+          disabled={selectedProfessionalRowIds.length === 0}
+        >
+          Delete Professional
+        </Button>
+        <DataTable rows={professionalRows} columns={professionalColumns} onSelectionChange={setSelectedProfessionalRowIds} />
+      </Box>
+
+      <Box display="flex" flexDirection="column" width="100%">
+        <Button 
+          onClick={handleDeleteAdmins} 
+          variant="contained" 
+          color="error"
+          disabled={selectedAdminRowIds.length === 0}
+        >
+          Delete Admin
+        </Button>
+        <Button onClick={handleCreateAdminOpen} variant="contained" color="secondary">
+          Create admin
+        </Button>
+        <DataTable rows={adminRows} columns={adminColumns} onSelectionChange={setSelectedAdminRowIds} />
+      </Box>
       <Modal open={createAdminOpen} onClose={handleCreateAdminClose}>
         <Box
           sx={{
@@ -243,7 +262,6 @@ export default function AdminDashboard() {
             transform: 'translate(-50%, -50%)',
             width: 400,
             bgcolor: 'background.paper',
-            border: '2px solid #000',
             boxShadow: 24,
             p: 4,
           }}
@@ -276,7 +294,6 @@ export default function AdminDashboard() {
           </Form>
         </Box>
       </Modal>
-      <DataTable rows={adminRows} columns={adminColumns} onSelectionChange={setSelectedAdminRowIds} />
     </Box>
   );
 }
