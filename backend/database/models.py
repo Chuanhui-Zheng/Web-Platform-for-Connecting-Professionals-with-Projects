@@ -30,7 +30,7 @@ def create_id():
     while newId in existingIds:
         newId = random.randint(1, 1000000)
     
-    return newId
+    return str(newId)
 
 ### HAVE NOT BEEN TESTED (also make the create_id return a string)
 def create_admin_id():
@@ -212,6 +212,10 @@ class Admin(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def delete_admin(self):
+        db.session.delete(self)
+        db.session.commit()
+        
 class Projects(db.Model):
     __tablename__ = 'projects'
     projectId = db.Column(db.String(), primary_key=True, default=create_id)
