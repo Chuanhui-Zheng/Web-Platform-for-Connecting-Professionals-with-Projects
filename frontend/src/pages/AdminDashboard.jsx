@@ -77,11 +77,13 @@ export default function AdminDashboard() {
   const [selectedProfessionalRowIds, setSelectedProfessionalRowIds] = useState([]);
   const [selectedAdminRowIds, setSelectedAdminRowIds] = useState([]);
   const [createAdminOpen, setCreateAdminOpen] = useState(false);
+  const [adminId, setAdminId] = useState(
+    decodeJWT(localStorage.getItem("token")).userId
+  );
   const [createAdminDetails, setCreateAdminDetails] = useState({
     adminEmail: "",
     adminPassword: ""
   });
-  const adminId = decodeJWT(localStorage.getItem("token")).userId;
 
   // Function to fetch all data
   const fetchData = () => {
