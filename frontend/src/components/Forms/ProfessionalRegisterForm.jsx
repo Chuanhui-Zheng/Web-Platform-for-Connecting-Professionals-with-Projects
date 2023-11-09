@@ -15,12 +15,6 @@ function ProfessionalRegisterForm() {
     professionalFullName: "",
     professionalEmail: "",
     professionalPassword: "",
-    // professionalWebsite: "",
-    // professionalPhoneNumber: "",
-    // professionalDescription: "",
-    // professionalQualifications: "",
-    // professionalEducation: "",
-    // professionalSkills: "",
     professionalPhoto: ""
   });
   const [isValid, setIsValid] = useState(true);
@@ -81,7 +75,7 @@ function ProfessionalRegisterForm() {
       .then((data) => {
         if (!data.error) {
           localStorage.setItem("token", data.token);
-          navigate("/prodashbaord"); // ???????
+          navigate("/dashboard");
           triggerHeaderUpdate();
         } else {
           throw new Error("Register failed.")
