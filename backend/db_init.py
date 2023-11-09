@@ -17,12 +17,12 @@ DEFAULT_COMPANIES = [
 ]
 
 DEFAULT_PROFESSIONALS = [
-    {"professionalFullName": "Ce Min Pangastur", "professionalEmail": "min@example.com", "professionalPassword":"Password","professionalSkills": ["Coding", "Design", "Data Analysis", "Marketing"]},
-    {"professionalFullName": "Edison Chang", "professionalEmail": "edison@example.com", "professionalPassword":"Password","professionalSkills": ["Procrastinating"]},
-    {"professionalFullName": "Jerry Li", "professionalEmail": "jerry@example.com", "professionalPassword":"Password","professionalSkills": ["Coding", "Design"]},
-    {"professionalFullName": "Millie Hai", "professionalEmail": "millie@example.com", "professionalPassword":"Password","professionalSkills": ["Greetings", "Marketing"]},
-    {"professionalFullName": "Blair Zheng", "professionalEmail": "blair@example.com", "professionalPassword":"Password","professionalSkills": ["Coding", "Design", "Database", "TFT"]},
-    {"professionalFullName": "Andrew Lin", "professionalEmail": "andrew@example.com", "professionalPassword":"Password","professionalSkills": ["Data Analysis", "Marketing", "Pasta sauce"]}
+    {"professionalFullName": "Ce Min Pangastur", "professionalWebsite": "www.min.com", "professionalQualifications": "Bachelors of Computer Science", "professionalDescription": "Hello, my name is Min", "professionalPhoneNumber": "0412345678", "professionalEmail": "min@example.com", "professionalPassword":"Password","professionalSkills": ["Coding", "Design", "Data Analysis", "Marketing"]},
+    {"professionalFullName": "Edison Chang", "professionalWebsite": "www.edison.com", "professionalQualifications": "Bachelors of Computer Science", "professionalDescription": "Hello, my name is Edison", "professionalPhoneNumber": "0412345679", "professionalEmail": "edison@example.com", "professionalPassword":"Password","professionalSkills": ["Procrastinating"]},
+    {"professionalFullName": "Jerry Li", "professionalWebsite": "www.jerry.com", "professionalQualifications": "Bachelors of Computer Science", "professionalDescription": "Hello, my name is Jerry", "professionalPhoneNumber": "0412345670", "professionalEmail": "jerry@example.com", "professionalPassword":"Password","professionalSkills": ["Coding", "Design"]},
+    {"professionalFullName": "Millie Hai", "professionalWebsite": "www.millie.com", "professionalQualifications": "Bachelors of Computer Science", "professionalDescription": "Hello, my name is Millie", "professionalPhoneNumber": "0412345671", "professionalEmail": "millie@example.com", "professionalPassword":"Password","professionalSkills": ["Greetings", "Marketing"]},
+    {"professionalFullName": "Blair Zheng", "professionalWebsite": "www.blair.com", "professionalQualifications": "Bachelors of Computer Science", "professionalDescription": "Hello, my name is Blair", "professionalPhoneNumber": "0412345672", "professionalEmail": "blair@example.com", "professionalPassword":"Password","professionalSkills": ["Coding", "Design", "Database", "TFT"]},
+    {"professionalFullName": "Andrew Lin", "professionalWebsite": "www.andrew.com", "professionalQualifications": "Bachelors of Computer Science", "professionalDescription": "Hello, my name is Andrew", "professionalPhoneNumber": "0412345673", "professionalEmail": "andrew@example.com", "professionalPassword":"Password","professionalSkills": ["Data Analysis", "Marketing", "Pasta sauce"]}
 ]
 
 # Sample projects to be created under a specific company
@@ -154,7 +154,11 @@ with app.app_context():
                     professionalFullName=professional_data["professionalFullName"],
                     professionalEmail=professional_data["professionalEmail"],
                     professionalPassword=professional_data["professionalPassword"],
-                    professionalSkills=professional_data["professionalSkills"]
+                    professionalSkills=professional_data["professionalSkills"],
+                    professionalWebsite=professional_data["professionalWebsite"],
+                    professionalDescription=professional_data["professionalDescription"],
+                    professionalQualifications=professional_data["professionalQualifications"],
+                    professionalPhoneNumber=professional_data["professionalPhoneNumber"]
                 )
                 professional.set_professional_password(professional_data["professionalPassword"])
                 db.session.add(professional)
