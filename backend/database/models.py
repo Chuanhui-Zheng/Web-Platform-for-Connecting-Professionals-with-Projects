@@ -97,9 +97,9 @@ class Company(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    # def delete_company(self):
-    #     db.session.delete(self)
-    #     db.session.commit()
+    def delete_company(self):
+        db.session.delete(self)
+        db.session.commit()
 
 class Professional(db.Model):
     __tablename__ = "professionals"
@@ -160,6 +160,10 @@ class Professional(db.Model):
 
     def save_professional(self):
         db.session.add(self)
+        db.session.commit()
+
+    def delete_professional(self):
+        db.session.delete(self)
         db.session.commit()
 
 
