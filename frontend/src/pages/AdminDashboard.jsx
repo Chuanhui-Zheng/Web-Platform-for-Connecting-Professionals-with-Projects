@@ -6,28 +6,30 @@ import { apiDelete, apiGet, apiPost } from "../api";
 import { useNavigate } from "react-router-dom";
 import Form from "../components/Forms/Form"
 import decodeJWT from "../decodeJWT";
+import { Delete, Add } from '@mui/icons-material';
+
 
 // Company columns
 const companyColumns = [
-  { field: "id", headerName: "ID", type: "number", flex: 1, maxWidth: 100 },
-  { field: "companyName", headerName: "Company", flex: 1, minWidth: 100, maxWidth: 200 },
-  { field: "companyEmail", headerName: "Email", flex: 1, minWidth: 100, maxWidth: 200 },
-  { field: "companyPhoneNumber", headerName: "Phone Number", flex: 1, minWidth: 100, maxWidth: 200 },
-  { field: "companyWebsite", headerName: "Website", flex: 1, minWidth: 100, maxWidth: 200 },
+  { field: "id", headerName: "ID", type: "number", flex: 1 },
+  { field: "companyName", headerName: "Company", flex: 1, minWidth: 100 },
+  { field: "companyEmail", headerName: "Email", flex: 1, minWidth: 100 },
+  { field: "companyPhoneNumber", headerName: "Phone Number", flex: 1, minWidth: 100 },
+  { field: "companyWebsite", headerName: "Website", flex: 1, minWidth: 100 },
 ];
 
 // Professional columns
 const professionalColumns = [
-  { field: "id", headerName: "ID", type: "number", flex: 1, maxWidth: 100 },
-  { field: "professionalFullName", headerName: "Name", flex: 1, minWidth: 100, maxWidth: 200 },
-  { field: "professionalEmail", headerName: "Email", flex: 1, minWidth: 100, maxWidth: 200 },
-  { field: "professionalPhoneNumber", headerName: "Phone Number", flex: 1, minWidth: 100, maxWidth: 200 },
+  { field: "id", headerName: "ID", type: "number", flex: 1 },
+  { field: "professionalFullName", headerName: "Name", flex: 1, minWidth: 100 },
+  { field: "professionalEmail", headerName: "Email", flex: 1, minWidth: 100 },
+  { field: "professionalPhoneNumber", headerName: "Phone Number", flex: 1, minWidth: 100 },
 ];
 
 // Admin columns
 const adminColumns = [
-  { field: "id", headerName: "ID", type: "number", flex: 1, maxWidth: 100 },
-  { field: "adminEmail", headerName: "Email", flex: 1, minWidth: 100, maxWidth: 200 },
+  { field: "id", headerName: "ID", type: "number", flex: 1 },
+  { field: "adminEmail", headerName: "Email", flex: 1, minWidth: 100 },
 ];
 
 const paginationModel = { page: 0, pageSize: 5 };
@@ -217,42 +219,58 @@ export default function AdminDashboard() {
   return (
     <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" gap="50px">
       <Box display="flex" flexDirection="column" width="100%">
-        <Button 
-          onClick={handleDeleteCompanies} 
-          variant="contained" 
-          color="error"
-          disabled={selectedCompanyRowIds.length === 0}
-        >
-          Delete Company
-        </Button>
+        <Box alignSelf="flex-start">
+          <Button 
+            onClick={handleDeleteCompanies} 
+            variant="contained" 
+            color="error"
+            disabled={selectedCompanyRowIds.length === 0}
+            startIcon={<Delete />} 
+          >
+            Delete Company
+          </Button>
+        </Box>
         <DataTable rows={companyRows} columns={companyColumns} onSelectionChange={setSelectedCompanyRowIds} />
       </Box>
+  
       <Box display="flex" flexDirection="column" width="100%">
-        <Button 
-          onClick={handleDeleteProfessionals} 
-          variant="contained" 
-          color="error" 
-          disabled={selectedProfessionalRowIds.length === 0}
-        >
-          Delete Professional
-        </Button>
+        <Box alignSelf="flex-start">
+          <Button 
+            onClick={handleDeleteProfessionals} 
+            variant="contained" 
+            color="error" 
+            disabled={selectedProfessionalRowIds.length === 0}
+            startIcon={<Delete />} 
+          >
+            Delete Professional
+          </Button>
+        </Box>
         <DataTable rows={professionalRows} columns={professionalColumns} onSelectionChange={setSelectedProfessionalRowIds} />
       </Box>
-
+  
       <Box display="flex" flexDirection="column" width="100%">
-        <Button 
-          onClick={handleDeleteAdmins} 
-          variant="contained" 
-          color="error"
-          disabled={selectedAdminRowIds.length === 0}
-        >
-          Delete Admin
-        </Button>
-        <Button onClick={handleCreateAdminOpen} variant="contained" color="secondary">
-          Create admin
-        </Button>
+        <Box display="flex" flexDirection="row" gap="10px">
+          <Button 
+            onClick={handleDeleteAdmins} 
+            variant="contained" 
+            color="error"
+            disabled={selectedAdminRowIds.length === 0}
+            startIcon={<Delete />} 
+          >
+            Delete Admin
+          </Button>
+          <Button 
+            onClick={handleCreateAdminOpen} 
+            variant="contained" 
+            color="secondary"
+            startIcon={<Add />} 
+          >
+            Create Admin
+          </Button>
+        </Box>
         <DataTable rows={adminRows} columns={adminColumns} onSelectionChange={setSelectedAdminRowIds} />
       </Box>
+  
       <Modal open={createAdminOpen} onClose={handleCreateAdminClose}>
         <Box
           sx={{
