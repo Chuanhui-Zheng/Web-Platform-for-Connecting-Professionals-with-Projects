@@ -39,14 +39,7 @@ function Login() {
           localStorage.setItem("token", data.token);
           setRefresh((prev) => !prev);
           triggerHeaderUpdate();
-          const tokenData = decodeJWT(data.token);
-          if (tokenData.userType === "company") {
-            navigate("/companydashboard");
-          } else if (tokenData.userType === "professional") {
-            navigate("/prodashbaord");
-          } else if (tokenData.userType === "admin") {
-            navigate("/admindashboard");
-          }
+          navigate("/dashboard");
         } else {
           throw new Error("Login failed.");
         }
