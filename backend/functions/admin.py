@@ -46,3 +46,18 @@ def allAdmins():
     ]
 
     return jsonify(adminList), 200
+
+
+@app.route('/admin/createAdmin', methods=['POST'])
+def createAdmin():
+    data = request.get_json()
+
+    # If not the super admin
+    if data.get("adminId") != "1":
+        return jsonify({"error": "User does not have permission"}), 403
+
+    new_admin = Admin(adminEmail=data.get("adminEmail"))
+    new_admin.set_admin_password(adminPassword=data.get("adminPassword"))
+    new_admin.save_admin()
+
+    return jsonify({"adminId": new_admin.adminId}), 200
