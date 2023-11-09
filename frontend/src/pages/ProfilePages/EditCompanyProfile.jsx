@@ -1,16 +1,15 @@
 import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
-import '../styles/EditForm.css'
-import { ACCESS_TOKEN } from "../constants";
-import EditForm from '../components/Forms/EditForm';
+import '../../styles/EditForm.css'
+import EditForm from '../../components/Forms/EditForm';
 import { Button, TextField } from "@mui/material";
-import { apiPut } from "../api";
-import decodeJWT from "../decodeJWT";
-import ProfileHeader from "../components/ProfileHeader";
+import { apiPut } from "../../api";
+import decodeJWT from "../../decodeJWT";
+import ProfileHeader from "../../components/ProfileHeader";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import VisuallyHiddenInput from "../components/VisuallyHiddenInput";
-import { fileToDataUrl } from '../helpers';
-import { useHeader } from '../HeaderContext';
+import VisuallyHiddenInput from "../../components/VisuallyHiddenInput";
+import { fileToDataUrl } from '../../helpers';
+import { useHeader } from '../../HeaderContext';
 
 import {
   useNavigate,

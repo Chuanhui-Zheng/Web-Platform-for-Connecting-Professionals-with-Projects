@@ -1,11 +1,11 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-import Form from "../components/Forms/Form"
+import Form from "../../components/Forms/Form"
 import { useState } from "react";
 import { TextField } from "@mui/material";
-import { apiPost } from "../api";
-import decodeJWT from "../decodeJWT";
-import { useHeader } from '../HeaderContext';
+import { apiPost } from "../../api";
+import decodeJWT from "../../decodeJWT";
+import { useHeader } from '../../HeaderContext';
 
 function Login() {
   const [formData, setFormData] = useState({

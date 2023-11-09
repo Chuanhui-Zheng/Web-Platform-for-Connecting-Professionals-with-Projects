@@ -30,14 +30,14 @@ import SearchIcon from '@mui/icons-material/Search';
 import Chip from '@mui/material/Chip';
 // import { PageContainer } from '@toolpad/core/PageContainer';
 // import { AppProvider } from '@toolpad/core/AppProvider';
-import { apiGet } from '../api';
-import Header from '../components/Header';
-import SearchBar from '../components/SearchBar';
-import ProjectDetailWindow from '../components/ProjectDetailWindow';
-import SideBar from '../components/SideBar';
+import { apiGet } from '../../api';
+import Header from '../../components/Header';
+import SearchBar from '../../components/SearchBar';
+import ProjectDetailWindow from '../../components/ProjectDetailWindow';
+import SideBar from '../../components/SideBar';
 
-import SidePanel from '../components/SidePanel';
-import Dummy from '../components/Dummy';
+import SidePanel from '../../components/SidePanel';
+import Dummy from '../../components/Dummy';
 
 const headerStyle = {
   display: 'flex',

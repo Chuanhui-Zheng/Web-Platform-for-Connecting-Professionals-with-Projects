@@ -1,7 +1,7 @@
 import React from 'react';
-import TitleCard from '../components/Professional/Dashboard/TitleCard.jsx'; 
-import ProjectCard from '../components/Professional/Dashboard/ProjectCard.jsx';
-import styles from '../styles/Professional/Dashboard.module.css'
+import TitleCard from '../../components/Professional/Dashboard/TitleCard.jsx'; 
+import ProjectCard from '../../components/Professional/Dashboard/ProjectCard.jsx';
+import styles from '../../styles/Professional/Dashboard.module.css'
 import { Box, Button, Paper, useTheme } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionActions from '@mui/material/AccordionActions';
@@ -9,8 +9,8 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { PageContainer } from '@toolpad/core/PageContainer';
-import decodeJWT from '../decodeJWT.js';
-import { getProfessionalProjectsFromStatus, getProjects } from '../helpers.js';
+import decodeJWT from '../../decodeJWT.js';
+import { getProfessionalProjectsFromStatus, getProjects } from '../../helpers.js';
 
 const projectTitleStyle = {
   margin: '0px',

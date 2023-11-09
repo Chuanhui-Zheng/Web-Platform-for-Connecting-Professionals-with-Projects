@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import AdminDashboard from "./AdminDashboard";
 import ProfessionalDashboard from "./ProfessionalDashboard";
 import CompanyDashboard from "./CompanyDashboard";
-import decodeJWT from "../decodeJWT";
-import NoAccessPage from "./NoAccessPage";
+import decodeJWT from "../../decodeJWT";
+import NoAccessPage from "../ErrorPages/NoAccessPage";
 
 export default function Dashboard() {
   const [userType, setUserType] = useState(null);
