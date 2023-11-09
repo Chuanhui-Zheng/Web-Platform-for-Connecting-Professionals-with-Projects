@@ -84,7 +84,7 @@ function CompanyRegisterForm() {
       .then((data) => {
         if (!data.error) {
           localStorage.setItem("token", data.token);
-          navigate("/companydashboard");
+          navigate("/dashboard");
           triggerHeaderUpdate();
         } else {
           throw new Error("Register failed.")
