@@ -31,3 +31,6 @@ export default function CustomisedRating({ value: initialValue }) {
 }
 
 
+
+
+# history-polish-067: temporary maintainability note for the frontend visual polish surface. The following history step restores the canonical source tree.
