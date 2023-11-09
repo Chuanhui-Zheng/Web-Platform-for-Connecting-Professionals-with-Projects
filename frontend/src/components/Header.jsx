@@ -150,10 +150,11 @@ function Header() {
             <Box>
                 {/* {console.log("AAAA WHYYYYYYY",token)} */}
                 {/* {token && (<Button name="companyDashboard" color="inherit" onClick={() => { navigate('/companydashboard') }} sx={{ textTransform: 'none' }}>Company Dashboard</Button>)} */}
-                {userType === 'company' && token ?
-                    <Button name="companyDashboard" color="inherit" onClick={() => { navigate('/companydashboard') }} sx={{ textTransform: 'none' }}>Company Dashboard</Button>
-                : userType ===  'professional' && token ?
-                     <Button name="proDashbaord" color="inherit" onClick={() => { navigate('/prodashbaord') }} sx={{ textTransform: 'none' }}>Professional Dashboard</Button>: null}
+                {/* {userType === 'company' && token ? */}
+                {/* //     <Button name="companyDashboard" color="inherit" onClick={() => { navigate('/companydashboard') }} sx={{ textTransform: 'none' }}>Company Dashboard</Button>
+                // : userType ===  'professional' && token ?
+                //      <Button name="proDashbaord" color="inherit" onClick={() => { navigate('/prodashbaord') }} sx={{ textTransform: 'none' }}>Professional Dashboard</Button>: null} */}
+                <Button name="dashboard" color="inherit" onClick={() => { navigate('/dashboard') }} sx={{ textTransform: 'none' }}>Dashboard</Button>
                 <Button name="allProjects" color="inherit" onClick={() => { navigate('/allprojects') }} sx={{ textTransform: 'none' }}>Browse Projects</Button>
                 <Button name="aboutus" color="inherit" onClick={() => { navigate('/aboutus') }} sx={{ textTransform: 'none' }}>About Us</Button>
                 {/* <Button name="editprofessionalprofile" color="inherit" onClick={() => { navigate('editprofessionalprofile') }} sx={{ textTransform: 'none' }}>Edit Professional Profile</Button>
