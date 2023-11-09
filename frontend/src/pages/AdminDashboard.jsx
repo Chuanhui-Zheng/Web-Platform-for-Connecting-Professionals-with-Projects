@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
-import { Box, Button, ButtonGroup } from "@mui/material";
-import { apiGet } from "../api";
+import { Box, Button, ButtonGroup, Input, Modal, TextField, Typography } from "@mui/material";
+import { apiGet, apiPost } from "../api";
 import { useNavigate } from "react-router-dom";
+import Form from "../components/Forms/Form"
+import decodeJWT from "../decodeJWT";
 
 // Company columns
 const companyColumns = [
@@ -72,9 +74,14 @@ export default function AdminDashboard() {
   const [selectedCompanyRowIds, setSelectedCompanyRowIds] = useState([]);
   const [selectedProfessionalRowIds, setSelectedProfessionalRowIds] = useState([]);
   const [selectedAdminRowIds, setSelectedAdminRowIds] = useState([]);
+  const [createAdminOpen, setCreateAdminOpen] = useState(false);
+  const [createAdminDetails, setCreateAdminDetails] = useState({
+    adminEmail: "",
+    adminPassword: ""
+  });
 
-  // Fetch companies
-  useEffect(() => {
+  // Function to fetch all data
+  const fetchData = () => {
     apiGet("/admin/allCompanies")
       .then((data) => {
         if (!data.error) {
@@ -86,10 +93,7 @@ export default function AdminDashboard() {
       .catch(() => {
         alert("Could not load company table");
       });
-  }, []);
 
-  // Fetch professionals
-  useEffect(() => {
     apiGet("/admin/allProfessionals")
       .then((data) => {
         if (!data.error) {
@@ -101,10 +105,7 @@ export default function AdminDashboard() {
       .catch(() => {
         alert("Could not load professional table");
       });
-  }, []);
 
-  // Fetch admins
-  useEffect(() => {
     apiGet("/admin/allAdmins")
       .then((data) => {
         if (!data.error) {
@@ -116,59 +117,80 @@ export default function AdminDashboard() {
       .catch(() => {
         alert("Could not load admin table");
       });
+  };
+
+  // useEffect to run fetchData every 5 seconds
+  useEffect(() => {
+    fetchData(); // Fetch data immediately on mount
+    const intervalId = setInterval(fetchData, 5000); // Fetch data every 5 seconds
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
+
+  // Handle create admin modal
+  const handleCreateAdminOpen = () => setCreateAdminOpen(true);
+  const handleCreateAdminClose = () => setCreateAdminOpen(false);
+  const handleCreateAdminSubmit = (e) => {
+    e.preventDefault();
+
+    apiPost("/admin/createAdmin", {
+      ...createAdminDetails,
+      adminId: decodeJWT(localStorage.getItem("token")).userId
+    })
+      .then((data) => {
+        if (data.error) {
+          throw new Error(data.error);
+        }
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
+  const handleCreateAdminOnChange = (e) => {
+    const { name, value } = e.target;
+    setCreateAdminDetails({
+      ...createAdminDetails,
+      [name]: value
+    });
+  };
 
   // Handle button click to log selected company rows
   const handleLogSelectedCompanies = () => {
-    const selectedCompanies = companyRows.filter((row) => selectedCompanyRowIds.includes(row.id));
+    const selectedCompanies = companyRows.filter((row) =>
+      selectedCompanyRowIds.includes(row.id)
+    );
     console.log(`selectedCompanies = ${JSON.stringify(selectedCompanies)}`);
   };
 
   // Handle button click to log selected professional rows
   const handleLogSelectedProfessionals = () => {
-    const selectedProfessionals = professionalRows.filter((row) => selectedProfessionalRowIds.includes(row.id));
+    const selectedProfessionals = professionalRows.filter((row) =>
+      selectedProfessionalRowIds.includes(row.id)
+    );
     console.log(`selectedProfessionals = ${JSON.stringify(selectedProfessionals)}`);
   };
 
   // Handle button click to log selected admin rows
   const handleLogSelectedAdmins = () => {
-    const selectedAdmins = adminRows.filter((row) => selectedAdminRowIds.includes(row.id));
+    const selectedAdmins = adminRows.filter((row) =>
+      selectedAdminRowIds.includes(row.id)
+    );
     console.log(`selectedAdmins = ${JSON.stringify(selectedAdmins)}`);
   };
 
   return (
     <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column">
-      <Box
-        display="flex"
-        flexDirection="column"
-        gap="20px"
-        width="100%"
-      >
-        <Box
-          display="flex"
-          flexDirection="row"
-          gap="10px"
-        >
-          <Button 
-            onClick={handleLogSelectedCompanies} 
-            variant="contained" 
-            color="primary" 
-          >
+      <Box display="flex" flexDirection="column" gap="20px" width="100%">
+        <Box display="flex" flexDirection="row" gap="10px">
+          <Button onClick={handleLogSelectedCompanies} variant="contained" color="primary">
             Edit
           </Button>
-          <Button 
-            onClick={handleLogSelectedCompanies} 
-            variant="contained" 
-            color="error" 
-          >
+          <Button onClick={handleLogSelectedCompanies} variant="contained" color="error">
             Delete
           </Button>
         </Box>
-        <DataTable 
-          rows={companyRows} 
-          columns={companyColumns} 
-          onSelectionChange={setSelectedCompanyRowIds} 
-        />
+        <DataTable rows={companyRows} columns={companyColumns} onSelectionChange={setSelectedCompanyRowIds} />
       </Box>
       <Button onClick={handleLogSelectedProfessionals} variant="contained" color="secondary" sx={{ mt: 2 }}>
         Log Selected Professionals
@@ -177,6 +199,51 @@ export default function AdminDashboard() {
       <Button onClick={handleLogSelectedAdmins} variant="contained" color="secondary" sx={{ mt: 2 }}>
         Log Selected Admins
       </Button>
+      <Button onClick={handleCreateAdminOpen} variant="contained" color="secondary" sx={{ mt: 2 }}>
+        Create admin
+      </Button>
+      <Modal open={createAdminOpen} onClose={handleCreateAdminClose}>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            border: '2px solid #000',
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Form 
+            formName={"New Admin"} 
+            buttonName={"Create new admin"} 
+            handleSubmit={handleCreateAdminSubmit}
+          >
+            <TextField
+              variant="filled"
+              margin="normal"
+              className="form-input"
+              type="text"
+              label="Admin Email"
+              name="adminEmail"
+              value={createAdminDetails.adminEmail}
+              onChange={handleCreateAdminOnChange}
+            />
+            <TextField
+              variant="filled"
+              margin="normal"
+              className="form-input"
+              type="text"
+              label="Admin Password"
+              name="adminPassword"
+              value={createAdminDetails.adminPassword}
+              onChange={handleCreateAdminOnChange}
+            />
+          </Form>
+        </Box>
+      </Modal>
       <DataTable rows={adminRows} columns={adminColumns} onSelectionChange={setSelectedAdminRowIds} />
     </Box>
   );
