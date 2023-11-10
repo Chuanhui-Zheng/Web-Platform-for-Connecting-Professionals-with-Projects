@@ -3,7 +3,7 @@ import { Link, useNavigate, Navigate, useParams } from 'react-router-dom';
 import ProfileHeader from "../../components/ProfileHeader";
 import styles from "../../styles/Professional/ProfessionalProfile.module.css"
 import ProjectCard from "../../components/Professional/Dashboard/ProjectCard";
-import { AppBar, Box, Button, Typography, Toolbar, CssBaseline } from '@mui/material';
+import { AppBar, Box, Button, Typography, Toolbar, CssBaseline, Divider } from '@mui/material';
 import { apiGet } from '../../api';
 import decodeJWT from "../../decodeJWT";
 import { getProjects } from '../../helpers';
@@ -17,6 +17,7 @@ const CompanyProfile = ({userId}) => {
     const [ownUserId, setOwnUserId] = React.useState('');
     const [ownProfile, setOwnProfile] = React.useState(true);
     const [projects, setProjects] = React.useState([]);
+    const [avgRating, setAvgRating] = React.useState('');
 
     const [companyDescription, setNewCompanyDescription] = React.useState(true);
 
@@ -48,6 +49,7 @@ const CompanyProfile = ({userId}) => {
                 .then((data) => {
                     if (!data.error) {
                         setNewCompanyDescription(data.companyDescription);
+                        setAvgRating(data.companyRating);
                         console.log("Profile fetched successfully.");
                     } else {
                         throw new Error("Get Profile Failed");
@@ -62,15 +64,7 @@ const CompanyProfile = ({userId}) => {
     return (
 
         <>
-        <ProfileHeader userId={userId} userType="company" ></ProfileHeader>
-        <div className={styles.ProfileHeaderContent}>
-            {ownProfile ? <Button name="editcompanyprofile" 
-                variant="outlined"
-                onClick={() => { navigate(`/profile/:${userId}/edit`) }} 
-                sx={{ textTransform: 'none', ml:'10vw' }}>Edit Company Profile</Button> :<></> }
-            
-        </div>
-        
+        <ProfileHeader userId={userId} userType="company" ownProfile={ownProfile}></ProfileHeader>
         <div className={styles.ProfessionalProfileContent}>
             <h1 className={styles.ProfessionalProfileBodyTitle}>Summary</h1>
             <div className={styles.ProfessionalProfileText}>

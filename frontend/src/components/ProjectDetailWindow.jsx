@@ -30,6 +30,8 @@ import decodeJWT from '../decodeJWT';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisuallyHiddenInput from "../components/VisuallyHiddenInput";
 import { fileToDataUrl } from '../helpers';
+import CustomisedRating from './CustomisedRating'; 
+
 const headerStyle = {
     display: 'flex',
     alignItems: 'center',
@@ -245,11 +247,14 @@ export default function ProjectDetailWindow({ projectID }) {
             onClick={handleToggle}
         >
         {statusCompOptions[selectedIndex]}<ArrowDropDownIcon />
-        </Button>
+        </Button>,
+        <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={() => navigate(`/project/${projectID}/rate`)} >Rate Project</Button> 
+        
       ];
 
     const professionalButtons = [
-      <Button key="status" sx={{backgroundColor: "#21b6ae"}} onClick={handleApply}>{statusProfOptions[selectedIndex2]}</Button>
+      <Button key="status" sx={{backgroundColor: "#21b6ae"}} onClick={handleApply}>{statusProfOptions[selectedIndex2]}</Button>,
+      <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={() => navigate(`/project/${projectID}/rate`)} >Rate Project</Button> // shouldn't appear for pending projects
     ];
 
     if (!projectInfo) {
@@ -283,6 +288,7 @@ export default function ProjectDetailWindow({ projectID }) {
           <Typography variant="h4" component="h1" gutterBottom>
             <b> {projectInfo.projectName}</b>
           </Typography>
+          <CustomisedRating value={projectInfo.projectAvgRating}/>
         </div>
         
         
