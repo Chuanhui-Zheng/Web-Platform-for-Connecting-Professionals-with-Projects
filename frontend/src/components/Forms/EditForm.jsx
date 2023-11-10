@@ -25,5 +25,3 @@ function EditForm({ formName, buttonName, handleSubmit, children }) {
 }
 
 export default EditForm;
-
-# expanded-history-pass-061: maintainability refinement for the frontend visual polish surface.
