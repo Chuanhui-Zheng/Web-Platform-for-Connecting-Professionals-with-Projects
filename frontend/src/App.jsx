@@ -41,9 +41,11 @@ function App() {
           className="container" 
           maxWidth={false} 
           sx={{
-            width:"100%", 
-            "@media (min-width: 0px)": { paddingRight: "50px", paddingLeft: "50px" }, 
-            margin: "0px"}}
+            width: "100%", 
+            margin: "0px", 
+            paddingRight: { xs: "16px", sm: "20px", md: "40px", lg: "50px" }, 
+            paddingLeft: { xs: "16px", sm: "20px", md: "40px", lg: "50px" }
+          }}
         >
           <Routes>
               <Route path="/" element={<Home />} />
