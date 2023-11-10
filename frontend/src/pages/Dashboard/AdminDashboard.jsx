@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import Form from "../../components/Form"
 import decodeJWT from "../../decodeJWT";
 import { Delete, Add } from '@mui/icons-material';
+import ErrorPopup from "../../components/ErrorPopup";
 
 
 // Company columns
@@ -61,7 +62,6 @@ function DataTable({ rows, columns, onSelectionChange }) {
         checkboxSelection
         disableRowSelectionOnClick 
         onRowSelectionModelChange={(newSelection) => onSelectionChange(newSelection)}
-        // onRowClick={handleOnRowClick}
         onRowClick={handleOnRowClick}
         sx={{ border: 0 }}
       />
@@ -77,6 +77,8 @@ export default function AdminDashboard() {
   const [selectedProfessionalRowIds, setSelectedProfessionalRowIds] = useState([]);
   const [selectedAdminRowIds, setSelectedAdminRowIds] = useState([]);
   const [createAdminOpen, setCreateAdminOpen] = useState(false);
+  const [error, setError] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState('');
   const [adminId, setAdminId] = useState(
     decodeJWT(localStorage.getItem("token")).userId
   );
@@ -112,7 +114,7 @@ export default function AdminDashboard() {
       }
     })
     .catch(data => {
-      alert(data.error);
+      setErrorMessage(data.error);
     });
   };  
 
@@ -122,6 +124,11 @@ export default function AdminDashboard() {
     const intervalId = setInterval(fetchData, 10000);
     return () => clearInterval(intervalId);
   }, []);
+  
+  // Toggle error
+  const toggleError = () => {
+    setError(!error);
+  }
 
   // Handle create admin modal
   const handleCreateAdminOpen = () => setCreateAdminOpen(true);
@@ -139,7 +146,8 @@ export default function AdminDashboard() {
         handleCreateAdminClose();
       })
       .catch((data) => {
-        alert(data.error);
+        setErrorMessage(data.error);
+        toggleError();
       });
   };
   
@@ -169,7 +177,8 @@ export default function AdminDashboard() {
         }
       })
       .catch((data) => {
-        alert(data.error);
+        setErrorMessage(data.error);
+        toggleError();
       });
   };
 
@@ -190,7 +199,8 @@ export default function AdminDashboard() {
         }
       })
       .catch((data) => {
-        alert(data.error);
+        setErrorMessage(data.error);
+        toggleError();
       });
   };
 
@@ -211,106 +221,110 @@ export default function AdminDashboard() {
         }
       })
       .catch((data) => {
-        alert(data.error);
+        setErrorMessage(data.error);
+        toggleError();
       });
   };
 
   return (
-    <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" gap="50px">
-      <Box display="flex" flexDirection="column" width="100%">
-        <Box alignSelf="flex-start">
-          <Button 
-            onClick={handleDeleteCompanies} 
-            variant="contained" 
-            color="error"
-            disabled={selectedCompanyRowIds.length === 0}
-            startIcon={<Delete />} 
-          >
-            Delete Company
-          </Button>
+    <>
+      <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" gap="50px">
+        <Box display="flex" flexDirection="column" width="100%">
+          <Box alignSelf="flex-start">
+            <Button 
+              onClick={handleDeleteCompanies} 
+              variant="contained" 
+              color="error"
+              disabled={selectedCompanyRowIds.length === 0}
+              startIcon={<Delete />} 
+            >
+              Delete Company
+            </Button>
+          </Box>
+          <DataTable rows={companyRows} columns={companyColumns} onSelectionChange={setSelectedCompanyRowIds} />
         </Box>
-        <DataTable rows={companyRows} columns={companyColumns} onSelectionChange={setSelectedCompanyRowIds} />
+    
+        <Box display="flex" flexDirection="column" width="100%">
+          <Box alignSelf="flex-start">
+            <Button 
+              onClick={handleDeleteProfessionals} 
+              variant="contained" 
+              color="error" 
+              disabled={selectedProfessionalRowIds.length === 0}
+              startIcon={<Delete />} 
+            >
+              Delete Professional
+            </Button>
+          </Box>
+          <DataTable rows={professionalRows} columns={professionalColumns} onSelectionChange={setSelectedProfessionalRowIds} />
+        </Box>
+    
+        <Box display="flex" flexDirection="column" width="100%">
+          <Box display="flex" flexDirection="row" gap="10px">
+            <Button 
+              onClick={handleDeleteAdmins} 
+              variant="contained" 
+              color="error"
+              disabled={selectedAdminRowIds.length === 0}
+              startIcon={<Delete />} 
+            >
+              Delete Admin
+            </Button>
+            <Button 
+              onClick={handleCreateAdminOpen} 
+              variant="contained" 
+              color="secondary"
+              startIcon={<Add />} 
+            >
+              Create Admin
+            </Button>
+          </Box>
+          <DataTable rows={adminRows} columns={adminColumns} onSelectionChange={setSelectedAdminRowIds} />
+        </Box>
+    
+        <Modal open={createAdminOpen} onClose={handleCreateAdminClose}>
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: 400,
+              bgcolor: 'background.paper',
+              boxShadow: 24,
+              p: 4,
+            }}
+          >
+            <Form 
+              formName={"New Admin"} 
+              buttonName={"Create new admin"} 
+              handleSubmit={handleCreateAdminSubmit}
+            >
+              <TextField
+                variant="filled"
+                margin="normal"
+                className="form-input"
+                type="text"
+                label="Admin Email"
+                name="adminEmail"
+                value={createAdminDetails.adminEmail}
+                onChange={handleCreateAdminOnChange}
+              />
+              <TextField
+                variant="filled"
+                margin="normal"
+                className="form-input"
+                type="text"
+                label="Admin Password"
+                name="adminPassword"
+                value={createAdminDetails.adminPassword}
+                onChange={handleCreateAdminOnChange}
+              />
+            </Form>
+          </Box>
+        </Modal>
       </Box>
-  
-      <Box display="flex" flexDirection="column" width="100%">
-        <Box alignSelf="flex-start">
-          <Button 
-            onClick={handleDeleteProfessionals} 
-            variant="contained" 
-            color="error" 
-            disabled={selectedProfessionalRowIds.length === 0}
-            startIcon={<Delete />} 
-          >
-            Delete Professional
-          </Button>
-        </Box>
-        <DataTable rows={professionalRows} columns={professionalColumns} onSelectionChange={setSelectedProfessionalRowIds} />
-      </Box>
-  
-      <Box display="flex" flexDirection="column" width="100%">
-        <Box display="flex" flexDirection="row" gap="10px">
-          <Button 
-            onClick={handleDeleteAdmins} 
-            variant="contained" 
-            color="error"
-            disabled={selectedAdminRowIds.length === 0}
-            startIcon={<Delete />} 
-          >
-            Delete Admin
-          </Button>
-          <Button 
-            onClick={handleCreateAdminOpen} 
-            variant="contained" 
-            color="secondary"
-            startIcon={<Add />} 
-          >
-            Create Admin
-          </Button>
-        </Box>
-        <DataTable rows={adminRows} columns={adminColumns} onSelectionChange={setSelectedAdminRowIds} />
-      </Box>
-  
-      <Modal open={createAdminOpen} onClose={handleCreateAdminClose}>
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 400,
-            bgcolor: 'background.paper',
-            boxShadow: 24,
-            p: 4,
-          }}
-        >
-          <Form 
-            formName={"New Admin"} 
-            buttonName={"Create new admin"} 
-            handleSubmit={handleCreateAdminSubmit}
-          >
-            <TextField
-              variant="filled"
-              margin="normal"
-              className="form-input"
-              type="text"
-              label="Admin Email"
-              name="adminEmail"
-              value={createAdminDetails.adminEmail}
-              onChange={handleCreateAdminOnChange}
-            />
-            <TextField
-              variant="filled"
-              margin="normal"
-              className="form-input"
-              type="text"
-              label="Admin Password"
-              name="adminPassword"
-              value={createAdminDetails.adminPassword}
-              onChange={handleCreateAdminOnChange}
-            />
-          </Form>
-        </Box>
-      </Modal>
-    </Box>
+      {error && <ErrorPopup message={errorMessage} toggleError={toggleError}/>}
+    </>
   );
 }
