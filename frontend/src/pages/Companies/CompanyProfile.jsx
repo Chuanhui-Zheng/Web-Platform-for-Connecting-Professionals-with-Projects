@@ -66,11 +66,11 @@ const CompanyProfile = ({userId}) => {
         <>
         <ProfileHeader userId={userId} userType="company" ownProfile={ownProfile}></ProfileHeader>
         <div className={styles.ProfessionalProfileContent}>
-            <h1 className={styles.ProfessionalProfileBodyTitle}>Summary</h1>
+            <Typography variant="h5" sx={{ fontWeight: 'bold', mt:2, mb:1 }}>Summary</Typography>
             <div className={styles.ProfessionalProfileText}>
                 {companyDescription}
             </div>
-            <h1 className={styles.ProfessionalProfileBodyTitle}>Projects</h1>
+            <Typography variant="h5" sx={{ fontWeight: 'bold', mt:3 }}>Projects</Typography>
             <div class={styles.ProfessionalProfileProjectList}>
                 {projects.map((project, idx) => (
                     <ProjectCard
