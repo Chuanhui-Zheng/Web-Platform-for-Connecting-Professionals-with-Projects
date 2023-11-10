@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../styles/EditForm.css';
-import EditForm from '../../components/Forms/EditForm';
+import EditForm from '../../components/EditForm';
 import { TextField } from "@mui/material";
 import { apiPut } from "../../api";
 import decodeJWT from "../../decodeJWT";

@@ -1,5 +1,6 @@
+import React from 'react';
 import { useState } from "react";
-import Form from "../../components/Forms/Form"
+import Form from "../../components/Form"
 import { Button, TextField } from "@mui/material";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisuallyHiddenInput from "../../components/VisuallyHiddenInput";
@@ -8,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useHeader } from "../../HeaderContext"; 
 import { isValidEmail, isValidPassword, fileToDataUrl } from "../../helpers";
 import RegistrationErrorMessage from "../../components/RegistrationErrorMessage";
+import ErrorPopup from '../../components/ErrorPopup';
 
 function CompanyRegisterForm() {
   const [formData, setFormData] = useState({
@@ -20,6 +22,8 @@ function CompanyRegisterForm() {
     companyDescription: ""
   });
   const [isValid, setIsValid] = useState(true);
+  const [errorMessage, setErrorMessage] = React.useState('');
+  const [error, setError] = React.useState(false);
 
   const navigate = useNavigate();
   const { triggerHeaderUpdate } = useHeader();
@@ -30,6 +34,10 @@ function CompanyRegisterForm() {
       ...formData,
       [name]: value
     });
+  }
+
+  const toggleError = () => {
+    setError(!error);
   }
 
   // Update file
@@ -91,97 +99,101 @@ function CompanyRegisterForm() {
         }
       })
       .catch(() => {
-        alert("Registration details are not valid.")
+        setErrorMessage('Registration details are not valid');
+        toggleError();
       });
   }
 
   return (
-    <Form 
-      formName="Company Register"
-      buttonName="Register"
-      handleSubmit={handleSubmit}
-    >
-      {isValid ? 
-        <></>
-        :
-        <RegistrationErrorMessage />
-      }
-      <TextField
-        variant="filled"
-        margin="normal"
-        className="form-input"
-        label="Company Name"
-        name="companyName"
-        value={formData.companyName}
-        onChange={onChange}
-      />
-      <TextField
-        variant="filled"
-        margin="normal"
-        className="form-input"
-        type="text"
-        label="Company Email"
-        name="companyEmail"
-        value={formData.companyEmail}
-        onChange={onChange}
-      />
-      <TextField
-        variant="filled"
-        margin="normal"
-        className="form-input"
-        type="text"
-        label="Company Password"
-        name="companyPassword"
-        value={formData.companyPassword}
-        onChange={onChange}
-      />
-      <TextField
-        variant="filled"
-        margin="normal"
-        className="form-input"
-        type="text"
-        label="Company Phone Number"
-        name="companyPhoneNumber"
-        value={formData.companyPhoneNumber}
-        onChange={onChange}
-      />
-      <TextField
-        variant="filled"
-        margin="normal"
-        className="form-input"
-        type="text"
-        label="Company Website"
-        name="companyWebsite"
-        value={formData.companyWebsite}
-        onChange={onChange}
-      />
-      <TextField
-        variant="filled"
-        margin="normal"
-        className="form-input"
-        type="text"
-        label="Company Description"
-        name="companyDescription"
-        value={formData.companyDescription}
-        onChange={onChange}
-      />
-      <Button
-        sx={{ margin: '16px 0' }}
-        className="form-input"
-        component="label"
-        variant="contained"
-        startIcon={<CloudUploadIcon />}
+    <>
+      <Form 
+        formName="Company Register"
+        buttonName="Register"
+        handleSubmit={handleSubmit}
       >
-        Upload Company Logo
-        <VisuallyHiddenInput
-            type="file"
-            accept="image/*"
-            name="companyLogo"
-            value=""
-            onChange={handleFileChange}
+        {isValid ? 
+          <></>
+          :
+          <RegistrationErrorMessage />
+        }
+        <TextField
+          variant="filled"
+          margin="normal"
+          className="form-input"
+          label="Company Name"
+          name="companyName"
+          value={formData.companyName}
+          onChange={onChange}
         />
-      </Button>
-    </Form>
+        <TextField
+          variant="filled"
+          margin="normal"
+          className="form-input"
+          type="text"
+          label="Company Email"
+          name="companyEmail"
+          value={formData.companyEmail}
+          onChange={onChange}
+        />
+        <TextField
+          variant="filled"
+          margin="normal"
+          className="form-input"
+          type="text"
+          label="Company Password"
+          name="companyPassword"
+          value={formData.companyPassword}
+          onChange={onChange}
+        />
+        <TextField
+          variant="filled"
+          margin="normal"
+          className="form-input"
+          type="text"
+          label="Company Phone Number"
+          name="companyPhoneNumber"
+          value={formData.companyPhoneNumber}
+          onChange={onChange}
+        />
+        <TextField
+          variant="filled"
+          margin="normal"
+          className="form-input"
+          type="text"
+          label="Company Website"
+          name="companyWebsite"
+          value={formData.companyWebsite}
+          onChange={onChange}
+        />
+        <TextField
+          variant="filled"
+          margin="normal"
+          className="form-input"
+          type="text"
+          label="Company Description"
+          name="companyDescription"
+          value={formData.companyDescription}
+          onChange={onChange}
+        />
+        <Button
+          sx={{ margin: '16px 0' }}
+          className="form-input"
+          component="label"
+          variant="contained"
+          startIcon={<CloudUploadIcon />}
+        >
+          Upload Company Logo
+          <VisuallyHiddenInput
+              type="file"
+              accept="image/*"
+              name="companyLogo"
+              value=""
+              onChange={handleFileChange}
+          />
+        </Button>
+      </Form>
+      {error && <ErrorPopup message={errorMessage} toggleError={toggleError}/>}
+    </>
   )
 }
 

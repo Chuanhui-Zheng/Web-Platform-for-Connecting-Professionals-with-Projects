@@ -4,7 +4,7 @@ import Paper from "@mui/material/Paper";
 import { Box, Button, ButtonGroup, Input, Modal, TextField, Typography } from "@mui/material";
 import { apiDelete, apiGet, apiPost } from "../../api";
 import { useNavigate } from "react-router-dom";
-import Form from "../../components/Forms/Form"
+import Form from "../../components/Form"
 import decodeJWT from "../../decodeJWT";
 import { Delete, Add } from '@mui/icons-material';
 

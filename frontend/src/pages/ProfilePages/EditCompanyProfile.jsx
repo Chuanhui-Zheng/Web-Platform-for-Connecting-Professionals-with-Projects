@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
 import '../../styles/EditForm.css'
-import EditForm from '../../components/Forms/EditForm';
+import EditForm from '../../components/EditForm';
 import { Button, TextField } from "@mui/material";
 import { apiPut } from "../../api";
 import decodeJWT from "../../decodeJWT";

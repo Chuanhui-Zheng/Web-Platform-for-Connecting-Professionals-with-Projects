@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-import Form from "../../components/Forms/Form"
+import Form from "../../components/Form"
 import { useState } from "react";
 import { TextField } from "@mui/material";
 import { apiPost } from "../../api";
