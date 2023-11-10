@@ -1,7 +1,7 @@
 from extensions import db
 from uuid import uuid4
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime, timedelta
+from datetime import datetime
 from sqlalchemy import JSON
 import random
 from sqlalchemy.ext.mutable import MutableList
@@ -87,6 +87,11 @@ class Company(db.Model):
     @classmethod
     def get_company_by_id(cls, companyId):
         return cls.query.filter_by(companyId=companyId).first()
+    
+    # Gets the company based on id
+    @classmethod
+    def get_company_by_id(cls, companyId):
+        return cls.query.filter_by(companyId=companyId).first()
 
     def save_company(self):
         db.session.add(self)
@@ -141,7 +146,7 @@ class Professional(db.Model):
         notification_id = str(len(self.professionalNotifications) + 1)
         
         current_date = datetime.now().strftime("%d/%m/%Y")
-        current_time = (datetime.now() + timedelta(hours=11)).strftime("%H:%M")
+        current_time = datetime.now().strftime("%H:%M")
         
         notification = {
             "professionalNotificationId": notification_id,
@@ -151,7 +156,7 @@ class Professional(db.Model):
         }
         
         # self.professionalNotifications[notification_id] = notification
-        target_list.insert(0, notification)
+        target_list.append(notification)
         db.session.commit()
 
     def save_professional(self):
@@ -168,7 +173,7 @@ class Professional(db.Model):
         newDetails = {
             "professionalFullName": name,
             "professionalWebsite": website,
-            "professionalPhoneNumber": number,
+            "professionalNumber": number,
             "professionalDescription": description,
             "professionalQualification": qualification,
             "professionalEducation": education,
@@ -218,7 +223,6 @@ class Admin(db.Model):
         
 class Projects(db.Model):
     __tablename__ = 'projects'
-    name = db.Column(db.String(), primary_key=True, default="projects")
     projectId = db.Column(db.String(), primary_key=True, default=create_id)
     pCompanyId = db.Column(db.String(), default="")
     projectName = db.Column(db.String(), default="")
@@ -236,9 +240,9 @@ class Projects(db.Model):
     listOfProfessionals = db.Column(MutableList.as_mutable(JSON), default=list)
     listOfApplicants = db.Column(MutableList.as_mutable(JSON), default=list)
     projectStatus = db.Column(db.String(), default="Active")
-    projectCertificate = db.Column(JSON, default=dict)
+    # projectCertificate = db.Column(JSON, default=dict)
     listOfProjectRatings = db.Column(MutableList.as_mutable(JSON), default=list)
-    projectRatings = db.Column(JSON, default="")
+    #projectRatings = db.Column(JSON, default="")
     
     @classmethod
     def get_project_by_id(cls, projectId):

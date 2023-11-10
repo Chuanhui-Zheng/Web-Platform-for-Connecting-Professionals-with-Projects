@@ -7,10 +7,6 @@ app = Flask(__name__)
 
 CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 
-
-"""
-is_user_existing() checks if a user (company or professional) already exists based on their email.
-"""
 def is_user_existing(email):
     company = Company.get_company_by_email(companyEmail=email)
     professional = Professional.get_professional_by_email(professionalEmail=email)
@@ -19,26 +15,6 @@ def is_user_existing(email):
         return True
     return False
 
-
-"""
-authRegisterCompany() registers a new company and returns a JWT token.
-
-Takes in a JSON object:
-{
-    companyName: string,
-    companyEmail: string,
-    companyPhoneNumber: string,
-    companyWebsite: string,
-    companyLogo: string,
-    companyDescription: string,
-    companyPassword: string
-}
-
-Returns:
-{
-    token: access token
-}
-"""
 @app.route('/auth/register/company', methods=['POST'])
 def authRegisterCompany():
     data = request.get_json()
@@ -72,23 +48,6 @@ def authRegisterCompany():
     # Return the token
     return { "token": access_token }
 
-
-"""
-authRegisterProfessional() registers a new professional and returns a JWT token.
-
-Takes in a JSON object:
-{
-    professionalEmail: string,
-    professionalPhoto: string,
-    professionalFullName: string,
-    professionalPassword: string
-}
-
-Returns:
-{
-    token: access token
-}
-"""
 @app.route('/auth/register/professional', methods=['POST'])
 def authRegisterProfessional():
     data = request.get_json()
@@ -115,28 +74,9 @@ def authRegisterProfessional():
     # Create token
     access_token = create_access_token(identity=professionalEmail, additional_claims=token_data)
 
-    # Send welcome notification
-    message = f"Welcome to ProJector! Edit your profile to get recommended projects!"
-    new_professional.add_notification(new_professional.professionalId, message)
-
     # Return the token
     return jsonify({ "token": access_token }), 201
 
-
-"""
-login() authenticates a user (company, professional, or admin) and returns a JWT token.
-
-Takes in a JSON object:
-{
-    email: string,
-    password: string
-}
-
-Returns:
-{
-    token: access token
-}
-"""
 @app.route('/auth/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -171,10 +111,6 @@ def login():
 
     return jsonify({"error": "Invalid username or password"}), 400
 
-
-"""
-logout() is a placeholder for the logout functionality.
-"""
 @app.route('/auth/logout', methods=['POST'])
 def logout():
     return

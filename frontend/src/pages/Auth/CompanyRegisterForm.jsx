@@ -6,20 +6,11 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisuallyHiddenInput from "../../components/VisuallyHiddenInput";
 import { apiPost } from "../../api";
 import { useNavigate } from "react-router-dom";
-import { useHeader } from "../../context/HeaderContext"; 
+import { useHeader } from "../../HeaderContext"; 
 import { isValidEmail, isValidPassword, fileToDataUrl } from "../../helpers";
 import RegistrationErrorMessage from "../../components/RegistrationErrorMessage";
 import ErrorPopup from '../../components/ErrorPopup';
-import InputAdornment from '@mui/material/InputAdornment';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import IconButton from '@mui/material/IconButton';
 
-/**
- * Registeration form for companies to register on the platform.
- * 
- * @returns 
- */
 function CompanyRegisterForm() {
   const [formData, setFormData] = useState({
     companyName: "",
@@ -30,24 +21,13 @@ function CompanyRegisterForm() {
     companyLogo: "",
     companyDescription: ""
   });
-  const [validationErrors, setValidationErrors] = useState({ email: false, password: false });
+  const [isValid, setIsValid] = useState(true);
   const [errorMessage, setErrorMessage] = React.useState('');
   const [error, setError] = React.useState(false);
-  const [showPassword, setShowPassword] = React.useState(true);
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
-  const handleMouseUpPassword = (event) => {
-    event.preventDefault();
-  };
   const navigate = useNavigate();
   const { triggerHeaderUpdate } = useHeader();
 
-  // Save form data on changes
   const onChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -62,16 +42,16 @@ function CompanyRegisterForm() {
 
   // Update file
   const handleFileChange = (event) => {
-    // Get the first uploaded file
-    const file = event.target.files[0]; 
+    const file = event.target.files[0]; // Get the first uploaded file
 
     fileToDataUrl(file).then((dataUrl) => {
       setFormData({
         ...formData,
         companyLogo: dataUrl
       });
+      console.log("File as data URL:", dataUrl);
     }).catch((error) => {
-      alert("Error converting file to data URL:", error);
+      console.error("Error converting file to data URL:", error);
     });
   };
 
@@ -80,11 +60,12 @@ function CompanyRegisterForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const emailError = !isValidEmail(formData.companyEmail);
-    const passwordError = !isValidPassword(formData.companyPassword);
-    setValidationErrors({ email: emailError, password: passwordError });
+    // Set that it is valid (by default)
+    setIsValid(true)
 
-    if (emailError || passwordError) {
+    // Check if valid email
+    if (!isValidEmail(formData.companyEmail) || !isValidPassword(formData.companyPassword)) {
+      setIsValid(false);
       return;
     }
 
@@ -98,7 +79,7 @@ function CompanyRegisterForm() {
       companyDescription
     } = formData
 
-    // Register the company
+    // const companyEmail = formData.companyEmail
     apiPost("/auth/register/company", { 
       companyName,
       companyEmail,
@@ -126,13 +107,15 @@ function CompanyRegisterForm() {
   return (
     <>
       <Form 
+        formName="Company Register"
         buttonName="Register"
         handleSubmit={handleSubmit}
       >
-        <RegistrationErrorMessage
-          emailError={validationErrors.email}
-          passwordError={validationErrors.password}
-        />
+        {isValid ? 
+          <></>
+          :
+          <RegistrationErrorMessage />
+        }
         <TextField
           variant="filled"
           margin="normal"
@@ -141,7 +124,6 @@ function CompanyRegisterForm() {
           name="companyName"
           value={formData.companyName}
           onChange={onChange}
-          sx={{ backgroundColor:"white" }}
         />
         <TextField
           variant="filled"
@@ -152,35 +134,16 @@ function CompanyRegisterForm() {
           name="companyEmail"
           value={formData.companyEmail}
           onChange={onChange}
-          sx={{backgroundColor:"white" }}
         />
         <TextField
           variant="filled"
           margin="normal"
           className="form-input"
-          type={showPassword ? 'text' : 'password'}
+          type="text"
           label="Company Password"
           name="companyPassword"
           value={formData.companyPassword}
           onChange={onChange}
-          sx={{ backgroundColor:"white" }}
-          slotProps={{
-            input: {
-              endAdornment: <InputAdornment position="end">
-              <IconButton
-                aria-label={
-                  showPassword ? 'hide the password' : 'display the password'
-                }
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                onMouseUp={handleMouseUpPassword}
-                edge="end"
-              >
-                {showPassword ?  <Visibility /> : <VisibilityOff /> }
-              </IconButton>
-            </InputAdornment>,
-            },
-          }}
         />
         <TextField
           variant="filled"
@@ -191,7 +154,6 @@ function CompanyRegisterForm() {
           name="companyPhoneNumber"
           value={formData.companyPhoneNumber}
           onChange={onChange}
-          sx={{ backgroundColor:"white" }}
         />
         <TextField
           variant="filled"
@@ -202,7 +164,6 @@ function CompanyRegisterForm() {
           name="companyWebsite"
           value={formData.companyWebsite}
           onChange={onChange}
-          sx={{ backgroundColor:"white" }}
         />
         <TextField
           variant="filled"
@@ -213,10 +174,9 @@ function CompanyRegisterForm() {
           name="companyDescription"
           value={formData.companyDescription}
           onChange={onChange}
-          sx={{ backgroundColor:"white" }}
         />
         <Button
-          sx={{ margin: '16px 0', backgroundColor:"#364749", borderRadius:'20px' }}
+          sx={{ margin: '16px 0' }}
           className="form-input"
           component="label"
           variant="contained"
