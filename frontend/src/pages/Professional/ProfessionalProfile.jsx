@@ -4,7 +4,7 @@ import ProfileHeader from "../../components/ProfileHeader";
 import styles from "../../styles/Professional/ProfessionalProfile.module.css"
 import BasicChips from "../../components/Chip";
 import ProjectCard from "../../components/Professional/Dashboard/ProjectCard";
-import { Button, Divider } from '@mui/material';
+import { Button, Divider, Typography } from '@mui/material';
 import { apiGet } from '../../api';
 import decodeJWT from "../../decodeJWT";
 import { getProjects } from '../../helpers';
@@ -96,11 +96,11 @@ const ProfessionalProfile = ( { userId } ) => {
         <>
         <ProfileHeader userId={userId} userType="professional" ownProfile={ownProfile}></ProfileHeader>
         <div className={styles.ProfessionalProfileContent}>
-            <h1 className={styles.ProfessionalProfileBodyTitle}>Summary</h1>
+        <Typography variant="h5" sx={{ fontWeight: 'bold', mt:2, mb:1 }}>Summary</Typography>
             <div className={styles.ProfessionalProfileText}>
                 {professionalDescription}
             </div>
-            <h1 className={styles.ProfessionalProfileBodyTitle}>Skills</h1>
+            <Typography variant="h5" sx={{ fontWeight: 'bold', mt:3, mb:1 }}>Skills</Typography>
             <div className={styles.ProfessionalProfileSkillsContainer}>
                 {professionalSkills.map((skill, idx) => {
                     return (
@@ -110,7 +110,7 @@ const ProfessionalProfile = ( { userId } ) => {
                     )
                 })}
             </div>
-            <h1 className={styles.ProfessionalProfileBodyTitle}>Projects</h1>
+            <Typography variant="h5" sx={{ fontWeight: 'bold', mt:3 }}>Projects</Typography>
             <div class={styles.ProfessionalProfileProjectList}>
                 {projects.map((project, idx) => (
                     <ProjectCard
@@ -121,10 +121,10 @@ const ProfessionalProfile = ( { userId } ) => {
                     />
                 ))}
             </div>
-            <h1 className={styles.ProfessionalProfileBodyTitle}>Certificates</h1>
+            <Typography variant="h5" sx={{ fontWeight: 'bold', mt:3 }}>Certificates</Typography>
             <Certificates certificates={certificates} ownProfile={ownProfile}></Certificates>
-            <h1 className={styles.ProfessionalProfileBodyTitle}>Reviews</h1>
-            <PaginationCards reviews={ratings}></PaginationCards>
+            <Typography variant="h5" sx={{ fontWeight: 'bold', mt:3, mb:1 }}>Reviews</Typography>
+            <PaginationCards reviews={ratings} type="professional" ></PaginationCards>
         </div>
         </>
     );

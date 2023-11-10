@@ -31,6 +31,8 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisuallyHiddenInput from "../components/VisuallyHiddenInput";
 import { fileToDataUrl } from '../helpers';
 import CustomisedRating from './CustomisedRating'; 
+import StarIcon from '@mui/icons-material/Star';
+import PaginationCards from './Pagination';
 
 const headerStyle = {
     display: 'flex',
@@ -73,6 +75,7 @@ export default function ProjectDetailWindow({ projectID }) {
     const [certificate, setCertificate]= React.useState(null);
     const [token, setToken]= React.useState('');
     const [approved, setApproved] = React.useState(false);
+    const [pending, setPending] = React.useState(true);
 
     useEffect(() => {
         const glob = localStorage.getItem('token');
@@ -113,6 +116,7 @@ export default function ProjectDetailWindow({ projectID }) {
                         if (userId === prof.professionalId) {
                             setSelectedIndex2(2)
                             setApproved(true)
+                            setPending(false)
                         } 
                     })
 
@@ -120,6 +124,7 @@ export default function ProjectDetailWindow({ projectID }) {
                     if (data.projectStatus === 'Complete') {
                         setSelectedIndex(1)
                         setSelectedIndex2(3)
+                        setPending(false)
                     }
             
                     
@@ -254,7 +259,8 @@ export default function ProjectDetailWindow({ projectID }) {
 
     const professionalButtons = [
       <Button key="status" sx={{backgroundColor: "#21b6ae"}} onClick={handleApply}>{statusProfOptions[selectedIndex2]}</Button>,
-      <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={() => navigate(`/project/${projectID}/rate`)} >Rate Project</Button> // shouldn't appear for pending projects
+      
+    //   <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={() => navigate(`/project/${projectID}/rate`)} >Rate Project</Button>
     ];
 
     if (!projectInfo) {
@@ -288,7 +294,9 @@ export default function ProjectDetailWindow({ projectID }) {
           <Typography variant="h4" component="h1" gutterBottom>
             <b> {projectInfo.projectName}</b>
           </Typography>
-          <CustomisedRating value={projectInfo.projectAvgRating}/>
+          <Typography variant="h5" sx={{fontWeight: '550'}}>{projectInfo.projectAvgRating.toFixed(1)}</Typography>
+          <StarIcon sx={{ color: 'orange', fontSize: 25 }}></StarIcon>
+          <Typography variant="h5" sx={{fontWeight: '350', color: 'lightgray'}}>({Object.keys(projectInfo.listOfProjectRatings).length})</Typography>
         </div>
         
         
@@ -367,7 +375,8 @@ export default function ProjectDetailWindow({ projectID }) {
             aria-label="Vertical button group"
             variant="contained"
           > 
-            {professionalButtons} 
+            {professionalButtons}
+            {pending ? null : <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={() => navigate(`/project/${projectID}/rate`)} >Rate Project</Button>}
           </ButtonGroup> :
             <ButtonGroup
             orientation="vertical"
@@ -459,6 +468,9 @@ export default function ProjectDetailWindow({ projectID }) {
         <Typography variant="h5" component="h2" gutterBottom>
         {projectInfo.contactEmail}
         </Typography>
+        {/* REVIEWS IMPLEMENTED HERE */}
+        <Typography variant="h5" component="h2" gutterBottom>Reviews</Typography>
+        <PaginationCards reviews={projectInfo.listOfProjectRatings} type="project"></PaginationCards>
       </Box>
       </Box>
     );
