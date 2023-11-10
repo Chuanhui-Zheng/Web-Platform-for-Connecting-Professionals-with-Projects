@@ -21,6 +21,7 @@ import EditProject from './pages/ProjectPages/EditProject';
 import RateProfessional from './pages/RatingPages/RateProfessional';
 import Dashboard from './pages/Dashboard/Dashboard';
 import ReviewPage from "./pages/RatingPages/ReviewPage";
+import { PageContainer } from '@toolpad/core/PageContainer';
 
 function Logout() {
     localStorage.clear()
@@ -35,28 +36,35 @@ function RegisterAndLogout() {
 function App() {
   return (
     <BrowserRouter>
-        {/* <NavBar /> */}
         <Header />
-        {/* <br/> */}
-        <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/logout" element={<Logout />} />
-            <Route path="/register" element={<RegisterAndLogout />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/companydashboard/createproject" element={<CreateProject />} />
-            <Route path="/profile/:userId/edit" element={<EditProfilePage />} />
-            <Route path="/allprojects" element={<AllProjects />} />
-            <Route path="/aboutus" element={<AboutUs />} />
-            <Route path="*" element={<NotFound />}></Route>
-            <Route path="/profile/:userId" element={<ProfilePage />} />
-            <Route path="/projectdetail/:projectID" element={<ProjectDetail />} />
-            <Route path="/projectpage/:projectID" element={<ProjectPage />} />
-            <Route path="/projectpage/:projectID/edit" element={<EditProject />} />
-            <Route path="/project/:projectId/rate" element={<ReviewPage />} />
-            {/* <Route path="/project/rate" element={<RateProfessional />} /> */}
-            <Route path="/project/:projectId/applicants" element={<ProjectApplicantList />} />
-        </Routes>
+        <PageContainer 
+          className="container" 
+          maxWidth={false} 
+          sx={{
+            width:"100%", 
+            "@media (min-width: 0px)": { paddingRight: "50px", paddingLeft: "50px" }, 
+            margin: "0px"}}
+        >
+          <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/logout" element={<Logout />} />
+              <Route path="/register" element={<RegisterAndLogout />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/companydashboard/createproject" element={<CreateProject />} />
+              <Route path="/profile/:userId/edit" element={<EditProfilePage />} />
+              <Route path="/allprojects" element={<AllProjects />} />
+              <Route path="/aboutus" element={<AboutUs />} />
+              <Route path="*" element={<NotFound />}></Route>
+              <Route path="/profile/:userId" element={<ProfilePage />} />
+              <Route path="/projectdetail/:projectID" element={<ProjectDetail />} />
+              <Route path="/projectpage/:projectID" element={<ProjectPage />} />
+              <Route path="/projectpage/:projectID/edit" element={<EditProject />} />
+              <Route path="/project/:projectId/rate" element={<ReviewPage />} />
+              {/* <Route path="/project/rate" element={<RateProfessional />} /> */}
+              <Route path="/project/:projectId/applicants" element={<ProjectApplicantList />} />
+          </Routes>
+        </PageContainer>
     </BrowserRouter>
   );
 }
