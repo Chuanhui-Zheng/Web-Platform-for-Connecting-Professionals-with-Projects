@@ -9,6 +9,7 @@ import { apiGet } from '../../api';
 import decodeJWT from "../../decodeJWT";
 import { getProjects } from '../../helpers';
 import Certificates from '../../components/CertficateCard';
+import PaginationCards from '../../components/Pagination';
 
 const ProfessionalProfile = ( { userId } ) => {
     console.log("professional profile reached")
@@ -121,7 +122,9 @@ const ProfessionalProfile = ( { userId } ) => {
                 ))}
             </div>
             <h1 className={styles.ProfessionalProfileBodyTitle}>Certificates</h1>
-           <Certificates certificates={certificates} ownProfile={ownProfile}></Certificates>
+            <Certificates certificates={certificates} ownProfile={ownProfile}></Certificates>
+            <h1 className={styles.ProfessionalProfileBodyTitle}>Reviews</h1>
+            <PaginationCards reviews={ratings}></PaginationCards>
         </div>
         </>
     );

@@ -9,8 +9,8 @@ const Certificates  = ({ certificates, ownProfile }) => {
     
     const handleDownload = (cert) => {
         const link = document.createElement('a');
-        link.href = cert.professionalCertificate; // File URL
-        link.download = `${cert.professionalCertificateProjectName} Certificate`; // Download file name
+        link.href = cert.professionalCertificate; 
+        link.download = `${cert.professionalCertificateProjectName} Certificate`; 
         link.click();
       };
 
@@ -28,13 +28,18 @@ const Certificates  = ({ certificates, ownProfile }) => {
                                 variant="square"
                             />
                             <div className={styles.CertificateInfo}>
-                                <Typography sx={{ml:1.5, fontSize: '25px', fontWeight: '550'}}>{cert.professionalCertificateProjectName}</Typography>
-                                <Typography sx={{ml:1.5, fontSize: '20px', fontWeight: '500'}}>{cert.professionalCertificateCompanyName}</Typography>
+                                <Typography variant="h5" sx={{ml:1.5}}>{cert.professionalCertificateProjectName}</Typography>
+                                <Typography variant="body1" sx={{ml:1.5}} color="text.secondary">{cert.professionalCertificateCompanyName}</Typography>
                             </div>
                         </div>
                         <div>
-                            {ownProfile ? <DownloadIcon sx={{ width: '30px', height: '30px', mr: '15px', cursor: 'pointer' }} onClick={() => handleDownload(cert)}>
-                            </DownloadIcon> : <></>}
+                            {ownProfile ? <Button variant="outlined" size="small" color="neutral" 
+                            startIcon={<DownloadIcon fontSize="inherit" />} onClick={() => handleDownload(cert)}
+                            sx={{cursor: 'pointer' }} >
+                            Download
+                            </Button> : <></>}
+                            {/* {ownProfile ? <DownloadIcon sx={{ width: '30px', height: '30px', mr: '15px', cursor: 'pointer' }} onClick={() => handleDownload(cert)}>
+                            </DownloadIcon> : <></>} */}
                             
                         </div>
                     </div>

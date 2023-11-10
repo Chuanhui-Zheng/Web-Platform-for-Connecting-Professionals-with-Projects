@@ -60,7 +60,7 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
                         setNewPhoneNumber(data.professionalPhoneNumber);
                         setNewWebsite(data.professionalWebsite);
                         setNewPhoto(data.professionalPhoto);
-                        setAvgRating(data.professionalAvgRating);
+                        setAvgRating(data.professionalAvgRating.toFixed(1));
                         setNumRatings(Object.keys(data.professionalRatings).length)
                     } else {
                         throw new Error("Get Profile Failed");
