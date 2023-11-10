@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
-import { Box, Button, ButtonGroup, Input, Modal, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import { apiDelete, apiGet, apiPost } from "../../api";
 import { useNavigate } from "react-router-dom";
-import Form from "../../components/Form"
 import decodeJWT from "../../decodeJWT";
 import { Delete, Add } from '@mui/icons-material';
 import ErrorPopup from "../../components/ErrorPopup";
-
+import JEMMADialog from "../../components/JEMMADialog";
 
 // Company columns
 const companyColumns = [
@@ -281,48 +280,54 @@ export default function AdminDashboard() {
           </Box>
           <DataTable rows={adminRows} columns={adminColumns} onSelectionChange={setSelectedAdminRowIds} />
         </Box>
-    
-        <Modal open={createAdminOpen} onClose={handleCreateAdminClose}>
-          <Box
-            sx={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: 400,
-              bgcolor: 'background.paper',
-              boxShadow: 24,
-              p: 4,
-            }}
+        {createAdminOpen && 
+          <JEMMADialog
+            titleText={"Create Admin"}
+            bodyChildren={
+              <>
+                <TextField
+                  variant="filled"
+                  margin="normal"
+                  className="form-input"
+                  type="text"
+                  label="Admin Email"
+                  name="adminEmail"
+                  value={createAdminDetails.adminEmail}
+                  onChange={handleCreateAdminOnChange}
+                />
+                <TextField
+                  variant="filled"
+                  margin="normal"
+                  className="form-input"
+                  type="text"
+                  label="Admin Password"
+                  name="adminPassword"
+                  value={createAdminDetails.adminPassword}
+                  onChange={handleCreateAdminOnChange}
+                />
+              </>
+            }
+            actionChildren={
+              <>
+                <Button
+                  onClick={handleCreateAdminClose}
+                >
+                  Close
+                </Button>
+                <Button
+                    onClick={handleCreateAdminSubmit} 
+                    variant="contained" 
+                    color="secondary"
+                    startIcon={<Add />} 
+                >
+                  Create Admin
+                </Button>
+              </>
+            }
           >
-            <Form 
-              formName={"New Admin"} 
-              buttonName={"Create new admin"} 
-              handleSubmit={handleCreateAdminSubmit}
-            >
-              <TextField
-                variant="filled"
-                margin="normal"
-                className="form-input"
-                type="text"
-                label="Admin Email"
-                name="adminEmail"
-                value={createAdminDetails.adminEmail}
-                onChange={handleCreateAdminOnChange}
-              />
-              <TextField
-                variant="filled"
-                margin="normal"
-                className="form-input"
-                type="text"
-                label="Admin Password"
-                name="adminPassword"
-                value={createAdminDetails.adminPassword}
-                onChange={handleCreateAdminOnChange}
-              />
-            </Form>
-          </Box>
-        </Modal>
+  
+          </JEMMADialog>
+        }
       </Box>
       {error && <ErrorPopup message={errorMessage} toggleError={toggleError}/>}
     </>
