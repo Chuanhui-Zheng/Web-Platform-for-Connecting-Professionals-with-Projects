@@ -13,7 +13,7 @@ import NotFound from "./pages/ErrorPages/NotFound"
 import CreateProject from './pages/ProjectPages/CreateProject';
 import ProjectDetail from './pages/ProjectPages/ProjectDetail';
 import ProjectPage from './pages/ProjectPages/ProjectPage';
-import ProjectApplicantList from './pages/ProjectPages/ProjectApplicantList';
+import ProjectApplicantList from './components/ProjectApplicantList';
 import ProfilePage from './pages/ProfilePages/ProfilePage';
 // import ProtectedRoute from "./components/ProtectedRoute";
 import EditProfilePage from './pages/ProfilePages/EditProfilePage';
@@ -43,8 +43,8 @@ function App() {
           sx={{
             width: "100%", 
             margin: "0px", 
-            paddingRight: { xs: "16px", sm: "20px", md: "40px", lg: "50px" }, 
-            paddingLeft: { xs: "16px", sm: "20px", md: "40px", lg: "50px" }
+            paddingRight: { xs: "16px", sm: "25px", md: "60px", lg: "100px" }, 
+            paddingLeft: { xs: "16px", sm: "25px", md: "60px", lg: "100px" }
           }}
         >
           <Routes>
