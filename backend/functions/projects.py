@@ -683,3 +683,30 @@ def getProfessionalProjectsFromStatus():
     
     return jsonify(project_dict), 200
 
+'''
+PARAMETERS (query string) {professionalId}
+/project/recommended?professionalId=PROFESSIONALIDHERE
+'''
+@app.route('/project/recommended', methods=['GET'])
+def getRecommendedProjects():
+    profIdStr = request.args.get("professionalId")
+    profId = int(profIdStr)
+
+    professional = Professional.get_professional_by_id(professionalId=profId)
+    all_projects = Projects.query.filter_by(projectStatus='Active').all()
+
+    professional_skills = professional.professionalSkills
+
+    recommended = []
+    for project in all_projects:
+        for skill in project.projectSkills:
+            if skill in professional_skills:
+                recommended.append(project)
+    
+
+    project_dict = [
+        {k: v for k, v in vars(project).items() if not k.startswith('_')}
+        for project in recommended
+    ]
+
+    return jsonify(project_dict), 200
