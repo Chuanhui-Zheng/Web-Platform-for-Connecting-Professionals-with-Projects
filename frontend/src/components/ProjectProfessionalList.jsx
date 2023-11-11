@@ -102,6 +102,7 @@ function ProjectProfessionalList({ projectId }) {
         rows={professionalRows} 
         columns={professionalColumns} 
         onSelectionChange={setSelectedProfessionalRowIds} 
+        checkboxSelection={true}
       />
     </Box>
   );
