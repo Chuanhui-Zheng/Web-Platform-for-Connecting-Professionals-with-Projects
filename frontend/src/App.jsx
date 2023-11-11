@@ -73,4 +73,4 @@ function App() {
 
 export default App;
 
-# expanded-history-pass-073: maintainability refinement for the frontend visual polish surface.
+# history-polish-073: temporary maintainability note for the frontend visual polish surface. The following history step restores the canonical source tree.
