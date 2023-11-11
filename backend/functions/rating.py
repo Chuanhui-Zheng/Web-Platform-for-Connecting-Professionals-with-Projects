@@ -156,7 +156,7 @@ RETURN {
 '''
 @app.route('/user/details/professional/achievement', methods=['GET'])
 def professionalAchievement():
-    professionalId = request.args.get('professionalId')
+    professionalId = request.args.get('id')
     professional = Professional.get_professional_by_id(professionalId)
     
     if not professional:
@@ -169,6 +169,8 @@ def professionalAchievement():
         rating = dict["professionalRating"]
         sum_rating += rating
         listOfRatingId.append(dict["professionalRatingId"])
-        
+    
+    if len(professional.listOfProfessionalRatings) == 0:
+        return jsonify({"avg_rating": 'null'}, {"listOfRatingId":listOfRatingId}), 200
     avg_rating = round(sum_rating/len(professional.listOfProfessionalRatings),1)
     return jsonify({"avg_rating": avg_rating}, {"listOfRatingId":listOfRatingId}), 200

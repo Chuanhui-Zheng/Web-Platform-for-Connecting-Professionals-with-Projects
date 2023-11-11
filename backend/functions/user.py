@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from database.models import Company, Professional
+from database.models import Company, Professional, Projects
 from flask_jwt_extended import decode_token
 
 app = Flask(__name__)
@@ -13,7 +13,6 @@ def companyDetails():
     if not company:
         return jsonify({"error": "Company not found"}), 404
     
-    # need to add functionality to get raiting once they are implemented
     data = {
                 "companyName": company.companyName,
                 "companyEmail": company.companyEmail,
@@ -21,7 +20,6 @@ def companyDetails():
                 "companyWebsite": company.companyWebsite,
                 "companyDescription": company.companyDescription,
                 "companyLogo": company.companyLogo,
-                "companyRating": 1,
                 "companyId": id,
             }
 

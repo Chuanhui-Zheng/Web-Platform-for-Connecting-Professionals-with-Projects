@@ -81,6 +81,7 @@ const EditProject = ( { userId }) => {
             if (!data.error) {
                 console.log("edit project worked")
                 console.log(data)
+                navigate('/dashboard', {state:{showSnackBar: true, message: 'Successfully edited project'}})
             } else {
                 throw new Error("Edit Failed");
             }

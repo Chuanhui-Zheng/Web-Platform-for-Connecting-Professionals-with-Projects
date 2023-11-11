@@ -4,17 +4,19 @@ import ProfileHeader from "../../components/ProfileHeader";
 import styles from "../../styles/Professional/ProfessionalProfile.module.css"
 import BasicChips from "../../components/Chip";
 import ProjectCard from "../../components/Professional/Dashboard/ProjectCard";
-import { Button } from '@mui/material';
+import { Button, Divider, Typography } from '@mui/material';
 import { apiGet } from '../../api';
 import decodeJWT from "../../decodeJWT";
 import { getProjects } from '../../helpers';
+import Certificates from '../../components/CertficateCard';
+import PaginationCards from '../../components/Pagination';
 
 const ProfessionalProfile = ( { userId } ) => {
     console.log("professional profile reached")
     const description = "HEllo i am jim, i am so passionaat aboutbaiosdfhoiehofihehofhaoei hfoiaheoihfoaisdhfhadsuibhfuiagsdbiuaioewfhaieohfoaie"
     const navigate = useNavigate();
     
-
+    const [token, setToken] = React.useState();
     const [ownUserId, setOwnUserId] = React.useState();
     const [userType, setUserType] = React.useState('');
     const [ownProfile, setOwnProfile] = React.useState(true);
@@ -25,6 +27,7 @@ const ProfessionalProfile = ( { userId } ) => {
     const [professionalQualifications, setProfessionalQualifications] = React.useState('');
     const [projects, setProjects] = React.useState([]);
     const [certificates, setCertificates] = React.useState([]);
+    const [ratings, setRatings] = React.useState([]);
 
     React.useEffect(() => {
         const getToken = localStorage.getItem("token");
@@ -33,7 +36,7 @@ const ProfessionalProfile = ( { userId } ) => {
             const tokenData = decodeJWT(getToken);
             setUserType(tokenData.userType)
             setOwnUserId(tokenData.userId)
-
+            setToken(getToken)
             console.log("token, usertype", tokenData.userType, tokenData.userId)
             if (tokenData.userId != userId) {
                 setOwnProfile(false);
@@ -62,6 +65,7 @@ const ProfessionalProfile = ( { userId } ) => {
                         setProfessionalDescription(data.professionalDescription);
                         setProfessionalEducation(data.professionalEducation);
                         setProfessionalQualifications(data.professionalQualifications);
+                        setRatings(data.professionalRatings);
                         console.log("fnished calling get details api in profile page")
                     } else {
                         throw new Error("Get Profile Failed");
@@ -69,40 +73,34 @@ const ProfessionalProfile = ( { userId } ) => {
                 })
                 .catch(() => {
                     alert("Profile fetch5 failed.");
-                });
+            });
             
-                apiGet("/profile/viewCertificate", `id=${userId}`)
-                .then((data) => {
-                    console.log(data);
-                    if (!data.error) {
-                        console.log("certs: ", data.professionalCertificates)
-                        setCertificates(data.professionalCertificates)
-                    } else {
-                        throw new Error("Get Cert Failed");
-                    }
-                })
-                .catch(() => {
-                    alert("Profile fetch6 failed.");
-                });
+            apiGet("/profile/viewCertificate", `id=${userId}`)
+            .then((data) => {
+                console.log(data);
+                if (!data.error) {
+                    console.log("certs: ", data.professionalCertificates)
+                    setCertificates(data.professionalCertificates)
+                } else {
+                    throw new Error("Get Cert Failed");
+                }
+            })
+            .catch(() => {
+                alert("Profile fetch6 failed.");
+            });
 
         }
     }, [ownUserId, userType]);
     return (
 
         <>
-        <ProfileHeader userId={userId} userType="professional" ></ProfileHeader>
-        {/* <img src={professionalPhoto}/> */}
-        {ownProfile ? <Button name="editprofessionalprofile" 
-            onClick={() => { navigate(`/profile/:${userId}/edit`) }} 
-            sx={{ textTransform: 'none', ml:'10vw' }}
-            variant="outlined">Edit Professional Profile</Button> : <></>}
-        
+        <ProfileHeader userId={userId} userType="professional" ownProfile={ownProfile}></ProfileHeader>
         <div className={styles.ProfessionalProfileContent}>
-            <h1 className={styles.ProfessionalProfileBodyTitle}>Summary</h1>
+        <Typography variant="h5" sx={{ fontWeight: 'bold', mt:2, mb:1 }}>Summary</Typography>
             <div className={styles.ProfessionalProfileText}>
                 {professionalDescription}
             </div>
-            <h1 className={styles.ProfessionalProfileBodyTitle}>Skills</h1>
+            <Typography variant="h5" sx={{ fontWeight: 'bold', mt:3, mb:1 }}>Skills</Typography>
             <div className={styles.ProfessionalProfileSkillsContainer}>
                 {professionalSkills.map((skill, idx) => {
                     return (
@@ -112,7 +110,7 @@ const ProfessionalProfile = ( { userId } ) => {
                     )
                 })}
             </div>
-            <h1 className={styles.ProfessionalProfileBodyTitle}>Projects</h1>
+            <Typography variant="h5" sx={{ fontWeight: 'bold', mt:3 }}>Projects</Typography>
             <div class={styles.ProfessionalProfileProjectList}>
                 {projects.map((project, idx) => (
                     <ProjectCard
@@ -123,12 +121,10 @@ const ProfessionalProfile = ( { userId } ) => {
                     />
                 ))}
             </div>
-            <h1 className={styles.ProfessionalProfileBodyTitle}>Certificates</h1>
-            <div class={styles.ProfessionalProfileProjectList}>
-                {certificates.map((cert, idx) => (
-                    <a href={cert.professionalCertificate} download>Cert {idx}</a>
-                ))}
-            </div>
+            <Typography variant="h5" sx={{ fontWeight: 'bold', mt:3 }}>Certificates</Typography>
+            <Certificates certificates={certificates} ownProfile={ownProfile}></Certificates>
+            <Typography variant="h5" sx={{ fontWeight: 'bold', mt:3, mb:1 }}>Reviews</Typography>
+            <PaginationCards reviews={ratings} type="professional" ></PaginationCards>
         </div>
         </>
     );

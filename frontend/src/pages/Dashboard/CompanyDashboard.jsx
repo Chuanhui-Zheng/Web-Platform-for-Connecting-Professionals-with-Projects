@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 // import { Box, Button, AppProvider, PageContainer, Paper, useTheme, useDemoRouter, Typography, } from '@mui/material';
 import { Box, Button, useTheme } from '@mui/material';
@@ -15,6 +15,7 @@ import { useDemoRouter } from '@toolpad/core/internals';
 import ProjectCard from '../../components/Professional/Dashboard/ProjectCard.jsx';
 import { getProjects } from '../../helpers.js';
 import decodeJWT from '../../decodeJWT.js';
+import SnackbarAlert from '../../components/SnackbarAlert.jsx';
 
 // import Form from "../components/Form"
 const titleStyle = {
@@ -44,10 +45,26 @@ function CompanyDashboard() {
     const navigate = useNavigate();
     const router = useDemoRouter('/companydashboard');
     const theme = useTheme();
+    const location = useLocation();
     
     const [activeProjects, setActiveProjects] = React.useState([]);
     const [completedProjects, setCompletedProjects] = React.useState([]);
     const [ownUserId, setOwnUserId] = React.useState('');
+    const [showSnackBar, setShowSnackbar] = React.useState(false);
+    const [message, setMessage] = React.useState('');
+
+    const toggleSnackbar = () => {
+        setShowSnackbar(!showSnackBar)
+    }  
+
+    React.useEffect(() => {
+        if (location.state?.showSnackBar) {
+            setShowSnackbar(true);
+            setMessage(location.state.message);
+            navigate(location.pathname, { replace: true, state: {} });
+        }
+    }, [location.state]);
+
 
     React.useEffect(() => {
         const getToken = localStorage.getItem("token");
@@ -131,6 +148,7 @@ function CompanyDashboard() {
                 ))}
             </AccordionDetails>
         </Accordion>
+        {showSnackBar && <SnackbarAlert message={message} toggleSuccess={toggleSnackbar}/>}
         </AppProvider>
     );
 }
