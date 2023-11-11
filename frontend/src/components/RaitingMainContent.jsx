@@ -41,13 +41,13 @@ function RaitingMainContent({ selectedUser, projectId }) {
 
   const handleFeedbackChange = (event) => {
     setFeedback(event.target.value);
-    const reviewConstruct = 'Review: ' + mainReason + ' Feedback: ' + event.target.value
+    const reviewConstruct = event.target.value
     setReview(reviewConstruct)
   };
 
   const handleReasonChange = (event) => {
     setMainReason(event.target.value);
-    const reviewConstruct = 'Review: ' + event.target.value + ' Feedback: ' + feedback
+    const reviewConstruct = feedback
     setReview(reviewConstruct)
   };
 
@@ -72,7 +72,7 @@ function RaitingMainContent({ selectedUser, projectId }) {
       .catch((err) => {
           alert(err)
       });
-      navigate("/prodashboard");
+      navigate("/dashboard");
     } else {
       console.log('calling', selectedUser.professionalId, projectId, rating, professionalReview);
       apiPost("/project/company/rateProfessional", {
@@ -90,7 +90,7 @@ function RaitingMainContent({ selectedUser, projectId }) {
       .catch((err) => {
           alert(err)
       });
-      navigate("/companydashboard");
+      navigate("/dashboard");
     }
 
   };

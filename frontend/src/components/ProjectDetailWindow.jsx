@@ -30,6 +30,9 @@ import decodeJWT from '../decodeJWT';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisuallyHiddenInput from "../components/VisuallyHiddenInput";
 import { fileToDataUrl } from '../helpers';
+import CustomisedRating from './CustomisedRating'; 
+import StarIcon from '@mui/icons-material/Star';
+import PaginationCards from './Pagination';
 import SnackbarAlert from './SnackbarAlert';
 
 const headerStyle = {
@@ -73,6 +76,7 @@ export default function ProjectDetailWindow({ projectID }) {
     const [certificate, setCertificate]= React.useState(null);
     const [token, setToken]= React.useState('');
     const [approved, setApproved] = React.useState(false);
+    const [pending, setPending] = React.useState(true);
     const [showSnackBar, setShowSnackbar] = React.useState(false);
 
     const toggleSnackbar = () => {
@@ -118,6 +122,7 @@ export default function ProjectDetailWindow({ projectID }) {
                         if (userId === prof.professionalId) {
                             setSelectedIndex2(2)
                             setApproved(true)
+                            setPending(false)
                         } 
                     })
 
@@ -125,6 +130,7 @@ export default function ProjectDetailWindow({ projectID }) {
                     if (data.projectStatus === 'Complete') {
                         setSelectedIndex(1)
                         setSelectedIndex2(3)
+                        setPending(false)
                     }
             
                     
@@ -253,11 +259,15 @@ export default function ProjectDetailWindow({ projectID }) {
             onClick={handleToggle}
         >
         {statusCompOptions[selectedIndex]}<ArrowDropDownIcon />
-        </Button>
+        </Button>,
+        <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={() => navigate(`/project/${projectID}/rate`)} >Rate Project</Button> 
+        
       ];
 
     const professionalButtons = [
-      <Button key="status" sx={{backgroundColor: "#21b6ae"}} onClick={handleApply}>{statusProfOptions[selectedIndex2]}</Button>
+      <Button key="status" sx={{backgroundColor: "#21b6ae"}} onClick={handleApply}>{statusProfOptions[selectedIndex2]}</Button>,
+      
+    //   <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={() => navigate(`/project/${projectID}/rate`)} >Rate Project</Button>
     ];
 
     if (!projectInfo) {
@@ -284,19 +294,22 @@ export default function ProjectDetailWindow({ projectID }) {
       <Box sx={{width: '100%'}}>
     <Box component="main" sx={{flexGrow: 1, p: 3, width: '100%' }}>
 
-      <div style={headerStyle}>
-        <Avatar sx={{ width: 32, height: 32 }} />
-        <Typography variant="h4" component="h1" gutterBottom>
-          <b> {projectInfo.projectName}</b>
-        </Typography>
-      </div>
-      
-      
-      <Box style={secondaryStyle}>
-        <Box>
-          <Typography variant="h6" component="h1" gutterBottom>
-          {projectInfo.projectCompany}
+        <div style={headerStyle}>
+          <Avatar sx={{ width: 32, height: 32 }} />
+          <Typography variant="h4" component="h1" gutterBottom>
+            <b> {projectInfo.projectName}</b>
           </Typography>
+          <Typography variant="h5" sx={{fontWeight: '550'}}>{projectInfo.projectAvgRating.toFixed(1)}</Typography>
+          <StarIcon sx={{ color: 'orange', fontSize: 25 }}></StarIcon>
+          <Typography variant="h5" sx={{fontWeight: '350', color: 'lightgray'}}>({Object.keys(projectInfo.listOfProjectRatings).length})</Typography>
+        </div>
+        
+        
+        <Box style={secondaryStyle}>
+          <Box>
+            <Typography variant="h6" component="h1" gutterBottom>
+            {projectInfo.projectCompany}
+            </Typography>
 
           <Container sx={{flexDirection: 'row'}}>
             <Box display="flex" alignItems="center" mb={1}>
@@ -334,133 +347,138 @@ export default function ProjectDetailWindow({ projectID }) {
           ))}
 
 
-        </Box>
-        </Box>
-        {userType === 'company' && userId === projectInfo.pCompanyId && !isCompleted ? <ButtonGroup
-          orientation="vertical"
-          aria-label="Vertical button group"
-          variant="contained"
-        >
-          {companybuttons} 
-        </ButtonGroup> : userType === 'company' && userId === projectInfo.pCompanyId && isCompleted ? <ButtonGroup> <Button
-                      sx={{ margin: '30px 0 0 0' }}
-                      className="upload"
-                      component="label"
-                      variant="contained"
-                      startIcon={<CloudUploadIcon />}
-                  >
-                      Give Certificate
-                      <VisuallyHiddenInput
-                          type="file"
-                          accept="application/pdf"
-                          name="companyLogo"
-                          value=''
-                          onChange={handleFileChange}
-                      />
-                  </Button> 
-                          <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={() => navigate(`/project/${projectID}/rate`)} >Rate Project</Button></ButtonGroup> 
+          </Box>
+          </Box>
+          {userType === 'company' && userId === projectInfo.pCompanyId && !isCompleted ? <ButtonGroup
+            orientation="vertical"
+            aria-label="Vertical button group"
+            variant="contained"
+          >
+            {companybuttons} 
+          </ButtonGroup> : userType === 'company' && userId === projectInfo.pCompanyId && isCompleted ? <ButtonGroup> <Button
+                        sx={{ margin: '30px 0 0 0' }}
+                        className="upload"
+                        component="label"
+                        variant="contained"
+                        startIcon={<CloudUploadIcon />}
+                    >
+                        Give Certificate
+                        <VisuallyHiddenInput
+                            type="file"
+                            accept="application/pdf"
+                            name="companyLogo"
+                            value=''
+                            onChange={handleFileChange}
+                        />
+                    </Button> 
+                            <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={() => navigate(`/project/${projectID}/rate`)} >Rate Project</Button></ButtonGroup> 
 
-                          : userType === 'professional'
-      ?
-        <ButtonGroup
-          orientation="vertical"
-          aria-label="Vertical button group"
-          variant="contained"
-        > 
-          {professionalButtons} 
-        </ButtonGroup> :
+                            : userType === 'professional'
+        ?
           <ButtonGroup
-          orientation="vertical"
-          aria-label="Vertical button group"
-          variant="contained"
-        >
-        </ButtonGroup>
-        }
-        <Popper
-      sx={{ zIndex: 1 }}
-      open={open}
-      anchorEl={anchorRef.current}
-      role={undefined}
-      transition
-      disablePortal
-    >
-      {({ TransitionProps, placement }) => (
-        <Grow
-          {...TransitionProps}
-          style={{
-            transformOrigin:
-              placement === 'bottom' ? 'center top' : 'center bottom',
-          }}
-        >
-          <Paper>
-            <ClickAwayListener onClickAway={handleClose}>
-              <MenuList id="split-button-menu" autoFocusItem>
-                {statusCompOptions.map((option, index) => (
-                  <MenuItem
-                    key={option}
-                  //   disabled={index === 2}
-                    selected={index === selectedIndex}
-                    onClick={(event) => handleMenuItemClick(event, index)}
-                  >
-                    {option}
-                  </MenuItem>
-                ))}
-              </MenuList>
-            </ClickAwayListener>
-          </Paper>
-        </Grow>
-      )}
-    </Popper>
-      </Box>
-      {approved===true ?
-      <Box> 
-      <Typography variant="h5" component="h2" gutterBottom>
-        Meet the Team
-      </Typography>
-      // {/* {projectInfo.listOfProfessionals.map((prof, idx) => (
-      //     <Avatar>{prof}</Avatar>
-      // ))} */}
-      <Typography variant="h5" component="h2" gutterBottom>
-        Project Confidential Information
-      </Typography>
-      <Typography sx={{ marginBottom: 2 }}>
-        {projectInfo.projectConfidentialInformation}
-      </Typography></Box>: <Box></Box>}
-  
-      <Typography variant="h5" component="h2" gutterBottom>
-        Project Description
-      </Typography>
-      <Typography sx={{ marginBottom: 2 }}>
-        {projectInfo.projectDescription}
-      </Typography>
-      <Typography variant="h5" component="h2" gutterBottom>
-        Key Responsibilities
-      </Typography>
-      <List sx={{ listStyleType: 'disc', padding: '10px 40px' }}>
-        {/* <ListItem sx={{ display: 'list-item' }}>
-          check
-        </ListItem>
-        <ListItem sx={{ display: 'list-item' }}>
-          check
-        </ListItem>
-        <ListItem sx={{ display: 'list-item' }}>
-          check
-        </ListItem> */}
-        <ListItem>
-          {projectInfo.projectKeyResponsibilities}
-        </ListItem>
-        </List>
+            orientation="vertical"
+            aria-label="Vertical button group"
+            variant="contained"
+          > 
+            {professionalButtons}
+            {pending ? null : <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={() => navigate(`/project/${projectID}/rate`)} >Rate Project</Button>}
+          </ButtonGroup> :
+            <ButtonGroup
+            orientation="vertical"
+            aria-label="Vertical button group"
+            variant="contained"
+          >
+          </ButtonGroup>
+          }
+          <Popper
+        sx={{ zIndex: 1 }}
+        open={open}
+        anchorEl={anchorRef.current}
+        role={undefined}
+        transition
+        disablePortal
+      >
+        {({ TransitionProps, placement }) => (
+          <Grow
+            {...TransitionProps}
+            style={{
+              transformOrigin:
+                placement === 'bottom' ? 'center top' : 'center bottom',
+            }}
+          >
+            <Paper>
+              <ClickAwayListener onClickAway={handleClose}>
+                <MenuList id="split-button-menu" autoFocusItem>
+                  {statusCompOptions.map((option, index) => (
+                    <MenuItem
+                      key={option}
+                    //   disabled={index === 2}
+                      selected={index === selectedIndex}
+                      onClick={(event) => handleMenuItemClick(event, index)}
+                    >
+                      {option}
+                    </MenuItem>
+                  ))}
+                </MenuList>
+              </ClickAwayListener>
+            </Paper>
+          </Grow>
+        )}
+      </Popper>
+        </Box>
+        {approved===true ?
+        <Box> 
         <Typography variant="h5" component="h2" gutterBottom>
-        Objectives
-      </Typography>
-      <Typography sx={{ marginBottom: 2 }}>
-      {projectInfo.projectObjectives}
-      </Typography>
-      <Typography variant="h5" component="h2" gutterBottom>
-      {projectInfo.contactEmail}
-      </Typography>
-    </Box>
-    {showSnackBar && <SnackbarAlert message={'Successfully applied to project'} toggleSuccess={toggleSnackbar}/>}
-    </Box>
+          Meet the Team
+        </Typography>
+        // {/* {projectInfo.listOfProfessionals.map((prof, idx) => (
+        //     <Avatar>{prof}</Avatar>
+        // ))} */}
+        <Typography variant="h5" component="h2" gutterBottom>
+          Project Confidential Information
+        </Typography>
+        <Typography sx={{ marginBottom: 2 }}>
+         {projectInfo.projectConfidentialInformation}
+        </Typography></Box>: <Box></Box>}
+    
+        <Typography variant="h5" component="h2" gutterBottom>
+          Project Description
+        </Typography>
+        <Typography sx={{ marginBottom: 2 }}>
+          {projectInfo.projectDescription}
+        </Typography>
+        <Typography variant="h5" component="h2" gutterBottom>
+          Key Responsibilities
+        </Typography>
+        <List sx={{ listStyleType: 'disc', padding: '10px 40px' }}>
+          {/* <ListItem sx={{ display: 'list-item' }}>
+            check
+          </ListItem>
+          <ListItem sx={{ display: 'list-item' }}>
+            check
+          </ListItem>
+          <ListItem sx={{ display: 'list-item' }}>
+            check
+          </ListItem> */}
+          <ListItem>
+            {projectInfo.projectKeyResponsibilities}
+          </ListItem>
+          </List>
+          <Typography variant="h5" component="h2" gutterBottom>
+          Objectives
+        </Typography>
+        <Typography sx={{ marginBottom: 2 }}>
+        {projectInfo.projectObjectives}
+        </Typography>
+        <Typography variant="h5" component="h2" gutterBottom>
+        {projectInfo.contactEmail}
+        </Typography>
+        {/* REVIEWS IMPLEMENTED HERE */}
+        <Typography variant="h5" component="h2" gutterBottom>Reviews</Typography>
+        <PaginationCards reviews={projectInfo.listOfProjectRatings} type="project"></PaginationCards>
+      </Box>
+      {showSnackBar && <SnackbarAlert message={'Successfully applied to project'} toggleSuccess=
+      {toggleSnackbar}/>}
+      </Box>
   );
 }
