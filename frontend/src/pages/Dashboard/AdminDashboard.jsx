@@ -202,7 +202,12 @@ export default function AdminDashboard() {
               Delete Company
             </Button>
           </Box>
-          <DataTable rows={companyRows} columns={companyColumns} onSelectionChange={setSelectedCompanyRowIds} />
+          <DataTable 
+            rows={companyRows} 
+            columns={companyColumns} 
+            onSelectionChange={setSelectedCompanyRowIds} 
+            checkboxSelection={true}
+          />
         </Box>
     
         <Box display="flex" flexDirection="column" width="100%">
@@ -217,7 +222,12 @@ export default function AdminDashboard() {
               Delete Professional
             </Button>
           </Box>
-          <DataTable rows={professionalRows} columns={professionalColumns} onSelectionChange={setSelectedProfessionalRowIds} />
+          <DataTable 
+            rows={professionalRows} 
+            columns={professionalColumns} 
+            onSelectionChange={setSelectedProfessionalRowIds} 
+            checkboxSelection={true}
+          />
         </Box>
     
         <Box display="flex" flexDirection="column" width="100%">
@@ -240,7 +250,12 @@ export default function AdminDashboard() {
               Create Admin
             </Button>
           </Box>
-          <DataTable rows={adminRows} columns={adminColumns} onSelectionChange={setSelectedAdminRowIds} />
+          <DataTable 
+            rows={adminRows} 
+            columns={adminColumns} 
+            onSelectionChange={setSelectedAdminRowIds} 
+            checkboxSelection={true}
+          />
         </Box>
         {createAdminOpen && 
           <JEMMADialog
