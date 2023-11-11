@@ -4,7 +4,7 @@ import Paper from "@mui/material/Paper";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
-function DataTable({ rows, columns, onSelectionChange }) {
+function DataTable({ rows, columns, onSelectionChange, checkboxSelection }) {
   const navigate = useNavigate();
 
   // Link to the respective profile page
@@ -28,7 +28,7 @@ function DataTable({ rows, columns, onSelectionChange }) {
         columns={columns}
         initialState={{ pagination: { paginationModel } }}
         pageSizeOptions={[5, 10]}
-        checkboxSelection
+        checkboxSelection={Boolean(checkboxSelection)}
         disableRowSelectionOnClick 
         onRowSelectionModelChange={(newSelection) => onSelectionChange(newSelection)}
         onRowClick={handleOnRowClick}
