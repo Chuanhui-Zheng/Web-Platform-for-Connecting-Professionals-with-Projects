@@ -294,191 +294,191 @@ export default function ProjectDetailWindow({ projectID }) {
       <Box sx={{width: '100%'}}>
     <Box component="main" sx={{flexGrow: 1, p: 3, width: '100%' }}>
 
-        <div style={headerStyle}>
-          <Avatar sx={{ width: 32, height: 32 }} />
-          <Typography variant="h4" component="h1" gutterBottom>
-            <b> {projectInfo.projectName}</b>
-          </Typography>
-          <Typography variant="h5" sx={{fontWeight: '550'}}>{projectInfo.projectAvgRating.toFixed(1)}</Typography>
-          <StarIcon sx={{ color: 'orange', fontSize: 25 }}></StarIcon>
-          <Typography variant="h5" sx={{fontWeight: '350', color: 'lightgray'}}>({Object.keys(projectInfo.listOfProjectRatings).length})</Typography>
-        </div>
-        
-        
-        <Box style={secondaryStyle}>
-          <Box>
-            <Typography variant="h6" component="h1" gutterBottom>
-            {projectInfo.projectCompany}
-            </Typography>
-
-          <Container sx={{flexDirection: 'row'}}>
-            <Box display="flex" alignItems="center" mb={1}>
-              <BusinessCenterIcon style={{ marginRight: 8 }} />
-              <Typography variant="body2" color="textSecondary">
-              {projectInfo.projectCategory}
-              </Typography>
-            </Box>
-            <Box display="flex" alignItems="center" mb={1}>
-              <DateRangeIcon style={{ marginRight: 8 }} />
-              <Typography variant="body2" color="textSecondary">
-              {projectInfo.projectStartDate} - {projectInfo.projectEndDate}
-              </Typography>
-            </Box>
-            <Box display="flex" alignItems="center" mb={1}>
-              <LocationOnIcon style={{ marginRight: 8 }} />
-              <Typography variant="body2" color="textSecondary">
-              {projectInfo.projectLocation}
-              </Typography>
-            </Box>
-            <Box display="flex" alignItems="center" mb={1}>
-              <GroupsIcon style={{ marginRight: 8 }} />
-              <Typography variant="body2" color="textSecondary">
-              {projectInfo.professionalsWanted}
-              </Typography>
-            </Box>
-          </Container>
-
-          <Typography variant="body2" color="textSecondary" paragraph>
-            Required Skills:
-          </Typography>
-          <Box mb={2}>
-          {skills.map((skill, idx) => (
-            <StyledChip label={skill} />
-          ))}
-
-
-          </Box>
-          </Box>
-          {userType === 'company' && userId === projectInfo.pCompanyId && !isCompleted ? <ButtonGroup
-            orientation="vertical"
-            aria-label="Vertical button group"
-            variant="contained"
-          >
-            {companybuttons} 
-          </ButtonGroup> : userType === 'company' && userId === projectInfo.pCompanyId && isCompleted ? <ButtonGroup> <Button
-                        sx={{ margin: '30px 0 0 0' }}
-                        className="upload"
-                        component="label"
-                        variant="contained"
-                        startIcon={<CloudUploadIcon />}
-                    >
-                        Give Certificate
-                        <VisuallyHiddenInput
-                            type="file"
-                            accept="application/pdf"
-                            name="companyLogo"
-                            value=''
-                            onChange={handleFileChange}
-                        />
-                    </Button> 
-                            <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={() => navigate(`/project/${projectID}/rate`)} >Rate Project</Button></ButtonGroup> 
-
-                            : userType === 'professional'
-        ?
-          <ButtonGroup
-            orientation="vertical"
-            aria-label="Vertical button group"
-            variant="contained"
-          > 
-            {professionalButtons}
-            {pending ? null : <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={() => navigate(`/project/${projectID}/rate`)} >Rate Project</Button>}
-          </ButtonGroup> :
-            <ButtonGroup
-            orientation="vertical"
-            aria-label="Vertical button group"
-            variant="contained"
-          >
-          </ButtonGroup>
-          }
-          <Popper
-        sx={{ zIndex: 1 }}
-        open={open}
-        anchorEl={anchorRef.current}
-        role={undefined}
-        transition
-        disablePortal
-      >
-        {({ TransitionProps, placement }) => (
-          <Grow
-            {...TransitionProps}
-            style={{
-              transformOrigin:
-                placement === 'bottom' ? 'center top' : 'center bottom',
-            }}
-          >
-            <Paper>
-              <ClickAwayListener onClickAway={handleClose}>
-                <MenuList id="split-button-menu" autoFocusItem>
-                  {statusCompOptions.map((option, index) => (
-                    <MenuItem
-                      key={option}
-                    //   disabled={index === 2}
-                      selected={index === selectedIndex}
-                      onClick={(event) => handleMenuItemClick(event, index)}
-                    >
-                      {option}
-                    </MenuItem>
-                  ))}
-                </MenuList>
-              </ClickAwayListener>
-            </Paper>
-          </Grow>
-        )}
-      </Popper>
-        </Box>
-        {approved===true ?
-        <Box> 
-        <Typography variant="h5" component="h2" gutterBottom>
-          Meet the Team
+    <div style={headerStyle}>
+        <Avatar sx={{ width: 32, height: 32 }} />
+        <Typography variant="h4" component="h1" gutterBottom>
+        <b> {projectInfo.projectName}</b>
         </Typography>
-        // {/* {projectInfo.listOfProfessionals.map((prof, idx) => (
-        //     <Avatar>{prof}</Avatar>
-        // ))} */}
-        <Typography variant="h5" component="h2" gutterBottom>
-          Project Confidential Information
-        </Typography>
-        <Typography sx={{ marginBottom: 2 }}>
-         {projectInfo.projectConfidentialInformation}
-        </Typography></Box>: <Box></Box>}
+        <Typography variant="h5" sx={{fontWeight: '550'}}>{projectInfo.projectAvgRating.toFixed(1)}</Typography>
+        <StarIcon sx={{ color: 'orange', fontSize: 25 }}></StarIcon>
+        <Typography variant="h5" sx={{fontWeight: '350', color: 'lightgray'}}>({Object.keys(projectInfo.listOfProjectRatings).length})</Typography>
+    </div>
     
+    
+    <Box style={secondaryStyle}>
+        <Box>
+        <Typography variant="h6" component="h1" gutterBottom>
+        {projectInfo.projectCompany}
+        </Typography>
+
+        <Container sx={{flexDirection: 'row'}}>
+        <Box display="flex" alignItems="center" mb={1}>
+            <BusinessCenterIcon style={{ marginRight: 8 }} />
+            <Typography variant="body2" color="textSecondary">
+            {projectInfo.projectCategory}
+            </Typography>
+        </Box>
+        <Box display="flex" alignItems="center" mb={1}>
+            <DateRangeIcon style={{ marginRight: 8 }} />
+            <Typography variant="body2" color="textSecondary">
+            {projectInfo.projectStartDate} - {projectInfo.projectEndDate}
+            </Typography>
+        </Box>
+        <Box display="flex" alignItems="center" mb={1}>
+            <LocationOnIcon style={{ marginRight: 8 }} />
+            <Typography variant="body2" color="textSecondary">
+            {projectInfo.projectLocation}
+            </Typography>
+        </Box>
+        <Box display="flex" alignItems="center" mb={1}>
+            <GroupsIcon style={{ marginRight: 8 }} />
+            <Typography variant="body2" color="textSecondary">
+            {projectInfo.professionalsWanted}
+            </Typography>
+        </Box>
+        </Container>
+
+        <Typography variant="body2" color="textSecondary" paragraph>
+        Required Skills:
+        </Typography>
+        <Box mb={2}>
+        {skills.map((skill, idx) => (
+        <StyledChip label={skill} />
+        ))}
+
+
+        </Box>
+        </Box>
+        {userType === 'company' && userId === projectInfo.pCompanyId && !isCompleted ? <ButtonGroup
+        orientation="vertical"
+        aria-label="Vertical button group"
+        variant="contained"
+        >
+        {companybuttons} 
+        </ButtonGroup> : userType === 'company' && userId === projectInfo.pCompanyId && isCompleted ? <ButtonGroup> <Button
+                    sx={{ margin: '30px 0 0 0' }}
+                    className="upload"
+                    component="label"
+                    variant="contained"
+                    startIcon={<CloudUploadIcon />}
+                >
+                    Give Certificate
+                    <VisuallyHiddenInput
+                        type="file"
+                        accept="application/pdf"
+                        name="companyLogo"
+                        value=''
+                        onChange={handleFileChange}
+                    />
+                </Button> 
+                        <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={() => navigate(`/project/${projectID}/rate`)} >Rate Project</Button></ButtonGroup> 
+
+                        : userType === 'professional'
+    ?
+        <ButtonGroup
+        orientation="vertical"
+        aria-label="Vertical button group"
+        variant="contained"
+        > 
+        {professionalButtons}
+        {pending ? null : <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={() => navigate(`/project/${projectID}/rate`)} >Rate Project</Button>}
+        </ButtonGroup> :
+        <ButtonGroup
+        orientation="vertical"
+        aria-label="Vertical button group"
+        variant="contained"
+        >
+        </ButtonGroup>
+        }
+        <Popper
+    sx={{ zIndex: 1 }}
+    open={open}
+    anchorEl={anchorRef.current}
+    role={undefined}
+    transition
+    disablePortal
+    >
+    {({ TransitionProps, placement }) => (
+        <Grow
+        {...TransitionProps}
+        style={{
+            transformOrigin:
+            placement === 'bottom' ? 'center top' : 'center bottom',
+        }}
+        >
+        <Paper>
+            <ClickAwayListener onClickAway={handleClose}>
+            <MenuList id="split-button-menu" autoFocusItem>
+                {statusCompOptions.map((option, index) => (
+                <MenuItem
+                    key={option}
+                //   disabled={index === 2}
+                    selected={index === selectedIndex}
+                    onClick={(event) => handleMenuItemClick(event, index)}
+                >
+                    {option}
+                </MenuItem>
+                ))}
+            </MenuList>
+            </ClickAwayListener>
+        </Paper>
+        </Grow>
+    )}
+    </Popper>
+    </Box>
+    {approved===true ?
+    <Box> 
+    <Typography variant="h5" component="h2" gutterBottom>
+        Meet the Team
+    </Typography>
+    // {/* {projectInfo.listOfProfessionals.map((prof, idx) => (
+    //     <Avatar>{prof}</Avatar>
+    // ))} */}
+    <Typography variant="h5" component="h2" gutterBottom>
+        Project Confidential Information
+    </Typography>
+    <Typography sx={{ marginBottom: 2 }}>
+        {projectInfo.projectConfidentialInformation}
+    </Typography></Box>: <Box></Box>}
+
+    <Typography variant="h5" component="h2" gutterBottom>
+        Project Description
+    </Typography>
+    <Typography sx={{ marginBottom: 2 }}>
+        {projectInfo.projectDescription}
+    </Typography>
+    <Typography variant="h5" component="h2" gutterBottom>
+        Key Responsibilities
+    </Typography>
+    <List sx={{ listStyleType: 'disc', padding: '10px 40px' }}>
+        {/* <ListItem sx={{ display: 'list-item' }}>
+        check
+        </ListItem>
+        <ListItem sx={{ display: 'list-item' }}>
+        check
+        </ListItem>
+        <ListItem sx={{ display: 'list-item' }}>
+        check
+        </ListItem> */}
+        <ListItem>
+        {projectInfo.projectKeyResponsibilities}
+        </ListItem>
+        </List>
         <Typography variant="h5" component="h2" gutterBottom>
-          Project Description
-        </Typography>
-        <Typography sx={{ marginBottom: 2 }}>
-          {projectInfo.projectDescription}
-        </Typography>
-        <Typography variant="h5" component="h2" gutterBottom>
-          Key Responsibilities
-        </Typography>
-        <List sx={{ listStyleType: 'disc', padding: '10px 40px' }}>
-          {/* <ListItem sx={{ display: 'list-item' }}>
-            check
-          </ListItem>
-          <ListItem sx={{ display: 'list-item' }}>
-            check
-          </ListItem>
-          <ListItem sx={{ display: 'list-item' }}>
-            check
-          </ListItem> */}
-          <ListItem>
-            {projectInfo.projectKeyResponsibilities}
-          </ListItem>
-          </List>
-          <Typography variant="h5" component="h2" gutterBottom>
-          Objectives
-        </Typography>
-        <Typography sx={{ marginBottom: 2 }}>
-        {projectInfo.projectObjectives}
-        </Typography>
-        <Typography variant="h5" component="h2" gutterBottom>
-        {projectInfo.contactEmail}
-        </Typography>
-        {/* REVIEWS IMPLEMENTED HERE */}
-        <Typography variant="h5" component="h2" gutterBottom>Reviews</Typography>
-        <PaginationCards reviews={projectInfo.listOfProjectRatings} type="project"></PaginationCards>
-      </Box>
-      {showSnackBar && <SnackbarAlert message={'Successfully applied to project'} toggleSuccess=
-      {toggleSnackbar}/>}
-      </Box>
+        Objectives
+    </Typography>
+    <Typography sx={{ marginBottom: 2 }}>
+    {projectInfo.projectObjectives}
+    </Typography>
+    <Typography variant="h5" component="h2" gutterBottom>
+    {projectInfo.contactEmail}
+    </Typography>
+    {/* REVIEWS IMPLEMENTED HERE */}
+    <Typography variant="h5" component="h2" gutterBottom>Reviews</Typography>
+    <PaginationCards reviews={projectInfo.listOfProjectRatings} type="project"></PaginationCards>
+    </Box>
+    {showSnackBar && <SnackbarAlert message={'Successfully applied to project'} toggleSuccess=
+    {toggleSnackbar}/>}
+    </Box>
   );
 }
