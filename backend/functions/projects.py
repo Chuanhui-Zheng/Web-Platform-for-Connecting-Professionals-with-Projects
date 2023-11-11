@@ -576,6 +576,7 @@ def projectApplicantList():
             "professionalId": applicant.professionalId,
             "professionalEmail": applicant.professionalEmail,
             "professionalSkills": applicant.professionalSkills,
+            "professionalPhoneNumber": applicant.professionalPhoneNumber,
             "status": applicant_status_map.get(applicant.professionalId)  # Get status from the mapping
         }
         for applicant in applicants
