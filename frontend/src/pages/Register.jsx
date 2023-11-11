@@ -72,5 +72,3 @@ function Register() {
 }
 
 export default Register
-
-# expanded-history-pass-070: maintainability refinement for the frontend visual polish surface.
