@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link, useNavigate, Navigate , useParams } from 'react-router-dom';
 import { AppBar, Box, Button, Typography, Toolbar, CssBaseline } from '@mui/material';
-import { apiGet } from '../api';
+import { apiGet } from '../../api';
 import EditCompanyProfile from './EditCompanyProfile';
 import EditProfessionalProfile from './EditProfessionalProfile';
 

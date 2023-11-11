@@ -1,18 +1,12 @@
-import React, { useReducer } from 'react';
-import PropTypes from 'prop-types';
-import '../styles/EditForm.css';
-import { ACCESS_TOKEN } from "../constants";
-import EditForm from '../components/Forms/EditForm';
-import { Button, TextField } from "@mui/material";
-import { apiPut } from "../api";
-import decodeJWT from "../decodeJWT";
-import ProfileHeader from "../components/ProfileHeader";
-import MultipleSelectCategoryChip from '../components/MultiCategorySelect';
-import MultipleSelectChip from '../components/MultiSelect';
-import BasicSelect from '../components/SingleSelect';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import VisuallyHiddenInput from "../components/VisuallyHiddenInput";
-import { fileToDataUrl } from '../helpers';
+import React from 'react';
+import '../../styles/EditForm.css';
+import EditForm from '../../components/EditForm';
+import { TextField } from "@mui/material";
+import { apiPut } from "../../api";
+import decodeJWT from "../../decodeJWT";
+import MultipleSelectCategoryChip from '../../components/MultiCategorySelect';
+import MultipleSelectChip from '../../components/MultiSelect';
+import BasicSelect from '../../components/SingleSelect';
 
 import {
   useNavigate,

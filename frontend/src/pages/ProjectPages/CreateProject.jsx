@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Button from '@mui/material/Button';
-import '../styles/Company/CreateProject.css'
-import { apiPost } from '../api';
-import MultipleSelectChip from '../components/MultiSelect';
-import MultipleSelectCategoryChip from '../components/MultiCategorySelect';
-import decodeJWT from "../decodeJWT";
+import '../../styles/Company/CreateProject.css'
+import { apiPost } from '../../api';
+import MultipleSelectChip from '../../components/MultiSelect';
+import MultipleSelectCategoryChip from '../../components/MultiCategorySelect';
+import decodeJWT from "../../decodeJWT";
 // import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constants";
 
 import {
@@ -66,7 +66,7 @@ const CreateProject = (props) => {
     .catch(() => {
         alert("Project Details are not valid.")
     });
-    navigate("/companydashboard");
+    navigate("/dashboard");
   }
 
   const handleSkillsChange = (value) => {

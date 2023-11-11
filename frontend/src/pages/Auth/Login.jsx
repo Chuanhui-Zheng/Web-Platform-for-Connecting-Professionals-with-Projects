@@ -1,12 +1,11 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-import Form from "../components/Forms/Form"
+import Form from "../../components/Form"
 import { useState } from "react";
 import { TextField } from "@mui/material";
-import { apiPost } from "../api";
-import decodeJWT from "../decodeJWT";
-import { useHeader } from '../HeaderContext';
-import ErrorPopup from '../components/ErrorPopup';
+import { apiPost } from "../../api";
+import { useHeader } from '../../HeaderContext';
+import ErrorPopup from '../../components/ErrorPopup';
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -47,12 +46,7 @@ function Login() {
           localStorage.setItem("token", data.token);
           setRefresh((prev) => !prev);
           triggerHeaderUpdate();
-          const tokenData = decodeJWT(data.token);
-          if (tokenData.userType === "company") {
-            navigate("/companydashboard");
-          } else if (tokenData.userType === "professional") {
-            navigate("/prodashbaord");
-          }
+          navigate("/dashboard");
         } else {
           setErrorMessage('Login failed');
           toggleError();

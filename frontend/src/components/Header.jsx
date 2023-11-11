@@ -29,8 +29,8 @@ function Header() {
     const [anchor, setAnchor] = React.useState(null);
     const [notifications, setNotifs] = React.useState(null);
     const [newNotif, setNewNotifs] = React.useState(false);
-    const [userType, setUserType] = React.useState('');
-    const [userId, setUserId] = React.useState();
+    const [userType, setUserType] = React.useState(null);
+    const [userId, setUserId] = React.useState(null);
     const [photo, setNewPhoto] = React.useState(null);
     const { reloadHeader } = useHeader();
     
@@ -67,12 +67,8 @@ function Header() {
             const tokenData = decodeJWT(token);
             setUserType(tokenData.userType)
             setUserId(tokenData.userId)
-            console.log("boing", tokenData.userType)
-            console.log("SSS", tokenData.userId)
-            console.log("boisdsdng", userType)
 
             if (tokenData.userType === 'professional') {
-                console.log('AAAAAAAAA')
                 apiGet('/notifications/get', `professionalId=${tokenData.userId}`)
                 .then(data => {
                     if (!data.error) {
@@ -127,13 +123,6 @@ function Header() {
         }
     }
 
-    // const companyPages = [{userType === 'company' ?
-    //     <Button name="companyDashboard" color="inherit" onClick={() => { navigate('/companydashboard') }} sx={{ textTransform: 'none' }}>Company Dashboard</Button>
-    // : userType ===  'professional' ?
-    //      <Button name="proDashbaord" color="inherit" onClick={() => { navigate('/prodashbaord') }} sx={{ textTransform: 'none' }}>Professional Dashboard</Button>: null}];
-
-    // const profPages = [];
-    
     return (
         <Box sx={{backgroundColor: 'pink'}}>
             <CssBaseline />
@@ -148,12 +137,10 @@ function Header() {
             {/* { localStorage.getItem('token') ? ( */} 
             <>
             <Box>
-                {/* {console.log("AAAA WHYYYYYYY",token)} */}
-                {/* {token && (<Button name="companyDashboard" color="inherit" onClick={() => { navigate('/companydashboard') }} sx={{ textTransform: 'none' }}>Company Dashboard</Button>)} */}
-                {userType === 'company' && token ?
-                    <Button name="companyDashboard" color="inherit" onClick={() => { navigate('/companydashboard') }} sx={{ textTransform: 'none' }}>Company Dashboard</Button>
-                : userType ===  'professional' && token ?
-                     <Button name="proDashbaord" color="inherit" onClick={() => { navigate('/prodashbaord') }} sx={{ textTransform: 'none' }}>Professional Dashboard</Button>: null}
+                {
+                    userType != null ? <Button name="dashboard" color="inherit" onClick={() => { navigate('/dashboard') }} sx={{ textTransform: 'none' }}>Dashboard</Button>
+                    : <></>
+                }
                 <Button name="allProjects" color="inherit" onClick={() => { navigate('/allprojects') }} sx={{ textTransform: 'none' }}>Browse Projects</Button>
                 <Button name="aboutus" color="inherit" onClick={() => { navigate('/aboutus') }} sx={{ textTransform: 'none' }}>About Us</Button>
                 {/* <Button name="editprofessionalprofile" color="inherit" onClick={() => { navigate('editprofessionalprofile') }} sx={{ textTransform: 'none' }}>Edit Professional Profile</Button>

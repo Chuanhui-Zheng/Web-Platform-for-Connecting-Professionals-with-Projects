@@ -7,6 +7,8 @@ from functions.filter import getCategories, getSkills
 from functions.profiles import editCompanyProfile, editProfessionalProfile, userDetails, professionalEditProfile
 from functions.edit import editCompany, editProfessional, editProject
 from functions.user import companyDetails, professionalDetails, getUserType
+from functions.admin import allCompanies, allProfessionals, allAdmins, createAdmin
+from functions.delete import deleteProfessionals, deleteCompanies, deleteAdmins
 from functions.projects import (
     projectCreate, 
     projectList, 
@@ -76,8 +78,22 @@ def create_app():
 
     app.add_url_rule('/get/skills', 'getSkills', getSkills, methods=['GET'])
     app.add_url_rule('/get/categories', 'getCategories', getCategories, methods=['GET'])
+
+    # Admin API
+    app.add_url_rule('/admin/allCompanies', 'allCompanies', allCompanies, methods=['GET'])
+    app.add_url_rule('/admin/allProfessionals', 'allProfessionals', allProfessionals, methods=['GET'])
+    app.add_url_rule('/admin/allAdmins', 'allAdmins', allAdmins, methods=['GET'])
+    app.add_url_rule('/admin/createAdmin', 'createAdmin', createAdmin, methods=['POST'])
+
+    # Delete API
+    app.add_url_rule('/delete/professionals', 'deleteProfessionals', deleteProfessionals, methods=["DELETE"])
+    app.add_url_rule('/delete/companies', 'deleteCompanies', deleteCompanies, methods=["DELETE"])
+    app.add_url_rule('/delete/admins', 'deleteAdmins', deleteAdmins, methods=["DELETE"])
+
+    # Rate API
     app.add_url_rule('/project/professional/rateProject', 'rateProject', projectRateProject, methods=['POST'])
     app.add_url_rule('/project/company/rateProfessional', 'rateProefssionals', projectRateProfessional, methods=['POST'])
+
     return app
 
 if __name__ == '__main__':

@@ -1,30 +1,27 @@
-import React from 'react';
+import React from "react";
 import { useState } from "react";
-import Form from "./Form"
+import Form from "../../components/Form"
 import { Button, TextField } from "@mui/material";
+import VisuallyHiddenInput from "../../components/VisuallyHiddenInput";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import VisuallyHiddenInput from "../VisuallyHiddenInput";
 import { apiPost } from "../../api";
 import { useNavigate } from "react-router-dom";
 import { useHeader } from "../../HeaderContext"; 
+import RegistrationErrorMessage from "../../components/RegistrationErrorMessage";
 import { isValidEmail, isValidPassword, fileToDataUrl } from "../../helpers";
-import RegistrationErrorMessage from "../RegistrationErrorMessage";
-import ErrorPopup from '../ErrorPopup';
+import ErrorPopup from "../../components/ErrorPopup";
 
-function CompanyRegisterForm() {
+
+function ProfessionalRegisterForm() {
   const [formData, setFormData] = useState({
-    companyName: "",
-    companyEmail: "",
-    companyPassword: "",
-    companyPhoneNumber: "",
-    companyWebsite: "",
-    companyLogo: "",
-    companyDescription: ""
+    professionalFullName: "",
+    professionalEmail: "",
+    professionalPassword: "",
+    professionalPhoto: ""
   });
   const [isValid, setIsValid] = useState(true);
   const [errorMessage, setErrorMessage] = React.useState('');
   const [error, setError] = React.useState(false);
-
   const navigate = useNavigate();
   const { triggerHeaderUpdate } = useHeader();
 
@@ -47,7 +44,7 @@ function CompanyRegisterForm() {
     fileToDataUrl(file).then((dataUrl) => {
       setFormData({
         ...formData,
-        companyLogo: dataUrl
+        professionalPhoto: dataUrl
       });
       console.log("File as data URL:", dataUrl);
     }).catch((error) => {
@@ -55,44 +52,37 @@ function CompanyRegisterForm() {
     });
   };
 
-
   // Submit registration
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const {
+      professionalEmail,
+      professionalPassword,
+      professionalPhoto,
+      professionalFullName
+    } = formData
+
+    console.log(`professionalEmail = ${professionalEmail}`)
+    console.log(`professionalPassword = ${professionalPassword}`)
+    console.log(`isValidEmail(professionalEmail) = ${isValidEmail(professionalEmail)}`)
+    console.log(`isValidPassword(professionalPassword) = ${isValidPassword(professionalPassword)}`)
+    
 
     // Set that it is valid (by default)
     setIsValid(true)
 
     // Check if valid email
-    if (!isValidEmail(formData.companyEmail) || !isValidPassword(formData.companyPassword)) {
+    if (!isValidEmail(professionalEmail) || !isValidPassword(professionalPassword)) {
       setIsValid(false);
       return;
     }
 
-    const {
-      companyName,
-      companyEmail,
-      companyPassword,
-      companyPhoneNumber,
-      companyWebsite,
-      companyLogo,
-      companyDescription
-    } = formData
-
-    // const companyEmail = formData.companyEmail
-    apiPost("/auth/register/company", { 
-      companyName,
-      companyEmail,
-      companyPassword,
-      companyPhoneNumber,
-      companyWebsite,
-      companyLogo,
-      companyDescription
-    })
+    apiPost("/auth/register/professional", { professionalFullName, professionalEmail, professionalPassword, professionalPhoto })
       .then((data) => {
         if (!data.error) {
           localStorage.setItem("token", data.token);
-          navigate("/companydashboard");
+          navigate("/dashboard");
           triggerHeaderUpdate();
         } else {
           throw new Error("Register failed.")
@@ -106,8 +96,8 @@ function CompanyRegisterForm() {
 
   return (
     <>
-      <Form 
-        formName="Company Register"
+    <Form
+        formName="Professional Register"
         buttonName="Register"
         handleSubmit={handleSubmit}
       >
@@ -120,9 +110,10 @@ function CompanyRegisterForm() {
           variant="filled"
           margin="normal"
           className="form-input"
-          label="Company Name"
-          name="companyName"
-          value={formData.companyName}
+          type="text"
+          label="Full name"
+          name="professionalFullName"
+          value={formData.professionalFullName}
           onChange={onChange}
         />
         <TextField
@@ -130,9 +121,9 @@ function CompanyRegisterForm() {
           margin="normal"
           className="form-input"
           type="text"
-          label="Company Email"
-          name="companyEmail"
-          value={formData.companyEmail}
+          label="Email"
+          name="professionalEmail"
+          value={formData.professionalEmail}
           onChange={onChange}
         />
         <TextField
@@ -140,9 +131,19 @@ function CompanyRegisterForm() {
           margin="normal"
           className="form-input"
           type="text"
-          label="Company Password"
-          name="companyPassword"
-          value={formData.companyPassword}
+          label="Password"
+          name="professionalPassword"
+          value={formData.professionalPassword}
+          onChange={onChange}
+        />
+        {/* <TextField
+          variant="filled"
+          margin="normal"
+          className="form-input"
+          type="text"
+          label="Website"
+          name="professionalWebsite"
+          value={formData.professionalWebsite}
           onChange={onChange}
         />
         <TextField
@@ -150,9 +151,9 @@ function CompanyRegisterForm() {
           margin="normal"
           className="form-input"
           type="text"
-          label="Company Phone Number"
-          name="companyPhoneNumber"
-          value={formData.companyPhoneNumber}
+          label="Phone Number"
+          name="professionalPhoneNumber"
+          value={formData.professionalPhoneNumber}
           onChange={onChange}
         />
         <TextField
@@ -160,9 +161,9 @@ function CompanyRegisterForm() {
           margin="normal"
           className="form-input"
           type="text"
-          label="Company Website"
-          name="companyWebsite"
-          value={formData.companyWebsite}
+          label="Description"
+          name="professionalDescription"
+          value={formData.professionalDescription}
           onChange={onChange}
         />
         <TextField
@@ -170,11 +171,31 @@ function CompanyRegisterForm() {
           margin="normal"
           className="form-input"
           type="text"
-          label="Company Description"
-          name="companyDescription"
-          value={formData.companyDescription}
+          label="Qualifications"
+          name="professionalQualifications"
+          value={formData.professionalQualifications}
           onChange={onChange}
         />
+        <TextField
+          variant="filled"
+          margin="normal"
+          className="form-input"
+          type="text"
+          label="Education"
+          name="professionalEducation"
+          value={formData.professionalEducation}
+          onChange={onChange}
+        />
+        <TextField
+          variant="filled"
+          margin="normal"
+          className="form-input"
+          type="text"
+          label="Skills"
+          name="professionalSkills"
+          value={formData.professionalSkills}
+          onChange={onChange}
+        /> */}
         <Button
           sx={{ margin: '16px 0' }}
           className="form-input"
@@ -182,13 +203,13 @@ function CompanyRegisterForm() {
           variant="contained"
           startIcon={<CloudUploadIcon />}
         >
-          Upload Company Logo
+          Upload Profile Photo
           <VisuallyHiddenInput
-              type="file"
-              accept="image/*"
-              name="companyLogo"
-              value=""
-              onChange={handleFileChange}
+            type="file"
+            accept="image/*"
+            name="professionalPhoto"
+            value=""
+            onChange={handleFileChange}
           />
         </Button>
       </Form>
@@ -197,4 +218,4 @@ function CompanyRegisterForm() {
   )
 }
 
-export default CompanyRegisterForm
+export default ProfessionalRegisterForm

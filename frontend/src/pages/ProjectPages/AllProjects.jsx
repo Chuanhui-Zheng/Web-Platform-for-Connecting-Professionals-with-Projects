@@ -30,14 +30,14 @@ import SearchIcon from '@mui/icons-material/Search';
 import Chip from '@mui/material/Chip';
 // import { PageContainer } from '@toolpad/core/PageContainer';
 // import { AppProvider } from '@toolpad/core/AppProvider';
-import { apiGet } from '../api';
-import Header from '../components/Header';
-import SearchBar from '../components/SearchBar';
-import ProjectDetailWindow from '../components/ProjectDetailWindow';
-import SideBar from '../components/SideBar';
+import { apiGet } from '../../api';
+import Header from '../../components/Header';
+import SearchBar from '../../components/SearchBar';
+import ProjectDetailWindow from '../../components/ProjectDetailWindow';
+import SideBar from '../../components/SideBar';
 
-import SidePanel from '../components/SidePanel';
-import Dummy from '../components/Dummy';
+import SidePanel from '../../components/SidePanel';
+import Dummy from '../../components/Dummy';
 
 const headerStyle = {
   display: 'flex',
@@ -133,18 +133,18 @@ export default function AllProjects() {
   const [allProjects, setAllProjects] = React.useState([{}]);
 
   React.useEffect(() => {
-    apiGet("/project/listall",)
+    apiGet("/project/listall")
     .then((data) => {
-        if (!data.error) {
-          setAllProjects(data);
-          // console.log("project details:", allProjects)
-          console.log("project details:", data)
-        } else {
-            throw new Error("Get Projects");
-        }
+      if (!data.error) {
+        setAllProjects(data);
+        // console.log("project details:", allProjects)
+        console.log("project details:", data)
+      } else {
+          throw new Error();
+      }
     })
-    .catch(() => {
-        alert("not valid.");
+    .catch((data) => {
+        alert(data.error);
     });
   }, []);
 

@@ -1,8 +1,7 @@
 import * as React from 'react';
-import RaitingMainContent from '../components/RaitingMainContent';
-import RaitingSideBar from '../components/RaitingSideBar';
+import RaitingMainContent from '../../components/RaitingMainContent';
 import {Typography, Box, Card} from '@mui/material'
-import { apiGet } from '../api';
+import { apiGet } from '../../api';
 
 
 function RateProfessional() {

@@ -1,4 +1,4 @@
-import '../../styles/EditForm.css'
+import '../styles/EditForm.css'
 import { Button, Typography } from "@mui/material";
 
 function EditForm({ formName, buttonName, handleSubmit, children }) {

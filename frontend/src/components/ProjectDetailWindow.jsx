@@ -269,7 +269,7 @@ export default function ProjectDetailWindow({ projectID }) {
         justifyContent: 'center',
         height: '100vh', // Full viewport height
         textAlign: 'center'}}><Typography variant="h6" component="h1" gutterBottom>
-      Select a project to see full details! 
+      Welcome! Select a project to view full details!
       </Typography></Box></Box>;
   }
 
@@ -283,11 +283,9 @@ export default function ProjectDetailWindow({ projectID }) {
         </Typography></Box></Box>;
     }
 
-    
-
-    return (
-        <Box sx={{width: '100%'}}>
-      <Box component="main" sx={{flexGrow: 1, p: 3, width: '100%' }}>
+  return (
+      <Box sx={{width: '100%'}}>
+    <Box component="main" sx={{flexGrow: 1, p: 3, width: '100%' }}>
 
         <div style={headerStyle}>
           <Avatar sx={{ width: 32, height: 32 }} />
@@ -306,40 +304,40 @@ export default function ProjectDetailWindow({ projectID }) {
             {projectInfo.projectCompany}
             </Typography>
 
-            <Container sx={{flexDirection: 'row'}}>
-              <Box display="flex" alignItems="center" mb={1}>
-                <BusinessCenterIcon style={{ marginRight: 8 }} />
-                <Typography variant="body2" color="textSecondary">
-                {projectInfo.projectCategory}
-                </Typography>
-              </Box>
-              <Box display="flex" alignItems="center" mb={1}>
-                <DateRangeIcon style={{ marginRight: 8 }} />
-                <Typography variant="body2" color="textSecondary">
-                {projectInfo.projectStartDate} - {projectInfo.projectEndDate}
-                </Typography>
-              </Box>
-              <Box display="flex" alignItems="center" mb={1}>
-                <LocationOnIcon style={{ marginRight: 8 }} />
-                <Typography variant="body2" color="textSecondary">
-                {projectInfo.projectLocation}
-                </Typography>
-              </Box>
-              <Box display="flex" alignItems="center" mb={1}>
-                <GroupsIcon style={{ marginRight: 8 }} />
-                <Typography variant="body2" color="textSecondary">
-                {projectInfo.professionalsWanted}
-                </Typography>
-              </Box>
-            </Container>
+          <Container sx={{flexDirection: 'row'}}>
+            <Box display="flex" alignItems="center" mb={1}>
+              <BusinessCenterIcon style={{ marginRight: 8 }} />
+              <Typography variant="body2" color="textSecondary">
+              {projectInfo.projectCategory}
+              </Typography>
+            </Box>
+            <Box display="flex" alignItems="center" mb={1}>
+              <DateRangeIcon style={{ marginRight: 8 }} />
+              <Typography variant="body2" color="textSecondary">
+              {projectInfo.projectStartDate} - {projectInfo.projectEndDate}
+              </Typography>
+            </Box>
+            <Box display="flex" alignItems="center" mb={1}>
+              <LocationOnIcon style={{ marginRight: 8 }} />
+              <Typography variant="body2" color="textSecondary">
+              {projectInfo.projectLocation}
+              </Typography>
+            </Box>
+            <Box display="flex" alignItems="center" mb={1}>
+              <GroupsIcon style={{ marginRight: 8 }} />
+              <Typography variant="body2" color="textSecondary">
+              {projectInfo.professionalsWanted}
+              </Typography>
+            </Box>
+          </Container>
 
-            <Typography variant="body2" color="textSecondary" paragraph>
-              Required Skills:
-            </Typography>
-            <Box mb={2}>
-            {skills.map((skill, idx) => (
-              <StyledChip label={skill} />
-            ))}
+          <Typography variant="body2" color="textSecondary" paragraph>
+            Required Skills:
+          </Typography>
+          <Box mb={2}>
+          {skills.map((skill, idx) => (
+            <StyledChip label={skill} />
+          ))}
 
 
           </Box>

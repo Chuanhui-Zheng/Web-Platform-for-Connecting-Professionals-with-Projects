@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Link, useNavigate, Navigate , useParams } from 'react-router-dom';
-import { apiGet } from '../api';
+import { apiGet } from '../../api';
 import RateProfessional from './RateProfessional';
 import RateProject from './RateProject';
-import decodeJWT from '../decodeJWT';
+import decodeJWT from '../../decodeJWT';
 import { PageContainer } from '@toolpad/core/PageContainer';
 
 

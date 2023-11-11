@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_jwt_extended import create_access_token
 from flask_cors import CORS
-from database.models import Company, Professional
+from database.models import Company, Professional, Admin
 
 app = Flask(__name__)
 
@@ -85,6 +85,7 @@ def login():
 
     company = Company.get_company_by_email(companyEmail=email)
     professional = Professional.get_professional_by_email(professionalEmail=email)
+    admin = Admin.get_admin_by_email(adminEmail=email)
 
     if company is not None:
         if company.check_company_password(companyPassword=password):
@@ -100,6 +101,13 @@ def login():
                 "userType": "professional"
             })
             return jsonify({ "token": access_token }), 200
+    elif admin is not None:
+        if admin.check_admin_password(adminPassword=password):
+            access_token = create_access_token(identity=email, additional_claims={
+                "userId": admin.adminId,
+                "userType": "admin"
+            })
+            return jsonify({ "token": access_token }), 200   
 
     return jsonify({"error": "Invalid username or password"}), 400
 

@@ -1,8 +1,8 @@
 import { useState } from "react"
-import CompanyRegisterForm from "../components/Forms/CompanyRegisterForm";
+import CompanyRegisterForm from "./CompanyRegisterForm";
 import { Box, Button } from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ProfessionalRegisterForm from "../components/Forms/ProfessionalRegisterForm";
+import ProfessionalRegisterForm from "./ProfessionalRegisterForm";
 
 function Register() {
 

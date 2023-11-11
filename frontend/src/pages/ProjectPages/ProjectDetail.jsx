@@ -26,13 +26,13 @@ import AppBar from '@mui/material/AppBar';
 import Chip from '@mui/material/Chip';
 // import { PageContainer } from '@toolpad/core/PageContainer';
 // import { AppProvider } from '@toolpad/core/AppProvider';
-import { apiGet, apiPost } from '../api';
+import { apiGet, apiPost } from '../../api';
 import { useLocation } from 'react-router-dom';
-import ProjectDetailWindow from '../components/ProjectDetailWindow';
+import ProjectDetailWindow from '../../components/ProjectDetailWindow';
 
-import Header from '../components/Header';
+import Header from '../../components/Header';
 import { useNavigate, useParams } from "react-router-dom";
-import decodeJWT from '../decodeJWT';
+import decodeJWT from '../../decodeJWT';
 
 const headerStyle = {
   display: 'flex',

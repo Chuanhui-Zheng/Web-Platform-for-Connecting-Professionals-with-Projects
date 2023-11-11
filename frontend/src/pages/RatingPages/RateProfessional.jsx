@@ -1,8 +1,8 @@
 import * as React from 'react';
-import RaitingMainContent from '../components/RaitingMainContent';
-import RaitingSideBar from '../components/RaitingSideBar';
+import RaitingMainContent from '../../components/RaitingMainContent';
+import RaitingSideBar from '../../components/RaitingSideBar';
 import {Typography, Box} from '@mui/material'
-import { apiGet } from '../api';
+import { apiGet } from '../../api';
 
 function RateProfessional() {
 	const currentUrl = window.location.href;

@@ -1,10 +1,10 @@
 import { Box, Typography, Button } from "@mui/material";
-import ProjectCard from "../components/Professional/Dashboard/ProjectCard";
+import ProjectCard from "../../components/Professional/Dashboard/ProjectCard";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom"
-import { apiGet, apiPost } from "../api";
-import decodeJWT from "../decodeJWT";
-import Card from "../components/Card"
+import { apiGet, apiPost } from "../../api";
+import decodeJWT from "../../decodeJWT";
+import Card from "../../components/Card"
 
 function ProjectApplicantList() {
   const params = useParams();

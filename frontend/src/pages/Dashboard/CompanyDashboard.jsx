@@ -12,9 +12,9 @@ import { PageContainer } from '@toolpad/core/PageContainer';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { useDemoRouter } from '@toolpad/core/internals';
 
-import ProjectCard from '../components/Professional/Dashboard/ProjectCard.jsx';
-import { getProjects } from '../helpers.js';
-import decodeJWT from '../decodeJWT.js';
+import ProjectCard from '../../components/Professional/Dashboard/ProjectCard.jsx';
+import { getProjects } from '../../helpers.js';
+import decodeJWT from '../../decodeJWT.js';
 
 // import Form from "../components/Form"
 const titleStyle = {

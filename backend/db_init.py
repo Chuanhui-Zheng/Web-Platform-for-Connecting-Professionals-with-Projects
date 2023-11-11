@@ -1,24 +1,28 @@
 from app import create_app
 from extensions import db
-from database.models import Company, Professional, Projects, Skills, Categories
+from database.models import Company, Professional, Projects, Skills, Categories, Admin
 
 # Initialize your default data
 DEFAULT_SKILLS = ["Coding", "Project Management", "Data Analysis", "Design", "Marketing"]
 DEFAULT_CATEGORIES = ["Software", "Finance", "Healthcare", "Education", "Construction"]
 
 # Sample data for other tables
+DEFAULT_ADMINS = [
+    {"adminEmail": "admin", "adminPassword": "Password"}
+]
+
 DEFAULT_COMPANIES = [
     {"companyName": "Microsoft", "companyEmail": "contact@techcorp.com", "companyPassword": "Password","companyPhoneNumber": "123-456-7890", "companyWebsite": "microsoft.com", "companyDescription": "Macro Hard. New project seeking to revolutionise the new generation!"},
     {"companyName": "Apple", "companyEmail": "info@healthsolutions.com", "companyPassword": "Password","companyPhoneNumber": "098-765-4321", "companyWebsite": "apple.com", "companyDescription": "Apples? One of them a day definitely will keep the doctor away."}
 ]
 
 DEFAULT_PROFESSIONALS = [
-    {"professionalFullName": "Ce Min Pangastur", "professionalEmail": "min@example.com", "professionalPassword":"Password","professionalSkills": ["Coding", "Design", "Data Analysis", "Marketing"]},
-    {"professionalFullName": "Edison Chang", "professionalEmail": "edison@example.com", "professionalPassword":"Password","professionalSkills": ["Procrastinating"]},
-    {"professionalFullName": "Jerry Li", "professionalEmail": "jerry@example.com", "professionalPassword":"Password","professionalSkills": ["Coding", "Design"]},
-    {"professionalFullName": "Millie Hai", "professionalEmail": "millie@example.com", "professionalPassword":"Password","professionalSkills": ["Greetings", "Marketing"]},
-    {"professionalFullName": "Blair Zheng", "professionalEmail": "blair@example.com", "professionalPassword":"Password","professionalSkills": ["Coding", "Design", "Database", "TFT"]},
-    {"professionalFullName": "Andrew Lin", "professionalEmail": "andrew@example.com", "professionalPassword":"Password","professionalSkills": ["Data Analysis", "Marketing", "Pasta sauce"]}
+    {"professionalFullName": "Ce Min Pangastur", "professionalWebsite": "www.min.com", "professionalQualifications": "Bachelors of Computer Science", "professionalDescription": "Hello, my name is Min", "professionalPhoneNumber": "0412345678", "professionalEmail": "min@example.com", "professionalPassword":"Password","professionalSkills": ["Coding", "Design", "Data Analysis", "Marketing"]},
+    {"professionalFullName": "Edison Chang", "professionalWebsite": "www.edison.com", "professionalQualifications": "Bachelors of Computer Science", "professionalDescription": "Hello, my name is Edison", "professionalPhoneNumber": "0412345679", "professionalEmail": "edison@example.com", "professionalPassword":"Password","professionalSkills": ["Procrastinating"]},
+    {"professionalFullName": "Jerry Li", "professionalWebsite": "www.jerry.com", "professionalQualifications": "Bachelors of Computer Science", "professionalDescription": "Hello, my name is Jerry", "professionalPhoneNumber": "0412345670", "professionalEmail": "jerry@example.com", "professionalPassword":"Password","professionalSkills": ["Coding", "Design"]},
+    {"professionalFullName": "Millie Hai", "professionalWebsite": "www.millie.com", "professionalQualifications": "Bachelors of Computer Science", "professionalDescription": "Hello, my name is Millie", "professionalPhoneNumber": "0412345671", "professionalEmail": "millie@example.com", "professionalPassword":"Password","professionalSkills": ["Greetings", "Marketing"]},
+    {"professionalFullName": "Blair Zheng", "professionalWebsite": "www.blair.com", "professionalQualifications": "Bachelors of Computer Science", "professionalDescription": "Hello, my name is Blair", "professionalPhoneNumber": "0412345672", "professionalEmail": "blair@example.com", "professionalPassword":"Password","professionalSkills": ["Coding", "Design", "Database", "TFT"]},
+    {"professionalFullName": "Andrew Lin", "professionalWebsite": "www.andrew.com", "professionalQualifications": "Bachelors of Computer Science", "professionalDescription": "Hello, my name is Andrew", "professionalPhoneNumber": "0412345673", "professionalEmail": "andrew@example.com", "professionalPassword":"Password","professionalSkills": ["Data Analysis", "Marketing", "Pasta sauce"]}
 ]
 
 # Sample projects to be created under a specific company
@@ -116,6 +120,20 @@ with app.app_context():
             categories_entry = Categories(listOfCategories=DEFAULT_CATEGORIES)
             db.session.add(categories_entry)
 
+        # Initialize admins
+        admin_instances = {}
+        for admin_data in DEFAULT_ADMINS:
+            existing_admin = Admin.query.filter_by(adminEmail=admin_data["adminEmail"]).first()
+            if existing_admin is None:
+                admin = Admin(**admin_data)
+                admin.set_admin_password(admin_data["adminPassword"])
+                db.session.add(admin)
+                db.session.flush()
+                admin_instances[admin.adminEmail] = admin
+            else:
+                admin_instances[admin_data["adminEmail"]] = existing_admin
+
+
         # Initialize companies
         company_instances = {}
         for company_data in DEFAULT_COMPANIES:
@@ -136,7 +154,11 @@ with app.app_context():
                     professionalFullName=professional_data["professionalFullName"],
                     professionalEmail=professional_data["professionalEmail"],
                     professionalPassword=professional_data["professionalPassword"],
-                    professionalSkills=professional_data["professionalSkills"]
+                    professionalSkills=professional_data["professionalSkills"],
+                    professionalWebsite=professional_data["professionalWebsite"],
+                    professionalDescription=professional_data["professionalDescription"],
+                    professionalQualifications=professional_data["professionalQualifications"],
+                    professionalPhoneNumber=professional_data["professionalPhoneNumber"]
                 )
                 professional.set_professional_password(professional_data["professionalPassword"])
                 db.session.add(professional)

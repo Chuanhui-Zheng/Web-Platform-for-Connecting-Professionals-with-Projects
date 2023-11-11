@@ -30,7 +30,14 @@ def create_id():
     while newId in existingIds:
         newId = random.randint(1, 1000000)
     
-    return newId
+    return str(newId)
+
+### HAVE NOT BEEN TESTED (also make the create_id return a string)
+def create_admin_id():
+    if db.session.query(Admin).count() == 0:
+        return "1"
+    else:
+        return create_id()
 
 class Company(db.Model):
     __tablename__ = "companies"
@@ -90,9 +97,9 @@ class Company(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    # def delete_company(self):
-    #     db.session.delete(self)
-    #     db.session.commit()
+    def delete_company(self):
+        db.session.delete(self)
+        db.session.commit()
 
 class Professional(db.Model):
     __tablename__ = "professionals"
@@ -156,6 +163,10 @@ class Professional(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def delete_professional(self):
+        db.session.delete(self)
+        db.session.commit()
+
 
     #Sets all data
     def set_professional_details(self, name, website, number, description, qualification, education, skills, photo):
@@ -175,6 +186,41 @@ class Professional(db.Model):
                 setattr(self, dbField, value)
         db.session.commit()
 
+class Admin(db.Model):
+    __tablename__ = "admins"
+    adminId = db.Column(db.String(), primary_key=True, default=create_admin_id)
+    adminEmail = db.Column(db.String(), nullable=False)
+    adminPassword = db.Column(db.Text())
+
+    def __repr__(self):
+        return f"<Admin {self.adminEmail}>"
+
+    def set_admin_password(self, adminPassword):
+        if not adminPassword:
+            return
+        
+        self.adminPassword = generate_password_hash(adminPassword)
+        db.session.commit()
+
+    def check_admin_password(self, adminPassword):
+        return check_password_hash(self.adminPassword, adminPassword)
+    
+    @classmethod
+    def get_admin_by_email(cls, adminEmail):
+        return cls.query.filter_by(adminEmail=adminEmail).first()
+    
+    @classmethod
+    def get_admin_by_id(cls, adminId):
+        return cls.query.filter_by(adminId=adminId).first()
+    
+    def save_admin(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete_admin(self):
+        db.session.delete(self)
+        db.session.commit()
+        
 class Projects(db.Model):
     __tablename__ = 'projects'
     projectId = db.Column(db.String(), primary_key=True, default=create_id)
@@ -282,6 +328,10 @@ class Projects(db.Model):
         
     def save_project(self):
         db.session.add(self)
+        db.session.commit()
+
+    def delete_project(self):
+        db.session.delete(self)
         db.session.commit()
         
 class Skills(db.Model):

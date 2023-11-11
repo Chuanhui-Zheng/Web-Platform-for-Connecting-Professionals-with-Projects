@@ -1,21 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../styles/EditForm.css'
-import EditForm from '../components/Forms/EditForm';
+import '../../styles/EditForm.css'
+import EditForm from '../../components/EditForm';
 import { Button, TextField } from "@mui/material";
-import decodeJWT from "../decodeJWT";
-import ProfileHeader from "../components/ProfileHeader";
-import { fileToDataUrl } from '../helpers';
+import decodeJWT from "../../decodeJWT";
+import ProfileHeader from "../../components/ProfileHeader";
+import { fileToDataUrl } from '../../helpers';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import VisuallyHiddenInput from "../components/VisuallyHiddenInput";
-import MultipleSelectChip from '../components/MultiSelect';
-import { useHeader } from '../HeaderContext';
-
+import VisuallyHiddenInput from "../../components/VisuallyHiddenInput";
+import MultipleSelectChip from '../../components/MultiSelect';
+import { useHeader } from '../../HeaderContext';
 import {
   useNavigate,
   useParams,
 } from 'react-router-dom';
-import { apiPut } from '../api';
+import { apiPut } from '../../api';
 
 const EditProfessionalProfile = ( { userId } ) => {
   console.log("edit professional profile")

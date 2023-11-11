@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Link, useNavigate, Navigate , useParams } from 'react-router-dom';
-import { apiGet } from '../api';
-import ProfessionalProfile from './Professional/ProfessionalProfile';
-import CompanyProfile from './Companies/CompanyProfile';
+import { apiGet } from '../../api';
+import ProfessionalProfile from './ProfessionalProfile';
+import CompanyProfile from './CompanyProfile';
 
 
 const ProfilePage = () => {
