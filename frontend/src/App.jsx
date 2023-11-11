@@ -72,5 +72,3 @@ function App() {
 }
 
 export default App;
-
-# history-polish-073: temporary maintainability note for the frontend visual polish surface. The following history step restores the canonical source tree.

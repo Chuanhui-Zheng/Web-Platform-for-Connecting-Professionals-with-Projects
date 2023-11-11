@@ -440,34 +440,32 @@ RETURN {
 @app.route('/project/company/approve', methods=['POST']) #tested
 def projectCompanyApprove():
     data = request.get_json()
-    professionalId = data.get("professionalId")
+    professionalIds = data.get("professionalIds")
     projectId = data.get("projectId")
     
     project = Projects.get_project_by_id(projectId)
     if project is None:
         return jsonify({"error": "Project does not exist"}), 409
     
-    professional = Projects.get_professional_by_id(professionalId)
-    if professional is None:
-        return jsonify({"error": "Professional does not exist"}), 409
-    
-    # Checks if the professional has already been approved
-    if any(applicant['professionalId'] == professionalId for applicant in project.listOfProfessionals):
-        return jsonify({"error": "Professional already approved"}), 406
+    for professionalId in professionalIds:
+        professional = Projects.get_professional_by_id(professionalId)
+        if professional is None:
+            return jsonify({"error": "Professional {professionalId} does not exist"}), 409
+        
+        # Checks if the professional has already been approved
+        if any(applicant['professionalId'] == professionalId for applicant in project.listOfProfessionals):
+            return jsonify({"error": "Professional {professionalId} already approved"}), 406
 
-    # Check if the professional is not an applicant
-    if not any(applicant['professionalId'] == professionalId for applicant in project.listOfApplicants):
-        return jsonify({"error": "Professional not an applicant"}), 405
+        # Check if the professional is not an applicant
+        if not any(applicant['professionalId'] == professionalId for applicant in project.listOfApplicants):
+            return jsonify({"error": "Professional {professionalId} not an applicant"}), 405
+        
+        project.remove_from_list(professionalId, "listOfApplicants")
+        project.add_to_list(professionalId, "listOfProfessionals", "Approved")
     
-    project.remove_from_list(professionalId, "listOfApplicants")
-    project.add_to_list(professionalId, "listOfProfessionals", "Approved")
-    
-    # message = {
-    #     "success": f"Congratulations! You have been approved for the {project.projectName} project!"
-    # }
-    message = f"Congratulations! You have been approved for the {project.projectName} project!"
-
-    professional.add_notification(professionalId, message)
+        # Send notification
+        message = f"Congratulations! You have been approved for the {project.projectName} project!"
+        professional.add_notification(professionalId, message)
 
     return jsonify({"success": "Professional approved"}), 200
 
@@ -485,7 +483,7 @@ RETURN {
 @app.route('/project/company/reject', methods=['POST']) #tested
 def projectCompanyReject():
     data = request.get_json()
-    professionalId = data.get("professionalId")
+    professionalIds = data.get("professionalIds")
     projectId = data.get("projectId")
     
     project = Projects.get_project_by_id(projectId)
@@ -493,13 +491,13 @@ def projectCompanyReject():
         return jsonify({"error": "Project does not exist"}), 409
     
     new_status = "Rejected"
-    result = project.set_status(professionalId, new_status)
+
+    for professionalId in professionalIds:
+        result = project.set_status(professionalId, new_status)
+        if not result:
+            return jsonify({"error": "Could not set status for professional with id {professionalId}"}), 404
     
-    if result:
-        return jsonify({"success": f"Status updated to {new_status}"}), 200
-    else:
-        return jsonify({"error": "Could not set status"}), 404
-        
+    return jsonify({"success": f"Status updated to {new_status}"}), 200
 
 '''
 PARAMETERS {
