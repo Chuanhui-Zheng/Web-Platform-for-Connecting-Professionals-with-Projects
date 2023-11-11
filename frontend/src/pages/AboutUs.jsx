@@ -5,7 +5,7 @@ const teamMembers = [
   { name: 'Ce Min Pangastur', role: 'Product Owner', image: '' },
   { name: 'Jerry Li', role: 'Scrum Master', image: '' },
   { name: 'Andrew Lin', role: 'Software Engineer', image: '' },
-  { name: 'Millie  Chang', role: 'Software Engineer', image: '' },
+  { name: 'Millie  Hai', role: 'Software Engineer', image: '' },
   { name: 'Edison Chang', role: 'Software Engineer', image: '' },
   { name: 'Blair Zheng', role: 'Software Engineer', image: '' },
 ];

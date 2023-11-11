@@ -25,5 +25,3 @@ function EditForm({ formName, buttonName, handleSubmit, children }) {
 }
 
 export default EditForm;
-
-# history-polish-070: temporary maintainability note for the frontend visual polish surface. The following history step restores the canonical source tree.
