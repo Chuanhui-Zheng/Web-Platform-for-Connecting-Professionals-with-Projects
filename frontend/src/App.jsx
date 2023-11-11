@@ -13,7 +13,6 @@ import NotFound from "./pages/ErrorPages/NotFound"
 import CreateProject from './pages/ProjectPages/CreateProject';
 import ProjectDetail from './pages/ProjectPages/ProjectDetail';
 import ProjectPage from './pages/ProjectPages/ProjectPage';
-import ProjectApplicantList from './components/ProjectApplicantList';
 import ProfilePage from './pages/ProfilePages/ProfilePage';
 // import ProtectedRoute from "./components/ProtectedRoute";
 import EditProfilePage from './pages/ProfilePages/EditProfilePage';
@@ -64,7 +63,6 @@ function App() {
               <Route path="/projectpage/:projectID/edit" element={<EditProject />} />
               <Route path="/project/:projectId/rate" element={<ReviewPage />} />
               {/* <Route path="/project/rate" element={<RateProfessional />} /> */}
-              <Route path="/project/:projectId/applicants" element={<ProjectApplicantList />} />
           </Routes>
         </PageContainer>
     </BrowserRouter>
