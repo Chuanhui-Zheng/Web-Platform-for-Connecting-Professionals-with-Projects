@@ -33,6 +33,7 @@ import { fileToDataUrl } from '../helpers';
 import CustomisedRating from './CustomisedRating'; 
 import StarIcon from '@mui/icons-material/Star';
 import PaginationCards from './Pagination';
+import SnackbarAlert from './SnackbarAlert';
 
 const headerStyle = {
     display: 'flex',
@@ -76,6 +77,11 @@ export default function ProjectDetailWindow({ projectID }) {
     const [token, setToken]= React.useState('');
     const [approved, setApproved] = React.useState(false);
     const [pending, setPending] = React.useState(true);
+    const [showSnackBar, setShowSnackbar] = React.useState(false);
+
+    const toggleSnackbar = () => {
+        setShowSnackbar(!showSnackBar)
+    }
 
     useEffect(() => {
         const glob = localStorage.getItem('token');
@@ -180,6 +186,7 @@ export default function ProjectDetailWindow({ projectID }) {
             .then((data) => {
                 if (!data.error) {
                     console.log(data)
+                    setShowSnackbar(true);
                 } else {
                     throw new Error("Project Apply Failed");
                 }
@@ -470,6 +477,8 @@ export default function ProjectDetailWindow({ projectID }) {
         <Typography variant="h5" component="h2" gutterBottom>Reviews</Typography>
         <PaginationCards reviews={projectInfo.listOfProjectRatings} type="project"></PaginationCards>
       </Box>
+      {showSnackBar && <SnackbarAlert message={'Successfully applied to project'} toggleSuccess=
+      {toggleSnackbar}/>}
       </Box>
-    );
+  );
 }

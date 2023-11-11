@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import '../../styles/EditForm.css'
 import EditForm from '../../components/EditForm';
-import { Button, TextField } from "@mui/material";
+import { Button, Snackbar, TextField } from "@mui/material";
 import decodeJWT from "../../decodeJWT";
 import ProfileHeader from "../../components/ProfileHeader";
 import { fileToDataUrl } from '../../helpers';
@@ -15,6 +15,7 @@ import {
   useParams,
 } from 'react-router-dom';
 import { apiPut } from '../../api';
+import SnackbarAlert from '../../components/SnackbarAlert';
 
 const EditProfessionalProfile = ( { userId } ) => {
   console.log("edit professional profile")
@@ -33,6 +34,11 @@ const EditProfessionalProfile = ( { userId } ) => {
   const [refresh, setRefresh] = React.useState(false);
   const navigate = useNavigate();
   const { triggerHeaderUpdate } = useHeader();
+  const [showSnackBar, setShowSnackbar] = React.useState(false);
+
+  const toggleSnackbar = () => {
+      setShowSnackbar(!showSnackBar)
+  }
 
   React.useEffect(() => {
     const getToken = localStorage.getItem("token");
@@ -83,6 +89,7 @@ const EditProfessionalProfile = ( { userId } ) => {
             setRefresh((prev) => !prev);
             console.log("worked editprof");
             triggerHeaderUpdate();
+            toggleSnackbar();
             console.log(data)
         } else {
             throw new Error("Edit Failed");
@@ -221,6 +228,7 @@ const EditProfessionalProfile = ( { userId } ) => {
                 </div>
             </div>     
         </EditForm>
+        {showSnackBar && <SnackbarAlert message={'Successfully edited profile'} toggleSuccess={toggleSnackbar}/>}
     </>
   );
 }
