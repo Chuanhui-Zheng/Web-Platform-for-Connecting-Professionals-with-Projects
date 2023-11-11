@@ -15,6 +15,7 @@ import {
   useNavigate,
   useParams,
 } from 'react-router-dom';
+import SnackbarAlert from '../../components/SnackbarAlert';
 
 const EditCompanyProfile = ( { userId }) => {
   console.log("edit company profile")
@@ -29,9 +30,12 @@ const EditCompanyProfile = ( { userId }) => {
   const [ownUserId, setOwnUserId] = React.useState('');
   const [refresh, setRefresh] = React.useState(false);
   const { triggerHeaderUpdate } = useHeader();
-  
-  
+  const [showSnackBar, setShowSnackbar] = React.useState(false);
   const navigate = useNavigate();
+ 
+  const toggleSnackbar = () => {
+    setShowSnackbar(!showSnackBar)
+    }
 
   React.useEffect(() => {
     const getToken = localStorage.getItem("token");
@@ -72,6 +76,7 @@ const EditCompanyProfile = ( { userId }) => {
                 setRefresh((prev) => !prev);
                 triggerHeaderUpdate();
                 console.log("worked1");
+                toggleSnackbar();
             } else {
                 throw new Error("Edit Failed");
             }
@@ -174,6 +179,7 @@ const EditCompanyProfile = ( { userId }) => {
                 </div>
             </div>      
         </EditForm>
+        {showSnackBar && <SnackbarAlert message={'Successfully edited profile'} toggleSuccess={toggleSnackbar}/>}
     </>
   );
 }

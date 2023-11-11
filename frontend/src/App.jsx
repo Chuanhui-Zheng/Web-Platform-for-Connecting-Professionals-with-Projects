@@ -44,7 +44,7 @@ function App() {
             <Route path="/logout" element={<Logout />} />
             <Route path="/register" element={<RegisterAndLogout />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/companydashboard/createproject" element={<CreateProject />} />
+            <Route path="/dashboard/createproject" element={<CreateProject />} />
             <Route path="/profile/:userId/edit" element={<EditProfilePage />} />
             <Route path="/allprojects" element={<AllProjects />} />
             <Route path="/aboutus" element={<AboutUs />} />
