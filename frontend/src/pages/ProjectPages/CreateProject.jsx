@@ -66,7 +66,7 @@ const CreateProject = (props) => {
     .catch(() => {
         alert("Project Details are not valid.")
     });
-    navigate("/companydashboard");
+    navigate('/dashboard', {state:{showSnackBar: true, message: 'Successfully created project'}})
   }
 
   const handleSkillsChange = (value) => {

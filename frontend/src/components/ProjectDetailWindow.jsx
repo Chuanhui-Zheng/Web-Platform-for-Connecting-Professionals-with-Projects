@@ -30,6 +30,8 @@ import decodeJWT from '../decodeJWT';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisuallyHiddenInput from "../components/VisuallyHiddenInput";
 import { fileToDataUrl } from '../helpers';
+import SnackbarAlert from './SnackbarAlert';
+
 const headerStyle = {
     display: 'flex',
     alignItems: 'center',
@@ -71,6 +73,11 @@ export default function ProjectDetailWindow({ projectID }) {
     const [certificate, setCertificate]= React.useState(null);
     const [token, setToken]= React.useState('');
     const [approved, setApproved] = React.useState(false);
+    const [showSnackBar, setShowSnackbar] = React.useState(false);
+
+    const toggleSnackbar = () => {
+        setShowSnackbar(!showSnackBar)
+    }
 
     useEffect(() => {
         const glob = localStorage.getItem('token');
@@ -173,6 +180,7 @@ export default function ProjectDetailWindow({ projectID }) {
             .then((data) => {
                 if (!data.error) {
                     console.log(data)
+                    setShowSnackbar(true);
                 } else {
                     throw new Error("Project Apply Failed");
                 }
@@ -452,6 +460,7 @@ export default function ProjectDetailWindow({ projectID }) {
       {projectInfo.contactEmail}
       </Typography>
     </Box>
+    {showSnackBar && <SnackbarAlert message={'Successfully applied to project'} toggleSuccess={toggleSnackbar}/>}
     </Box>
   );
 }
