@@ -45,7 +45,6 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
                         setNewPhoneNumber(data.companyPhoneNumber);
                         setNewWebsite(data.companyWebsite);
                         setNewPhoto(data.companyLogo);
-                        // TODO:setNewCompanyRating(data.companyRating);
                     } else {
                         throw new Error("Get Profile Failed");
                     }
@@ -84,27 +83,6 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
     const handleCloseDialog = () => {
         setIsDialogOpen(false);
     };
-    
-    const formConfigProfessional = [
-        { type: 'text', label: 'Full Name', name: 'professionalFullName' },
-        { type: 'text', label: 'Password', name: 'professionalPassword' },
-        { type: 'text', label: 'Phone Number', name: 'professionalPhoneNumber' },
-        { type: 'textarea', label: 'Tell us About Yourself', name: 'professionalDescription' },
-        { type: 'text', label: 'Qualifications', name: 'professionalQualifications' },
-        { type: 'text', label: 'Education', name: 'professionalEducation' },
-        { type: 'text', label: 'Website', name: 'professionalWebsite' },
-        { type: 'file', label: 'Profile Photo', name: 'professionalPhoto' },
-        { type: 'multiselect', label: 'Skills', name: 'professionalSkills'},
-    ];
-
-    const formConfigCompany = [
-        { type: 'text', label: 'Company Name', name: 'companyName' },
-        { type: 'text', label: 'Password', name: 'companyPassword' },
-        { type: 'text', label: 'Phone Number', name: 'companyPhoneNumber' },
-        { type: 'text', label: 'Company Website', name: 'companyWebsite' },
-        { type: 'textarea', label: 'Tell Us About Yourself', name: 'companyDescription' },
-        { type: 'file', label: 'Company Logo', name: 'companyLogo' },
-    ];
 
     return (
         <div className={styles.Profile}> 
@@ -115,7 +93,6 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
                     <Avatar className={styles.ProfileHeaderProfilePic} src={photo} sx={{ bgcolor: deepOrange[500], width: '120px', height: '120px'  }}/>
                     {ownProfile ? <EditOutlinedIcon 
                     sx={{fontSize: 30, mr: 2, mt: 1, cursor: 'pointer'}} 
-                    // onClick={() => { navigate(`/profile/:${userId}/edit`) }} >
                     onClick={handleOpenDialog} >
                     </EditOutlinedIcon> : <></>}
                 </div>
@@ -146,13 +123,9 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
                
             </div>
             <div>
-                {/* <Button variant="outlined" onClick={handleOpenDialog}>
-                    Open Form Dialog
-                </Button> */}
                 <DynamicFormDialog
                     open={isDialogOpen}
                     onClose={handleCloseDialog}
-                    formConfig={isProfessional ? formConfigProfessional : formConfigCompany}
                     userId={userId}
                     userType={userType}
                     title={`Edit ${userType} profile`}

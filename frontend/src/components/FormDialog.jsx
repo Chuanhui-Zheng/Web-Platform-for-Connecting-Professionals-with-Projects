@@ -84,7 +84,7 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
                     companyPassword: "",
                     companyPhoneNumber: data.companyPhoneNumber,
                     companyWebsite: data.companyWebsite,
-                    companyDescription: data.companyWebsite,
+                    companyDescription: data.companyDescription,
                     companyLogo: data.companyLogo,
                 })
             } else {
@@ -150,12 +150,20 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
   }, []);    
 
 
-  // Handle input changes for text, select, and multi-select fields
+  // Handle input changes for text fields
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
+    }));
+  };
+
+  // Handle input changes for date fields
+  const handleDateChange = (newValue, fieldName) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [fieldName]: newValue ? newValue.format("YYYY-MM-DD") : "", // format as needed
     }));
   };
 
@@ -385,9 +393,10 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
                         <LocalizationProvider key={field.name} dateAdapter={AdapterDayjs}>
                             <DemoContainer components={['DatePicker']}>
                             <DatePicker
+                            name={field.name}
                             label={field.label}
                             defaultValue={formData[field.name] === "" ? null : dayjs(formData[field.name])}
-                            onChange={handleInputChange}
+                            onChange={(newValue) => handleDateChange(newValue, field.name)}
                             />
                             </DemoContainer>
                         </LocalizationProvider>
