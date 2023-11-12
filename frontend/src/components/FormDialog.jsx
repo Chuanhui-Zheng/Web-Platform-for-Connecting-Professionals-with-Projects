@@ -16,44 +16,136 @@ import {
   InputLabel,
   IconButton,
 } from '@mui/material';
-import { apiPut } from '../api';
+import { apiGet, apiPut } from '../api';
 import { fileToDataUrl } from '../helpers';
 import { useHeader } from '../HeaderContext';
 import { useProfile } from '../ProfileContext';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
 import MultipleSelectChip from './MultiSelect'; // Assumes you have a custom multi-select component
+import BasicSelect from './SingleSelect';
+import MultipleSelectCategoryChip from './MultiCategorySelect';
 import SnackbarAlert from './SnackbarAlert';
+import dayjs from 'dayjs';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-const DynamicFormDialog = ({ open, onClose, formConfig, title, userId, userType }) => {
+const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
   const [formData, setFormData] = useState({});
   const [showSnackbar, setShowSnackbar] = useState(false);
   const navigate = useNavigate();
   const { triggerHeaderUpdate } = useHeader();
   const { triggerProfileUpdate } = useProfile();
+  const [formConfigg, setFormConfigg] = useState([]);
+  const [token, setToken] = React.useState('');
 
   useEffect(() => {
     if (userType === "professional") {
-        setFormData({
-            professionalFullName: "",
-            professionalPassword: "",
-            professionalPhoneNumber: "",
-            professionalDescription: "",
-            professionalEducation: "",
-            professionalWebsite: "",
-            professionalQualifications: "",
-            professionalSkills: [],
-            professionalPhoto: "",
+        apiGet("/user/details/professional", `id=${userId}`)
+        .then((data) => {
+            if (!data.error) {
+                setFormData({
+                    professionalFullName: data.professionalFullName,
+                    professionalPassword: "",
+                    professionalPhoneNumber: data.professionalPhoneNumber,
+                    professionalDescription: data.professionalDescription,
+                    professionalEducation: data.professionalEducation,
+                    professionalWebsite: data.professionalWebsite,
+                    professionalQualifications: data.professionalQualifications,
+                    professionalSkills: data.professionalSkills,
+                    professionalPhoto: data.professionalPhoto,
+                })
+            } else {
+                throw new Error("Get Profile Failed");
+            }
         })
+        .catch(() => {
+            alert("Profile fetch5 failed.");
+        });
+        setFormConfigg([
+            { type: 'text', label: 'Full Name', name: 'professionalFullName' },
+            { type: 'text', label: 'Password', name: 'professionalPassword' },
+            { type: 'text', label: 'Phone Number', name: 'professionalPhoneNumber' },
+            { type: 'textarea', label: 'Tell us About Yourself', name: 'professionalDescription' },
+            { type: 'text', label: 'Qualifications', name: 'professionalQualifications' },
+            { type: 'text', label: 'Education', name: 'professionalEducation' },
+            { type: 'text', label: 'Website', name: 'professionalWebsite' },
+            { type: 'file', label: 'Profile Photo', name: 'professionalPhoto' },
+            { type: 'multiselect', label: 'Skills', name: 'professionalSkills'},
+        ])
     } else if (userType === "company") {
-        setFormData({
-            companyName: "",
-            companyPassword: "",
-            companyPhoneNumber: "",
-            companyWebsite: "",
-            companyDescription: "",
-            companyLogo: "",
+        apiGet("/user/details/company", `id=${userId}`)
+        .then((data) => {
+            if (!data.error) {
+                setFormData({
+                    companyName: data.companyName,
+                    companyPassword: "",
+                    companyPhoneNumber: data.companyPhoneNumber,
+                    companyWebsite: data.companyWebsite,
+                    companyDescription: data.companyWebsite,
+                    companyLogo: data.companyLogo,
+                })
+            } else {
+                throw new Error("Get Profile Failed");
+            }
         })
+        .catch(() => {
+            alert("not valid.");
+        });
+        setFormConfigg([
+            { type: 'text', label: 'Company Name', name: 'companyName' },
+            { type: 'text', label: 'Password', name: 'companyPassword' },
+            { type: 'text', label: 'Phone Number', name: 'companyPhoneNumber' },
+            { type: 'text', label: 'Company Website', name: 'companyWebsite' },
+            { type: 'textarea', label: 'Tell Us About Yourself', name: 'companyDescription' },
+            { type: 'file', label: 'Company Logo', name: 'companyLogo' },
+        ])
+    } else if (userType === "project") {
+        apiGet("/project/details", `projectId=${userId}`)
+      .then((data) => {
+        if (!data.error) {
+            setFormData({
+                projectName: data.projectName,
+                contactEmail: data.contactEmail,
+                projectStartDate: data.projectStartDate,
+                projectEndDate: data.projectEndDate,
+                projectCategory: data.projectCategory,
+                projectLocation: data.projectLocation,
+                professionalsWanted: data.professionalsWanted,
+                projectKeyResponsibilities: data.projectKeyResponsibilities,
+                projectSkills: data.projectSkills,
+                projectDescription: data.projectDescription,
+                projectObjectives: data.projectObjectives,
+                projectConfidentialInformation: data.projectConfidentialInformation,
+                projectStatus: data.projectStatus,
+            })
+        } else {
+          console.error("Error fetching project list:", data.error);
+        }
+      })
+      .catch((err) => {
+          alert(err);
+          console.error("Failed to fetch project:", err);
+      })
+        setFormConfigg([
+            { type: 'text', label: 'Project Name', name: 'projectName' },
+            { type: 'text', label: 'Contact Email', name: 'contactEmail' },
+            { type: 'date', label: 'Start Date', name: 'projectStartDate' },
+            { type: 'date', label: 'End Date', name: 'projectEndDate' },
+            { type: 'text', label: 'Location', name: 'projectLocation' },
+            { type: 'text', label: 'Number of Professionals Wanted', name: 'professionalsWanted' },
+            { type: 'textarea', label: 'Key Responsibilities', name: 'projectKeyResponsibilities' },
+            { type: 'multicategoryselect', label: 'Skills', name: 'projectSkills' },
+            { type: 'multicategoryselect', label: 'Category', name: 'projectCategory' },
+            { type: 'textarea', label: 'Project Description', name: 'projectDescription' },
+            { type: 'textarea', label: 'Objective', name: 'projectObjectives' },
+            { type: 'textarea', label: 'Confidential Information', name: 'projectConfidentialInformation' },
+            { type: 'select', label: 'Project Status ', name: 'projectStatus' },
+        ])
+        const getToken = localStorage.getItem("token");
+        setToken(getToken);
     }
   }, []);    
 
@@ -96,6 +188,20 @@ const DynamicFormDialog = ({ open, onClose, formConfig, title, userId, userType 
       professionalSkills: typeof value === 'string' ? value.split(',') : value,
     }));
   };
+
+  const handleCategoriesChange = (value) => {
+    setFormData((prevData) => ({
+        ...prevData,
+        projectCategory: typeof value === 'string' ? value.split(',') : value,
+    }));
+  }
+
+  const handleStatusChange = (value) => {
+    setFormData((prevData) => ({
+        ...prevData,
+        projectStatus: value,
+    }));
+  }
 
   const toggleSnackbar = () => {
     setShowSnackbar((prev) => !prev);
@@ -173,7 +279,53 @@ const DynamicFormDialog = ({ open, onClose, formConfig, title, userId, userType 
         .catch(() => {
             alert("Edit details are not valid.")
         });
-    }
+    }  else if (userType === "project") {
+        const {
+            projectName,
+            contactEmail,
+            projectStartDate,
+            projectEndDate,
+            projectCategory,
+            projectLocation,
+            professionalsWanted,
+            projectKeyResponsibilities,
+            projectSkills,
+            projectDescription,
+            projectObjectives,
+            projectConfidentialInformation,
+            projectStatus,
+        } = formData
+        apiPut("/edit/project", {
+            token: token,
+            projectId: userId,
+            projectName: projectName,
+            contactEmail: contactEmail, 
+            projectStartDate: projectStartDate,
+            projectEndDate: projectEndDate,
+            projectCategory: projectCategory,
+            projectLocation: projectLocation,
+            professionalsWanted: professionalsWanted,
+            projectKeyResponsibilities: projectKeyResponsibilities, 
+            projectSkills: projectSkills,
+            projectDescription: projectDescription,
+            projectObjectives: projectObjectives,
+            projectConfidentialInformation: projectConfidentialInformation,
+            projectStatus: projectStatus
+        }).then((data) =>{
+            if (!data.error) {
+                onClose();
+                toggleSnackbar();
+                // triggerHeaderUpdate();
+                // triggerProfileUpdate();
+                // navigate('/dashboard', {state:{showSnackBar: true, message: 'Successfully edited project'}})
+            } else {
+                throw new Error("Edit Failed");
+            }
+        })
+        .catch(() => {
+            alert("Edit details are not valid.")
+        });
+    } 
     
   };
 
@@ -192,7 +344,7 @@ const DynamicFormDialog = ({ open, onClose, formConfig, title, userId, userType 
             </IconButton>
         </DialogTitle>
         <DialogContent>
-          {formConfig.map((field) => {
+          {formConfigg.map((field) => {
             switch (field.type) {
               case 'text':
                 return (
@@ -204,35 +356,43 @@ const DynamicFormDialog = ({ open, onClose, formConfig, title, userId, userType 
                     onChange={handleInputChange}
                     fullWidth
                     margin="dense"
-                    variant="filled"
+                  />
+                );
+              case 'multicategoryselect':
+                return (
+                  <MultipleSelectCategoryChip
+                    key={field.name}
+                    label={field.label}
+                    value={formData[field.name] || []}
+                    set={handleCategoriesChange}
+                    names={field.name === "projectSkills" ? ["Coding", "Other"]: ["Software", "Construction"]}
+                    options={field.options}
                   />
                 );
               case 'select':
                 return (
-                  <FormControl fullWidth margin="dense" key={field.name}>
-                    <InputLabel>{field.label}</InputLabel>
-                    <Select
-                      name={field.name}
-                      value={formData[field.name] || ''}
-                      onChange={handleInputChange}
-                    >
-                      {field.options.map((option) => (
-                        <MenuItem key={option} value={option}>
-                          {option}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                );
-              case 'multiselect':
-                return (
-                  <MultipleSelectChip
+                  <BasicSelect
                     key={field.name}
+                    label={field.label}
                     value={formData[field.name] || []}
-                    set={handleSkillsChange}
+                    set={handleStatusChange}
+                    names={["Complete", "Active"]}
                     options={field.options}
                   />
                 );
+                case 'date':
+                    return (
+                        <LocalizationProvider key={field.name} dateAdapter={AdapterDayjs}>
+                            <DemoContainer components={['DatePicker']}>
+                            <DatePicker
+                            label={field.label}
+                            defaultValue={formData[field.name] === "" ? null : dayjs(formData[field.name])}
+                            onChange={handleInputChange}
+                            />
+                            </DemoContainer>
+                        </LocalizationProvider>
+                       
+                    );
               case 'textarea':
                 return (
                   <TextField
@@ -245,7 +405,6 @@ const DynamicFormDialog = ({ open, onClose, formConfig, title, userId, userType 
                     margin="normal"
                     multiline
                     rows={4}
-                    variant="filled"
                   />
                 );
               case 'file':
@@ -282,7 +441,7 @@ const DynamicFormDialog = ({ open, onClose, formConfig, title, userId, userType 
       </Dialog>
 
       {/* Snackbar for feedback */}
-      {showSnackbar && <SnackbarAlert message={'Successfully edited profile'} toggleSuccess={toggleSnackbar}/>}
+      {showSnackbar && <SnackbarAlert message={'Changes Saved'} toggleSuccess={toggleSnackbar}/>}
     </>
   );
 };

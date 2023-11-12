@@ -50,7 +50,7 @@ export default function MultipleSelectCategoryChip( { set, names, label } ) {
 
   return (
     <div>
-      <FormControl className="formInput1" sx ={{pt: 0.5}}>
+      <FormControl className="formInput1" sx ={{mt: 1.5, mb:4}}>
         <InputLabel id="demo-multiple-chip-label">{label}</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
@@ -60,7 +60,7 @@ export default function MultipleSelectCategoryChip( { set, names, label } ) {
           onChange={handleChange}
           input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
           renderValue={(selected) => (
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+            <Box>
               {selected.map((value) => (
                 <Chip key={value} label={value} />
               ))}
