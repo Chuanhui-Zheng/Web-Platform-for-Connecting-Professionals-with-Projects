@@ -6,4 +6,4 @@ sqlalchemy
 flask_sqlalchemy
 flask_jwt_extended
 werkzeug
-sentence-transformers
+sentence_transformers

@@ -16,7 +16,11 @@ import BrowseCards from './BrowseCards';
 const RecommendedPopupModal = ({ titleText, recommended, toggleShowRecommended }) => {
     console.log('here')
     return (
-        <Dialog open={true} maxWidth="md" fullWidth>
+        <Dialog open={true} 
+            maxWidth="lg" 
+            fullWidth
+            sx={{ height: 'auto', maxHeight: '80vh' }}
+        >
             <DialogTitle>
                 {titleText}
             </DialogTitle>

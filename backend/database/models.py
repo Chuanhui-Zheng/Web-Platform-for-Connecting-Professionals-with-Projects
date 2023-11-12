@@ -173,7 +173,7 @@ class Professional(db.Model):
         newDetails = {
             "professionalFullName": name,
             "professionalWebsite": website,
-            "professionalNumber": number,
+            "professionalPhoneNumber": number,
             "professionalDescription": description,
             "professionalQualification": qualification,
             "professionalEducation": education,

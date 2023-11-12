@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import { apiGet } from '../api';
-import Button from '@mui/material/Button';
 import decodeJWT from '../decodeJWT';
+import Button from '@mui/material/Button';
 
 import InputBase from '@mui/material/InputBase';
 import Divider from '@mui/material/Divider';
@@ -13,12 +13,6 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
-import JEMMADialog from './JEMMADialog';
-import BrowseCards from './BrowseCards';
-import ListItem from '@mui/material/ListItem';
-import List from '@mui/material/List';
-import MuiDrawer from '@mui/material/Drawer';
-import { width } from '@mui/system';
 import RecommendedPopupModal from './RecommendedPopupModal';
 function sleep(duration) {
   return new Promise((resolve) => {
@@ -210,7 +204,7 @@ export default function SearchBar(props) {
   };
 
   return (
-    <Box sx={{width:'100%'}}>
+    <Box sx={{width:'100%', marginTop: '10vh'}}>
     <Paper
           component="form"
           sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%' }}
@@ -320,19 +314,19 @@ export default function SearchBar(props) {
         />
       )}
     />
-    {(userType === 'professional') && <Button variant="contained" onClick={() => 
+    </Paper>
+	   {(userType === 'professional') && <Button variant="contained" sx={{width: '100%'}} onClick={() => 
       {
         setShowRecommended(true)
-        console.log(recommended)
+        // console.log(recommended)
     }}>View recommended</Button>}
-    {showRecommended && 
-      <RecommendedPopupModal 
-        titleText={'View Recommended Projects'} 
-        recommended={recommended}
-      toggleShowRecommended={toggleShowRecommended}
-      />
-    }
-    </Paper>
+	{showRecommended && (
+        <RecommendedPopupModal
+          titleText={'View Recommended Projects'}
+          recommended={recommended}
+          toggleShowRecommended={toggleShowRecommended}
+        />
+      )} 
     </Box>
     
   );
