@@ -13,7 +13,6 @@ import NotFound from "./pages/ErrorPages/NotFound"
 import CreateProject from './pages/ProjectPages/CreateProject';
 import ProjectDetail from './pages/ProjectPages/ProjectDetail';
 import ProjectPage from './pages/ProjectPages/ProjectPage';
-import ProjectApplicantList from './pages/ProjectPages/ProjectApplicantList';
 import ProfilePage from './pages/ProfilePages/ProfilePage';
 // import ProtectedRoute from "./components/ProtectedRoute";
 import EditProfilePage from './pages/ProfilePages/EditProfilePage';
@@ -21,6 +20,7 @@ import EditProject from './pages/ProjectPages/EditProject';
 import RateProfessional from './pages/RatingPages/RateProfessional';
 import Dashboard from './pages/Dashboard/Dashboard';
 import ReviewPage from "./pages/RatingPages/ReviewPage";
+import { PageContainer } from '@toolpad/core/PageContainer';
 
 function Logout() {
     localStorage.clear()
@@ -35,10 +35,18 @@ function RegisterAndLogout() {
 function App() {
   return (
     <BrowserRouter>
-        {/* <NavBar /> */}
         <Header />
-        {/* <br/> */}
-        <Routes>
+        <PageContainer 
+          className="container" 
+          maxWidth={false} 
+          sx={{
+            width: "100%", 
+            margin: "0px", 
+            paddingRight: { xs: "16px", sm: "25px", md: "60px", lg: "100px" }, 
+            paddingLeft: { xs: "16px", sm: "25px", md: "60px", lg: "100px" }
+          }}
+        >
+          <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<Logout />} />
@@ -55,8 +63,8 @@ function App() {
             <Route path="/projectpage/:projectID/edit" element={<EditProject />} />
             <Route path="/project/:projectId/rate" element={<ReviewPage />} />
             {/* <Route path="/project/rate" element={<RateProfessional />} /> */}
-            <Route path="/project/:projectId/applicants" element={<ProjectApplicantList />} />
-        </Routes>
+          </Routes>
+        </PageContainer>
     </BrowserRouter>
   );
 }

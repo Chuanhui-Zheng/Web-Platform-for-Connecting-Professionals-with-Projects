@@ -102,7 +102,6 @@ function CompanyDashboard() {
 
     return (
         <AppProvider className="APP" sx={{ backgroundColour: 'none' }} navigation={NAVIGATION} router={router} theme={theme}>
-        <PageContainer className="container" maxWidth={false} sx={{width:"100%", "@media (min-width: 0px)": { paddingRight: "25px", paddingLeft: "25px" }, margin: "0px"}}>
         <Box className="title" style={titleStyle}>
             <div>
                 <h1>Dashboard</h1>
@@ -149,7 +148,6 @@ function CompanyDashboard() {
                 ))}
             </AccordionDetails>
         </Accordion>
-        </PageContainer> 
         {showSnackBar && <SnackbarAlert message={message} toggleSuccess={toggleSnackbar}/>}
         </AppProvider>
     );
