@@ -3,7 +3,7 @@ import { Link, useNavigate, Navigate , useParams } from 'react-router-dom';
 import { apiGet } from '../../api';
 import ProfessionalProfile from './ProfessionalProfile';
 import CompanyProfile from './CompanyProfile';
-
+import { ProfileProvider } from '../../ProfileContext';
 
 const ProfilePage = () => {
     console.log("profile reached")
@@ -34,7 +34,11 @@ const ProfilePage = () => {
 
     return (
         <>
-        { userType ? (userType === "Company" ?  <CompanyProfile userId={params.userId.replace(":","")}></CompanyProfile>  :  <ProfessionalProfile userId={params.userId.replace(":","")} ></ProfessionalProfile>) 
+        { userType ? (userType === "Company" ? 
+        <CompanyProfile userId={params.userId.replace(":","")}></CompanyProfile>
+        :  
+        <ProfessionalProfile userId={params.userId.replace(":","")} ></ProfessionalProfile>
+        ) 
         : (<></>) }
         </>
     );
