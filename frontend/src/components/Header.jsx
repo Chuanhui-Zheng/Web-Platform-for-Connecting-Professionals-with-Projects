@@ -129,10 +129,10 @@ function Header() {
             <AppBar position="sticky" sx={{backgroundColor: "#344649"}}>
             <Toolbar sx={{justifyContent: "space-between",  "@media (min-width: 0px)": { paddingRight: "25px", paddingLeft: "25px" },}}>
             <Typography
-                variant="h5"
+                variant="h6"
                 onClick={() => { navigate('/') }}
             >
-                ProJector
+               <b> ProJector.</b>
             </Typography>
             {/* { localStorage.getItem('token') ? ( */} 
             <>
