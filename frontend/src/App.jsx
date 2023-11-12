@@ -42,27 +42,27 @@ function App() {
           sx={{
             width: "100%", 
             margin: "0px", 
-            paddingRight: { xs: "16px", sm: "25px", md: "60px", lg: "100px" }, 
-            paddingLeft: { xs: "16px", sm: "25px", md: "60px", lg: "100px" }
+            paddingRight: { xs: "32px", sm: "50px", md: "120px", lg: "200px" }, 
+            paddingLeft: { xs: "32px", sm: "50px", md: "120px", lg: "200px" }
           }}
         >
           <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/logout" element={<Logout />} />
-              <Route path="/register" element={<RegisterAndLogout />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/dashboard/createproject" element={<CreateProject />} />
-              <Route path="/profile/:userId/edit" element={<EditProfilePage />} />
-              <Route path="/allprojects" element={<AllProjects />} />
-              <Route path="/aboutus" element={<AboutUs />} />
-              <Route path="*" element={<NotFound />}></Route>
-              <Route path="/profile/:userId" element={<ProfilePage />} />
-              <Route path="/projectdetail/:projectID" element={<ProjectDetail />} />
-              <Route path="/projectpage/:projectID" element={<ProjectPage />} />
-              <Route path="/projectpage/:projectID/edit" element={<EditProject />} />
-              <Route path="/project/:projectId/rate" element={<ReviewPage />} />
-              {/* <Route path="/project/rate" element={<RateProfessional />} /> */}
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/register" element={<RegisterAndLogout />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard/createproject" element={<CreateProject />} />
+            <Route path="/profile/:userId/edit" element={<EditProfilePage />} />
+            <Route path="/allprojects" element={<AllProjects />} />
+            <Route path="/aboutus" element={<AboutUs />} />
+            <Route path="*" element={<NotFound />}></Route>
+            <Route path="/profile/:userId" element={<ProfilePage />} />
+            <Route path="/projectdetail/:projectID" element={<ProjectDetail />} />
+            <Route path="/projectpage/:projectID" element={<ProjectPage />} />
+            <Route path="/projectpage/:projectID/edit" element={<EditProject />} />
+            <Route path="/project/:projectId/rate" element={<ReviewPage />} />
+            {/* <Route path="/project/rate" element={<RateProfessional />} /> */}
           </Routes>
         </PageContainer>
     </BrowserRouter>
