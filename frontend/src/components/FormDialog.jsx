@@ -377,8 +377,10 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
                           <LocalizationProvider key={field.name} dateAdapter={AdapterDayjs}>
                               <DemoContainer components={['DatePicker']}>
                               <DatePicker
+                              className={styles.Datepicker}
                               name={field.name}
                               label={field.label}
+                              fullWidth
                               defaultValue={formData[field.name] === "" ? null : dayjs(formData[field.name])}
                               onChange={(newValue) => handleDateChange(newValue, field.name)}
                               />
