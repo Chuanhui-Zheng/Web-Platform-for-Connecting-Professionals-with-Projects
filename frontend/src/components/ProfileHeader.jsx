@@ -83,7 +83,7 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
                     <Avatar className={styles.ProfileHeaderProfilePic} src={photo} sx={{ bgcolor: deepOrange[500], width: '120px', height: '120px'  }}/>
                     {ownProfile ? <EditOutlinedIcon 
                     sx={{fontSize: 30, mr: 2, mt: 1, cursor: 'pointer'}} 
-                    onClick={() => { navigate(`/profile/:${userId}/edit`) }} >
+                    onClick={() => { navigate(`/profile/${userId}/edit`) }} >
                     </EditOutlinedIcon> : <></>}
                 </div>
                 <div className={styles.ProfileHeaderContent}>

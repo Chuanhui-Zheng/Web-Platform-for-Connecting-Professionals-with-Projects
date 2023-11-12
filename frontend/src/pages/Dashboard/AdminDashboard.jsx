@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { DataGrid } from "@mui/x-data-grid";
-import Paper from "@mui/material/Paper";
 import { Box, Button, TextField } from "@mui/material";
 import { apiDelete, apiGet, apiPost } from "../../api";
-import { useNavigate } from "react-router-dom";
 import decodeJWT from "../../decodeJWT";
 import { Delete, Add } from '@mui/icons-material';
 import ErrorPopup from "../../components/ErrorPopup";
 import JEMMADialog from "../../components/JEMMADialog";
+import DataTable from "../../components/DataTable";
 
 // Company columns
 const companyColumns = [
@@ -31,42 +29,6 @@ const adminColumns = [
   { field: "id", headerName: "ID", type: "number", flex: 1 },
   { field: "adminEmail", headerName: "Email", flex: 1, minWidth: 100 },
 ];
-
-const paginationModel = { page: 0, pageSize: 5 };
-
-function DataTable({ rows, columns, onSelectionChange }) {
-
-  const navigate = useNavigate();
-
-  const handleOnRowClick = (rowData) => {
-    // If it is part of the admin table do nothing
-    for (const column of rowData.columns) {
-      if ("field" in column) {
-        if (column["field"] === "adminEmail") {
-          return
-        }
-      }
-    }
-
-    navigate(`/profile/${rowData.id}`);
-  }
-
-  return (
-    <Paper sx={{ height: 400, width: "100%" }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{ pagination: { paginationModel } }}
-        pageSizeOptions={[5, 10]}
-        checkboxSelection
-        disableRowSelectionOnClick 
-        onRowSelectionModelChange={(newSelection) => onSelectionChange(newSelection)}
-        onRowClick={handleOnRowClick}
-        sx={{ border: 0 }}
-      />
-    </Paper>
-  );
-}
 
 export default function AdminDashboard() {
   const [companyRows, setCompanyRows] = useState([]);
@@ -240,7 +202,12 @@ export default function AdminDashboard() {
               Delete Company
             </Button>
           </Box>
-          <DataTable rows={companyRows} columns={companyColumns} onSelectionChange={setSelectedCompanyRowIds} />
+          <DataTable 
+            rows={companyRows} 
+            columns={companyColumns} 
+            onSelectionChange={setSelectedCompanyRowIds} 
+            checkboxSelection={true}
+          />
         </Box>
     
         <Box display="flex" flexDirection="column" width="100%">
@@ -255,7 +222,12 @@ export default function AdminDashboard() {
               Delete Professional
             </Button>
           </Box>
-          <DataTable rows={professionalRows} columns={professionalColumns} onSelectionChange={setSelectedProfessionalRowIds} />
+          <DataTable 
+            rows={professionalRows} 
+            columns={professionalColumns} 
+            onSelectionChange={setSelectedProfessionalRowIds} 
+            checkboxSelection={true}
+          />
         </Box>
     
         <Box display="flex" flexDirection="column" width="100%">
@@ -278,7 +250,12 @@ export default function AdminDashboard() {
               Create Admin
             </Button>
           </Box>
-          <DataTable rows={adminRows} columns={adminColumns} onSelectionChange={setSelectedAdminRowIds} />
+          <DataTable 
+            rows={adminRows} 
+            columns={adminColumns} 
+            onSelectionChange={setSelectedAdminRowIds} 
+            checkboxSelection={true}
+          />
         </Box>
         {createAdminOpen && 
           <JEMMADialog
