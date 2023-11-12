@@ -54,9 +54,9 @@ function App() {
             width: "100%", 
             height:"calc(100vh - 80px)",
             margin: "0px", 
-            paddingRight: { xs: "16px", sm: "25px", md: "60px", lg: "100px" }, 
-            paddingLeft: { xs: "16px", sm: "25px", md: "60px", lg: "100px" },
-            backgroundColor: "white"
+            paddingRight: { xs: "16px", sm: "25px", md: "60px" }, 
+            paddingLeft: { xs: "16px", sm: "25px", md: "60px" },
+            // backgroundColor: "white"
           }}
         >
           <Routes>

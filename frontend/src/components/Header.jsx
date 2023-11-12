@@ -126,7 +126,7 @@ function Header() {
     return (
         <Box sx={{backgroundColor: 'pink'}}>
             <CssBaseline />
-            <AppBar position="sticky" sx={{backgroundColor: "#344649"}}>
+            <AppBar position="sticky" sx={{backgroundColor: "#344649",}}>
             <Toolbar sx={{justifyContent: "space-between",  "@media (min-width: 0px)": { paddingRight: "25px", paddingLeft: "25px" },}}>
             <Typography
                 variant="h6"
@@ -260,22 +260,15 @@ function Header() {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
+                {userType === 'company' && 
                 <MenuItem onClick={viewProfile}>
                  Profile
-                </MenuItem>
+                </MenuItem>}
+                {userType === 'professional' && 
+                <MenuItem onClick={viewProfile}>
+                 Profile
+                </MenuItem>}
                 <Divider />
-                {/* <MenuItem onClick={handleClose}>
-                <ListItemIcon>
-                    <PersonAdd fontSize="small" />
-                </ListItemIcon>
-                Add another account
-                </MenuItem> */}
-                <MenuItem onClick={handleClose}>
-                <ListItemIcon>
-                    <Settings fontSize="small" />
-                </ListItemIcon>
-                Settings
-                </MenuItem>
                 <MenuItem onClick={logout}>
                 <ListItemIcon onClick={logout}>
                     <Logout fontSize="small" />
@@ -286,7 +279,7 @@ function Header() {
             </>) : (<>
                 <Box>
                     <><Button name="registerBtn" color="green" onClick={() => { navigate('register') } }>Register</Button></>
-                    <Button name="loginBtn" sx={{backgroundColor: "#F29465"}} onClick={() => { navigate('login') }}>Login</Button>
+                    <Button name="loginBtn" sx={{backgroundColor: "#F29465", borderRadius:"20px"}} onClick={() => { navigate('login') }}>Login</Button>
                 </Box>
             </>
             )}               </>

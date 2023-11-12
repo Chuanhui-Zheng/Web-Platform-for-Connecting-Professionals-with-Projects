@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 // import { Box, Button, AppProvider, PageContainer, Paper, useTheme, useDemoRouter, Typography, } from '@mui/material';
@@ -6,25 +6,39 @@ import { Box, Button, useTheme } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Typography from '@mui/icons-material/ExpandMore';
 // import { AppProvider, PageContainer, useDemoRouter } from '@toolpad/core';
 import { PageContainer } from '@toolpad/core/PageContainer';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { useDemoRouter } from '@toolpad/core/internals';
+import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
 
-import ProjectCard from '../../components/Professional/Dashboard/ProjectCard.jsx';
+import ProjectCard1 from '../../components/Professional/Dashboard/ProjectCard1.jsx';
 import { getProjects } from '../../helpers.js';
 import decodeJWT from '../../decodeJWT.js';
 import SnackbarAlert from '../../components/SnackbarAlert.jsx';
+import DialogContent from '@mui/material/DialogContent';
+import Grid from '@mui/material/Grid2';
+import ListItem from '@mui/material/ListItem';
+import BrowseCards from '../../components/BrowseCards.jsx';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+
+ CardContent
 
 // import Form from "../components/Form"
 const titleStyle = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    border: '1px solid #fff',
-    margin: '0px'
-    // padding: '25px'
+    // border: '1px solid #fff',
+    backgroundColour: 'white',
+    margin: '0px',
+    padding: '15px 45px',
+    color: '#344649',
 };
 
 const projectTitleStyle = {
@@ -34,11 +48,22 @@ const projectTitleStyle = {
     color: '#344649'
 };
 
+const textStyle = {
+    fontSize: '15px',
+    textAlign: 'center'
+}
+
 
 const NAVIGATION = [
     { segment: '', title: 'Dashboard' },
     { segment: 'projects', title: 'Projects' },
 ];
+
+const boardWrapStyle = {
+    borderRadius: "20px",
+    backgroundColour: 'aliceblue',
+    color: '#344649',
+}
 
 function CompanyDashboard() {
 
@@ -46,12 +71,17 @@ function CompanyDashboard() {
     const router = useDemoRouter('/companydashboard');
     const theme = useTheme();
     const location = useLocation();
-    
+
+    const [value, setValue] = React.useState('active');
     const [activeProjects, setActiveProjects] = React.useState([]);
     const [completedProjects, setCompletedProjects] = React.useState([]);
     const [ownUserId, setOwnUserId] = React.useState('');
     const [showSnackBar, setShowSnackbar] = React.useState(false);
     const [message, setMessage] = React.useState('');
+
+    const handleChange =  (event, newValue) => {
+        setValue(newValue);
+    };
 
     const toggleSnackbar = () => {
         setShowSnackbar(!showSnackBar)
@@ -101,23 +131,86 @@ function CompanyDashboard() {
       }, []);
 
     return (
-        <AppProvider className="APP" sx={{ backgroundColour: 'none' }} navigation={NAVIGATION} router={router} theme={theme}>
-        <Box className="title" style={titleStyle}>
+        <AppProvider className="APP" sx={{ backgroundColour: 'green' }} navigation={NAVIGATION} router={router} theme={theme}>
+        <Box sx={{bgcolor: '#F5F5F5', borderRadius: '20px', borderTopRightRadius: '20px', minHeight: '600px' }}>
+        <Box className="title" sx={{ borderTopLeftRadius: '20px', borderTopRightRadius: '20px'}} style={titleStyle}>
             <div>
                 <h1>Dashboard</h1>
             </div>
-            {isCompany ? <Button variant="contained" onClick={() => { navigate('createproject') }}> + Create Project</Button>  : <></>   }
-        </Box>    
-        <Accordion defaultExpanded>
+            {isCompany ? <Button variant="contained" sx={{backgroundColor:'#006792'}} onClick={() => { navigate('createproject') }}> + Create Project</Button>  : <></>   }
+        </Box> 
+        <TabContext value={value}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <TabList onChange={handleChange} aria-label="lab API tabs example">
+            <Tab label="Active Projects" value="active" />
+            <Tab label="Completed Projects" value="completed" />
+          </TabList>
+        </Box>
+        <TabPanel value="active">
+            {/* {activeProjects.length == 0 ? <><div style={textStyle}> No Projects Listed. Apply for a Project!</div></>:<></>}
+            <Box sx={{width:'100%', height:'100%', display:'flex', flexWrap: 'wrap', alignContent:'flex-start', alignItems: 'flex-start', rowGap: '30px'}}>
+            {activeProjects.map((project, idx) => (
+                <ProjectCard1 
+                    key={idx}
+                    project={project}
+                />
+            ))}
+            </Box> */}
+
+            {/* <DialogContent dividers> */}
+                {activeProjects.length > 0 ? (
+                    <Grid container spacing={2} sx ={{flexWrap: "wrap"}}>
+                        {activeProjects.map((project, idx) => (
+                            <Grid item size={4} key={idx}>
+                                <ListItem disablePadding>
+                                    <ProjectCard1 project={project} />
+                                </ListItem>
+                            </Grid>
+                        ))}
+                    </Grid>
+                ) : (
+                    <div style={textStyle}> No Projects Listed. Apply for a Project!</div>
+                )}
+            {/* </DialogContent> */}
+
+        </TabPanel>
+        <TabPanel value="completed">
+            {/* {completedProjects.length == 0 ? <><div style={textStyle}> No Projects Listed. Complete a Project!</div></>:<></>}
+            {completedProjects.map((project, idx) => (
+                <ProjectCard1 
+                key={idx}
+                project={project}
+            />
+            ))} */}
+
+            {/* <DialogContent dividers> */}
+                {completedProjects.length > 0 ? (
+                    <Grid container spacing={7}>
+                        {completedProjects.map((project, idx) => (
+                            <Grid item size={4} key={idx}>
+                                <ListItem disablePadding>
+                                    <BrowseCards project={project} />
+                                </ListItem>
+                            </Grid>
+                        ))}
+                    </Grid>
+                ) : (
+                    <div style={textStyle}> No Projects Listed. Complete a Project!</div>
+                )}
+            {/* </DialogContent> */}
+        </TabPanel>
+      </TabContext>
+        {/* <Accordion defaultExpanded>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1-content"
                 id="panel1-header"
-                sx={{margin: '0px'}}
+                sx={{margin: '0px', backgroundColor:"grey"}}
                 >
                 <div style={projectTitleStyle}>Current Projects</div>
             </AccordionSummary>
             <AccordionDetails>
+                {activeProjects.length == 0 ? <><div style={textStyle}> No Projects Listed. Apply for a Project!</div></>:<></>}
                 {activeProjects.map((project, idx) => (
                     <ProjectCard 
                         key={idx}
@@ -138,6 +231,7 @@ function CompanyDashboard() {
                 <div style={projectTitleStyle}>Completed Projects</div>
             </AccordionSummary>
             <AccordionDetails>
+            {completedProjects.length == 0 ? <><div style={textStyle}> No Projects Listed. Complete a Project!</div></>:<></>}
                 {completedProjects.map((project, idx) => (
                     <ProjectCard
                         key={idx}
@@ -147,7 +241,8 @@ function CompanyDashboard() {
                     />
                 ))}
             </AccordionDetails>
-        </Accordion>
+        </Accordion> */}
+        </Box>
         {showSnackBar && <SnackbarAlert message={message} toggleSuccess={toggleSnackbar}/>}
         </AppProvider>
     );

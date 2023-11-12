@@ -36,13 +36,15 @@ import PaginationCards from './Pagination';
 import SnackbarAlert from './SnackbarAlert';
 import LoadingPage from "../pages/ErrorPages/LoadingPage";
 import ProjectApplicantList from './ProjectProfessionalList';
+import DialogContent from '@mui/material/DialogContent';
 
 // Style compontents
 const headerStyle = {
   display: 'flex',
   alignItems: 'center',
   margin: '0px',
-  gap: '10px'
+  gap: '10px',
+  padding: '10px 30px'
 };
   
 const secondaryStyle = {
@@ -50,7 +52,7 @@ const secondaryStyle = {
   justifyContent: 'space-between',
   alignItems: 'center',
   margin: '0px',
-  // paddingLeft: '32px'
+  padding: '0px 30px'
 };
 
 const StyledChip = styled(Chip)({
@@ -248,7 +250,6 @@ export default function ProjectDetailWindow({ projectID }) {
   
   const companybuttons = [
     <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={navigateEdit}>Edit Project</Button>,
-    <Button key="candidateList" sx={{backgroundColor: "grey"}} onClick={() => {navigate(`/project/${projectID}/applicants`)}}>Candidate List</Button>,
     // <Button key="company-status">Project Status</Button>,`/profile/:${tokenData.userId}`
     <Button
       sx={{backgroundColor: "#21b6ae"}}
@@ -263,7 +264,8 @@ export default function ProjectDetailWindow({ projectID }) {
     >
       {statusCompOptions[selectedIndex]}<ArrowDropDownIcon />
     </Button>,
-    <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={() => navigate(`/project/${projectID}/rate`)}>Rate Project</Button>
+    // <Button key="RateProjectBtn" sx={{ backgroundColor: "orange" }} onClick={() => navigate(`/project/${projectID}/rate`)}>Rate Project</Button>
+
   ];
   
   const professionalButtons = [
@@ -305,10 +307,8 @@ export default function ProjectDetailWindow({ projectID }) {
   } 
 
   return (
-    <Box sx={{ width: '100%' }}>
-      {/* MIN'S CODE: */}
-      <ProjectApplicantList projectId={projectID}/>
-      {/* END OF MIN'S CODE */}
+    <Box sx={{ width: '100%', bgcolor: '#F5F5F5', borderRadius: '20px' }}>
+
 
       <Box component="main" sx={{ flexGrow: 1, p: 3, width: '100%' }}>
         <div style={headerStyle}>
@@ -323,10 +323,10 @@ export default function ProjectDetailWindow({ projectID }) {
   
         <Box style={secondaryStyle}>
           <Box>
-            <Typography variant="h6" component="h1" gutterBottom>
+            <Typography variant="h6" color={'#7D8E95'} component="h1" gutterBottom>
               {projectInfo.projectCompany}
             </Typography>
-  
+            
             <Container sx={{ flexDirection: 'row' }}>
               <Box display="flex" alignItems="center" mb={1}>
                 <BusinessCenterIcon style={{ marginRight: 8 }} />
@@ -374,7 +374,8 @@ export default function ProjectDetailWindow({ projectID }) {
                 Give Certificate
                 <VisuallyHiddenInput type="file" accept="application/pdf" name="companyLogo" value='' onChange={handleFileChange} />
               </Button>
-              <Button key="EditProjectBtn" sx={{ backgroundColor: "orange" }} onClick={() => navigate(`/project/${projectID}/rate`)}>Rate Project</Button>
+              
+              <Button key="RateProjectBtn" sx={{ backgroundColor: "orange" }} onClick={() => navigate(`/project/${projectID}/rate`)}>Rate Project</Button>
             </ButtonGroup>
           ) : userType === 'professional' ? (
             <ButtonGroup orientation="vertical" aria-label="Vertical button group" variant="contained">
@@ -404,36 +405,47 @@ export default function ProjectDetailWindow({ projectID }) {
             )}
           </Popper>
         </Box>
-  
-        {approved === true ? (
+        <DialogContent dividers>
+        {userId === projectInfo.pCompanyId && !isCompleted ? 
+        <Box>
+          <Typography variant="h5" component="h2" gutterBottom>
+              Applicant List
+            </Typography>
+            
+          <ProjectApplicantList projectId={projectID} listType={'applicant'}/><br></br>
+        </Box> :<Box></Box>}
+        {approved === true || (userType === 'company' && userId === projectInfo.pCompanyId) ? (
           <Box>
+          <Typography variant="h5" component="h2" gutterBottom>
+            Meet the Team
+          </Typography>
+          {/* <Box mb={8}>Currently No Members</Box> */}
+          <ProjectApplicantList projectId={projectID} listType={'professionals'}/><br></br>
+          <Box sx={{ width: '100%', bgcolor: '#E7CCCC', padding:'15px',margin:'20px 0px', borderRadius: '20px' }}> 
             <Typography variant="h5" component="h2" gutterBottom>
-              Meet the Team
+              Confidential Information
             </Typography>
-            {/* {projectInfo.listOfProfessionals.map((prof, idx) => (
-            <Avatar key={idx}>{prof}</Avatar>
-          ))} */}
-            <Typography variant="h5" component="h2" gutterBottom>
-              Project Confidential Information
-            </Typography>
-            <Typography sx={{ marginBottom: 2 }}>
+            <Typography color='text.secondary' sx={{ marginBottom: 2 }}>
               {projectInfo.projectConfidentialInformation}
             </Typography>
+            </Box>
           </Box>
         ) : (
           <Box></Box>
         )}
-  
+        <Box sx={{ width: '100%', bgcolor: '#F1EEDB', padding:'15px',margin:'20px 0px', borderRadius: '20px' }}> 
         <Typography variant="h5" component="h2" gutterBottom>
           Project Description
         </Typography>
-        <Typography sx={{ marginBottom: 2 }}>
+        <Typography color='text.secondary' sx={{ marginBottom: 2 }}>
           {projectInfo.projectDescription}
         </Typography>
+        </Box>
+        <Box sx={{ width: '100%', bgcolor: '#F1EEDB', padding:'15px',margin:'20px 0px', borderRadius: '20px' }}> 
         <Typography variant="h5" component="h2" gutterBottom>
           Key Responsibilities
-        </Typography>
-        <List sx={{ listStyleType: 'disc', padding: '10px 40px' }}>
+        </Typography >
+        {/* <List sx={{ listStyleType: 'disc', padding: '10px 40px' }}> */}
           {/* <ListItem sx={{ display: 'list-item' }}>
           check
         </ListItem>
@@ -443,22 +455,32 @@ export default function ProjectDetailWindow({ projectID }) {
         <ListItem sx={{ display: 'list-item' }}>
           check
         </ListItem> */}
-          <ListItem>
-            {projectInfo.projectKeyResponsibilities}
-          </ListItem>
-        </List>
+          {/* <ListItem color='text.secondary'> */}
+          <Typography color='text.secondary' sx={{ marginBottom: 2 }}>
+          {projectInfo.projectKeyResponsibilities}
+        </Typography>
+          {/* </ListItem>
+        </List> */}
+        </Box>
+        <Box sx={{ width: '100%', bgcolor: '#F1EEDB', padding:'15px', margin:'20px 0px', borderRadius: '20px' }}> 
         <Typography variant="h5" component="h2" gutterBottom>
           Objectives
         </Typography>
-        <Typography sx={{ marginBottom: 2 }}>
+        
+        <Typography color='text.secondary' sx={{ marginBottom: 2 }}>
           {projectInfo.projectObjectives}
         </Typography>
+        </Box>
         <Typography variant="h5" component="h2" gutterBottom>
-          {projectInfo.contactEmail}
+          Contact: {projectInfo.contactEmail}
         </Typography>
+        <br></br>
+        <Divider />
+        <br></br>
         {/* REVIEWS IMPLEMENTED HERE */}
         <Typography variant="h5" component="h2" gutterBottom>Reviews</Typography>
         <PaginationCards reviews={projectInfo.listOfProjectRatings} type="project"></PaginationCards>
+        </DialogContent>
       </Box>
       {showSnackBar && <SnackbarAlert message={'Successfully applied to project'} toggleSuccess={toggleSnackbar} />}
     </Box>
