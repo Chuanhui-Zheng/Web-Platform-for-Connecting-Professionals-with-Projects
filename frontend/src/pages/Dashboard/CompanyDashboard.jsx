@@ -20,14 +20,15 @@ import ProjectCard1 from '../../components/Professional/Dashboard/ProjectCard1.j
 import { getProjects } from '../../helpers.js';
 import decodeJWT from '../../decodeJWT.js';
 import SnackbarAlert from '../../components/SnackbarAlert.jsx';
+
 import DialogContent from '@mui/material/DialogContent';
 import Grid from '@mui/material/Grid2';
 import ListItem from '@mui/material/ListItem';
 import BrowseCards from '../../components/BrowseCards.jsx';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import { useDashboard } from '../../DashboardContext.jsx';
 
- CardContent
 
 // import Form from "../components/Form"
 const titleStyle = {
@@ -78,6 +79,7 @@ function CompanyDashboard() {
     const [ownUserId, setOwnUserId] = React.useState('');
     const [showSnackBar, setShowSnackbar] = React.useState(false);
     const [message, setMessage] = React.useState('');
+    const reloadDashboard = useDashboard();
 
     const handleChange =  (event, newValue) => {
         setValue(newValue);
@@ -115,7 +117,7 @@ function CompanyDashboard() {
             }
             fetchProjects();
         }
-    }, [ownUserId])
+    }, [ownUserId, reloadDashboard])
 
     
     const [isCompany, setIsCompany] = React.useState(false);
