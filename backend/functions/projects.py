@@ -606,14 +606,14 @@ def projectProfessionalList():
     if project is None:
         return jsonify({"error": "Project does not exist"}), 409
     
-    professionals = Professional.query.filter(Professional.professionalId.in_(project.listOfProfessionals)).all()
-    professional_list = {
-        {
+    listOfProfessionalIds = [a["professionalId"] for a in project.listOfProfessionals]
+    listOfProfessionals = Professional.query.filter(Professional.professionalId.in_(listOfProfessionalIds)).all()
+    professional_list = []
+    for professional in listOfProfessionals:
+        professional_list.append({
             "professionalId": professional.professionalId,
             "professionalEmail": professional.professionalEmail,
-        }
-        for professional in professionals
-    }
+        })
     
     return jsonify(professional_list), 200
 
