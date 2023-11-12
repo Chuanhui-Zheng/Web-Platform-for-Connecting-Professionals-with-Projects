@@ -52,6 +52,7 @@ export function getProjects(userId, status) {
     console.log("info here", userId, status)
     return apiGet("/project/list", `id=${userId}&status=${status}`)
         .then((data) => {
+            console.log(data)
             return data
         })
         .catch((error) => {

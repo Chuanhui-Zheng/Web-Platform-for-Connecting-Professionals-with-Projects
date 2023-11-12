@@ -4,7 +4,7 @@ import ProfileHeader from "../../components/ProfileHeader";
 import styles from "../../styles/Professional/ProfessionalProfile.module.css"
 import BasicChips from "../../components/Chip";
 import ProjectCard from "../../components/Professional/Dashboard/ProjectCard";
-import { Button, Divider, Typography } from '@mui/material';
+import { Box, Button, Divider, Typography } from '@mui/material';
 import { apiGet } from '../../api';
 import decodeJWT from "../../decodeJWT";
 import { getProjects } from '../../helpers';
@@ -96,6 +96,7 @@ const ProfessionalProfile = ( { userId } ) => {
     return (
 
         <>
+        <Box sx={{ width: '100%', minHeight: '1600px', bgcolor: '#F5F5F5',background: 'linear-gradient(to bottom, #F5F5F5, #F5F5F5)', borderRadius: '20px' }}>
         <ProfileHeader userId={userId} userType="professional" ownProfile={ownProfile}></ProfileHeader>
         <div className={styles.ProfessionalProfileContent}>
         <Typography variant="h5" sx={{ fontWeight: 'bold', mt:2, mb:1 }}>Summary</Typography>
@@ -128,6 +129,7 @@ const ProfessionalProfile = ( { userId } ) => {
             <Typography variant="h5" sx={{ fontWeight: 'bold', mt:3, mb:1 }}>Reviews</Typography>
             <PaginationCards reviews={ratings} type="professional" ></PaginationCards>
         </div>
+        </Box>
         </>
     );
 }
