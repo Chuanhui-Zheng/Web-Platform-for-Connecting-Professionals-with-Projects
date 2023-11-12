@@ -16,6 +16,7 @@ import ProjectCard from '../../components/Professional/Dashboard/ProjectCard.jsx
 import { getProjects } from '../../helpers.js';
 import decodeJWT from '../../decodeJWT.js';
 import SnackbarAlert from '../../components/SnackbarAlert.jsx';
+import { useDashboard } from '../../DashboardContext.jsx';
 
 // import Form from "../components/Form"
 const titleStyle = {
@@ -52,6 +53,7 @@ function CompanyDashboard() {
     const [ownUserId, setOwnUserId] = React.useState('');
     const [showSnackBar, setShowSnackbar] = React.useState(false);
     const [message, setMessage] = React.useState('');
+    const reloadDashboard = useDashboard();
 
     const toggleSnackbar = () => {
         setShowSnackbar(!showSnackBar)
@@ -85,7 +87,7 @@ function CompanyDashboard() {
             }
             fetchProjects();
         }
-    }, [ownUserId])
+    }, [ownUserId, reloadDashboard])
 
     
     const [isCompany, setIsCompany] = React.useState(false);

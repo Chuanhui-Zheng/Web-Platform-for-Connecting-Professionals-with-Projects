@@ -37,6 +37,7 @@ import SnackbarAlert from './SnackbarAlert';
 import LoadingPage from "../pages/ErrorPages/LoadingPage";
 import ProjectApplicantList from './ProjectProfessionalList';
 import DynamicFormDialog from './FormDialog';
+import { useProject } from '../ProjectContext';
 
 // Style compontents
 const headerStyle = {
@@ -86,6 +87,7 @@ export default function ProjectDetailWindow({ projectID }) {
   const [pending, setPending] = React.useState(true);
   const [showSnackBar, setShowSnackbar] = React.useState(false);
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+  const reloadProject = useProject();
 
   const toggleSnackbar = () => {
       setShowSnackbar(!showSnackBar)
@@ -149,7 +151,7 @@ export default function ProjectDetailWindow({ projectID }) {
           console.error("Failed to fetch project:", err);
       }).finally(() => setIsLoading(false));
     }
-  }, [projectID]); // Refetch details every time the project ID changes
+  }, [projectID, reloadProject]); // Refetch details every time the project ID changes
 
 
     const handleMenuItemClick = (event, index) => {

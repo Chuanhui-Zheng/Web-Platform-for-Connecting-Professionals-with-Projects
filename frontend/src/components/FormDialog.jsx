@@ -387,13 +387,12 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
                     );
                     case 'file':
                       return (
-                        <div key={field.name}>
+                        <div key={field.name} className={styles.CenterButton}>
                           <Button
                             variant="contained"
                             component="label"
                             startIcon={<CloudUploadIcon />}
-                            fullWidth
-                            sx={{ marginTop: 2, width: '70%', ml:35 }}
+                            sx={{ marginTop: 2}}
                           >
                             Upload Profile Photo
                             <input
