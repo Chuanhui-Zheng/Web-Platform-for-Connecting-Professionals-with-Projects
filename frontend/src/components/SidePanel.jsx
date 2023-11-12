@@ -131,7 +131,7 @@ function SidePanel({ projectID, onSelectProject }) {
           }
         </DrawerHeader>
         <Divider />
-        <Box sx={{ overflow: 'auto', width: '100%'}}>
+        <Box sx={{ overflow: 'auto', width: '100%', marginTop:'10vh'}}>
         
         {open === false ? <div></div>: 
               <List>
@@ -151,7 +151,6 @@ function SidePanel({ projectID, onSelectProject }) {
               <ListItem key={idx} id={project.projectId} onClick={() => onSelectProject(project.projectId)} 
               className={`project-card ${projectID === project.projectId ? 'selected' : ''}`} disablePadding >
                   <BrowseCards project={project} />
-                  {/* ok */}
               </ListItem>
               ))}
               {searchResults.length == 0 && <ListItem sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', }}> Currently No Projects Found</ListItem>}
