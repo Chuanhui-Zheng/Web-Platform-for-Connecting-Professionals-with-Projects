@@ -2,43 +2,49 @@ import React, { useState } from 'react';
 import { Grid2, Pagination, Box } from '@mui/material';
 import ReviewCard from './ReviewCard';
 import styles from "../styles/Pagination.module.css"
+import PropTypes from 'prop-types';
 
-const ITEMS_PER_PAGE = 3;
-
+/**
+ * 
+ * @param {*} param0 
+ * @returns 
+ * Component that creates pages for review cards
+ * It displays a varying amount of reviews on a page
+ * and has a pagination feature to change pages
+ */
 const PaginationCards = ({reviews, type}) => {
   const [page, setPage] = useState(1);
-//   const totalPages = Math.ceil(reviews.length / ITEMS_PER_PAGE);
+  const [itemsPerPage, setItemsPerPage] = useState(3);  
 
-const [itemsPerPage, setItemsPerPage] = useState(3);  
+	// Change how many cards displayed on a page based on window size
+  React.useEffect(() => {
+    const updateItemsPerPage = () => {
+      const width = window.innerWidth;
 
-React.useEffect(() => {
-  const updateItemsPerPage = () => {
-    const width = window.innerWidth;
-
-    if (width > 1560 && width <= 1950) {
-      setItemsPerPage(4);
-    } else if (width > 1950) {
-      setItemsPerPage(5); 
-    } else if (width < 1560 && width >= 1170) {
+      if (width > 1560 && width <= 1950) {
+        setItemsPerPage(4);
+      } else if (width > 1950) {
+        setItemsPerPage(5); 
+      } else if (width < 1560 && width >= 1170) {
         setItemsPerPage(3); 
-    } else if (width < 1170) {
+      } else if (width < 1170) {
         setItemsPerPage(2); 
-    }
-  };
+      }
+    };
 
-  updateItemsPerPage();
-  window.addEventListener('resize', updateItemsPerPage);
-  return () => window.removeEventListener('resize', updateItemsPerPage);
-}, []);
+    updateItemsPerPage();
+    window.addEventListener('resize', updateItemsPerPage);
+    return () => window.removeEventListener('resize', updateItemsPerPage);
+  }, []);
 
-const totalPages = Math.ceil(reviews.length / itemsPerPage);
+	const totalPages = Math.ceil(reviews.length / itemsPerPage);
 
+	// Handle page change
   const handleChange = (event, value) => {
     setPage(value);
   };
   const currentItems = reviews.slice((page - 1) * itemsPerPage, page * itemsPerPage);
-//   const currentItems = reviews.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
-  console.log("rat", currentItems)
+
   return (
     <Box>
       <Grid2 container spacing={2}>
@@ -54,5 +60,10 @@ const totalPages = Math.ceil(reviews.length / itemsPerPage);
     </Box>
   );
 };
+
+PaginationCards.propTypes = {
+    reviews: PropTypes.object,
+    type: PropTypes.string,
+}
 
 export default PaginationCards;

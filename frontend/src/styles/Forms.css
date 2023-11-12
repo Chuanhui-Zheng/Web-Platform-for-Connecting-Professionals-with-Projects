@@ -1,0 +1,2 @@
+.form-surface { background: #fff; border: 1px solid var(--line); border-radius: 18px; color: var(--ink); }
+.form-surface::placeholder { color: var(--ink-muted); }

@@ -2,23 +2,35 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import Form from "../../components/Form"
 import { useState } from "react";
-import { TextField } from "@mui/material";
+import { TextField, Box, Typography } from "@mui/material";
 import { apiPost } from "../../api";
-import { useHeader } from '../../HeaderContext';
+import { useHeader } from '../../context/HeaderContext';
 import ErrorPopup from '../../components/ErrorPopup';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import IconButton from '@mui/material/IconButton';
 
 function Login() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: ""
   });
-
   const [errorMessage, setErrorMessage] = React.useState('');
   const [error, setError] = React.useState(false);
-
-  const navigate = useNavigate();
-  const [refresh, setRefresh] = React.useState(false);
   const { triggerHeaderUpdate } = useHeader();
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleMouseUpPassword = (event) => {
+    event.preventDefault();
+  };
 
   const toggleError = () => {
     setError(!error);
@@ -44,7 +56,6 @@ function Login() {
         console.log("API response:", data); // Log the API response
         if (!data.error) {
           localStorage.setItem("token", data.token);
-          setRefresh((prev) => !prev);
           triggerHeaderUpdate();
           navigate("/dashboard");
         } else {
@@ -60,9 +71,18 @@ function Login() {
   }
 
   return (
-    <>
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      flexDirection="column"
+    ><br></br>
+      <Box display="flex"
+      justifyContent="center"
+      alignItems="center" flexDirection="column" 
+      sx={{border:'1px solid rgba(23,59,66,0.14)', width:'auto',borderRadius:'35px', padding:'27px 10px',textAlign:'center',background:'rgba(255,255,255,0.94)', zIndex:'1' ,boxShadow: '0 18px 45px rgba(23,59,66,0.14)', backdropFilter:'blur(15px)'}}>
+      <Typography variant='h4' sx={{ color: '#173b42' }} fontWeight={600}>Login</Typography>
       <Form
-        formName="Login"
         buttonName="Login"
         handleSubmit={handleSubmit}
       >
@@ -75,20 +95,40 @@ function Login() {
           name="email"
           value={formData.email}
           onChange={onChange}
+          sx={{ backgroundColor:"white", '& .MuiInputLabel-root': { color: '#617579' }, '& .MuiFilledInput-input': { color: '#173b42' } }}
         />
         <TextField
           variant="filled"
           margin="normal"
           className="form-input"
-          type="text"
+          type={showPassword ? 'text' : 'password'}
           label="Password"
           name="password"
           value={formData.password}
           onChange={onChange}
+          sx={{ backgroundColor:"white", '& .MuiInputLabel-root': { color: '#617579' }, '& .MuiFilledInput-input': { color: '#173b42' } }}
+          slotProps={{
+            input: {
+              endAdornment: <InputAdornment position="end">
+              <IconButton
+                aria-label={
+                  showPassword ? 'hide the password' : 'display the password'
+                }
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                onMouseUp={handleMouseUpPassword}
+                edge="end"
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>,
+            },
+          }}
         />
       </Form>
       {error && <ErrorPopup message={errorMessage} toggleError={toggleError}/>}
-    </>
+      </Box>
+    </ Box>
   );
 }
 

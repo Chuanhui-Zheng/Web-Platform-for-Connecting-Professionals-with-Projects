@@ -1,10 +1,17 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import AdminDashboard from "./AdminDashboard";
 import ProfessionalDashboard from "./ProfessionalDashboard";
 import CompanyDashboard from "./CompanyDashboard";
 import decodeJWT from "../../decodeJWT";
 import NoAccessPage from "../ErrorPages/NoAccessPage";
+import LoadingPage from "../ErrorPages/LoadingPage"
 
+/**
+ * Dashboard component that returns the correct dashboard page for the 
+ * respective user type.
+ * 
+ * @returns 
+ */
 export default function Dashboard() {
   const [userType, setUserType] = useState(null);
 
@@ -22,9 +29,9 @@ export default function Dashboard() {
     }
   }, []);
 
+  // Set loading page
   if (userType === null) {
-    // Show a loading state or some placeholder until userType is determined
-    return <p>Loading...</p>;
+    return <LoadingPage />
   }
 
   return (
