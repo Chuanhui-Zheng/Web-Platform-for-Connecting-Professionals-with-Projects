@@ -20,6 +20,7 @@ import { apiGet, apiPut } from '../api';
 import { fileToDataUrl } from '../helpers';
 import { useHeader } from '../HeaderContext';
 import { useProfile } from '../ProfileContext';
+import { useProject } from '../ProjectContext';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
 import BasicSelect from './SingleSelect';
@@ -38,6 +39,7 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
   const navigate = useNavigate();
   const { triggerHeaderUpdate } = useHeader();
   const { triggerProfileUpdate } = useProfile();
+  const { triggerProjectUpdate } = useProject();
   const [formConfigg, setFormConfigg] = useState([]);
   const [token, setToken] = React.useState('');
 
@@ -111,7 +113,7 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
                 contactEmail: data.contactEmail,
                 projectStartDate: data.projectStartDate,
                 projectEndDate: data.projectEndDate,
-                projectCategory: data.projectCategory,
+                projectCategories: data.projectCategories,
                 projectLocation: data.projectLocation,
                 professionalsWanted: data.professionalsWanted,
                 projectKeyResponsibilities: data.projectKeyResponsibilities,
@@ -137,7 +139,7 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
             { type: 'text', label: 'Location', name: 'projectLocation' },
             { type: 'text', label: 'Number of Professionals Wanted', name: 'professionalsWanted' },
             { type: 'multicategoryselect', label: 'Skills', name: 'projectSkills' },
-            { type: 'multicategoryselect', label: 'Category', name: 'projectCategory' },
+            { type: 'multicategoryselect', label: 'Categories', name: 'projectCategories' },
             { type: 'textarea', label: 'Project Description', name: 'projectDescription' },
             { type: 'textarea', label: 'Key Responsibilities', name: 'projectKeyResponsibilities' },
             { type: 'textarea', label: 'Objective', name: 'projectObjectives' },
@@ -190,10 +192,10 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
     });
   };
 
-  const handleCategoriesChange = (value) => {
+  const handleCategoriesChange = (value, fieldName) => {
     setFormData((prevData) => ({
         ...prevData,
-        projectCategory: typeof value === 'string' ? value.split(',') : value,
+        [fieldName]: typeof value === 'string' ? value.split(',') : value,
     }));
   }
 
@@ -286,7 +288,7 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
             contactEmail,
             projectStartDate,
             projectEndDate,
-            projectCategory,
+            projectCategories,
             projectLocation,
             professionalsWanted,
             projectKeyResponsibilities,
@@ -303,7 +305,7 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
             contactEmail: contactEmail, 
             projectStartDate: projectStartDate,
             projectEndDate: projectEndDate,
-            projectCategory: projectCategory,
+            projectCategories: projectCategories,
             projectLocation: projectLocation,
             professionalsWanted: professionalsWanted,
             projectKeyResponsibilities: projectKeyResponsibilities, 
@@ -316,7 +318,7 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
             if (!data.error) {
                 onClose();
                 toggleSnackbar();
-                // triggerProfileUpdate();
+                triggerProjectUpdate();
             } else {
                 throw new Error("Edit Failed");
             }
@@ -365,7 +367,7 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
                           key={field.name}
                           label={field.label}
                           value={formData[field.name] || []}
-                          set={handleCategoriesChange}
+                          set={(e) => handleCategoriesChange(e, field.name)}
                           names={field.name === "projectSkills" ? ["Coding", "Other"]: ["Software", "Construction"]}
                           options={field.options}
                         />
