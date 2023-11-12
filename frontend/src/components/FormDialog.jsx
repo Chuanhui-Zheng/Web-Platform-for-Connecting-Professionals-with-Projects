@@ -22,7 +22,6 @@ import { useHeader } from '../HeaderContext';
 import { useProfile } from '../ProfileContext';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
-import MultipleSelectChip from './MultiSelect'; // Assumes you have a custom multi-select component
 import BasicSelect from './SingleSelect';
 import MultipleSelectCategoryChip from './MultiCategorySelect';
 import SnackbarAlert from './SnackbarAlert';
@@ -31,6 +30,7 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import styles from '../styles/FormDialog.module.css'
 
 const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
   const [formData, setFormData] = useState({});
@@ -136,10 +136,10 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
             { type: 'date', label: 'End Date', name: 'projectEndDate' },
             { type: 'text', label: 'Location', name: 'projectLocation' },
             { type: 'text', label: 'Number of Professionals Wanted', name: 'professionalsWanted' },
-            { type: 'textarea', label: 'Key Responsibilities', name: 'projectKeyResponsibilities' },
             { type: 'multicategoryselect', label: 'Skills', name: 'projectSkills' },
             { type: 'multicategoryselect', label: 'Category', name: 'projectCategory' },
             { type: 'textarea', label: 'Project Description', name: 'projectDescription' },
+            { type: 'textarea', label: 'Key Responsibilities', name: 'projectKeyResponsibilities' },
             { type: 'textarea', label: 'Objective', name: 'projectObjectives' },
             { type: 'textarea', label: 'Confidential Information', name: 'projectConfidentialInformation' },
             { type: 'select', label: 'Project Status ', name: 'projectStatus' },
@@ -188,13 +188,6 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
     }).catch((error) => {
         console.error("Error converting file to data URL:", error);
     });
-  };
-
-  const handleSkillsChange = (value) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      professionalSkills: typeof value === 'string' ? value.split(',') : value,
-    }));
   };
 
   const handleCategoriesChange = (value) => {
@@ -323,9 +316,7 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
             if (!data.error) {
                 onClose();
                 toggleSnackbar();
-                // triggerHeaderUpdate();
                 // triggerProfileUpdate();
-                // navigate('/dashboard', {state:{showSnackBar: true, message: 'Successfully edited project'}})
             } else {
                 throw new Error("Edit Failed");
             }
@@ -352,98 +343,105 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
             </IconButton>
         </DialogTitle>
         <DialogContent>
+        <div className={styles.twoColumnGrid}>
           {formConfigg.map((field) => {
-            switch (field.type) {
-              case 'text':
-                return (
-                  <TextField
-                    key={field.name}
-                    label={field.label}
-                    name={field.name}
-                    value={formData[field.name] || ''}
-                    onChange={handleInputChange}
-                    fullWidth
-                    margin="dense"
-                  />
-                );
-              case 'multicategoryselect':
-                return (
-                  <MultipleSelectCategoryChip
-                    key={field.name}
-                    label={field.label}
-                    value={formData[field.name] || []}
-                    set={handleCategoriesChange}
-                    names={field.name === "projectSkills" ? ["Coding", "Other"]: ["Software", "Construction"]}
-                    options={field.options}
-                  />
-                );
-              case 'select':
-                return (
-                  <BasicSelect
-                    key={field.name}
-                    label={field.label}
-                    value={formData[field.name] || []}
-                    set={handleStatusChange}
-                    names={["Complete", "Active"]}
-                    options={field.options}
-                  />
-                );
-                case 'date':
-                    return (
-                        <LocalizationProvider key={field.name} dateAdapter={AdapterDayjs}>
-                            <DemoContainer components={['DatePicker']}>
-                            <DatePicker
-                            name={field.name}
-                            label={field.label}
-                            defaultValue={formData[field.name] === "" ? null : dayjs(formData[field.name])}
-                            onChange={(newValue) => handleDateChange(newValue, field.name)}
-                            />
-                            </DemoContainer>
-                        </LocalizationProvider>
-                       
+            if (field.type != "textarea") {
+                switch (field.type) {
+                    case 'text':
+                      return (
+                        <TextField
+                          key={field.name}
+                          label={field.label}
+                          name={field.name}
+                          value={formData[field.name] || ''}
+                          onChange={handleInputChange}
+                          fullWidth
+                          margin="dense"
+                        />
+                      );
+                    case 'multicategoryselect':
+                      return (
+                        <MultipleSelectCategoryChip
+                          key={field.name}
+                          label={field.label}
+                          value={formData[field.name] || []}
+                          set={handleCategoriesChange}
+                          names={field.name === "projectSkills" ? ["Coding", "Other"]: ["Software", "Construction"]}
+                          options={field.options}
+                        />
+                      );
+                    case 'date':
+                      return (
+                          <LocalizationProvider key={field.name} dateAdapter={AdapterDayjs}>
+                              <DemoContainer components={['DatePicker']}>
+                              <DatePicker
+                              name={field.name}
+                              label={field.label}
+                              defaultValue={formData[field.name] === "" ? null : dayjs(formData[field.name])}
+                              onChange={(newValue) => handleDateChange(newValue, field.name)}
+                              />
+                              </DemoContainer>
+                          </LocalizationProvider>
                     );
-              case 'textarea':
-                return (
-                  <TextField
-                    key={field.name}
-                    label={field.label}
-                    name={field.name}
-                    value={formData[field.name] || ''}
-                    onChange={handleInputChange}
-                    fullWidth
-                    margin="normal"
-                    multiline
-                    rows={4}
-                  />
-                );
-              case 'file':
-                return (
-                  <div key={field.name}>
-                    <Button
-                      variant="contained"
-                      component="label"
-                      startIcon={<CloudUploadIcon />}
-                      fullWidth
-                      sx={{ marginTop: 2 }}
-                    >
-                      Upload Profile Photo
-                      <input
-                        type="file"
-                        hidden
-                        accept="image/*"
-                        onChange={handleFileChange}
-                      />
-                    </Button>
-                  </div>
-                );
-              default:
-                return null;
+                    case 'file':
+                      return (
+                        <div key={field.name}>
+                          <Button
+                            variant="contained"
+                            component="label"
+                            startIcon={<CloudUploadIcon />}
+                            fullWidth
+                            sx={{ marginTop: 2, width: '70%', ml:35 }}
+                          >
+                            Upload Profile Photo
+                            <input
+                              type="file"
+                              hidden
+                              accept="image/*"
+                              onChange={handleFileChange}
+                            />
+                          </Button>
+                        </div>
+                      );
+                    default:
+                      return null;
+                  }
             }
+            
           })}
+        </div>
+        {formConfigg.map((field) => { 
+            if (field.type === 'textarea') {
+                return (
+                    <TextField
+                      key={field.name}
+                      label={field.label}
+                      name={field.name}
+                      value={formData[field.name] || ''}
+                      onChange={handleInputChange}
+                      fullWidth
+                      margin="normal"
+                      multiline
+                      rows={4}
+                    />
+                  );
+            } else if (field.type === 'select') {
+                return (
+                    <BasicSelect
+                      key={field.name}
+                      label={field.label}
+                      value={formData[field.name] || []}
+                      set={handleStatusChange}
+                      names={["Complete", "Active"]}
+                      options={field.options}
+                    />
+                );
+            }
+         })}
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Cancel</Button>
-          <Button onClick={handleSubmit} variant="contained" color="primary">
+          <Button onClick={handleSubmit} variant="contained" sx={{ backgroundColor: '#F5A67F', color: '#fff' }}>
             Save
           </Button>
         </DialogActions>

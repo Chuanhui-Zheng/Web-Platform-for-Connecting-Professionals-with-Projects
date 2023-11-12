@@ -128,7 +128,7 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
                     onClose={handleCloseDialog}
                     userId={userId}
                     userType={userType}
-                    title={`Edit ${userType} profile`}
+                    title={`Edit Profile`}
                 />
             </div>
         </div>
