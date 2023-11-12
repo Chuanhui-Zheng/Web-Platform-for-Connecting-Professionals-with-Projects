@@ -1,26 +1,28 @@
 import "../styles/Form.css"
-import { Button, Typography } from "@mui/material";
+import { Button, Box } from "@mui/material";
 
-function Form({ formName, buttonName, handleSubmit, children }) {
+function Form({ buttonName, handleSubmit, children }) {
   return (
-    <form onSubmit={handleSubmit} className="form-container">
-      <Typography
-        variant="h4"
-        gutterBottom
-      >
-        {formName}
-      </Typography>
+    <Box 
+      // onSubmit={handleSubmit} 
+      // className="form-container"
+      // fullWidth
+      display="flex"
+      flexDirection="column"
+      width="50vw"
+    >
       {children}
       <Button 
-        className="form-button" 
+        className="form-input"
         type="submit"
         variant="contained"
         margin="normal"
         sx={{ backgroundColor: '#F5A67F', color: '#fff' }}
+        onClick={handleSubmit}
       >
         {buttonName}
       </Button>
-    </form>
+    </Box>
   );
 }
 
