@@ -107,7 +107,6 @@ function CompanyRegisterForm() {
   return (
     <>
       <Form 
-        formName="Company Register"
         buttonName="Register"
         handleSubmit={handleSubmit}
       >
