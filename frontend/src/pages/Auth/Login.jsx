@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import Form from "../../components/Form"
 import { useState } from "react";
-import { TextField } from "@mui/material";
+import { TextField, Box, Typography } from "@mui/material";
 import { apiPost } from "../../api";
 import { useHeader } from '../../HeaderContext';
 import ErrorPopup from '../../components/ErrorPopup';
@@ -60,9 +60,14 @@ function Login() {
   }
 
   return (
-    <>
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      flexDirection="column"
+    >
+      <Typography variant='h4'>Login</Typography>
       <Form
-        formName="Login"
         buttonName="Login"
         handleSubmit={handleSubmit}
       >
@@ -88,7 +93,7 @@ function Login() {
         />
       </Form>
       {error && <ErrorPopup message={errorMessage} toggleError={toggleError}/>}
-    </>
+    </ Box>
   );
 }
 
