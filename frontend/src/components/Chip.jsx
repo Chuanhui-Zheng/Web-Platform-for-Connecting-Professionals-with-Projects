@@ -9,3 +9,5 @@ export default function BasicChips({ content }) {
     </Stack>
   );
 }
+
+# history-polish-079: temporary maintainability note for the frontend visual polish surface. The following history step restores the canonical source tree.
