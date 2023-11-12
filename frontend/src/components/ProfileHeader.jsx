@@ -13,6 +13,8 @@ import decodeJWT from "../decodeJWT";
 import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
 import { apiGet } from '../api';
+import DynamicFormDialog from './FormDialog';
+import { useProfile } from '../ProfileContext';
 
 const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
     const navigate = useNavigate();
@@ -28,6 +30,9 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
     const [isProfessional, setIsProfessional] = React.useState(false);
     const [avgRating, setAvgRating] = React.useState('');
     const [numRatings, setNumRatings] = React.useState('');
+
+    const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+    const reloadProfile = useProfile();
 
     React.useEffect(() => {
         if (userType === "company") {    
@@ -70,9 +75,36 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
                     alert("Profile fetch failed1.");
                 });
         }
-    }, [token, refresh]);
+    }, [token, refresh, reloadProfile]);
     
+    const handleOpenDialog = () => {
+        setIsDialogOpen(true);
+      };
+    
+    const handleCloseDialog = () => {
+        setIsDialogOpen(false);
+    };
+    
+    const formConfigProfessional = [
+        { type: 'text', label: 'Full Name', name: 'professionalFullName' },
+        { type: 'text', label: 'Password', name: 'professionalPassword' },
+        { type: 'text', label: 'Phone Number', name: 'professionalPhoneNumber' },
+        { type: 'textarea', label: 'Tell us About Yourself', name: 'professionalDescription' },
+        { type: 'text', label: 'Qualifications', name: 'professionalQualifications' },
+        { type: 'text', label: 'Education', name: 'professionalEducation' },
+        { type: 'text', label: 'Website', name: 'professionalWebsite' },
+        { type: 'file', label: 'Profile Photo', name: 'professionalPhoto' },
+        { type: 'multiselect', label: 'Skills', name: 'professionalSkills'},
+    ];
 
+    const formConfigCompany = [
+        { type: 'text', label: 'Company Name', name: 'companyName' },
+        { type: 'text', label: 'Password', name: 'companyPassword' },
+        { type: 'text', label: 'Phone Number', name: 'companyPhoneNumber' },
+        { type: 'text', label: 'Company Website', name: 'companyWebsite' },
+        { type: 'textarea', label: 'Tell Us About Yourself', name: 'companyDescription' },
+        { type: 'file', label: 'Company Logo', name: 'companyLogo' },
+    ];
 
     return (
         <div className={styles.Profile}> 
@@ -83,7 +115,8 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
                     <Avatar className={styles.ProfileHeaderProfilePic} src={photo} sx={{ bgcolor: deepOrange[500], width: '120px', height: '120px'  }}/>
                     {ownProfile ? <EditOutlinedIcon 
                     sx={{fontSize: 30, mr: 2, mt: 1, cursor: 'pointer'}} 
-                    onClick={() => { navigate(`/profile/:${userId}/edit`) }} >
+                    // onClick={() => { navigate(`/profile/:${userId}/edit`) }} >
+                    onClick={handleOpenDialog} >
                     </EditOutlinedIcon> : <></>}
                 </div>
                 <div className={styles.ProfileHeaderContent}>
@@ -112,7 +145,21 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
                 </div>
                
             </div>
+            <div>
+                {/* <Button variant="outlined" onClick={handleOpenDialog}>
+                    Open Form Dialog
+                </Button> */}
+                <DynamicFormDialog
+                    open={isDialogOpen}
+                    onClose={handleCloseDialog}
+                    formConfig={isProfessional ? formConfigProfessional : formConfigCompany}
+                    userId={userId}
+                    userType={userType}
+                    title={`Edit ${userType} profile`}
+                />
+            </div>
         </div>
+        
     );
 }
 
