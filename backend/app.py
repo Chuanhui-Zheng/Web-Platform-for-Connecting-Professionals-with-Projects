@@ -24,7 +24,8 @@ from functions.projects import (
     projectCompanyReject, 
     projectProfessionalStatus, 
     projectSearch,
-    getProfessionalProjectsFromStatus
+    getProfessionalProjectsFromStatus,
+    getRecommendedProjects
 )
 from functions.certificate import giveCertificate, viewCertificate
 from functions.rating import projectRateProject, projectRateProfessional, professionalAchievement
@@ -75,6 +76,7 @@ def create_app():
     app.add_url_rule('/project/professional/get/projects/from/status', 'getProfessionalProjectsFromStatus', getProfessionalProjectsFromStatus, methods=['GET'])
     app.add_url_rule('/giveCertificate', 'giveCertificate', giveCertificate, methods=['POST'])
     app.add_url_rule('/profile/viewCertificate', 'viewCertificate', viewCertificate, methods=['GET'])
+    app.add_url_rule('/project/recommended', 'getRecommendedProjects', getRecommendedProjects, methods=['GET'])
 
     app.add_url_rule('/get/skills', 'getSkills', getSkills, methods=['GET'])
     app.add_url_rule('/get/categories', 'getCategories', getCategories, methods=['GET'])
