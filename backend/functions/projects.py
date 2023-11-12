@@ -5,6 +5,10 @@ from extensions import db
 from sqlalchemy import or_, and_, func, text
 import re
 import json
+from sentence_transformers import SentenceTransformer, util
+from flask import jsonify, request
+
+model = SentenceTransformer('paraphrase-MiniLM-L6-v2')
 
 app = Flask(__name__)
 
@@ -696,12 +700,27 @@ def getRecommendedProjects():
     all_projects = Projects.query.filter_by(projectStatus='Active').all()
 
     professional_skills = professional.professionalSkills
+    professional_description = professional.professionalDescription
+
+    professional_description_data = model.encode(professional_description, convert_to_tensor=True)
 
     recommended = []
     for project in all_projects:
         for skill in project.projectSkills:
             if skill in professional_skills:
-                recommended.append(project)
+
+                project_description_data = model.encode(project.projectDescription, convert_to_tensor=True)
+                project_objectives_data = model.encode(project.projectObjectives , convert_to_tensor=True)
+
+                description_similaritiy = util.pytorch_cos_sim(professional_description_data, project_description_data).item()
+                objective_similaritiy = util.pytorch_cos_sim(professional_description_data, project_objectives_data).item()
+
+                if (description_similaritiy > 0.4 or objective_similaritiy > 0.4):
+                    recommended.append(project)
+                
+                print(f'Similarity score is this ***: {description_similaritiy} {objective_similaritiy}')
+                print(f'description{project.projectDescription}')
+                print(f'ojective{project.projectObjectives}')
     
 
     project_dict = [

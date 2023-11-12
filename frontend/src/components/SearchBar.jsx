@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import { apiGet } from '../api';
+import Button from '@mui/material/Button';
+import decodeJWT from '../decodeJWT';
 
 import InputBase from '@mui/material/InputBase';
 import Divider from '@mui/material/Divider';
@@ -11,6 +13,13 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
+import JEMMADialog from './JEMMADialog';
+import BrowseCards from './BrowseCards';
+import ListItem from '@mui/material/ListItem';
+import List from '@mui/material/List';
+import MuiDrawer from '@mui/material/Drawer';
+import { width } from '@mui/system';
+import RecommendedPopupModal from './RecommendedPopupModal';
 function sleep(duration) {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -37,6 +46,41 @@ export default function SearchBar(props) {
   const [selCategories, setSelCategories] = React.useState('');
   const [selLocation, setSelLocation] = React.useState('');
   const [selSkills, setSelSkills] = React.useState('');
+  const [showRecommended, setShowRecommended] = React.useState(false);
+  const [userType, setUserType] = useState(null);
+  const [recommended, setRecommended] = React.useState([]);
+
+  React.useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decoded = decodeJWT(token);
+      if (decoded && decoded.userType) {
+        setUserType(decoded.userType);
+
+        apiGet('/project/recommended', `professionalId=${decoded.userId}`)
+        .then(data => {
+            if (!data.error) {
+                setRecommended(data);
+                console.log("project details:", data)
+            } else {
+                console.error("Error fetching project list:", data.error);
+            }
+        })
+        .catch(err => {
+            console.error("Failed to fetch project list:", err);
+        });
+      } else {
+        setUserType("none");
+      }
+    } else {
+      setUserType("none");
+    }
+
+  }, []);
+
+  const toggleShowRecommended = () => {
+    setShowRecommended(!showRecommended)
+  }
 
   const handleSearchChange = (event) => {
     const value = event.target.value.toLowerCase();
@@ -276,6 +320,18 @@ export default function SearchBar(props) {
         />
       )}
     />
+    {(userType === 'professional') && <Button variant="contained" onClick={() => 
+      {
+        setShowRecommended(true)
+        console.log(recommended)
+    }}>View recommended</Button>}
+    {showRecommended && 
+      <RecommendedPopupModal 
+        titleText={'View Recommended Projects'} 
+        recommended={recommended}
+      toggleShowRecommended={toggleShowRecommended}
+      />
+    }
     </Paper>
     </Box>
     
