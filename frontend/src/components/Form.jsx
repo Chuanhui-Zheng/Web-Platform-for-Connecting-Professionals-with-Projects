@@ -1,41 +1,27 @@
 import "../styles/Form.css"
-import { Button, Box } from "@mui/material";
-import PropTypes from "prop-types";
+import { Button, Typography } from "@mui/material";
 
-/**
- * Form component for authorisation functionality.
- * It uses for input fields and has a button at the end.
- * 
- * @param {*} param0 
- * @returns 
- */
-function Form({ buttonName, handleSubmit, children }) {
+function Form({ formName, buttonName, handleSubmit, children }) {
   return (
-    <Box 
-      display="flex"
-      flexDirection="column"
-      alignItems= "center"
-      width="50vw"
-    >
+    <form onSubmit={handleSubmit} className="form-container">
+      <Typography
+        variant="h4"
+        gutterBottom
+      >
+        {formName}
+      </Typography>
       {children}
       <Button 
-        className="form-input"
+        className="form-button" 
         type="submit"
         variant="contained"
         margin="normal"
-        sx={{ backgroundColor: '#3b7c84', color: '#fff', borderRadius:"20px" }}
-        onClick={handleSubmit}
+        sx={{ backgroundColor: '#F5A67F', color: '#fff' }}
       >
         {buttonName}
       </Button>
-    </Box>
+    </form>
   );
-};
-
-Form.propTypes = {
-  buttonName: PropTypes.string,
-  handleSubmit: PropTypes.func,
-  children: PropTypes.node
-};
+}
 
 export default Form
