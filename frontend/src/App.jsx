@@ -42,8 +42,8 @@ function App() {
           sx={{
             width: "100%", 
             margin: "0px", 
-            paddingRight: { xs: "32px", sm: "50px", md: "120px", lg: "200px" }, 
-            paddingLeft: { xs: "32px", sm: "50px", md: "120px", lg: "200px" }
+            paddingRight: { xs: "16px", sm: "25px", md: "60px", lg: "100px" }, 
+            paddingLeft: { xs: "16px", sm: "25px", md: "60px", lg: "100px" }
           }}
         >
           <Routes>
