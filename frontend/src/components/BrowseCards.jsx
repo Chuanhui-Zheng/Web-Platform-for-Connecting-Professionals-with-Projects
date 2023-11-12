@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardContent, Typography, Box, Chip, Button } from "@mui/material";
-import { styled } from "@mui/system";
+import { height, styled } from "@mui/system";
 // import { FaMapMarkerAlt, FaCalendarAlt } from "react-icons/fa";
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -38,6 +38,12 @@ const StyledChip = styled(Chip)({
   }
 });
 
+const TruncateTypography = styled(Typography)({
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});
+
 export default function BrowseCards({project}) {
   const navigate = useNavigate();
   return (
@@ -48,9 +54,9 @@ export default function BrowseCards({project}) {
         alt="Company Logo"
       /> */}
       <StyledCardContent>
-        <Typography variant="h5" component="h2" gutterBottom>
+        <TruncateTypography sx={{height: "7vh"}} variant="h5" component="h2" gutterBottom>
           {project.projectName}
-        </Typography>
+        </TruncateTypography>
         <Typography variant="body2" color="textSecondary">
           {project.projectCompany} 
           </Typography>

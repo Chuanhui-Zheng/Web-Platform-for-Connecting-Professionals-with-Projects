@@ -37,6 +37,7 @@ import SnackbarAlert from './SnackbarAlert';
 import LoadingPage from "../pages/ErrorPages/LoadingPage";
 import ProjectApplicantList from './ProjectProfessionalList';
 import DialogContent from '@mui/material/DialogContent';
+import DynamicFormDialog from './FormDialog';
 
 // Style compontents
 const headerStyle = {
@@ -86,6 +87,7 @@ export default function ProjectDetailWindow({ projectID }) {
   const [approved, setApproved] = React.useState(false);
   const [pending, setPending] = React.useState(true);
   const [showSnackBar, setShowSnackbar] = React.useState(false);
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
   const toggleSnackbar = () => {
       setShowSnackbar(!showSnackBar)
@@ -247,6 +249,14 @@ export default function ProjectDetailWindow({ projectID }) {
       });
     }
   }, [certificate]);
+
+  const handleOpenDialog = () => {
+    setIsDialogOpen(true);
+  };
+
+    const handleCloseDialog = () => {
+        setIsDialogOpen(false);
+    };
   
   const companybuttons = [
     <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={navigateEdit}>Edit Project</Button>,
@@ -481,6 +491,14 @@ export default function ProjectDetailWindow({ projectID }) {
         <Typography variant="h5" component="h2" gutterBottom>Reviews</Typography>
         <PaginationCards reviews={projectInfo.listOfProjectRatings} type="project"></PaginationCards>
         </DialogContent>
+        {/* EDIT PROJECT FORM DIALOG HERE */}
+        <DynamicFormDialog
+            open={isDialogOpen}
+            onClose={handleCloseDialog}
+            userId={projectID}
+            userType="project"
+            title={`Edit Project`}
+        />
       </Box>
       {showSnackBar && <SnackbarAlert message={'Successfully applied to project'} toggleSuccess={toggleSnackbar} />}
     </Box>

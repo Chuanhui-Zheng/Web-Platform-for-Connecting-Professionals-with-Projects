@@ -13,6 +13,8 @@ import decodeJWT from "../decodeJWT";
 import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
 import { apiGet } from '../api';
+import DynamicFormDialog from './FormDialog';
+import { useProfile } from '../ProfileContext';
 
 const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
     const navigate = useNavigate();
@@ -29,6 +31,9 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
     const [avgRating, setAvgRating] = React.useState('');
     const [numRatings, setNumRatings] = React.useState('');
 
+    const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+    const reloadProfile = useProfile();
+
     React.useEffect(() => {
         if (userType === "company") {    
             apiGet("/user/details/company", `id=${userId}`)
@@ -40,7 +45,6 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
                         setNewPhoneNumber(data.companyPhoneNumber);
                         setNewWebsite(data.companyWebsite);
                         setNewPhoto(data.companyLogo);
-                        // TODO:setNewCompanyRating(data.companyRating);
                     } else {
                         throw new Error("Get Profile Failed");
                     }
@@ -70,9 +74,15 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
                     alert("Profile fetch failed1.");
                 });
         }
-    }, [token, refresh]);
+    }, [token, refresh, reloadProfile]);
     
-
+    const handleOpenDialog = () => {
+        setIsDialogOpen(true);
+      };
+    
+    const handleCloseDialog = () => {
+        setIsDialogOpen(false);
+    };
 
     return (
         <div className={styles.Profile}> 
@@ -83,7 +93,7 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
                     <Avatar className={styles.ProfileHeaderProfilePic} src={photo} sx={{ bgcolor: deepOrange[500], width: '120px', height: '120px'  }}/>
                     {ownProfile ? <EditOutlinedIcon 
                     sx={{fontSize: 30, mr: 2, mt: 1, cursor: 'pointer'}} 
-                    onClick={() => { navigate(`/profile/${userId}/edit`) }} >
+                    onClick={handleOpenDialog} >
                     </EditOutlinedIcon> : <></>}
                 </div>
                 <div className={styles.ProfileHeaderContent}>
@@ -112,7 +122,17 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
                 </div>
                
             </div>
+            <div>
+                <DynamicFormDialog
+                    open={isDialogOpen}
+                    onClose={handleCloseDialog}
+                    userId={userId}
+                    userType={userType}
+                    title={`Edit Profile`}
+                />
+            </div>
         </div>
+        
     );
 }
 

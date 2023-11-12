@@ -124,5 +124,3 @@ const ProfessionalDashboard = () => {
 }
 
 export default ProfessionalDashboard;
-
-# expanded-history-pass-079: maintainability refinement for the frontend visual polish surface.

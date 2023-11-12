@@ -97,7 +97,6 @@ function ProfessionalRegisterForm() {
   return (
     <>
     <Form
-        formName="Professional Register"
         buttonName="Register"
         handleSubmit={handleSubmit}
       >
@@ -136,66 +135,6 @@ function ProfessionalRegisterForm() {
           value={formData.professionalPassword}
           onChange={onChange}
         />
-        {/* <TextField
-          variant="filled"
-          margin="normal"
-          className="form-input"
-          type="text"
-          label="Website"
-          name="professionalWebsite"
-          value={formData.professionalWebsite}
-          onChange={onChange}
-        />
-        <TextField
-          variant="filled"
-          margin="normal"
-          className="form-input"
-          type="text"
-          label="Phone Number"
-          name="professionalPhoneNumber"
-          value={formData.professionalPhoneNumber}
-          onChange={onChange}
-        />
-        <TextField
-          variant="filled"
-          margin="normal"
-          className="form-input"
-          type="text"
-          label="Description"
-          name="professionalDescription"
-          value={formData.professionalDescription}
-          onChange={onChange}
-        />
-        <TextField
-          variant="filled"
-          margin="normal"
-          className="form-input"
-          type="text"
-          label="Qualifications"
-          name="professionalQualifications"
-          value={formData.professionalQualifications}
-          onChange={onChange}
-        />
-        <TextField
-          variant="filled"
-          margin="normal"
-          className="form-input"
-          type="text"
-          label="Education"
-          name="professionalEducation"
-          value={formData.professionalEducation}
-          onChange={onChange}
-        />
-        <TextField
-          variant="filled"
-          margin="normal"
-          className="form-input"
-          type="text"
-          label="Skills"
-          name="professionalSkills"
-          value={formData.professionalSkills}
-          onChange={onChange}
-        /> */}
         <Button
           sx={{ margin: '16px 0' }}
           className="form-input"

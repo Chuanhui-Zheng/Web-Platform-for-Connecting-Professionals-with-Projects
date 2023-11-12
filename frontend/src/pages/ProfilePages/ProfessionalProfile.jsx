@@ -10,6 +10,7 @@ import decodeJWT from "../../decodeJWT";
 import { getProjects } from '../../helpers';
 import Certificates from '../../components/CertficateCard';
 import PaginationCards from '../../components/Pagination';
+import { useProfile } from '../../ProfileContext';
 
 const ProfessionalProfile = ( { userId } ) => {
     console.log("professional profile reached")
@@ -28,6 +29,7 @@ const ProfessionalProfile = ( { userId } ) => {
     const [projects, setProjects] = React.useState([]);
     const [certificates, setCertificates] = React.useState([]);
     const [ratings, setRatings] = React.useState([]);
+    const reloadProfile = useProfile();
 
     React.useEffect(() => {
         const getToken = localStorage.getItem("token");
@@ -90,7 +92,7 @@ const ProfessionalProfile = ( { userId } ) => {
             });
 
         }
-    }, [ownUserId, userType]);
+    }, [ownUserId, userType, reloadProfile]);
     return (
 
         <>

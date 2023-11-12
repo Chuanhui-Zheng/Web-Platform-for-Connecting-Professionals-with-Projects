@@ -5,6 +5,10 @@ from extensions import db
 from sqlalchemy import or_, and_, func, text
 import re
 import json
+from sentence_transformers import SentenceTransformer, util
+from flask import jsonify, request
+
+model = SentenceTransformer('paraphrase-MiniLM-L6-v2')
 
 app = Flask(__name__)
 
@@ -682,3 +686,45 @@ def getProfessionalProjectsFromStatus():
     
     return jsonify(project_dict), 200
 
+'''
+PARAMETERS (query string) {professionalId}
+/project/recommended?professionalId=PROFESSIONALIDHERE
+'''
+@app.route('/project/recommended', methods=['GET'])
+def getRecommendedProjects():
+    profIdStr = request.args.get("professionalId")
+    profId = int(profIdStr)
+
+    professional = Professional.get_professional_by_id(professionalId=profId)
+    all_projects = Projects.query.filter_by(projectStatus='Active').all()
+
+    professional_skills = professional.professionalSkills
+    professional_description = professional.professionalDescription
+
+    professional_description_data = model.encode(professional_description, convert_to_tensor=True)
+
+    recommended = []
+    for project in all_projects:
+        for skill in project.projectSkills:
+            if skill in professional_skills:
+
+                project_description_data = model.encode(project.projectDescription, convert_to_tensor=True)
+                project_objectives_data = model.encode(project.projectObjectives , convert_to_tensor=True)
+
+                description_similaritiy = util.pytorch_cos_sim(professional_description_data, project_description_data).item()
+                objective_similaritiy = util.pytorch_cos_sim(professional_description_data, project_objectives_data).item()
+
+                if (description_similaritiy > 0.4 or objective_similaritiy > 0.4):
+                    recommended.append(project)
+                
+                print(f'Similarity score is this ***: {description_similaritiy} {objective_similaritiy}')
+                print(f'description{project.projectDescription}')
+                print(f'ojective{project.projectObjectives}')
+    
+
+    project_dict = [
+        {k: v for k, v in vars(project).items() if not k.startswith('_')}
+        for project in recommended
+    ]
+
+    return jsonify(project_dict), 200

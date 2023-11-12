@@ -9,6 +9,7 @@ import decodeJWT from "../../decodeJWT";
 import { getProjects } from '../../helpers';
 import Grid from '@mui/material/Grid2';
 
+import { useProfile } from '../../ProfileContext';
 
 const CompanyProfile = ({userId}) => {
     console.log("company profile reached")
@@ -21,6 +22,7 @@ const CompanyProfile = ({userId}) => {
     const [avgRating, setAvgRating] = React.useState('');
 
     const [companyDescription, setNewCompanyDescription] = React.useState(true);
+    const reloadProfile = useProfile();
 
     React.useEffect(() => {
         const getToken = localStorage.getItem("token");
@@ -60,7 +62,7 @@ const CompanyProfile = ({userId}) => {
                     alert("not valid.");
                 });
         }
-    }, [ownUserId, userType]);
+    }, [ownUserId, userType, reloadProfile]);
 
     return (
         <>
