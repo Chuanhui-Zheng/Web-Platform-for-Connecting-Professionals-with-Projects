@@ -261,7 +261,7 @@ export default function ProjectDetailWindow({ projectID }) {
     };
   
   const companybuttons = [
-    <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={navigateEdit}>Edit Project</Button>,
+    <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={handleOpenDialog}>Edit Project</Button>,
     // <Button key="company-status">Project Status</Button>,`/profile/:${tokenData.userId}`
     <Button
       sx={{backgroundColor: "#21b6ae"}}

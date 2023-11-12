@@ -4,10 +4,10 @@
     background-color: white;
     width: 18vw;
     border-radius: 15px;
-    margin-left: 3%;
-    margin-right: 3%;
+    margin-left: 2%;
+    margin-right: 2%;
     text-align: left;
-    border: 1px solid #858a90;
+    border: 1px solid #c7d3e1;
 }
 
 .dashboardCard:hover, .dashboardProjectButton:hover {

@@ -149,17 +149,6 @@ function CompanyDashboard() {
           </TabList>
         </Box>
         <TabPanel value="active">
-            {/* {activeProjects.length == 0 ? <><div style={textStyle}> No Projects Listed. Apply for a Project!</div></>:<></>}
-            <Box sx={{width:'100%', height:'100%', display:'flex', flexWrap: 'wrap', alignContent:'flex-start', alignItems: 'flex-start', rowGap: '30px'}}>
-            {activeProjects.map((project, idx) => (
-                <ProjectCard1 
-                    key={idx}
-                    project={project}
-                />
-            ))}
-            </Box> */}
-
-            {/* <DialogContent dividers> */}
                 {activeProjects.length > 0 ? (
                     <Grid container spacing={2} sx ={{flexWrap: "wrap"}}>
                         {activeProjects.map((project, idx) => (
@@ -173,19 +162,9 @@ function CompanyDashboard() {
                 ) : (
                     <div style={textStyle}> No Projects Listed. Apply for a Project!</div>
                 )}
-            {/* </DialogContent> */}
 
         </TabPanel>
         <TabPanel value="completed">
-            {/* {completedProjects.length == 0 ? <><div style={textStyle}> No Projects Listed. Complete a Project!</div></>:<></>}
-            {completedProjects.map((project, idx) => (
-                <ProjectCard1 
-                key={idx}
-                project={project}
-            />
-            ))} */}
-
-            {/* <DialogContent dividers> */}
                 {completedProjects.length > 0 ? (
                     <Grid container spacing={7}>
                         {completedProjects.map((project, idx) => (
@@ -199,7 +178,6 @@ function CompanyDashboard() {
                 ) : (
                     <div style={textStyle}> No Projects Listed. Complete a Project!</div>
                 )}
-            {/* </DialogContent> */}
         </TabPanel>
       </TabContext>
         {/* <Accordion defaultExpanded>
