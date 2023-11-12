@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Button from '@mui/material/Button';
+import { Button, TextField, Select, MenuItem, InputLabel, FormControl, Checkbox, FormControlLabel } from '@mui/material';
 import '../../styles/Company/CreateProject.css'
 import { apiPost } from '../../api';
 import MultipleSelectChip from '../../components/MultiSelect';
 import MultipleSelectCategoryChip from '../../components/MultiCategorySelect';
 import decodeJWT from "../../decodeJWT";
 // import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constants";
+import { useDashboard } from '../../DashboardContext';
 
 import {
   useNavigate,
@@ -21,7 +22,7 @@ const CreateProject = (props) => {
   const [endDate, setNewEndDate] = React.useState('');
   const [professionalsWanted, setNewProfessionalsWanted] = React.useState('');
   const [location, setNewLocation] = React.useState('');
-  const [keyResponsibilites, setNewKeyResponsibilities] = React.useState('');
+  const [keyResponsibilities, setNewKeyResponsibilities] = React.useState('');
   const [skills, setNewSkills] = React.useState([]);
   const [projectDescription, setNewProjectDescription] = React.useState('');
   const [objectives, setNewObjectives] = React.useState('');
@@ -29,7 +30,7 @@ const CreateProject = (props) => {
 
   const navigate = useNavigate();
   const [ownUserId, setOwnUserId] = React.useState('');
-
+  const { triggerDashboardUpdate } = useDashboard();
 
   React.useEffect(() => {
     const getToken = localStorage.getItem("token");
@@ -51,7 +52,7 @@ const CreateProject = (props) => {
         projectCategories: categories,
         projectLocation: location,
         professionalsWanted: professionalsWanted,
-        projectKeyResponsibilites: keyResponsibilites,
+        projectKeyResponsibilites: keyResponsibilities,
         projectSkills: skills,
         projectDescription: projectDescription,
         projectObjectives: objectives,
@@ -59,6 +60,7 @@ const CreateProject = (props) => {
     }).then((data) =>{
         if (!data.error) {
             console.log(data)
+            triggerDashboardUpdate();
         } else {
             throw new Error("Create Project Failed");
         }
@@ -80,74 +82,127 @@ const CreateProject = (props) => {
   return (
     <>
     <div className="formContainer">
-        <h1>Create New Project</h1>
-        <div className="split-row">
-            <div>
-                <label className="formlabel">Project Name</label>
-                <input className="formInput" type="text" value={projectName} onChange={(e) => setNewProjectName(e.target.value)} />
-            </div>
-            <div>
-                <label className="formlabel" htmlFor="contactEmail">Contact Email</label>
-                <input className="formInput" type="text" value={contactEmail} onChange={(e) => setNewContactEmail(e.target.value)}/>
-            </div>
+      <h1>Create New Project</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="formRow">
+          <TextField 
+            label="Project Name" 
+            variant="outlined" 
+            required 
+            value={projectName} 
+            onChange={(e) => setNewProjectName(e.target.value)} 
+          />
+          <TextField 
+            label="Contact Email" 
+            variant="outlined" 
+            required 
+            value={contactEmail} 
+            onChange={(e) => setNewContactEmail(e.target.value)} 
+          />
         </div>
 
-        <div className="split-row">
-            <div classname="date-div">
-                <div classname="date-div1">
-                    <label className="formlabel">Start Date</label>
-                    <input className="dateInput" type="date" value={startDate} onChange={(e) => setNewStartDate(e.target.value)} />
-                </div>
-                <div classname="date-div1">
-                    <label className="formlabel">End Date</label>
-                    <input className="dateInput" type="date" value={endDate} onChange={(e) => setNewEndDate(e.target.value)} />
-                </div>
-            </div>
-            <div>
-                <label className="formlabel">Category</label>
-                <MultipleSelectCategoryChip 
-                    value={categories}
-                    set={handleCategoriesChange} 
-                    names={["Software", "Construction"]}
-                    label="Category" />
-            </div>
+        <div className="formRow">
+          <TextField 
+            label="Start Date" 
+            type="date" 
+            InputLabelProps={{ shrink: true }} 
+            variant="outlined" 
+            value={startDate} 
+            onChange={(e) => setNewStartDate(e.target.value)} 
+          />
+          <TextField 
+            label="End Date" 
+            type="date" 
+            InputLabelProps={{ shrink: true }} 
+            variant="outlined" 
+            value={endDate} 
+            onChange={(e) => setNewEndDate(e.target.value)} 
+          />
         </div>
 
-        <div className="split-row">
-            <div>
-                <label className="formlabel">Location</label>
-                <input className="formInput" type="text" value={location} onChange={(e) => setNewLocation(e.target.value)}/>
-            </div>
-            <div>
-                <label className="formlabel">Number of Professionals Wanted</label>
-                <input className="formInput" type="text" value={professionalsWanted} onChange={(e) => setNewProfessionalsWanted(e.target.value)}/>
-            </div>
+        <div className="formRow">
+          <MultipleSelectCategoryChip 
+            value={categories} 
+            set={handleCategoriesChange} 
+            names={["Software", "Construction"]} 
+            label="Category" 
+          />
+          <TextField 
+            label="Location" 
+            variant="outlined" 
+            value={location} 
+            sx={{mt:1.4}}
+            onChange={(e) => setNewLocation(e.target.value)} 
+          />
         </div>
-        <div className="row">
-            <label className="formlabel">Key Responsiblities</label>
-            <input className="lineInput" type="text" value={keyResponsibilites} onChange={(e) => setNewKeyResponsibilities(e.target.value)}/>
+
+        <div className="formRow">
+          <TextField 
+            label="Professionals Wanted" 
+            variant="outlined" 
+            value={professionalsWanted} 
+            onChange={(e) => setNewProfessionalsWanted(e.target.value)} 
+          />
+          <MultipleSelectChip 
+            value={skills} 
+            set={handleSkillsChange} 
+            label="Required Skills" 
+            sx={{ml:3}}
+          />
         </div>
-        <div className="row">
-            <label className="formlabel">Required Skills</label>
-            <MultipleSelectChip 
-                    value={skills}
-                    set={handleSkillsChange} />
+
+        <div className="formRow">
+          <TextField 
+            label="Key Responsibilities" 
+            variant="outlined" 
+            fullWidth 
+            value={keyResponsibilities} 
+            onChange={(e) => setNewKeyResponsibilities(e.target.value)} 
+          />
         </div>
-        <div className="row">
-            <label className="formlabel">Project Description</label>
-            <textarea type="text" value={projectDescription} onChange={(e) => setNewProjectDescription(e.target.value)}/>
+
+        <div className="formRow">
+          <TextField 
+            label="Project Description" 
+            variant="outlined" 
+            multiline 
+            rows={4} 
+            fullWidth 
+            required
+            value={projectDescription} 
+            onChange={(e) => setNewProjectDescription(e.target.value)} 
+          />
         </div>
-        <div className="row">
-            <label className="formlabel">Objective</label>
-            <textarea type="text" value={objectives} onChange={(e) => setNewObjectives(e.target.value)}/>
+
+        <div className="formRow">
+          <TextField 
+            label="Objectives" 
+            variant="outlined" 
+            multiline 
+            rows={4} 
+            fullWidth 
+            value={objectives} 
+            onChange={(e) => setNewObjectives(e.target.value)} 
+          />
         </div>
-        <div className="row">
-            <label className="formlabel">Confidential Information</label>
-            <textarea type="text" value={confidentialInformation} onChange={(e) => setNewConfidentialInformation(e.target.value)}/>
+
+        <div className="formRow">
+          <TextField 
+            label="Confidential Information" 
+            variant="outlined" 
+            multiline 
+            rows={4} 
+            fullWidth 
+            value={confidentialInformation} 
+            onChange={(e) => setNewConfidentialInformation(e.target.value)} 
+          />
         </div>
-        <Button variant="outlined" onClick={handleSubmit}>Post Project!</Button>
-    </div> 
-    
+
+        <Button variant="contained" sx={{bgColor:"F5A67F"}} type="submit">
+          Submit
+        </Button>
+      </form>
+    </div>
     </>
   );
 }
