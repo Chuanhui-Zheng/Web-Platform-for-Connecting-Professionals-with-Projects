@@ -15,9 +15,13 @@
 
 .ProfileBanner {
     height: 175px;
-    background-color: lightgray;
+    background-color: #eeebcc;
     margin-top: 35px;
-    border-radius: 15px;
+    border-radius: 35px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
 }
 
 .ProfilePicAndEdit {

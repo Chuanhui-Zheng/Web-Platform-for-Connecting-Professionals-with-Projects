@@ -178,7 +178,7 @@ function Header() {
                     aria-expanded={open ? 'true' : undefined}
                 >
                     {/* {photo ? <Avatar src={photo} sx={{ bgcolor: deepOrange[500], width: 32, height: 32 }} /> : <></>} */}
-                    <Avatar src={photo} sx={{ bgcolor: deepOrange[500], width: 32, height: 32 }} />
+                    <Avatar src={photo} sx={{ bgcolor: '#F29465', width: 32, height: 32 }} />
                 </IconButton>
             </Box>
             <Menu
