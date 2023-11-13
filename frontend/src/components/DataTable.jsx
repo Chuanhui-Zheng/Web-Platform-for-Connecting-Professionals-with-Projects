@@ -27,7 +27,7 @@ function DataTable({ rows, columns, onSelectionChange, checkboxSelection }) {
     const paginationHeight = 52;
 
     return rowsLength <= 5
-      ? headerHeight + (rowsLength * rowHeight) + paginationHeight
+      ? headerHeight + (rowsLength * rowHeight) + paginationHeight + 1
       : 369;
   };
 
