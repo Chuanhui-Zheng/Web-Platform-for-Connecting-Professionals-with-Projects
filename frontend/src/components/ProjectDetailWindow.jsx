@@ -94,6 +94,7 @@ export default function ProjectDetailWindow({ projectID }) {
   const reloadProject = useProject();
   const [errorMessage, setErrorMessage] = React.useState('');
   const [error, setError] = React.useState(false);
+  const { triggerProjectUpdate } = useProject();
 
   const toggleError = () => {
     setError(!error);
@@ -176,6 +177,7 @@ export default function ProjectDetailWindow({ projectID }) {
         .then((data) =>{
           if (!data.error) {
             console.log(data)
+            triggerProjectUpdate();
           } else {
             throw new Error("Project Complete Failed");
           }
@@ -238,9 +240,6 @@ export default function ProjectDetailWindow({ projectID }) {
           // alert("Project leave are not valid.", err);
         });
     }
-  };
-  const navigateEdit = (event) => {
-    navigate(`/projectpage/:${projectID}/edit`);
   };
   
   const handleFileChange = (event) => {
