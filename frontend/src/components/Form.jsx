@@ -9,6 +9,7 @@ function Form({ buttonName, handleSubmit, children }) {
       // fullWidth
       display="flex"
       flexDirection="column"
+      alignItems= "center"
       width="50vw"
     >
       {children}
@@ -17,7 +18,7 @@ function Form({ buttonName, handleSubmit, children }) {
         type="submit"
         variant="contained"
         margin="normal"
-        sx={{ backgroundColor: '#F5A67F', color: '#fff' }}
+        sx={{ backgroundColor: '#3b7c84', color: '#fff', borderRadius:"20px" }}
         onClick={handleSubmit}
       >
         {buttonName}

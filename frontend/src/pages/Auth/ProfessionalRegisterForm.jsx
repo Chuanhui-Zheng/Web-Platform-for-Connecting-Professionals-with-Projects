@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import Form from "../../components/Form"
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Box } from "@mui/material";
 import VisuallyHiddenInput from "../../components/VisuallyHiddenInput";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { apiPost } from "../../api";
@@ -99,7 +99,7 @@ function ProfessionalRegisterForm() {
     <Form
         buttonName="Register"
         handleSubmit={handleSubmit}
-      >
+    >
         {isValid ? 
           <></>
           :
@@ -114,6 +114,7 @@ function ProfessionalRegisterForm() {
           name="professionalFullName"
           value={formData.professionalFullName}
           onChange={onChange}
+          sx={{ backgroundColor:"white" }}
         />
         <TextField
           variant="filled"
@@ -124,6 +125,7 @@ function ProfessionalRegisterForm() {
           name="professionalEmail"
           value={formData.professionalEmail}
           onChange={onChange}
+          sx={{  backgroundColor:"white" }}
         />
         <TextField
           variant="filled"
@@ -134,9 +136,10 @@ function ProfessionalRegisterForm() {
           name="professionalPassword"
           value={formData.professionalPassword}
           onChange={onChange}
+          sx={{ backgroundColor:"white" }}
         />
         <Button
-          sx={{ margin: '16px 0' }}
+          sx={{ margin: '16px 0', borderRadius:"20px", backgroundColor:"#364749" }}
           className="form-input"
           component="label"
           variant="contained"
