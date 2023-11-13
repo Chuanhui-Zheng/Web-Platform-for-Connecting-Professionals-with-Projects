@@ -13,23 +13,35 @@ function DataTable({ rows, columns, onSelectionChange, checkboxSelection }) {
     for (const column of rowData.columns) {
       if ("field" in column) {
         if (column["field"] === "adminEmail") {
-          return
+          return;
         }
       }
     }
     navigate(`/profile/${rowData.id}`);
-  }
+  };
+
+  // Calculate the height based on the number of rows
+  const calculateHeight = (rowsLength) => {
+    const rowHeight = 52;
+    const headerHeight = 56;
+    const paginationHeight = 52;
+
+    return rowsLength <= 5
+      ? headerHeight + (rowsLength * rowHeight) + paginationHeight
+      : 369;
+  };
+
+  const height = calculateHeight(rows.length);
 
   return (
-    // <Paper sx={{ height: "auto", minHeight: 200, width: "100%" }}>
-    <Paper sx={{ height: 400, width: "100%" }}>
+    <Paper sx={{ height: height, width: "100%" }}>
       <DataGrid
         rows={rows}
         columns={columns}
         initialState={{ pagination: { paginationModel } }}
         pageSizeOptions={[5, 10]}
         checkboxSelection={Boolean(checkboxSelection)}
-        disableRowSelectionOnClick 
+        disableRowSelectionOnClick
         onRowSelectionModelChange={(newSelection) => onSelectionChange(newSelection)}
         onRowClick={handleOnRowClick}
         sx={{ border: 0 }}
