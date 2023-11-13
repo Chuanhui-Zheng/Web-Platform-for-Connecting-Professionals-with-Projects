@@ -53,7 +53,6 @@ const EditProfessionalProfile = ( { userId } ) => {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0]; // Get the first uploaded file
-    console.log('gay', file)
 
     fileToDataUrl(file).then((dataUrl) => {
         setNewPhoto(dataUrl); // Store the data URL in state

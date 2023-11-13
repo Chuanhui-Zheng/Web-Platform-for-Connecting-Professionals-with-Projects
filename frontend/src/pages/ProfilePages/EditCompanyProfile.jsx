@@ -49,7 +49,6 @@ const EditCompanyProfile = ( { userId }) => {
   const handleFileChange = (event) => {
     const file = event.target.files[0]; // Get the first uploaded file
     console.log(file)
-    console.log("faggot")
     
     fileToDataUrl(file).then((dataUrl) => {
         setNewCompanyLogo(dataUrl); // Store the data URL in state
