@@ -50,8 +50,8 @@ export default function SearchBar(props) {
       const decoded = decodeJWT(token);
       if (decoded && decoded.userType) {
         setUserType(decoded.userType);
-
-        apiGet('/project/recommended', `professionalId=${decoded.userId}`)
+        if (decoded.userType === 'professional') {
+          apiGet('/project/recommended', `professionalId=${decoded.userId}`)
         .then(data => {
             if (!data.error) {
                 setRecommended(data);
@@ -63,6 +63,7 @@ export default function SearchBar(props) {
         .catch(err => {
             console.error("Failed to fetch project list:", err);
         });
+        }
       } else {
         setUserType("none");
       }
@@ -204,10 +205,10 @@ export default function SearchBar(props) {
   };
 
   return (
-    <Box sx={{width:'100%'}}>
+    <Box sx={{width:'100%', marginTop: '64px' }}>
     <Paper
           component="form"
-          sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%' }}
+          sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%', mt: 2 }}
         >
           <InputBase
             sx={{ ml: 1, flex: 1 }}

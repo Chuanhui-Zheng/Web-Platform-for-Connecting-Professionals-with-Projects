@@ -72,9 +72,9 @@ const ProfessionalDashboard = () => {
       <>
       <Box sx={{bgcolor: '#F5F5F5', borderRadius: '20px', borderTopRightRadius: '20px', minHeight: '600px' }}>
         <Box sx={{textAlign:'center'}}>
-        {TitleCard('Rating', '0/5', 'rating')}
+        {TitleCard('Active Projects', activeProjects.length, 'active')}
         {TitleCard('Projects Completed', completedProjects.length, 'complete')}
-        {TitleCard('Current Projects', activeProjects.length, 'current')}
+        {TitleCard('Pending Projects', pendingProjects.length, 'pending')}
         {TitleCard('Certifications', '0', 'cert')}
         </Box>
         <br></br>
