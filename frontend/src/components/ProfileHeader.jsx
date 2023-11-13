@@ -86,6 +86,7 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
 
     return (
         <div className={styles.Profile}> 
+            <div className={styles.ProfileFiller}></div>
             <div className={styles.ProfileHeaderBar}>
                 <div className={styles.ProfileBanner}> <Typography  variant="h1" sx={{fontStyle: 'italic', fontWeight: 'bold', color:'#ebad8f', opacity: 0.6}}>PJ</Typography> </div>
 
@@ -120,7 +121,7 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
                         <Typography variant="subtitle1" sx={{height: 2, ml:0.5}}>{phoneNumber}</Typography>
                     </div>
                 </div>
-               
+                
             </div>
             <div>
                 <DynamicFormDialog
