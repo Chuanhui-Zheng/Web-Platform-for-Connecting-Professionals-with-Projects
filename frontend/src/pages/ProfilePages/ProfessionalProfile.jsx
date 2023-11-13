@@ -11,6 +11,8 @@ import { getProjects } from '../../helpers';
 import Certificates from '../../components/CertficateCard';
 import PaginationCards from '../../components/Pagination';
 import { useProfile } from '../../ProfileContext';
+import ProjectCard1 from '../../components/Professional/Dashboard/ProjectCard1';
+import Grid from '@mui/material/Grid2';
 
 const ProfessionalProfile = ( { userId } ) => {
     console.log("professional profile reached")
@@ -114,16 +116,18 @@ const ProfessionalProfile = ( { userId } ) => {
                 })}
             </div>
             <Typography variant="h5" sx={{ fontWeight: 'bold', mt:3 }}>Projects</Typography>
-            <div class={styles.ProfessionalProfileProjectList}>
-                {projects.map((project, idx) => (
-                    <ProjectCard
-                        key={idx}
-                        projectName={project.projectName}
-                        projectDescription={project.projectDescription}
-                        projectId={project.projectId}
-                    />
-                ))}
-            </div>
+            <br></br>
+            {projects.length > 0 ? (
+                    <Grid container spacing={2} sx ={{flexWrap: "wrap"}}>
+                        {projects.map((project, idx) => (
+                            <Grid item size={5} key={idx}>
+                                <ProjectCard1 project={project} />
+                            </Grid>
+                        ))}
+                    </Grid>
+                ) : (
+                    <div > No Projects Listed. Apply for a Project!</div>
+                )}
             <Typography variant="h5" sx={{ fontWeight: 'bold', mt:3 }}>Certificates</Typography>
             <Certificates certificates={certificates} ownProfile={ownProfile}></Certificates>
             <Typography variant="h5" sx={{ fontWeight: 'bold', mt:3, mb:1 }}>Reviews</Typography>

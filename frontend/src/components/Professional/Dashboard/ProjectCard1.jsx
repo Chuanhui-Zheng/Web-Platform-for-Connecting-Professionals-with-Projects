@@ -68,13 +68,13 @@ export default function ProjectCard1({project}) {
         <Box display="flex" alignItems="center" mb={1}>
           <LocationOnIcon style={{ marginRight: 8 }} />
           <Typography variant="body2" color="textSecondary">
-          {project.projectLocation}
+          {project.projectLocation || 'N/A'}
           </Typography>
         </Box>
         <Box display="flex" alignItems="center" mb={1}>
           <GroupsIcon style={{ marginRight: 8 }} />
           <Typography variant="body2" color="textSecondary">
-          {project.professionalsWanted}
+          {project.professionalsWanted || 'N/A'}
           </Typography>
         </Box>
         <Typography variant="body2" color="textSecondary" paragraph>
@@ -82,7 +82,7 @@ export default function ProjectCard1({project}) {
         </Typography>
         <Box mb={2}>
           {project.projectSkills.length == 0 ? <Typography variant="body2" color="textSecondary">
-          None
+          <StyledChip label={'none'} />
           </Typography> : project.projectSkills.map((skill, idx) => (
             <StyledChip key={idx} label={skill} />
           ))}

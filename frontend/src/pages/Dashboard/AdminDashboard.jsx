@@ -189,6 +189,7 @@ export default function AdminDashboard() {
 
   return (
     <>
+    <Box sx={{bgcolor: '#F5F5F5', borderRadius: '20px', borderTopRightRadius: '20px', minHeight: '600px', padding: '10px' }}>
       <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" gap="50px">
         <Box display="flex" flexDirection="column" width="100%">
           <Box alignSelf="flex-start">
@@ -307,6 +308,7 @@ export default function AdminDashboard() {
         }
       </Box>
       {error && <ErrorPopup message={errorMessage} toggleError={toggleError}/>}
+      </Box>
     </>
   );
 }

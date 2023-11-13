@@ -446,7 +446,7 @@ export default function ProjectDetailWindow({ projectID }) {
               Applicant List
             </Typography>
             
-          <ProjectApplicantList projectId={projectID} listType={'applicant'}/><br></br>
+          <ProjectApplicantList projectId={projectID} listType={'applicant'} toggleSnackbar={toggleSnackbar} setSnackBarMessage={setSnackBarMessage}/><br></br>
         </Box> :<Box></Box>}
         {approved === true || (userType === 'company' && userId === projectInfo.pCompanyId) ? (
           <Box>
