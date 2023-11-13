@@ -42,6 +42,7 @@ import { useProject } from '../ProjectContext';
 import LinearProgress from '@mui/material/LinearProgress';
 import ErrorPopup from './ErrorPopup';
 
+import presentationscreen from '../assets/presentationscreen2.png';
 // Style compontents
 const headerStyle = {
   display: 'flex',
@@ -57,6 +58,14 @@ const secondaryStyle = {
   alignItems: 'center',
   margin: '0px',
   padding: '0px 30px'
+};
+
+const imgStyle = {
+  position:'absolute',
+  // top: '10',
+  // bottom: '',
+  // top: '40%',
+  // left: '10%',
 };
 
 const StyledChip = styled(Chip)({
@@ -316,32 +325,17 @@ export default function ProjectDetailWindow({ projectID }) {
         alignItems: 'center',
         justifyContent: 'center',
         height: '100vh', // Full viewport height
-        textAlign: 'center'}}>
-          
-        <Typography variant="h6" color="white" component="h1" gutterBottom>
-          Welcome! Select a Project to get started!
-          {/* <LinearProgress color="success" /> */}
-      </Typography></Box></Box>
+        textAlign: 'center', position: 'relative'}}>
+        <img src={presentationscreen} style={imgStyle} />
+        <Typography variant="h6" color="black" component="h1" position="relative" gutterBottom>
+          Welcome! <Typography>Select a Project to get started!</Typography><Box color='#F5F5F5'><br></br>.<br></br>.<br></br>.<br></br>.</Box>
+      </Typography>
+      </Box></Box>
     );
   }
   
   if (isLoading) {
     return (
-      // <Box sx={{width: '100%', height: '100%'}}>
-      //   <Box 
-      //     sx={{
-      //       display: 'flex',
-      //       alignItems: 'center',
-      //       justifyContent: 'center',
-      //       height: '100vh', // Full viewport height
-      //       textAlign: 'center'
-      //     }}
-      //   >
-      //     <Typography variant="h6" component="h1" gutterBottom>
-      //       Loading project details...
-      //     </Typography>
-      //   </Box>
-      // </Box>
       <LoadingPage />
     );
   } 

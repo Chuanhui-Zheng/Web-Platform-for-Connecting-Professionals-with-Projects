@@ -175,7 +175,7 @@ function CompanyRegisterForm() {
           onChange={onChange}
         />
         <Button
-          sx={{ margin: '16px 0' }}
+          sx={{ margin: '16px 0', backgroundColor:"#364749", borderRadius:'20px' }}
           className="form-input"
           component="label"
           variant="contained"

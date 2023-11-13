@@ -14,7 +14,7 @@ body {
     padding: 0;
     font-family: 'Poppins', sans-serif;
     background-color: #ffffff;
-    background-image: linear-gradient(rgba(187, 187, 148, 0.8),rgba(10, 10, 10, 0.8)), url('hiking.jpg'); 
+    background-image: linear-gradient(rgba(52, 50, 50, 0.8),rgba(10, 10, 10, 0.8)), url('hiking.jpg'); 
     background-size: cover;
     width: 100%;
     /* min-height:100vh; */
