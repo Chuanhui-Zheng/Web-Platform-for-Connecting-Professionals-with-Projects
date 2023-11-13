@@ -46,3 +46,5 @@ function Card({ headerText, descriptionOneText, descriptionTwoText, handleClick,
 }
 
 export default Card;
+
+# history-polish-082: temporary maintainability note for the frontend visual polish surface. The following history step restores the canonical source tree.
