@@ -33,7 +33,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import styles from '../styles/FormDialog.module.css'
 
-const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
+const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarToggle, snackBarMessage }) => {
   const [formData, setFormData] = useState({});
   const [showSnackbar, setShowSnackbar] = useState(false);
   const navigate = useNavigate();
@@ -42,6 +42,12 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
   const { triggerProjectUpdate } = useProject();
   const [formConfigg, setFormConfigg] = useState([]);
   const [token, setToken] = React.useState('');
+  const [errorMessage, setErrorMessage] = React.useState('');
+  const [error, setError] = React.useState(false);
+
+  const toggleError = () => {
+    setError(!error);
+  }
 
   useEffect(() => {
     if (userType === "professional") {
@@ -69,13 +75,13 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
         setFormConfigg([
             { type: 'text', label: 'Full Name', name: 'professionalFullName' },
             { type: 'text', label: 'Password', name: 'professionalPassword' },
-            { type: 'text', label: 'Phone Number', name: 'professionalPhoneNumber' },
+			{ type: 'text', label: 'Phone Number', name: 'professionalPhoneNumber' },
             { type: 'textarea', label: 'Tell us About Yourself', name: 'professionalDescription' },
             { type: 'text', label: 'Qualifications', name: 'professionalQualifications' },
             { type: 'text', label: 'Education', name: 'professionalEducation' },
             { type: 'text', label: 'Website', name: 'professionalWebsite' },
             { type: 'file', label: 'Profile Photo', name: 'professionalPhoto' },
-            { type: 'multiselect', label: 'Skills', name: 'professionalSkills'},
+            { type: 'multicategoryselect', label: 'Skills', name: 'professionalSkills'},
         ])
     } else if (userType === "company") {
         apiGet("/user/details/company", `id=${userId}`)
@@ -317,8 +323,9 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
         }).then((data) =>{
             if (!data.error) {
                 onClose();
-                toggleSnackbar();
                 triggerProjectUpdate();
+                snackBarMessage('Successfully updated project')
+                snackbarToggle()
             } else {
                 throw new Error("Edit Failed");
             }

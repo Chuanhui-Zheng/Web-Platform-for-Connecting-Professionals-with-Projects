@@ -39,6 +39,7 @@ import ProjectApplicantList from './ProjectProfessionalList';
 import DialogContent from '@mui/material/DialogContent';
 import DynamicFormDialog from './FormDialog';
 import { useProject } from '../ProjectContext';
+import ErrorPopup from './ErrorPopup';
 
 // Style compontents
 const headerStyle = {
@@ -88,8 +89,15 @@ export default function ProjectDetailWindow({ projectID }) {
   const [approved, setApproved] = React.useState(false);
   const [pending, setPending] = React.useState(true);
   const [showSnackBar, setShowSnackbar] = React.useState(false);
+  const [snackBarMessage, setSnackBarMessage] = React.useState('');
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const reloadProject = useProject();
+  const [errorMessage, setErrorMessage] = React.useState('');
+  const [error, setError] = React.useState(false);
+
+  const toggleError = () => {
+    setError(!error);
+  }
 
   const toggleSnackbar = () => {
       setShowSnackbar(!showSnackBar)
@@ -149,7 +157,9 @@ export default function ProjectDetailWindow({ projectID }) {
         }
       })
       .catch((err) => {
-          alert(err);
+          setErrorMessage(err)
+          toggleError()
+          // alert(err);
           console.error("Failed to fetch project:", err);
       }).finally(() => setIsLoading(false));
     }
@@ -171,7 +181,10 @@ export default function ProjectDetailWindow({ projectID }) {
           }
         })
         .catch((err) => {
-          alert("Project Complete are not valid.", err)
+          // alert("Project Complete are not valid.", err)
+          setErrorMessage("Project Complete are not valid.");
+          toggleError();
+          return
         });
       }
       setOpen(false);
@@ -196,13 +209,17 @@ export default function ProjectDetailWindow({ projectID }) {
         .then((data) => {
           if (!data.error) {
             console.log(data);
+            setSnackBarMessage('Successfully applied to project')
             setShowSnackbar(true);
           } else {
             throw new Error("Project Apply Failed");
           }
         })
         .catch((err) => {
-          alert("Project Apply are not valid.", err);
+          setErrorMessage("Already applied to project.");
+          toggleError();
+          return
+          // alert("Project Apply are not valid.", err);
         });
     } else {
       setSelectedIndex2(0);
@@ -215,7 +232,10 @@ export default function ProjectDetailWindow({ projectID }) {
           }
         })
         .catch((err) => {
-          alert("Project leave are not valid.", err);
+          setErrorMessage("Project leave are not valid.");
+          toggleError();
+          return
+          // alert("Project leave are not valid.", err);
         });
     }
   };
@@ -243,10 +263,14 @@ export default function ProjectDetailWindow({ projectID }) {
         if (!data.error) {
           console.log("give cert api", data);
         } else {
+          setErrorMessage("Failed to give certification, please try again");
+          toggleError();
           throw new Error("give Cert Failed");
         }
       })
       .catch(() => {
+        setErrorMessage("Certification not available not valid.");
+        toggleError();
         alert("cert not valid.");
       });
     }
@@ -500,9 +524,12 @@ export default function ProjectDetailWindow({ projectID }) {
             userId={projectID}
             userType="project"
             title={`Edit Project`}
+            snackbarToggle={toggleSnackbar}
+            snackBarMessage={setSnackBarMessage}
         />
       </Box>
-      {showSnackBar && <SnackbarAlert message={'Successfully applied to project'} toggleSuccess={toggleSnackbar} />}
+      {showSnackBar && <SnackbarAlert message={snackBarMessage} toggleSuccess={toggleSnackbar} />}
+      {error && <ErrorPopup message={errorMessage} toggleError={toggleError}/>}
     </Box>
   );  
 }
