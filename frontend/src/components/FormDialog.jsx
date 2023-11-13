@@ -75,7 +75,7 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
             { type: 'text', label: 'Education', name: 'professionalEducation' },
             { type: 'text', label: 'Website', name: 'professionalWebsite' },
             { type: 'file', label: 'Profile Photo', name: 'professionalPhoto' },
-            { type: 'multiselect', label: 'Skills', name: 'professionalSkills'},
+            { type: 'multicategoryselect', label: 'Skills', name: 'professionalSkills'},
         ])
     } else if (userType === "company") {
         apiGet("/user/details/company", `id=${userId}`)
