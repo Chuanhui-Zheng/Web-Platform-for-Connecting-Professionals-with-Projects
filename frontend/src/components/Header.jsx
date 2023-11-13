@@ -285,8 +285,8 @@ function Header() {
             </Menu>
             </>) : (<>
                 <Box>
-                    <><Button name="registerBtn" color="green" onClick={() => { navigate('register') } }>Register</Button></>
-                    <Button name="loginBtn" sx={{backgroundColor: "#F29465", borderRadius:"20px"}} onClick={() => { navigate('login') }}>Login</Button>
+                    <><Button name="registerBtn" color="green" onClick={() => { navigate('/register') } }>Register</Button></>
+                    <Button name="loginBtn" sx={{backgroundColor: "#F29465", borderRadius:"20px"}} onClick={() => { navigate('/login') }}>Login</Button>
                 </Box>
             </>
             )}               </>

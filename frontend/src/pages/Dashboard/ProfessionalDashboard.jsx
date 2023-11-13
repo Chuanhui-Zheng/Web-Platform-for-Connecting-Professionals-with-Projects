@@ -71,10 +71,12 @@ const ProfessionalDashboard = () => {
     return (
       <>
       <Box sx={{bgcolor: '#F5F5F5', borderRadius: '20px', borderTopRightRadius: '20px', minHeight: '600px' }}>
-        {TitleCard('Rating', '4/5')}
-        {TitleCard('Projects Completed', '4/5')}
-        {TitleCard('Current Projects', '4/5')}
-        {TitleCard('Certifications', '4/5')}
+        <Box sx={{textAlign:'center'}}>
+        {TitleCard('Rating', '0/5', 'rating')}
+        {TitleCard('Projects Completed', completedProjects.length, 'complete')}
+        {TitleCard('Current Projects', activeProjects.length, 'current')}
+        {TitleCard('Certifications', '0', 'cert')}
+        </Box>
         <br></br>
         <br></br>
         <TabContext value={value}>
