@@ -21,6 +21,25 @@ function RaitingSideBar({professionals, projectName, selectedUser, onSelectName,
     const [profilePhoto, setProfilePhoto] = React.useState({});
     const [professionalDetails, setProfessionalDetails] = useState({});
     console.log(professionals)
+    const [allProfessionals, setAllProfessionals] = useState([]);
+
+    useEffect(() => {
+        const fetchAllProfessionals = () => {
+            Promise.all(
+                professionals.map((professional) =>
+                    apiGet('/user/details/professional', `id=${professional.professionalId}`)
+                )
+            )
+            .then((results) => {
+                setAllProfessionals(results);
+            })
+            .catch((error) => {
+                console.error("Failed to fetch professionals", error);
+            });
+        };
+    
+        fetchAllProfessionals();
+    }, [professionals]);
     
     const getName = (professionalId) => {
         // apiGet('/user/details/professional', professionalId)
@@ -71,14 +90,21 @@ function RaitingSideBar({professionals, projectName, selectedUser, onSelectName,
             <Typography variant='h7' sx={{marginLeft: 'auto', marginRight: 'auto'}}>Start Reviewing each Member</Typography>
 
             <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', marginLeft: 'auto', marginRight: 'auto'}}>
-                {professionals.map((professional, idx) => {
+                {allProfessionals.map((professional, idx) => {
                     const details = professionalDetails[professional.professionalId] || {};
                     return(
                         <ListItem key={professional.professionalId} alignItems="flex-start">
                         <ListItemButton id={professional.professionalId} onClick={() => onSelectUser(details)} alignItems="flex-start">
                                 
                         <ListItemAvatar>
-                            <AccountCircleIcon sx={{color: 'grey', fontSize: '3rem'}}/> 
+                        {professional.professionalPhoto ? (
+                            <Avatar
+                            src={professional.professionalPhoto}
+                            sx={{ width: '3rem', height: '3rem' }}
+                            />
+                        ) : (
+                            <AccountCircleIcon sx={{ color: 'grey', fontSize: '3rem' }} />
+                        )}
                         </ListItemAvatar>
                         <ListItemText
                         primary={details.professionalFullName}

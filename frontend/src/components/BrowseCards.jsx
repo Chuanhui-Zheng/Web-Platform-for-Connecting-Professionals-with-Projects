@@ -63,10 +63,10 @@ export default function BrowseCards({project}) {
         <Box display="flex" alignItems="center" mb={1}>
           <BusinessCenterIcon style={{ marginRight: 8 }} />
           <Typography variant="body2" color="textSecondary">
-            {project.projectCategories.length == 0 ? <Typography variant="body2" color="textSecondary">
+            {project.projectCategory.length == 0 ? <Typography variant="body2" color="textSecondary">
             N/A
             </Typography>: <Typography variant="body2" color="textSecondary">
-            {project.projectCategories}
+            {project.projectCategory}
             </Typography>}
           </Typography>
         </Box>
