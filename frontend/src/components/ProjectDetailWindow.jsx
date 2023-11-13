@@ -319,20 +319,20 @@ export default function ProjectDetailWindow({ projectID }) {
     // <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={() => navigate(`/project/${projectID}/rate`)}>Rate Project</Button>
   ];
   
-  if (!projectInfo) {
-    return (
-      <Box sx={{width: '100%', height: '100%', background:'rgba(255,255,255, 0.3)', boxShadow: '0 4px 6px rgba(0,0,0,0.1)',border:'1px solid #fff' , borderRadius:'20px'}}><Box sx={{display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100vh', // Full viewport height
-        textAlign: 'center', position: 'relative'}}>
-        <img src={presentationscreen} style={imgStyle} />
-        <Typography variant="h6" color="black" component="h1" position="relative" gutterBottom>
-          Welcome! <Typography>Select a Project to get started!</Typography><Box color='#F5F5F5'><br></br>.<br></br>.<br></br>.<br></br>.</Box>
-      </Typography>
-      </Box></Box>
-    );
-  }
+  // if (!projectInfo) {
+  //   return (
+  //     <Box sx={{width: '100%', height: '100%', background:'rgba(255,255,255, 0.3)', boxShadow: '0 4px 6px rgba(0,0,0,0.1)',border:'1px solid #fff' , borderRadius:'20px'}}><Box sx={{display: 'flex',
+  //       alignItems: 'center',
+  //       justifyContent: 'center',
+  //       height: '100vh', // Full viewport height
+  //       textAlign: 'center', position: 'relative'}}>
+  //       <img src={presentationscreen} style={imgStyle} />
+  //       <Typography variant="h6" color="black" component="h1" position="relative" gutterBottom>
+  //         Welcome! <Typography>Select a Project to get started!</Typography><Box color='#F5F5F5'><br></br>.<br></br>.<br></br>.<br></br>.</Box>
+  //     </Typography>
+  //     </Box></Box>
+  //   );
+  // }
   
   if (isLoading) {
     return (
