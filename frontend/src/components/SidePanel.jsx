@@ -16,6 +16,7 @@ import Divider from '@mui/material/Divider';
 import SearchBar from '../components/SearchBar';
 import Typography from '@mui/material/Typography';
 
+import LinearProgress from '@mui/material/LinearProgress';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import SearchIcon from '@mui/icons-material/Search';
@@ -108,12 +109,15 @@ function SidePanel({ projectID, onSelectProject }) {
     }, []);
 
     if (isLoading) {
-        return <Box sx={{width: '100%', height: '100%'}}><Box sx={{display: 'flex',
+        return <Box sx={{width: '100%', height: '100%', background:'rgba(255,255,255, 0.3)', boxShadow: '0 4px 6px rgba(0,0,0,0.1)',border:'1px solid #fff' , borderRadius:'20px'}}><Box sx={{display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           height: '100vh', // Full viewport height
-          textAlign: 'center'}}><Typography variant="h6" component="h1" gutterBottom>
-        Loading projects...
+          textAlign: 'center'}}>
+            
+          <Typography variant="h6" color="white" component="h1" gutterBottom>
+            Loading projects...
+            <LinearProgress color="success" />
         </Typography></Box></Box>
     }
 

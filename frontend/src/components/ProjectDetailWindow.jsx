@@ -39,6 +39,7 @@ import ProjectApplicantList from './ProjectProfessionalList';
 import DialogContent from '@mui/material/DialogContent';
 import DynamicFormDialog from './FormDialog';
 import { useProject } from '../ProjectContext';
+import LinearProgress from '@mui/material/LinearProgress';
 
 // Style compontents
 const headerStyle = {
@@ -123,13 +124,13 @@ export default function ProjectDetailWindow({ projectID }) {
 
           // STATUS: check if professional has applied
           data.listOfApplicants.forEach(prof => {
+            console.log(prof, userId)
             if (userId === prof.professionalId) {
               setSelectedIndex2(1)
             } 
           })
           
           // STATUS: check if professional has been approved
-
           data.listOfProfessionals.forEach(prof => {
             if (userId === prof.professionalId) {
               setSelectedIndex2(2)
@@ -287,13 +288,16 @@ export default function ProjectDetailWindow({ projectID }) {
   
   if (!projectInfo) {
     return (
-      <Box sx={{width: '100%', height: '100%'}}>
-        <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', textAlign: 'center'}}>
-          <Typography variant="h6" component="h1" gutterBottom>
-            Welcome! Select a project to view full details!
-          </Typography>
-        </Box>
-      </Box>
+      <Box sx={{width: '100%', height: '100%', background:'rgba(255,255,255, 0.3)', boxShadow: '0 4px 6px rgba(0,0,0,0.1)',border:'1px solid #fff' , borderRadius:'20px'}}><Box sx={{display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh', // Full viewport height
+        textAlign: 'center'}}>
+          
+        <Typography variant="h6" color="white" component="h1" gutterBottom>
+          Welcome! Select a Project to get started!
+          {/* <LinearProgress color="success" /> */}
+      </Typography></Box></Box>
     );
   }
   
