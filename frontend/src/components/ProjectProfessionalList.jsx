@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom"
 import { apiGet, apiPost } from "../api";
 import DataTable from "./DataTable";
 import { ThumbDown, ThumbUp } from "@mui/icons-material";
+import { useProject } from '../ProjectContext';
 
 // Professional columns
 const professionalColumns = [
@@ -19,6 +20,7 @@ function ProjectProfessionalList({ projectId, listType }) {
   const [applicantRows, setApplicantRows] = useState([]);
   const [professionalRows, setProfessionalRows] = useState([]);
   const [selectedProfessionalRowIds, setSelectedProfessionalRowIds] = useState([]);
+  const { triggerProjectUpdate } = useProject();
 
   // Handle approving the applicant
   const handleApproveApplicant = () => {
@@ -29,6 +31,7 @@ function ProjectProfessionalList({ projectId, listType }) {
       .then((data) => {
         if (!data.error) {
           setUpdate(!update);
+          triggerProjectUpdate();
         } else {
           throw new Error();
         }

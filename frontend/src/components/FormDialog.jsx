@@ -79,11 +79,10 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
             { type: 'text', label: 'Password', name: 'professionalPassword' },
 			{ type: 'text', label: 'Phone Number', name: 'professionalPhoneNumber' },
             { type: 'textarea', label: 'Tell us About Yourself', name: 'professionalDescription' },
-            { type: 'text', label: 'Qualifications', name: 'professionalQualifications' },
-            { type: 'text', label: 'Education', name: 'professionalEducation' },
             { type: 'text', label: 'Website', name: 'professionalWebsite' },
-            { type: 'file', label: 'Profile Photo', name: 'professionalPhoto' },
             { type: 'multicategoryselect', label: 'Skills', name: 'professionalSkills'},
+            { type: 'file', label: 'Profile Photo', name: 'professionalPhoto' },
+            
         ])
     } else if (userType === "company") {
         apiGet("/user/details/company", `id=${userId}`)
@@ -378,7 +377,7 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
                           label={field.label}
                           value={formData[field.name] || []}
                           set={(e) => handleCategoriesChange(e, field.name)}
-                          names={field.name.toLowerCase().includes("skills") ? ["Coding", "Other"]: ["Software", "Construction"]}
+                          names={field.label === "Skills" ? ["Coding", "Other"] : ["Software", "Construction"]}
                           options={field.options}
                         />
                       );
@@ -387,8 +386,10 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
                           <LocalizationProvider key={field.name} dateAdapter={AdapterDayjs}>
                               <DemoContainer components={['DatePicker']}>
                               <DatePicker
+                              className={styles.Datepicker}
                               name={field.name}
                               label={field.label}
+                              fullWidth
                               defaultValue={formData[field.name] === "" ? null : dayjs(formData[field.name])}
                               onChange={(newValue) => handleDateChange(newValue, field.name)}
                               />

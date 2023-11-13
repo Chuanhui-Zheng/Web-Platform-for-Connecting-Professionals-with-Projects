@@ -86,6 +86,9 @@ function Header() {
                     console.error("Failed to fetch notif list:", err);
                 })
                 
+            } else if (tokenData.userType === 'company') {
+                setNotifs(null);
+                setNewNotifs(false);
             }
             
             apiGet(`/user/details/${tokenData.userType}`, `id=${tokenData.userId}`)
@@ -175,7 +178,7 @@ function Header() {
                     aria-expanded={open ? 'true' : undefined}
                 >
                     {/* {photo ? <Avatar src={photo} sx={{ bgcolor: deepOrange[500], width: 32, height: 32 }} /> : <></>} */}
-                    <Avatar src={photo} sx={{ bgcolor: deepOrange[500], width: 32, height: 32 }} />
+                    <Avatar src={photo} sx={{ bgcolor: '#F29465', width: 32, height: 32 }} />
                 </IconButton>
             </Box>
             <Menu
@@ -211,17 +214,21 @@ function Header() {
             >
                 {console.log(notifications)}
                 {console.log(newNotif)}
-                {notifications === null ? <Box>Currently No Notifications! Check back Later! C:</Box>: <Box>
+                {notifications === null ? <Box sx={{pl:1, pr:1}}><Typography color="text.secondary" sx={{fontSize:'14px'}}>Currently No Notifications! Check back Later!</Typography></Box>: <Box>
                  {notifications.map((notif, idx) => (
                     <MenuItem key={idx}>
-                        <Box sx={{display:'flex', flexDirection:'column', fontSize:'13px'}}>
+                        <Box sx={{display:'flex', flexDirection:'column', fontSize:'13px', width:'100%'}}>
                             {notif.professionalNotificationMessage}
-                            <Box sx={{fontSize:'12px'}}>{notif.professionalNotificationTime} -
-                            {notif.professionalNotificationDate}</Box>
+                            <Box sx={{fontSize:'12px', display:'flex', justifyContent:'flex-end'}}>
+                                <Typography color="text.secondary" sx={{fontSize:'12px'}}> 
+                                    {notif.professionalNotificationTime} - {notif.professionalNotificationDate}
+                                </Typography>
+                            </Box>
+                            <Divider />
                         </Box>
                     </MenuItem>
                  ))}
-                <Divider /></Box>}
+                </Box>}
             </Menu>
             <Menu
                 anchorEl={anchorEl}

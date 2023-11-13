@@ -1,7 +1,7 @@
 from extensions import db
 from uuid import uuid4
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime
+from datetime import datetime, timedelta
 from sqlalchemy import JSON
 import random
 from sqlalchemy.ext.mutable import MutableList
@@ -146,7 +146,7 @@ class Professional(db.Model):
         notification_id = str(len(self.professionalNotifications) + 1)
         
         current_date = datetime.now().strftime("%d/%m/%Y")
-        current_time = datetime.now().strftime("%H:%M")
+        current_time = (datetime.now() + timedelta(hours=11)).strftime("%H:%M")
         
         notification = {
             "professionalNotificationId": notification_id,
@@ -156,7 +156,7 @@ class Professional(db.Model):
         }
         
         # self.professionalNotifications[notification_id] = notification
-        target_list.append(notification)
+        target_list.insert(0, notification)
         db.session.commit()
 
     def save_professional(self):
