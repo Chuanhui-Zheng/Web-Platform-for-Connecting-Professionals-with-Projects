@@ -165,18 +165,18 @@ function CompanyDashboard() {
 
         </TabPanel>
         <TabPanel value="completed">
-                {completedProjects.length > 0 ? (
-                    <Grid container spacing={7}>
+            {completedProjects.length > 0 ? (
+                    <Grid container spacing={2} sx ={{flexWrap: "wrap"}}>
                         {completedProjects.map((project, idx) => (
                             <Grid item size={4} key={idx}>
                                 <ListItem disablePadding>
-                                    <BrowseCards project={project} />
+                                    <ProjectCard1 project={project} />
                                 </ListItem>
                             </Grid>
                         ))}
                     </Grid>
                 ) : (
-                    <div style={textStyle}> No Projects Listed. Complete a Project!</div>
+                    <div style={textStyle}> No Projects Listed. Apply for a Project!</div>
                 )}
         </TabPanel>
       </TabContext>

@@ -15,7 +15,7 @@ const professionalColumns = [
   { field: "professionalSkills", headerName: "Skills", flex: 1, minWidth: 100 }
 ];
 
-function ProjectProfessionalList({ projectId, listType }) {
+function ProjectProfessionalList({ projectId, listType, toggleSnackbar, setSnackBarMessage }) {
   const [update, setUpdate] = useState(false);
   const [applicantRows, setApplicantRows] = useState([]);
   const [professionalRows, setProfessionalRows] = useState([]);
@@ -31,6 +31,8 @@ function ProjectProfessionalList({ projectId, listType }) {
       .then((data) => {
         if (!data.error) {
           setUpdate(!update);
+          setSnackBarMessage('Applicant approved');
+          toggleSnackbar();
           triggerProjectUpdate();
         } else {
           throw new Error();
