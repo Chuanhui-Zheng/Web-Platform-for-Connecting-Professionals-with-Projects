@@ -90,7 +90,7 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
                 <div className={styles.ProfileBanner}> <Typography  variant="h1" sx={{fontStyle: 'italic', fontWeight: 'bold', color:'#ebad8f', opacity: 0.6}}>PJ</Typography> </div>
 
                 <div className={styles.ProfilePicAndEdit}>
-                    <Avatar className={styles.ProfileHeaderProfilePic} src={photo} sx={{ bgcolor: '#ebad8f', width: '120px', height: '120px'  }}/>
+                    <Avatar className={styles.ProfileHeaderProfilePic} src={photo} sx={{ bgcolor: '#ebad8f', width: '120px', height: '120px',  }}/>
                     {ownProfile ? <EditOutlinedIcon 
                     sx={{fontSize: 30, mr: 2, mt: 1, cursor: 'pointer'}} 
                     onClick={handleOpenDialog} >

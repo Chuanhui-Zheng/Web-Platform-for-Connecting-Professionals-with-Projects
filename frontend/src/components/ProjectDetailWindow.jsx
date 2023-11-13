@@ -112,7 +112,7 @@ export default function ProjectDetailWindow({ projectID }) {
       setUserId(tokenData.userId)
       setUserType(tokenData.userType)
       console.log(tokenData.userType)
-    }
+    
     if (projectID) {
       setIsLoading(true);
       console.log(projectID)
@@ -132,7 +132,7 @@ export default function ProjectDetailWindow({ projectID }) {
 
           // STATUS: check if professional has applied
           data.listOfApplicants.forEach(prof => {
-            if (userId === prof.professionalId) {
+            if (tokenData.userId === prof.professionalId) {
               setSelectedIndex2(1)
             } 
           })
@@ -140,7 +140,7 @@ export default function ProjectDetailWindow({ projectID }) {
           // STATUS: check if professional has been approved
 
           data.listOfProfessionals.forEach(prof => {
-            if (userId === prof.professionalId) {
+            if (tokenData.userId === prof.professionalId) {
               setSelectedIndex2(2)
               setApproved(true)
               setPending(false)
@@ -163,6 +163,7 @@ export default function ProjectDetailWindow({ projectID }) {
           // alert(err);
           console.error("Failed to fetch project:", err);
       }).finally(() => setIsLoading(false));
+    }
     }
   }, [projectID, reloadProject]); // Refetch details every time the project ID changes
 

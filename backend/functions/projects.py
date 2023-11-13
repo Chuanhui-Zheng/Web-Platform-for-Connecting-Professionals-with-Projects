@@ -617,6 +617,9 @@ def projectProfessionalList():
         professional_list.append({
             "professionalId": professional.professionalId,
             "professionalEmail": professional.professionalEmail,
+            "professionalSkills": professional.professionalSkills,
+            "professionalPhoneNumber": professional.professionalPhoneNumber,
+            "professionalFullName": professional.professionalFullName
         })
     
     return jsonify(professional_list), 200
