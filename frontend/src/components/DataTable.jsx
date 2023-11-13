@@ -51,6 +51,3 @@ function DataTable({ rows, columns, onSelectionChange, checkboxSelection }) {
 }
 
 export default DataTable;
-
-
-# expanded-history-pass-082: maintainability refinement for the frontend visual polish surface.
