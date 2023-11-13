@@ -261,6 +261,8 @@ export default function ProjectDetailWindow({ projectID }) {
       }).then((data) => {
         if (!data.error) {
           console.log("give cert api", data);
+          setSnackBarMessage('Certificate uploaded')
+          setShowSnackbar(true);
         } else {
           setErrorMessage("Failed to give certification, please try again");
           toggleError();
@@ -407,13 +409,13 @@ export default function ProjectDetailWindow({ projectID }) {
               {companybuttons}
             </ButtonGroup>
           ) : userType === 'company' && userId === projectInfo.pCompanyId && isCompleted ? (
-            <ButtonGroup>
-              <Button sx={{ pt:4, pb:4, width:'60%', hieght:'100%' }} className="upload" component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+            <ButtonGroup orientation="vertical" aria-label="Vertical button group">
+              <Button sx={{ width:'100%', mb:2}} className="upload" component="label" variant="contained" startIcon={<CloudUploadIcon />}>
                 Give Certificate
                 <VisuallyHiddenInput type="file" accept="application/pdf" name="companyLogo" value='' onChange={handleFileChange} />
               </Button>
               
-              <Button key="RateProjectBtn" sx={{ backgroundColor: "orange" }} onClick={() => navigate(`/project/${projectID}/rate`)}>Rate Project</Button>
+              <Button key="RateProjectBtn" sx={{ backgroundColor: "orange", pt:1.2, pb:1.2 }} onClick={() => navigate(`/project/${projectID}/rate`)}>Rate Project</Button>
             </ButtonGroup>
           ) : userType === 'professional' ? (
             <ButtonGroup orientation="vertical" aria-label="Vertical button group" variant="contained">
