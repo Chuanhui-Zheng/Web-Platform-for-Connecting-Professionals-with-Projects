@@ -21,6 +21,16 @@ import RateProfessional from './pages/RatingPages/RateProfessional';
 import Dashboard from './pages/Dashboard/Dashboard';
 import ReviewPage from "./pages/RatingPages/ReviewPage";
 import { PageContainer } from '@toolpad/core/PageContainer';
+import './App.css';
+import { createGlobalStyle } from 'styled-components';
+import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+
+const theme = createTheme({  
+  typography: {
+    fontFamily: 
+      '"Poppins", sans-serif',
+  },
+});
 
 function Logout() {
     localStorage.clear()
@@ -34,6 +44,7 @@ function RegisterAndLogout() {
 
 function App() {
   return (
+    <ThemeProvider theme={theme}>
     <BrowserRouter>
         <Header />
         <PageContainer 
@@ -41,9 +52,11 @@ function App() {
           maxWidth={false} 
           sx={{
             width: "100%", 
+            height:"calc(100vh - 80px)",
             margin: "0px", 
-            paddingRight: { xs: "16px", sm: "25px", md: "60px", lg: "100px" }, 
-            paddingLeft: { xs: "16px", sm: "25px", md: "60px", lg: "100px" }
+            paddingRight: { xs: "16px", sm: "25px", md: "60px" }, 
+            paddingLeft: { xs: "16px", sm: "25px", md: "60px" },
+            // backgroundColor: "white"
           }}
         >
           <Routes>
@@ -66,6 +79,7 @@ function App() {
           </Routes>
         </PageContainer>
     </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

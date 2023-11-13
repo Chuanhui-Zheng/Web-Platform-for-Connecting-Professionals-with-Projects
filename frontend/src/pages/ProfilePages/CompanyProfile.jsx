@@ -2,11 +2,13 @@ import * as React from 'react';
 import { Link, useNavigate, Navigate, useParams } from 'react-router-dom';
 import ProfileHeader from "../../components/ProfileHeader";
 import styles from "../../styles/Professional/ProfessionalProfile.module.css"
-import ProjectCard from "../../components/Professional/Dashboard/ProjectCard";
-import { AppBar, Box, Button, Typography, Toolbar, CssBaseline, Divider } from '@mui/material';
+import ProjectCard1 from "../../components/Professional/Dashboard/ProjectCard1";
+import { AppBar, Box, Button, Typography, Toolbar, CssBaseline, Card, CardContent, Divider } from '@mui/material';
 import { apiGet } from '../../api';
 import decodeJWT from "../../decodeJWT";
 import { getProjects } from '../../helpers';
+import Grid from '@mui/material/Grid2';
+
 import { useProfile } from '../../ProfileContext';
 
 const CompanyProfile = ({userId}) => {
@@ -63,8 +65,8 @@ const CompanyProfile = ({userId}) => {
     }, [ownUserId, userType, reloadProfile]);
 
     return (
-
         <>
+        <Box sx={{ width: '100%', minHeight: '1600px', bgcolor: '#F5F5F5',background: 'linear-gradient(to bottom, #F5F5F5, #F5F5F5)', borderRadius: '20px' }}>
         <ProfileHeader userId={userId} userType="company" ownProfile={ownProfile}></ProfileHeader>
         <div className={styles.ProfessionalProfileContent}>
             <Typography variant="h5" sx={{ fontWeight: 'bold', mt:2, mb:1 }}>Summary</Typography>
@@ -72,17 +74,20 @@ const CompanyProfile = ({userId}) => {
                 {companyDescription}
             </div>
             <Typography variant="h5" sx={{ fontWeight: 'bold', mt:3 }}>Projects</Typography>
-            <div class={styles.ProfessionalProfileProjectList}>
-                {projects.map((project, idx) => (
-                    <ProjectCard
-                        key={idx}
-                        projectName={project.projectName}
-                        projectDescription={project.projectDescription}
-                        projectId={project.projectId}
-                    />
-                ))}
-            </div>
+            <br></br>
+            {projects.length > 0 ? (
+                    <Grid container spacing={2} sx ={{flexWrap: "wrap"}}>
+                        {projects.map((project, idx) => (
+                            <Grid item size={5} key={idx}>
+                                <ProjectCard1 project={project} />
+                            </Grid>
+                        ))}
+                    </Grid>
+                ) : (
+                    <div > No Projects Listed. Apply for a Project!</div>
+                )}
         </div>
+        </Box>
         </>
     );
 }
