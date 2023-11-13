@@ -35,6 +35,7 @@ const EditProfessionalProfile = ( { userId } ) => {
   const navigate = useNavigate();
   const { triggerHeaderUpdate } = useHeader();
   const [showSnackBar, setShowSnackbar] = React.useState(false);
+  const [fileName, setFileName] = React.useState('');
 
   const toggleSnackbar = () => {
       setShowSnackbar(!showSnackBar)
@@ -52,7 +53,7 @@ const EditProfessionalProfile = ( { userId } ) => {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0]; // Get the first uploaded file
-    console.log(file)
+    console.log('gay', file)
 
     fileToDataUrl(file).then((dataUrl) => {
         setNewPhoto(dataUrl); // Store the data URL in state
@@ -225,6 +226,7 @@ const EditProfessionalProfile = ( { userId } ) => {
                             onChange={handleFileChange}
                         />
                     </Button>
+                    {fileName && <p>Selected file: {fileName}</p>}
                 </div>
             </div>     
         </EditForm>

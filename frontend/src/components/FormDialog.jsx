@@ -15,6 +15,7 @@ import {
   FormControl,
   InputLabel,
   IconButton,
+  Box,
 } from '@mui/material';
 import { apiGet, apiPut } from '../api';
 import { fileToDataUrl } from '../helpers';
@@ -44,6 +45,7 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
   const [token, setToken] = React.useState('');
   const [errorMessage, setErrorMessage] = React.useState('');
   const [error, setError] = React.useState(false);
+  const [fileName, setFileName] = React.useState('');
 
   const toggleError = () => {
     setError(!error);
@@ -178,7 +180,6 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
   // Handle file input change
   const handleFileChange = (event) => {
     const file = event.target.files[0]; // Get the first uploaded file
-    console.log(file)
 
     fileToDataUrl(file).then((dataUrl) => {
         if (userType === "professional") {
@@ -186,11 +187,13 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
                 ...prevData,
                 professionalPhoto: dataUrl,
             }));
+            setFileName(file.name)
         } else if (userType === "company") {
             setFormData((prevData) => ({
                 ...prevData,
                 companyLogo: dataUrl,
             }));
+            setFileName(file.name)
         }
         
     }).catch((error) => {
@@ -394,7 +397,7 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
                     );
                     case 'file':
                       return (
-                        <div key={field.name} className={styles.CenterButton}>
+                        <Box key={field.name} className={styles.CenterButton} sx={{display: 'flex', flexDirection: 'column'}}>
                           <Button
                             variant="contained"
                             component="label"
@@ -409,7 +412,10 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
                               onChange={handleFileChange}
                             />
                           </Button>
-                        </div>
+                          {fileName && (
+                            <p style={{ marginTop: '8px', justifyContent: 'center', textAlign: 'center'}}>Selected file: {fileName}</p>
+                        )}
+                        </Box>
                       );
                     default:
                       return null;
