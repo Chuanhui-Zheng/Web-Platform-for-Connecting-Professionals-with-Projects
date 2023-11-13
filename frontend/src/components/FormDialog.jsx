@@ -378,7 +378,7 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
                           label={field.label}
                           value={formData[field.name] || []}
                           set={(e) => handleCategoriesChange(e, field.name)}
-                          names={field.name === "projectSkills" ? ["Coding", "Other"]: ["Software", "Construction"]}
+                          names={field.name.toLowerCase().includes("skills") ? ["Coding", "Other"]: ["Software", "Construction"]}
                           options={field.options}
                         />
                       );

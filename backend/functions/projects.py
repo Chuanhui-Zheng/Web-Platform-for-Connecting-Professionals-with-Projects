@@ -705,7 +705,7 @@ def getRecommendedProjects():
 
     recommended = []
     for project in all_projects:
-        for skill in project.projectCategories:
+        for skill in project.projectSkills:
             if skill in professional_skills:
 
                 project_description_data = model.encode(project.projectDescription, convert_to_tensor=True)
