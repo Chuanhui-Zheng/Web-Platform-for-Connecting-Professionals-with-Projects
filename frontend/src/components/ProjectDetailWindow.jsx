@@ -46,9 +46,8 @@ import presentationscreen from '../assets/presentationscreen2.png';
 // Style compontents
 const headerStyle = {
   display: 'flex',
-  alignItems: 'center',
+  alignItems: 'flex-end',
   margin: '0px',
-  gap: '10px',
   padding: '10px 30px'
 };
   
@@ -104,6 +103,7 @@ export default function ProjectDetailWindow({ projectID }) {
   const reloadProject = useProject();
   const [errorMessage, setErrorMessage] = React.useState('');
   const [error, setError] = React.useState(false);
+  const { triggerProjectUpdate } = useProject();
 
   const toggleError = () => {
     setError(!error);
@@ -121,7 +121,7 @@ export default function ProjectDetailWindow({ projectID }) {
       setUserId(tokenData.userId)
       setUserType(tokenData.userType)
       console.log(tokenData.userType)
-    }
+    
     if (projectID) {
       setIsLoading(true);
       console.log(projectID)
@@ -141,15 +141,14 @@ export default function ProjectDetailWindow({ projectID }) {
 
           // STATUS: check if professional has applied
           data.listOfApplicants.forEach(prof => {
-            console.log(prof, userId)
-            if (userId === prof.professionalId) {
+            if (tokenData.userId === prof.professionalId) {
               setSelectedIndex2(1)
             } 
           })
           
           // STATUS: check if professional has been approved
           data.listOfProfessionals.forEach(prof => {
-            if (userId === prof.professionalId) {
+            if (tokenData.userId === prof.professionalId) {
               setSelectedIndex2(2)
               setApproved(true)
               setPending(false)
@@ -173,6 +172,7 @@ export default function ProjectDetailWindow({ projectID }) {
           console.error("Failed to fetch project:", err);
       }).finally(() => setIsLoading(false));
     }
+    }
   }, [projectID, reloadProject]); // Refetch details every time the project ID changes
 
 
@@ -186,6 +186,7 @@ export default function ProjectDetailWindow({ projectID }) {
         .then((data) =>{
           if (!data.error) {
             console.log(data)
+            triggerProjectUpdate();
           } else {
             throw new Error("Project Complete Failed");
           }
@@ -249,9 +250,6 @@ export default function ProjectDetailWindow({ projectID }) {
         });
     }
   };
-  const navigateEdit = (event) => {
-    navigate(`/projectpage/:${projectID}/edit`);
-  };
   
   const handleFileChange = (event) => {
     const file = event.target.files[0]; // Get the first uploaded file
@@ -272,6 +270,8 @@ export default function ProjectDetailWindow({ projectID }) {
       }).then((data) => {
         if (!data.error) {
           console.log("give cert api", data);
+          setSnackBarMessage('Certificate uploaded')
+          setShowSnackbar(true);
         } else {
           setErrorMessage("Failed to give certification, please try again");
           toggleError();
@@ -346,13 +346,13 @@ export default function ProjectDetailWindow({ projectID }) {
 
       <Box component="main" sx={{ flexGrow: 1, p: 3, width: '100%' }}>
         <div style={headerStyle}>
-          <Avatar sx={{ width: 32, height: 32 }} />
-          <Typography variant="h4" component="h1" gutterBottom>
+          {/* <Avatar sx={{ width: 50, height: 50, mr:2 }} /> */}
+          <Typography variant="h4" component="h1">
             <b>{projectInfo.projectName}</b>
           </Typography>
-          <Typography variant="h5" sx={{ fontWeight: '550' }}>{projectInfo.projectAvgRating.toFixed(1)}</Typography>
-          <StarIcon sx={{ color: 'orange', fontSize: 25 }}></StarIcon>
-          <Typography variant="h5" sx={{ fontWeight: '350', color: 'lightgray' }}>({Object.keys(projectInfo.listOfProjectRatings).length})</Typography>
+          <Typography variant="h5" sx={{ fontWeight: '550', pl:2, pb:0.5}}>{projectInfo.projectAvgRating.toFixed(1)}</Typography>
+          <StarIcon sx={{ color: 'orange', fontSize: 25, mb:1, ml:0.3, mr:0.3}}></StarIcon>
+          <Typography variant="h5" sx={{ fontWeight: '350', color: 'lightgray', pb:0.5}}>({Object.keys(projectInfo.listOfProjectRatings).length})</Typography>
         </div>
   
         <Box style={secondaryStyle}>
@@ -403,13 +403,13 @@ export default function ProjectDetailWindow({ projectID }) {
               {companybuttons}
             </ButtonGroup>
           ) : userType === 'company' && userId === projectInfo.pCompanyId && isCompleted ? (
-            <ButtonGroup>
-              <Button sx={{ margin: '30px 0 0 0' }} className="upload" component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+            <ButtonGroup orientation="vertical" aria-label="Vertical button group">
+              <Button sx={{ width:'100%', backgroundColor:'#077d17'}} className="upload" component="label" variant="contained" startIcon={<CloudUploadIcon />}>
                 Give Certificate
                 <VisuallyHiddenInput type="file" accept="application/pdf" name="companyLogo" value='' onChange={handleFileChange} />
               </Button>
               
-              <Button key="RateProjectBtn" sx={{ backgroundColor: "orange" }} onClick={() => navigate(`/project/${projectID}/rate`)}>Rate Project</Button>
+              <Button key="RateProjectBtn" sx={{ backgroundColor: "#eead67", pt:1.2, pb:1.2, color:'white' }} onClick={() => navigate(`/project/${projectID}/rate`)}>Rate Project</Button>
             </ButtonGroup>
           ) : userType === 'professional' ? (
             <ButtonGroup orientation="vertical" aria-label="Vertical button group" variant="contained">

@@ -1,5 +1,5 @@
 .formContainer {
-    max-width: 80%;
+    max-width: 90%;
     margin: 0 auto;
     padding: 20px;
     background-color: #f5f7fa;
@@ -27,3 +27,8 @@
   textarea {
     resize: none;
   }
+
+.buttonContainer {
+    display: flex;
+    justify-content: flex-end;
+}
