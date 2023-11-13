@@ -48,11 +48,11 @@ function RateProfessional() {
 
 	return (
 		<div style={{ display: 'flex', flexDirection: 'column' }}>
-			<Typography variant="h3" sx={{marginLeft: 'auto', marginRight: 'auto'}}>Review</Typography>
+			{/* <Typography variant="h3" sx={{marginLeft: 'auto', marginRight: 'auto'}}>Review</Typography> */}
 			<div style={{ display: "flex", flexDirection: 'row', width: '100%', height: '100%'}}>
 				<Box sx={{ flex: '1' }}>
-                <Card sx={{width: '100%', height: '100%', display: 'flex', flexDirection: 'column', marginRight: '4vw', paddingRight: '1vw'}}>
-                    <Typography variant="h4" gutterBottom sx={{fontWeight: 'bold', marginLeft: 'auto', marginRight: 'auto'}}>
+                <Card sx={{width: '100%', height: '100%', display: 'flex', flexDirection: 'column', marginRight: '4vw', paddingRight: '1vw', borderRadius:'0px 0px 0px 20px'}}>
+                    <Typography  gutterBottom sx={{fontSize:'30px', fontWeight: '600', marginLeft: 'auto', marginRight: 'auto'}}>
                         Project: {projectName}
                     </Typography>
                     <Typography variant='h7' sx={{marginLeft: 'auto', marginRight: 'auto'}}>Start Reviewing the Project!</Typography>

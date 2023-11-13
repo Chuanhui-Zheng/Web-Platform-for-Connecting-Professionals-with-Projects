@@ -103,7 +103,7 @@ function RaitingMainContent({ selectedUser, projectId }) {
   }, [selectedUser])
 
   return (
-    <Card sx={{width: '100%', paddingLeft: '2vw', height: '100%'}}>
+    <Card sx={{width: '100%', paddingLeft: '2vw', height: '100%', borderRadius:'0px 0px 20px 0px'}}>
       <CardContent>
         <Typography variant="body1">This review is for:</Typography>
         <TextField

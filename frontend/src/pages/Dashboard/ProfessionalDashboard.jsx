@@ -20,6 +20,7 @@ import { useDashboard } from '../../DashboardContext.jsx';
 import decodeJWT from '../../decodeJWT.js';
 import { getProfessionalProjectsFromStatus, getProjects } from '../../helpers.js';
 import ProjectCard1 from '../../components/Professional/Dashboard/ProjectCard1.jsx';
+import { apiGet } from '../../api';
 
 const projectTitleStyle = {
   margin: '0px',
@@ -40,6 +41,7 @@ const ProfessionalDashboard = () => {
     const [ownUserId, setOwnUserId] = React.useState();
     const [showSnackBar, setShowSnackbar] = React.useState(false);
     const [message, setMessage] = React.useState('');
+    const [numCerts, setnumCerts] = React.useState('');
 
     const handleChange =  (event, newValue) => {
         setValue(newValue);
@@ -75,6 +77,18 @@ const ProfessionalDashboard = () => {
                 setPendingProjects(pending);
             }
             fetchProjects()
+            
+            apiGet("/profile/viewCertificate", `id=${ownUserId}`)
+            .then((data) => {
+                if (!data.error) {
+                    setnumCerts(Object.keys(data.professionalCertificates).length)
+                } else {
+                    throw new Error("Get Cert Failed");
+                }
+            })
+            .catch(() => {
+                alert("Fetch failed");
+            });
         }
     }, [ownUserId]);
 
@@ -85,7 +99,7 @@ const ProfessionalDashboard = () => {
         {TitleCard('Active Projects', activeProjects.length, 'active')}
         {TitleCard('Projects Completed', completedProjects.length, 'complete')}
         {TitleCard('Pending Projects', pendingProjects.length, 'pending')}
-        {TitleCard('Certifications', '0', 'cert')}
+        {TitleCard('Certifications', numCerts, 'cert')}
         </Box>
         <br></br>
         <br></br>
