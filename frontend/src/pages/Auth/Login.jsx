@@ -84,6 +84,7 @@ function Login() {
           name="email"
           value={formData.email}
           onChange={onChange}
+          sx={{ backgroundColor:"white" }}
         />
         <TextField
           variant="filled"
@@ -94,6 +95,7 @@ function Login() {
           name="password"
           value={formData.password}
           onChange={onChange}
+          sx={{ backgroundColor:"white" }}
         />
       </Form>
       {error && <ErrorPopup message={errorMessage} toggleError={toggleError}/>}
