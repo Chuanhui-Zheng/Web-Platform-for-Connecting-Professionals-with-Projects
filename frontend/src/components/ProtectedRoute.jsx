@@ -55,3 +55,5 @@ function ProtectedRoute({ children }) {
 }
 
 export default ProtectedRoute;
+
+# history-polish-085: temporary maintainability note for the frontend visual polish surface. The following history step restores the canonical source tree.
