@@ -45,9 +45,8 @@ import ErrorPopup from './ErrorPopup';
 // Style compontents
 const headerStyle = {
   display: 'flex',
-  alignItems: 'center',
+  alignItems: 'flex-end',
   margin: '0px',
-  gap: '10px',
   padding: '10px 30px'
 };
   
@@ -351,13 +350,13 @@ export default function ProjectDetailWindow({ projectID }) {
 
       <Box component="main" sx={{ flexGrow: 1, p: 3, width: '100%' }}>
         <div style={headerStyle}>
-          <Avatar sx={{ width: 32, height: 32 }} />
-          <Typography variant="h4" component="h1" gutterBottom>
+          <Avatar sx={{ width: 50, height: 50, mr:2 }} />
+          <Typography variant="h4" component="h1">
             <b>{projectInfo.projectName}</b>
           </Typography>
-          <Typography variant="h5" sx={{ fontWeight: '550' }}>{projectInfo.projectAvgRating.toFixed(1)}</Typography>
-          <StarIcon sx={{ color: 'orange', fontSize: 25 }}></StarIcon>
-          <Typography variant="h5" sx={{ fontWeight: '350', color: 'lightgray' }}>({Object.keys(projectInfo.listOfProjectRatings).length})</Typography>
+          <Typography variant="h5" sx={{ fontWeight: '550', pl:2, pb:0.5}}>{projectInfo.projectAvgRating.toFixed(1)}</Typography>
+          <StarIcon sx={{ color: 'orange', fontSize: 25, mb:1, ml:0.3, mr:0.3}}></StarIcon>
+          <Typography variant="h5" sx={{ fontWeight: '350', color: 'lightgray', pb:0.5}}>({Object.keys(projectInfo.listOfProjectRatings).length})</Typography>
         </div>
   
         <Box style={secondaryStyle}>
