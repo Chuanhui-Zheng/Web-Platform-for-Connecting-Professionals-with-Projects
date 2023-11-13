@@ -382,7 +382,7 @@ export default function ProjectDetailWindow({ projectID }) {
             </ButtonGroup>
           ) : userType === 'company' && userId === projectInfo.pCompanyId && isCompleted ? (
             <ButtonGroup>
-              <Button sx={{ margin: '30px 0 0 0' }} className="upload" component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+              <Button sx={{ pt:4, pb:4, width:'60%', hieght:'100%' }} className="upload" component="label" variant="contained" startIcon={<CloudUploadIcon />}>
                 Give Certificate
                 <VisuallyHiddenInput type="file" accept="application/pdf" name="companyLogo" value='' onChange={handleFileChange} />
               </Button>
