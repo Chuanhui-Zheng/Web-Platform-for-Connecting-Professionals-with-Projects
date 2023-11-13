@@ -352,7 +352,7 @@ export default function ProjectDetailWindow({ projectID }) {
 
       <Box component="main" sx={{ flexGrow: 1, p: 3, width: '100%' }}>
         <div style={headerStyle}>
-          <Avatar sx={{ width: 50, height: 50, mr:2 }} />
+          {/* <Avatar sx={{ width: 50, height: 50, mr:2 }} /> */}
           <Typography variant="h4" component="h1">
             <b>{projectInfo.projectName}</b>
           </Typography>
@@ -410,12 +410,12 @@ export default function ProjectDetailWindow({ projectID }) {
             </ButtonGroup>
           ) : userType === 'company' && userId === projectInfo.pCompanyId && isCompleted ? (
             <ButtonGroup orientation="vertical" aria-label="Vertical button group">
-              <Button sx={{ width:'100%', mb:2}} className="upload" component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+              <Button sx={{ width:'100%', backgroundColor:'#077d17'}} className="upload" component="label" variant="contained" startIcon={<CloudUploadIcon />}>
                 Give Certificate
                 <VisuallyHiddenInput type="file" accept="application/pdf" name="companyLogo" value='' onChange={handleFileChange} />
               </Button>
               
-              <Button key="RateProjectBtn" sx={{ backgroundColor: "orange", pt:1.2, pb:1.2 }} onClick={() => navigate(`/project/${projectID}/rate`)}>Rate Project</Button>
+              <Button key="RateProjectBtn" sx={{ backgroundColor: "#eead67", pt:1.2, pb:1.2, color:'white' }} onClick={() => navigate(`/project/${projectID}/rate`)}>Rate Project</Button>
             </ButtonGroup>
           ) : userType === 'professional' ? (
             <ButtonGroup orientation="vertical" aria-label="Vertical button group" variant="contained">

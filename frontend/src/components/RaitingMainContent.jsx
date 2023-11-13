@@ -139,7 +139,7 @@ function RaitingMainContent({ selectedUser, projectId }) {
                 onChange={handleFeedbackChange}
               />
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-            <Button variant="contained">Back To Project</Button>
+            {/* <Button variant="contained">Back To Project</Button> */}
             <Button sx={{marginLeft: '3vw'}} variant="contained" color="primary" onClick={handleSubmit}>
               Submit Review
             </Button>
