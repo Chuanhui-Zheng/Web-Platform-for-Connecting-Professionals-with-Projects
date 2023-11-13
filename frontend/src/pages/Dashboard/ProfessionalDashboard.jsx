@@ -38,10 +38,20 @@ const ProfessionalDashboard = () => {
     const [completedProjects, setCompletedProjects] = React.useState([]);
     const [value, setValue] = React.useState('active');
     const [ownUserId, setOwnUserId] = React.useState();
+    const [showSnackBar, setShowSnackbar] = React.useState(false);
+    const [message, setMessage] = React.useState('');
 
     const handleChange =  (event, newValue) => {
         setValue(newValue);
     };
+
+    React.useEffect(() => {
+        if (location.state?.showSnackBar) {
+            setShowSnackbar(true);
+            setMessage(location.state.message);
+            navigate(location.pathname, { replace: true, state: {} });
+        }
+    }, [location.state]);
     
     React.useEffect(() => {
         const getToken = localStorage.getItem("token");
@@ -198,6 +208,7 @@ const ProfessionalDashboard = () => {
                     ))}
             </AccordionDetails>
         </Accordion> */}
+            {showSnackBar && <SnackbarAlert message={message} toggleSuccess={toggleSnackbar}/>}
         </Box>
       </>
     );

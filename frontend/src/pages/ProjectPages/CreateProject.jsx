@@ -198,9 +198,15 @@ const CreateProject = (props) => {
           />
         </div>
 
-        <Button variant="contained" sx={{bgColor:"F5A67F"}} type="submit">
-          Submit
-        </Button>
+        <div className="buttonContainer">
+            <Button  sx={{bgColor:"F5A67F"}} onClick={()=>navigate("/dashboard")} >
+            Cancel
+            </Button>
+            <Button variant="contained" sx={{bgColor:"F5A67F"}} type="submit" >
+            Submit
+            </Button>
+        </div>
+       
       </form>
     </div>
     </>

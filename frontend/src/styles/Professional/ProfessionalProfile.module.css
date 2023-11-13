@@ -12,6 +12,8 @@
     width: 90%;
     color: #696969;
     height: 35%;
+    border-radius: 35px;
+    padding: 10px 20px;
 }
 
 .ProfessionalProfileSkillsContainer {

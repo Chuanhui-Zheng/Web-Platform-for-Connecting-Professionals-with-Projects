@@ -64,7 +64,7 @@ function RaitingMainContent({ selectedUser, projectId }) {
         projectReview: professionalReview
       }).then((data) =>{
           if (!data.error) {
-              console.log(data)
+              navigate('/dashboard', {state:{showSnackBar: true, message: 'Rated company'}})
           } else {
               throw new Error("Rate Project Failed");
           }
@@ -72,7 +72,6 @@ function RaitingMainContent({ selectedUser, projectId }) {
       .catch((err) => {
           alert(err)
       });
-      navigate("/dashboard");
     } else {
       console.log('calling', selectedUser.professionalId, projectId, rating, professionalReview);
       apiPost("/project/company/rateProfessional", {
@@ -82,7 +81,7 @@ function RaitingMainContent({ selectedUser, projectId }) {
         professionalReview: professionalReview
       }).then((data) =>{
           if (!data.error) {
-              console.log(data)
+              navigate('/dashboard', {state:{showSnackBar: true, message: 'Rated professional'}})
           } else {
               throw new Error("Rate Project Failed");
           }
@@ -90,9 +89,7 @@ function RaitingMainContent({ selectedUser, projectId }) {
       .catch((err) => {
           alert(err)
       });
-      navigate("/dashboard");
     }
-
   };
 
   useEffect(() => {
@@ -139,7 +136,7 @@ function RaitingMainContent({ selectedUser, projectId }) {
                 onChange={handleFeedbackChange}
               />
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-            <Button variant="contained">Back To Project</Button>
+            {/* <Button variant="contained">Back To Project</Button> */}
             <Button sx={{marginLeft: '3vw'}} variant="contained" color="primary" onClick={handleSubmit}>
               Submit Review
             </Button>
