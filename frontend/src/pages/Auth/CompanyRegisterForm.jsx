@@ -123,6 +123,7 @@ function CompanyRegisterForm() {
           name="companyName"
           value={formData.companyName}
           onChange={onChange}
+          sx={{ backgroundColor:"white" }}
         />
         <TextField
           variant="filled"
@@ -133,6 +134,7 @@ function CompanyRegisterForm() {
           name="companyEmail"
           value={formData.companyEmail}
           onChange={onChange}
+          sx={{backgroundColor:"white" }}
         />
         <TextField
           variant="filled"
@@ -143,6 +145,7 @@ function CompanyRegisterForm() {
           name="companyPassword"
           value={formData.companyPassword}
           onChange={onChange}
+          sx={{ backgroundColor:"white" }}
         />
         <TextField
           variant="filled"
@@ -153,6 +156,7 @@ function CompanyRegisterForm() {
           name="companyPhoneNumber"
           value={formData.companyPhoneNumber}
           onChange={onChange}
+          sx={{ backgroundColor:"white" }}
         />
         <TextField
           variant="filled"
@@ -163,6 +167,7 @@ function CompanyRegisterForm() {
           name="companyWebsite"
           value={formData.companyWebsite}
           onChange={onChange}
+          sx={{ backgroundColor:"white" }}
         />
         <TextField
           variant="filled"
@@ -173,9 +178,10 @@ function CompanyRegisterForm() {
           name="companyDescription"
           value={formData.companyDescription}
           onChange={onChange}
+          sx={{ backgroundColor:"white" }}
         />
         <Button
-          sx={{ margin: '16px 0' }}
+          sx={{ margin: '16px 0', backgroundColor:"#364749", borderRadius:'20px' }}
           className="form-input"
           component="label"
           variant="contained"

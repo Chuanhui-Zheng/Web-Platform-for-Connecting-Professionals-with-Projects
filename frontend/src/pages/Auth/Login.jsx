@@ -65,8 +65,12 @@ function Login() {
       justifyContent="center"
       alignItems="center"
       flexDirection="column"
-    >
-      <Typography variant='h4'>Login</Typography>
+    ><br></br>
+      <Box display="flex"
+      justifyContent="center"
+      alignItems="center" flexDirection="column" 
+      sx={{border:'1px solid #fff', width:'auto',borderRadius:'35px', padding:'27px 10px',textAlign:'center',background:'rgba(255,255,255,0.3)', zIndex:'1' ,boxShadow: '0 4px 6px rgba(0,5,0,1)', backdropFilter:'blur(15px)'}}>
+      <Typography variant='h4'color='white' fontWeight={500}>Login</Typography>
       <Form
         buttonName="Login"
         handleSubmit={handleSubmit}
@@ -80,6 +84,7 @@ function Login() {
           name="email"
           value={formData.email}
           onChange={onChange}
+          sx={{ backgroundColor:"white" }}
         />
         <TextField
           variant="filled"
@@ -90,9 +95,11 @@ function Login() {
           name="password"
           value={formData.password}
           onChange={onChange}
+          sx={{ backgroundColor:"white" }}
         />
       </Form>
       {error && <ErrorPopup message={errorMessage} toggleError={toggleError}/>}
+      </Box>
     </ Box>
   );
 }
