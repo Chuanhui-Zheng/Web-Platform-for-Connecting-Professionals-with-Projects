@@ -79,11 +79,10 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
             { type: 'text', label: 'Password', name: 'professionalPassword' },
 			{ type: 'text', label: 'Phone Number', name: 'professionalPhoneNumber' },
             { type: 'textarea', label: 'Tell us About Yourself', name: 'professionalDescription' },
-            { type: 'text', label: 'Qualifications', name: 'professionalQualifications' },
-            { type: 'text', label: 'Education', name: 'professionalEducation' },
             { type: 'text', label: 'Website', name: 'professionalWebsite' },
-            { type: 'file', label: 'Profile Photo', name: 'professionalPhoto' },
             { type: 'multicategoryselect', label: 'Skills', name: 'professionalSkills'},
+            { type: 'file', label: 'Profile Photo', name: 'professionalPhoto' },
+            
         ])
     } else if (userType === "company") {
         apiGet("/user/details/company", `id=${userId}`)
