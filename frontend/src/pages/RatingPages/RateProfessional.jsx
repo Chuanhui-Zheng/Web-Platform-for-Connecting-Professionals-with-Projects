@@ -45,7 +45,7 @@ function RateProfessional() {
 
 	return (
 		<div style={{ display: 'flex', flexDirection: 'column' }}>
-			<Typography variant="h3" sx={{marginLeft: 'auto', marginRight: 'auto'}}>Review</Typography>
+			{/* <Typography variant="h3" sx={{marginLeft: 'auto', marginRight: 'auto'}}>Review</Typography> */}
 			<div style={{ display: "flex", flexDirection: 'row', width: '100%', height: '100%'}}>
 				<Box sx={{ flex: '1' }}>
 					<RaitingSideBar selectedUser={selectedUser} selectName={selectName} onSelectUser={handleSelectUser} professionals={professionals} projectName={projectName}/>

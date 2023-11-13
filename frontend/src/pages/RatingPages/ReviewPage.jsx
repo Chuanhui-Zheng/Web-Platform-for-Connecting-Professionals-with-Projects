@@ -5,6 +5,7 @@ import RateProfessional from './RateProfessional';
 import RateProject from './RateProject';
 import decodeJWT from '../../decodeJWT';
 import { PageContainer } from '@toolpad/core/PageContainer';
+import { Typography } from '@mui/material';
 
 
 const ReviewPage = () => {
@@ -25,6 +26,9 @@ const ReviewPage = () => {
     return (
         <PageContainer className="container" maxWidth={false} sx={{width:"100%", "@media (min-width: 0px)": { paddingRight: "25px", paddingLeft: "25px" }, margin: "0px"}}>
         <>
+        <div style={{width:'100%', height:70, backgroundColor:'white', display:'flex', alignItems:'center', borderRadius:'20px 20px 0px 0px'}}>
+        <Typography sx={{fontWeight: 'bold', fontSize:'36px', marginLeft: 'auto', marginRight: 'auto'}}>Review Page</Typography>
+        </div>
         { userType ? (userType === "company" ?  <RateProfessional projectId={params}></RateProfessional>  :  <RateProject projectId={params} ></RateProject>) 
         : (<></>) }
         </>

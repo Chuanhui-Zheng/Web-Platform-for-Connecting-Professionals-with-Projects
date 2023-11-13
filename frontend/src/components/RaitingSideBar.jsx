@@ -64,8 +64,8 @@ function RaitingSideBar({professionals, projectName, selectedUser, onSelectName,
     }, [professionals]);
 
     return (
-        <Card sx={{width: '100%', height: '100%', display: 'flex', flexDirection: 'column', marginRight: '4vw', paddingRight: '1vw'}}>
-            <Typography variant="h4" gutterBottom sx={{fontWeight: 'bold', marginLeft: 'auto', marginRight: 'auto'}}>
+        <Card sx={{width: '100%', height: '100%', display: 'flex', flexDirection: 'column', marginRight: '4vw', paddingRight: '1vw', borderRadius:'0px 0px 0px 20px'}}>
+            <Typography  gutterBottom sx={{fontSize:'30px', marginLeft: 'auto', marginRight: 'auto', fontWeight: '600'}}>
                 Project Members
             </Typography>
             <Typography variant='h7' sx={{marginLeft: 'auto', marginRight: 'auto'}}>Start Reviewing each Member</Typography>
