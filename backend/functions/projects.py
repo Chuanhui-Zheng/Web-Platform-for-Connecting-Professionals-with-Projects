@@ -715,16 +715,23 @@ def getRecommendedProjects():
                 objective_similaritiy = util.pytorch_cos_sim(professional_description_data, project_objectives_data).item()
 
                 if (description_similaritiy > 0.4 or objective_similaritiy > 0.4):
-                    recommended.append(project)
-                
+                    recommended.append({
+                        "projectId": project.projectId,
+                        "projectName": project.projectName,
+                        "projectCompany": getProjectCompany(project.pCompanyId),
+                        "projectCategory": project.projectCategories,
+                        "projectDescription": project.projectDescription,
+                        "projectStartDate": project.projectStartDate,
+                        "projectEndDate": project.projectEndDate,
+                        "projectStatus": project.projectStatus,
+                        "projectLocation": project.projectLocation,
+                        "professionalsWanted": project.professionalsWanted,
+                        "projectSkills": project.projectSkills,
+                        "listOfApplicants": project.listOfApplicants,
+                        "listOfProfessionals": project.listOfProfessionals
+                    })
                 print(f'Similarity score is this ***: {description_similaritiy} {objective_similaritiy}')
                 print(f'description{project.projectDescription}')
                 print(f'ojective{project.projectObjectives}')
-    
 
-    project_dict = [
-        {k: v for k, v in vars(project).items() if not k.startswith('_')}
-        for project in recommended
-    ]
-
-    return jsonify(project_dict), 200
+    return jsonify(recommended), 200

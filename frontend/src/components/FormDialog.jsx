@@ -15,6 +15,7 @@ import {
   FormControl,
   InputLabel,
   IconButton,
+  Box,
 } from '@mui/material';
 import { apiGet, apiPut } from '../api';
 import { fileToDataUrl } from '../helpers';
@@ -33,7 +34,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import styles from '../styles/FormDialog.module.css'
 
-const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
+const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarToggle, snackBarMessage }) => {
   const [formData, setFormData] = useState({});
   const [showSnackbar, setShowSnackbar] = useState(false);
   const navigate = useNavigate();
@@ -42,6 +43,13 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
   const { triggerProjectUpdate } = useProject();
   const [formConfigg, setFormConfigg] = useState([]);
   const [token, setToken] = React.useState('');
+  const [errorMessage, setErrorMessage] = React.useState('');
+  const [error, setError] = React.useState(false);
+  const [fileName, setFileName] = React.useState('');
+
+  const toggleError = () => {
+    setError(!error);
+  }
 
   useEffect(() => {
     if (userType === "professional") {
@@ -69,7 +77,7 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
         setFormConfigg([
             { type: 'text', label: 'Full Name', name: 'professionalFullName' },
             { type: 'text', label: 'Password', name: 'professionalPassword' },
-            { type: 'text', label: 'Phone Number', name: 'professionalPhoneNumber' },
+			{ type: 'text', label: 'Phone Number', name: 'professionalPhoneNumber' },
             { type: 'textarea', label: 'Tell us About Yourself', name: 'professionalDescription' },
             { type: 'text', label: 'Qualifications', name: 'professionalQualifications' },
             { type: 'text', label: 'Education', name: 'professionalEducation' },
@@ -172,7 +180,6 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
   // Handle file input change
   const handleFileChange = (event) => {
     const file = event.target.files[0]; // Get the first uploaded file
-    console.log(file)
 
     fileToDataUrl(file).then((dataUrl) => {
         if (userType === "professional") {
@@ -180,11 +187,13 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
                 ...prevData,
                 professionalPhoto: dataUrl,
             }));
+            setFileName(file.name)
         } else if (userType === "company") {
             setFormData((prevData) => ({
                 ...prevData,
                 companyLogo: dataUrl,
             }));
+            setFileName(file.name)
         }
         
     }).catch((error) => {
@@ -317,8 +326,9 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
         }).then((data) =>{
             if (!data.error) {
                 onClose();
-                toggleSnackbar();
                 triggerProjectUpdate();
+                snackBarMessage('Successfully updated project')
+                snackbarToggle()
             } else {
                 throw new Error("Edit Failed");
             }
@@ -389,7 +399,7 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
                     );
                     case 'file':
                       return (
-                        <div key={field.name} className={styles.CenterButton}>
+                        <Box key={field.name} className={styles.CenterButton} sx={{display: 'flex', flexDirection: 'column'}}>
                           <Button
                             variant="contained"
                             component="label"
@@ -404,7 +414,10 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType }) => {
                               onChange={handleFileChange}
                             />
                           </Button>
-                        </div>
+                          {fileName && (
+                            <p style={{ marginTop: '8px', justifyContent: 'center', textAlign: 'center'}}>Selected file: {fileName}</p>
+                        )}
+                        </Box>
                       );
                     default:
                       return null;
