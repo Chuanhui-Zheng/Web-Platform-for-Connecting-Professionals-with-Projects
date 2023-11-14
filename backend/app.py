@@ -1,9 +1,10 @@
-from flask import Flask, jsonify
+from flask import Flask
 from flask_cors import CORS
 from extensions import db, jwt
 from functions.auth import authRegisterCompany, authRegisterProfessional, login, logout
 from functions.notifications import getNotifications
-from functions.filter import getCategories, getSkills, getLocations
+from functions.filter import getCategories, getSkills
+from functions.profiles import editCompanyProfile, editProfessionalProfile, userDetails, professionalEditProfile
 from functions.edit import editCompany, editProfessional, editProject
 from functions.user import companyDetails, professionalDetails, getUserType
 from functions.admin import allCompanies, allProfessionals, allAdmins, createAdmin
@@ -33,28 +34,21 @@ def create_app():
     app = Flask(__name__)
 
     app.config.from_prefixed_env()
-    app.config.setdefault('JSON_SORT_KEYS', False)
-    app.config.setdefault('MAX_CONTENT_LENGTH', 4 * 1024 * 1024)
 
     db.init_app(app)
     jwt.init_app(app)
 
     CORS(app)
 
-    @app.get('/health')
-    def health_check():
-        """Return a small readiness response for local and container checks."""
-        return jsonify({"status": "ok", "service": "projector-api", "version": "local"})
-
-    @app.errorhandler(404)
-    def handle_not_found(error):
-        return jsonify({"error": "Route not found", "path": error.description}), 404
-
     app.add_url_rule('/auth/register/company', 'authRegisterCompany', authRegisterCompany, methods=['POST'])
     app.add_url_rule('/auth/register/professional', 'authRegisterProfessional', authRegisterProfessional, methods=['POST'])
     app.add_url_rule('/auth/login', 'login', login, methods=['POST'])
     app.add_url_rule('/auth/logout', 'logout', logout, methods=['POST'])
     app.add_url_rule('/notifications/get', 'getNotifications', getNotifications, methods=['GET'])
+    app.add_url_rule('/editcompanyprofile', 'editCompanyProfile', editCompanyProfile, methods=['PUT'])
+    app.add_url_rule('/editProfessionalProfile', 'editProfessionalProfile', editProfessionalProfile, methods=['PUT'])
+    app.add_url_rule('/user/details', 'userDetails', userDetails, methods=['GET'])
+    app.add_url_rule('/professional/editprofile', 'professionalEditProfile', professionalEditProfile, methods=['PUT'])
     
     app.add_url_rule('/edit/company', 'editCompany', editCompany, methods=['PUT'])
     app.add_url_rule('/edit/professional', 'editProfessional', editProfessional, methods=['PUT'])
@@ -86,7 +80,6 @@ def create_app():
 
     app.add_url_rule('/get/skills', 'getSkills', getSkills, methods=['GET'])
     app.add_url_rule('/get/categories', 'getCategories', getCategories, methods=['GET'])
-    app.add_url_rule('/get/locations', 'getLocations', getLocations, methods=['GET'])
 
     # Admin API
     app.add_url_rule('/admin/allCompanies', 'allCompanies', allCompanies, methods=['GET'])

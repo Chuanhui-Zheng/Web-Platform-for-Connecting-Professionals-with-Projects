@@ -4,21 +4,26 @@ import Form from "../../components/Form"
 import { useState } from "react";
 import { TextField, Box, Typography } from "@mui/material";
 import { apiPost } from "../../api";
-import { useHeader } from '../../context/HeaderContext';
+import { useHeader } from '../../HeaderContext';
 import ErrorPopup from '../../components/ErrorPopup';
 import InputAdornment from '@mui/material/InputAdornment';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
 
 function Login() {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: ""
   });
+
   const [errorMessage, setErrorMessage] = React.useState('');
   const [error, setError] = React.useState(false);
+
+  const navigate = useNavigate();
+  const [refresh, setRefresh] = React.useState(false);
   const { triggerHeaderUpdate } = useHeader();
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -56,6 +61,7 @@ function Login() {
         console.log("API response:", data); // Log the API response
         if (!data.error) {
           localStorage.setItem("token", data.token);
+          setRefresh((prev) => !prev);
           triggerHeaderUpdate();
           navigate("/dashboard");
         } else {
@@ -80,8 +86,8 @@ function Login() {
       <Box display="flex"
       justifyContent="center"
       alignItems="center" flexDirection="column" 
-      sx={{border:'1px solid rgba(23,59,66,0.14)', width:'auto',borderRadius:'35px', padding:'27px 10px',textAlign:'center',background:'rgba(255,255,255,0.94)', zIndex:'1' ,boxShadow: '0 18px 45px rgba(23,59,66,0.14)', backdropFilter:'blur(15px)'}}>
-      <Typography variant='h4' sx={{ color: '#173b42' }} fontWeight={600}>Login</Typography>
+      sx={{border:'1px solid #fff', width:'auto',borderRadius:'35px', padding:'27px 10px',textAlign:'center',background:'rgba(255,255,255,0.3)', zIndex:'1' ,boxShadow: '0 4px 6px rgba(0,5,0,1)', backdropFilter:'blur(15px)'}}>
+      <Typography variant='h4'color='white' fontWeight={500}>Login</Typography>
       <Form
         buttonName="Login"
         handleSubmit={handleSubmit}
@@ -95,7 +101,7 @@ function Login() {
           name="email"
           value={formData.email}
           onChange={onChange}
-          sx={{ backgroundColor:"white", '& .MuiInputLabel-root': { color: '#617579' }, '& .MuiFilledInput-input': { color: '#173b42' } }}
+          sx={{ backgroundColor:"white" }}
         />
         <TextField
           variant="filled"
@@ -106,7 +112,7 @@ function Login() {
           name="password"
           value={formData.password}
           onChange={onChange}
-          sx={{ backgroundColor:"white", '& .MuiInputLabel-root': { color: '#617579' }, '& .MuiFilledInput-input': { color: '#173b42' } }}
+          sx={{ backgroundColor:"white" }}
           slotProps={{
             input: {
               endAdornment: <InputAdornment position="end">

@@ -1,10 +1,10 @@
-import { Box, Button } from "@mui/material";
+import { Box, Typography, Button, Grid, Card, CardContent, CardMedia, Avatar } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom"
 import { apiGet, apiPost } from "../api";
 import DataTable from "./DataTable";
 import { ThumbDown, ThumbUp } from "@mui/icons-material";
-import { useProject } from '../context/ProjectContext';
-import PropTypes from "prop-types";
+import { useProject } from '../ProjectContext';
 
 // Professional columns
 const professionalColumns = [
@@ -15,12 +15,6 @@ const professionalColumns = [
   { field: "professionalSkills", headerName: "Skills", flex: 1, minWidth: 100 }
 ];
 
-/**
- * Component that is shows professionals on a project from a DataTable.
- * 
- * @param {*} param0 
- * @returns 
- */
 function ProjectProfessionalList({ projectId, listType, toggleSnackbar, setSnackBarMessage }) {
   const [update, setUpdate] = useState(false);
   const [applicantRows, setApplicantRows] = useState([]);
@@ -103,7 +97,7 @@ function ProjectProfessionalList({ projectId, listType, toggleSnackbar, setSnack
       .catch((data) => {
         alert(data.error)
       })
-  }, [update, projectId]);
+  }, [update]);
 
   return (
     <Box display="flex" flexDirection="column" gap="50px" >
@@ -142,15 +136,28 @@ function ProjectProfessionalList({ projectId, listType, toggleSnackbar, setSnack
         checkboxSelection={false}
       />
       }
+      
+      {/* <Grid container spacing={4}>
+            {professionalRows.listOfProfessionals.map((member, index) => (
+              <Grid item xs={12} sm={6} md={4} key={index}>
+                <Card sx={{ textAlign: 'center', p: 2 }}>
+                  <Avatar 
+                    src={member.image} 
+                    alt={member.professionalFullName} 
+                    sx={{ width: 100, height: 100, margin: '0 auto', mb: 2 }}
+                  />
+                  <CardContent>
+                    <Typography variant="h6">{member.name}</Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {member.professionalEmail}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+      </Grid> */}
     </Box>
   );
-};
-
-ProjectProfessionalList.propTypes = {
-  projectId: PropTypes.string,
-  listType: PropTypes.string,
-  toggleSnackbar: PropTypes.func,
-  setSnackBarMessage: PropTypes.func
-};
+}
 
 export default ProjectProfessionalList;

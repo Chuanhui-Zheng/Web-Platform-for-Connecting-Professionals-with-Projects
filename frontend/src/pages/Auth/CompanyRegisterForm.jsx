@@ -6,20 +6,17 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisuallyHiddenInput from "../../components/VisuallyHiddenInput";
 import { apiPost } from "../../api";
 import { useNavigate } from "react-router-dom";
-import { useHeader } from "../../context/HeaderContext"; 
+import { useHeader } from "../../HeaderContext"; 
 import { isValidEmail, isValidPassword, fileToDataUrl } from "../../helpers";
 import RegistrationErrorMessage from "../../components/RegistrationErrorMessage";
 import ErrorPopup from '../../components/ErrorPopup';
 import InputAdornment from '@mui/material/InputAdornment';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
 
-/**
- * Registeration form for companies to register on the platform.
- * 
- * @returns 
- */
 function CompanyRegisterForm() {
   const [formData, setFormData] = useState({
     companyName: "",
@@ -30,7 +27,7 @@ function CompanyRegisterForm() {
     companyLogo: "",
     companyDescription: ""
   });
-  const [validationErrors, setValidationErrors] = useState({ email: false, password: false });
+  const [isValid, setIsValid] = useState(true);
   const [errorMessage, setErrorMessage] = React.useState('');
   const [error, setError] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(true);
@@ -47,7 +44,6 @@ function CompanyRegisterForm() {
   const navigate = useNavigate();
   const { triggerHeaderUpdate } = useHeader();
 
-  // Save form data on changes
   const onChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -62,16 +58,16 @@ function CompanyRegisterForm() {
 
   // Update file
   const handleFileChange = (event) => {
-    // Get the first uploaded file
-    const file = event.target.files[0]; 
+    const file = event.target.files[0]; // Get the first uploaded file
 
     fileToDataUrl(file).then((dataUrl) => {
       setFormData({
         ...formData,
         companyLogo: dataUrl
       });
+      console.log("File as data URL:", dataUrl);
     }).catch((error) => {
-      alert("Error converting file to data URL:", error);
+      console.error("Error converting file to data URL:", error);
     });
   };
 
@@ -80,11 +76,12 @@ function CompanyRegisterForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const emailError = !isValidEmail(formData.companyEmail);
-    const passwordError = !isValidPassword(formData.companyPassword);
-    setValidationErrors({ email: emailError, password: passwordError });
+    // Set that it is valid (by default)
+    setIsValid(true)
 
-    if (emailError || passwordError) {
+    // Check if valid email
+    if (!isValidEmail(formData.companyEmail) || !isValidPassword(formData.companyPassword)) {
+      setIsValid(false);
       return;
     }
 
@@ -98,7 +95,7 @@ function CompanyRegisterForm() {
       companyDescription
     } = formData
 
-    // Register the company
+    // const companyEmail = formData.companyEmail
     apiPost("/auth/register/company", { 
       companyName,
       companyEmail,
@@ -129,10 +126,11 @@ function CompanyRegisterForm() {
         buttonName="Register"
         handleSubmit={handleSubmit}
       >
-        <RegistrationErrorMessage
-          emailError={validationErrors.email}
-          passwordError={validationErrors.password}
-        />
+        {isValid ? 
+          <></>
+          :
+          <RegistrationErrorMessage />
+        }
         <TextField
           variant="filled"
           margin="normal"
