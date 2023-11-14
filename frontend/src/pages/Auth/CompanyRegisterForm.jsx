@@ -140,7 +140,7 @@ function CompanyRegisterForm() {
           variant="filled"
           margin="normal"
           className="form-input"
-          type="text"
+          type="password"
           label="Company Password"
           name="companyPassword"
           value={formData.companyPassword}
