@@ -131,7 +131,7 @@ function ProfessionalRegisterForm() {
           variant="filled"
           margin="normal"
           className="form-input"
-          type="text"
+          type="password"
           label="Password"
           name="professionalPassword"
           value={formData.professionalPassword}
