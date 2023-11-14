@@ -1,9 +1,13 @@
 import { apiGet } from "./api";
 
+/**
+ * Helper function to convert a file to a url
+ * @param {string} file 
+ * @returns 
+ */
 export function fileToDataUrl(file) {
   const validFileTypes = [ 'image/jpeg', 'image/png', 'image/jpg', 'application/pdf' ]
   const valid = validFileTypes.find(type => type === file.type);
-  // Bad data, let's walk away.
   if (!valid) {
     throw Error('provided file is not a png, jpg or jpeg image.');
   }
@@ -47,29 +51,38 @@ export function isValidPassword(password) {
   );
 }
 
-export function getProjects(userId, status) {
-    console.log("get prohjects function")
-    console.log("info here", userId, status)
-    return apiGet("/project/list", `id=${userId}&status=${status}`)
-        .then((data) => {
-            console.log(data)
-            return data
-        })
-        .catch((error) => {
-            console.log("caught error", error) 
-            alert("Failed to get project list")
-            return []
-        })
+/**
+ * Get projects helper function
+ * @param {*} userId 
+ * @param {*} status 
+ * @returns 
+ */
+export async function getProjects(userId, status) {
+  return apiGet("/project/list", `id=${userId}&status=${status}`)
+    .then((data) => {
+      return data
+    })
+    .catch((error) => {
+      alert("Failed to get project list: ", error)
+      return []
+    }
+  );
 }
 
-export function getProfessionalProjectsFromStatus(userId, status) {
-    return apiGet("/project/professional/get/projects/from/status", `professionalId=${userId}&status=${status}`)
-        .then((data) => {
-            return data
-        })
-        .catch((error) => {
-            console.log("caught error", error) 
-            alert("Failed to get project list")
-            return []
-        })
+/**
+ * Helper function to get professional projects from status
+ * @param {*} userId 
+ * @param {*} status 
+ * @returns 
+ */
+export async function getProfessionalProjectsFromStatus(userId, status) {
+  return apiGet("/project/professional/get/projects/from/status", `professionalId=${userId}&status=${status}`)
+    .then((data) => {
+      return data
+    })
+    .catch((error) => {
+      alert("Failed to get project list: ", error)
+      return []
+    }
+  );
 }

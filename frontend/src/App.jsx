@@ -1,9 +1,5 @@
-import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
-
 import Header from './components/Header';
-
-
 import Login from "./pages/Auth/Login"
 import Register from "./pages/Auth/Register"
 import Home from "./pages/Home"
@@ -12,20 +8,26 @@ import AboutUs from "./pages/AboutUs"
 import NotFound from "./pages/ErrorPages/NotFound"
 import CreateProject from './pages/ProjectPages/CreateProject';
 import ProjectDetail from './pages/ProjectPages/ProjectDetail';
-import ProjectPage from './pages/ProjectPages/ProjectPage';
 import ProfilePage from './pages/ProfilePages/ProfilePage';
-// import ProtectedRoute from "./components/ProtectedRoute";
-import EditProfilePage from './pages/ProfilePages/EditProfilePage';
-import EditProject from './pages/ProjectPages/EditProject';
-import RateProfessional from './pages/RatingPages/RateProfessional';
 import Dashboard from './pages/Dashboard/Dashboard';
 import ReviewPage from "./pages/RatingPages/ReviewPage";
 import { PageContainer } from '@toolpad/core/PageContainer';
-import './App.css';
-import { createGlobalStyle } from 'styled-components';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import './styles/App.css';
+import './styles/Polish.css';
+import './styles/Motion.css';
+import './styles/Responsive.css';
+import './styles/Layout.css';
+import './styles/Feedback.css';
+import './styles/Forms.css';
+import './styles/Surfaces.css';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme({  
+  palette: {
+    primary: { main: '#3b7c84' },
+    secondary: { main: '#f29465' },
+    text: { primary: '#173b42', secondary: '#617579' },
+  },
   typography: {
     fontFamily: 
       '"Poppins", sans-serif',
@@ -42,10 +44,15 @@ function RegisterAndLogout() {
     return <Register />
 }
 
+/**
+ * App component for Projector platform.
+ * 
+ * @returns 
+ */
 function App() {
   return (
     <ThemeProvider theme={theme}>
-    <BrowserRouter>
+      <BrowserRouter>
         <Header />
         <PageContainer 
           className="container" 
@@ -56,7 +63,7 @@ function App() {
             margin: "0px", 
             paddingRight: { xs: "16px", sm: "25px", md: "60px" }, 
             paddingLeft: { xs: "16px", sm: "25px", md: "60px" },
-            // backgroundColor: "white"
+            paddingTop: { xs: "100px", sm: "60px", md: "60px" },
           }}
         >
           <Routes>
@@ -66,19 +73,15 @@ function App() {
             <Route path="/register" element={<RegisterAndLogout />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/dashboard/createproject" element={<CreateProject />} />
-            <Route path="/profile/:userId/edit" element={<EditProfilePage />} />
             <Route path="/allprojects" element={<AllProjects />} />
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="*" element={<NotFound />}></Route>
             <Route path="/profile/:userId" element={<ProfilePage />} />
             <Route path="/projectdetail/:projectID" element={<ProjectDetail />} />
-            <Route path="/projectpage/:projectID" element={<ProjectPage />} />
-            <Route path="/projectpage/:projectID/edit" element={<EditProject />} />
             <Route path="/project/:projectId/rate" element={<ReviewPage />} />
-            {/* <Route path="/project/rate" element={<RateProfessional />} /> */}
           </Routes>
         </PageContainer>
-    </BrowserRouter>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }

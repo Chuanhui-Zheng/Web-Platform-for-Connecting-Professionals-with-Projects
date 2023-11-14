@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Projector interface preview</title>
+  <desc id="desc">A warm orange and teal preview of the Projector home page.</desc>
+  <rect width="1200" height="720" rx="34" fill="#edf5f2"/>
+  <rect x="32" y="32" width="1136" height="656" rx="28" fill="#fff" stroke="#dce8e4"/>
+  <rect x="32" y="32" width="1136" height="72" rx="28" fill="#173b42"/>
+  <text x="70" y="77" fill="#fff" font-family="Arial" font-size="24" font-weight="700">ProJector.</text>
+  <text x="820" y="77" fill="#d8e9e4" font-family="Arial" font-size="15">Browse Projects</text>
+  <text x="1008" y="77" fill="#d8e9e4" font-family="Arial" font-size="15">About Us</text>
+  <text x="92" y="188" fill="#d66d42" font-family="Arial" font-size="14" font-weight="700" letter-spacing="2">A BETTER WAY TO COLLABORATE</text>
+  <text x="92" y="270" fill="#173b42" font-family="Arial" font-size="58" font-weight="700">Find Your Dream</text>
+  <text x="92" y="336" fill="#173b42" font-family="Arial" font-size="58" font-weight="700">Project Today!</text>
+  <text x="94" y="385" fill="#617579" font-family="Arial" font-size="18">Meet ambitious professionals and turn good ideas into projects that move.</text>
+  <rect x="92" y="430" width="550" height="64" rx="18" fill="#fff" stroke="#dce8e4"/>
+  <text x="116" y="469" fill="#9aa9a8" font-family="Arial" font-size="16">Search for a Project Title or Company</text>
+  <rect x="580" y="437" width="50" height="50" rx="14" fill="#f29465"/>
+  <circle cx="602" cy="458" r="9" fill="none" stroke="#fff" stroke-width="3"/><path d="M609 465l8 8" stroke="#fff" stroke-width="3"/>
+  <circle cx="970" cy="400" r="132" fill="#f8d8c9"/>
+  <path d="M900 490c30-116 58-172 91-172 34 0 60 57 94 172" fill="#f29465" opacity=".9"/>
+  <circle cx="993" cy="310" r="34" fill="#173b42"/>
+</svg>

@@ -3,6 +3,14 @@ from database.models import Company, Professional, Admin
 
 app = Flask(__name__)
 
+"""
+allCompanies() returns a full list of all the companies.
+
+Returns:
+{
+    ...list of companies"
+}
+"""
 @app.route('/admin/allCompanies', methods=['GET'])
 def allCompanies():
     companies = Company.query.all()
@@ -19,6 +27,15 @@ def allCompanies():
 
     return jsonify(companyList), 200
 
+
+"""
+allProfessionals() returns a full list of all the professionals.
+
+Returns:
+{
+    ...list of professionals...
+}
+"""
 @app.route('/admin/allProfessionals', methods=['GET'])
 def allProfessionals():
     professionals = Professional.query.all()
@@ -34,6 +51,15 @@ def allProfessionals():
 
     return jsonify(professionalList), 200
 
+
+"""
+allAdmins() returns a full list of all the admins.
+
+Returns:
+{
+    ...list of admins...
+}
+"""
 @app.route('/admin/allAdmins', methods=['GET'])
 def allAdmins():
     admins = Admin.query.all()
@@ -48,6 +74,20 @@ def allAdmins():
     return jsonify(adminList), 200
 
 
+"""
+createAdmin() creates an admin and returns the adminId
+
+Takes in a json object 
+{
+    adminEmail: string,
+    adminPassword: string
+}
+
+Returns
+{
+    adminId: new admin id
+}
+"""
 @app.route('/admin/createAdmin', methods=['POST'])
 def createAdmin():
     data = request.get_json()
