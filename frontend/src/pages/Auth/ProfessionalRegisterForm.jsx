@@ -10,7 +10,16 @@ import { useHeader } from "../../HeaderContext";
 import RegistrationErrorMessage from "../../components/RegistrationErrorMessage";
 import { isValidEmail, isValidPassword, fileToDataUrl } from "../../helpers";
 import ErrorPopup from "../../components/ErrorPopup";
-
+import IconButton from '@mui/material/IconButton';
+import Input from '@mui/material/Input';
+import FilledInput from '@mui/material/FilledInput';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 function ProfessionalRegisterForm() {
   const [formData, setFormData] = useState({
@@ -24,7 +33,17 @@ function ProfessionalRegisterForm() {
   const [error, setError] = React.useState(false);
   const navigate = useNavigate();
   const { triggerHeaderUpdate } = useHeader();
+  const [showPassword, setShowPassword] = React.useState(true);
 
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleMouseUpPassword = (event) => {
+    event.preventDefault();
+  };
   const onChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -131,12 +150,29 @@ function ProfessionalRegisterForm() {
           variant="filled"
           margin="normal"
           className="form-input"
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           label="Password"
           name="professionalPassword"
           value={formData.professionalPassword}
           onChange={onChange}
           sx={{ backgroundColor:"white" }}
+          slotProps={{
+            input: {
+              endAdornment: <InputAdornment position="end">
+              <IconButton
+                aria-label={
+                  showPassword ? 'hide the password' : 'display the password'
+                }
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                onMouseUp={handleMouseUpPassword}
+                edge="end"
+              >
+                {showPassword ? <Visibility /> : <VisibilityOff /> }
+              </IconButton>
+            </InputAdornment>,
+            },
+          }}
         />
         <Button
           sx={{ margin: '16px 0', borderRadius:"20px", backgroundColor:"#364749" }}

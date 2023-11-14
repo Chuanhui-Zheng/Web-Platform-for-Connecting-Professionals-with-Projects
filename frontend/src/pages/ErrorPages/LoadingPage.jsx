@@ -9,6 +9,7 @@ const imgStyle = {
 
 export default function LoadingPage() {
     return (
+        <Box sx={{ width: '100%', bgcolor: '#F5F5F5', borderRadius: '20px' }}>
       <Box sx={{display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -19,5 +20,6 @@ export default function LoadingPage() {
           Loading...<LinearProgress color="success" /><Box color='#F5F5F5'><br></br>.<br></br>.<br></br>.<br></br>.</Box>
       </Typography>
       </Box> 
+      </Box>
     );
   }

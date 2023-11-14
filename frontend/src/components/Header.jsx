@@ -141,7 +141,7 @@ function Header() {
             <>
             <Box>
                 {
-                    userType != null ? <Button name="dashboard" color="inherit" onClick={() => { navigate('/dashboard') }} sx={{ textTransform: 'none' }}>Dashboard</Button>
+                    userType != null && token ? <Button name="dashboard" color="inherit" onClick={() => { navigate('/dashboard') }} sx={{ textTransform: 'none' }}>Dashboard</Button>
                     : <></>
                 }
                 <Button name="allProjects" color="inherit" onClick={() => { navigate('/allprojects') }} sx={{ textTransform: 'none' }}>Browse Projects</Button>

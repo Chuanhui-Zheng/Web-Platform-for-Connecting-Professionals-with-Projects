@@ -10,6 +10,12 @@ import { useHeader } from "../../HeaderContext";
 import { isValidEmail, isValidPassword, fileToDataUrl } from "../../helpers";
 import RegistrationErrorMessage from "../../components/RegistrationErrorMessage";
 import ErrorPopup from '../../components/ErrorPopup';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import IconButton from '@mui/material/IconButton';
 
 function CompanyRegisterForm() {
   const [formData, setFormData] = useState({
@@ -24,7 +30,17 @@ function CompanyRegisterForm() {
   const [isValid, setIsValid] = useState(true);
   const [errorMessage, setErrorMessage] = React.useState('');
   const [error, setError] = React.useState(false);
+  const [showPassword, setShowPassword] = React.useState(true);
 
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleMouseUpPassword = (event) => {
+    event.preventDefault();
+  };
   const navigate = useNavigate();
   const { triggerHeaderUpdate } = useHeader();
 
@@ -140,12 +156,29 @@ function CompanyRegisterForm() {
           variant="filled"
           margin="normal"
           className="form-input"
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           label="Company Password"
           name="companyPassword"
           value={formData.companyPassword}
           onChange={onChange}
           sx={{ backgroundColor:"white" }}
+          slotProps={{
+            input: {
+              endAdornment: <InputAdornment position="end">
+              <IconButton
+                aria-label={
+                  showPassword ? 'hide the password' : 'display the password'
+                }
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                onMouseUp={handleMouseUpPassword}
+                edge="end"
+              >
+                {showPassword ?  <Visibility /> : <VisibilityOff /> }
+              </IconButton>
+            </InputAdornment>,
+            },
+          }}
         />
         <TextField
           variant="filled"

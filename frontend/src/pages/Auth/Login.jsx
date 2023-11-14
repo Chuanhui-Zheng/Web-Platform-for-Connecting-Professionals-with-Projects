@@ -6,6 +6,12 @@ import { TextField, Box, Typography } from "@mui/material";
 import { apiPost } from "../../api";
 import { useHeader } from '../../HeaderContext';
 import ErrorPopup from '../../components/ErrorPopup';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import IconButton from '@mui/material/IconButton';
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -19,6 +25,17 @@ function Login() {
   const navigate = useNavigate();
   const [refresh, setRefresh] = React.useState(false);
   const { triggerHeaderUpdate } = useHeader();
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleMouseUpPassword = (event) => {
+    event.preventDefault();
+  };
 
   const toggleError = () => {
     setError(!error);
@@ -90,12 +107,29 @@ function Login() {
           variant="filled"
           margin="normal"
           className="form-input"
-          type="text"
+          type={showPassword ? 'text' : 'password'}
           label="Password"
           name="password"
           value={formData.password}
           onChange={onChange}
           sx={{ backgroundColor:"white" }}
+          slotProps={{
+            input: {
+              endAdornment: <InputAdornment position="end">
+              <IconButton
+                aria-label={
+                  showPassword ? 'hide the password' : 'display the password'
+                }
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                onMouseUp={handleMouseUpPassword}
+                edge="end"
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>,
+            },
+          }}
         />
       </Form>
       {error && <ErrorPopup message={errorMessage} toggleError={toggleError}/>}
