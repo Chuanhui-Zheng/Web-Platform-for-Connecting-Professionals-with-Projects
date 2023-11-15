@@ -3,12 +3,25 @@ from database.models import Company, Professional, Admin
 
 app = Flask(__name__)
 
+
+"""
+deleteProfessionals() deletes professionals by their IDs.
+
+Takes in a JSON object:
+{
+    userId: string,
+    professionalIds: list of strings
+}
+"""
 @app.route('/delete/professionals', methods=['DELETE'])
 def deleteProfessionals():
     data = request.get_json()
     userId = data.get("userId")
     professionalIds = data.get("professionalIds")
 
+    if professionalIds is None:
+        return jsonify({"error": "No professionalIds provided"}), 400
+    
     # If empty list, return nothing
     if len(professionalIds) == 0:
         return
@@ -38,11 +51,29 @@ def deleteProfessionals():
 
     return jsonify({"professionalIds": list_of_deleted}), 200
 
+
+"""
+deleteCompanies() deletes companies by their IDs.
+
+Takes in a JSON object:
+{
+    userId: string,
+    companyIds: list of strings
+}
+
+Returns:
+{
+    companyIds: list of deleteed Ids
+}
+"""
 @app.route('/delete/companies', methods=['DELETE'])
 def deleteCompanies():
     data = request.get_json()
     userId = data.get("userId")
     companyIds = data.get("companyIds")
+    
+    if companyIds is None:
+        return jsonify({"error": "No companyIds provided"}), 400
 
     # If empty list, return nothing
     if len(companyIds) == 0:
@@ -72,12 +103,30 @@ def deleteCompanies():
 
     return jsonify({"companyIds": list_of_deleted}), 200
 
+
+"""
+deleteAdmins() deletes admins by their IDs.
+
+Takes in a JSON object:
+{
+    adminId: string,
+    deleteAdminIds: list of strings
+}
+
+Returns:
+{
+    deletedAdmin: list of deleted ids
+}
+"""
 @app.route('/delete/admins', methods=['DELETE'])
 def deleteAdmins():
     data = request.get_json()
     adminId = data.get("adminId")
     deleteAdminIds = data.get("deleteAdminIds")
 
+    if deleteAdminIds is None:
+        return jsonify({"error": "No deleteAdminIds provided"}), 400
+    
     # If empty list, return nothing
     if len(deleteAdminIds) == 0:
         return

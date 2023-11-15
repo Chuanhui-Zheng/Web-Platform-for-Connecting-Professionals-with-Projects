@@ -5,6 +5,26 @@ from flask_jwt_extended import decode_token
 
 app = Flask(__name__)
 
+
+"""
+editCompany() updates the details of an existing company.
+
+Takes in a JSON object:
+{
+    id: string,
+    companyPassword: string,
+    companyPhoneNumber: string,
+    companyWebsite: string,
+    companyName: string,
+    companyDescription: string,
+    companyLogo: string
+}
+
+Returns:
+{
+    "success": "Company details updated"
+}
+"""
 @app.route('/edit/company', methods=['PUT'])
 def editCompany():
     data = request.get_json()
@@ -23,9 +43,31 @@ def editCompany():
     company.set_company_password(password)
     company.set_company_details(name, phone, website, description, logo)
 
-    return { "message": "hello" }, 200
+    return { "success": "Company details updated" }, 200
 
 
+"""
+editProfessional() updates the details of an existing professional.
+
+Takes in a JSON object:
+{
+    id: string,
+    professionalFullName: string,
+    professionalPassword: string,
+    professionalWebsite: string,
+    professionalPhoneNumber: string,
+    professionalDescription: string,
+    professionalQualifications: list of strings,
+    professionalEducation: string,
+    professionalSkills: list of strings,
+    professionalPhoto: string
+}
+
+Returns:
+{
+    "success": "Professional details updated"
+}
+"""
 @app.route('/edit/professional', methods=['PUT'])
 def editProfessional():
 
@@ -49,8 +91,23 @@ def editProfessional():
     professional.set_professional_details(name, website, number, description, qualification, education, skills, photo)
     professional.set_professional_password(password)
 
-    return { "message": "asdfasdf", "password":password}, 200
+    return { "success": "Professional details updated" }, 200
 
+
+"""
+editProject() updates the details of an existing project.
+
+Takes in a JSON object:
+{
+    projectId: string,
+    ...additional project details to update...
+}
+
+Returns:
+{
+    "success": "Project details updated"
+}
+"""
 @app.route('/edit/project', methods=['PUT']) #tested
 def editProject():
     data = request.get_json()
@@ -63,4 +120,4 @@ def editProject():
     
     project.edit_project_details(data)
     
-    return jsonify({"updated": "professional details"}), 200
+    return jsonify({"success": "Project details updated"}), 200

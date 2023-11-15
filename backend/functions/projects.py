@@ -25,23 +25,32 @@ def professional_exists(professionalId):
 def getProjectCompany(companyId):
     return Company.get_company_by_id(companyId=companyId).companyName
 
-def getProjectCompany(companyId):
-    return Company.get_company_by_id(companyId=companyId).companyName
 
+"""
+projectCreate() creates a new project for a company.
 
-#TO-DO error code for company with repeat projectName
-'''
-PARAMETERS {
-    companyId,
-    projectName,
-    skills: [array of skills]
-    ...the rest...
+Takes in a JSON object:
+{
+    companyId: string,
+    projectName: string,
+    projectObjectives: string,
+    projectDescription: string,
+    projectStartDate: string,
+    projectEndDate: string,
+    projectCategories: list of strings,
+    projectLocation: string,
+    projectKeyResponsibilities: string,
+    projectConfidentialInformation: string,
+    projectSkills: list of strings,
+    professionalsWanted: int,
+    contactEmail: string
 }
 
-RETURN {
-    projectId
+Returns:
+{
+    "projectId": int
 }
-'''
+"""
 @app.route('/project/create', methods=['POST']) #tested
 def projectCreate():
     data = request.get_json()
@@ -83,25 +92,21 @@ def projectCreate():
     return jsonify({"projectId": new_project.projectId}), 200
 
 
-'''
-PARAMETERS (query string) {id, status}:
-/project/list?id=USERID&status=STATUS
+"""
+projectList() lists projects based on user ID and status.
 
-Status for Company:
-status = {'Ative', 'Complete'}
+Parameters:
+?id=USERID&status=STATUS
 
-Status for professional:
-status = {'Pending', 'Approved', 'rejected'
-}
-
-RETURN {
-    dictionary of company's projects
-}
-'''
+Returns:
+[
+    { ...list of project details... }
+]
+"""
 @app.route('/project/list', methods=['GET'])
 def projectList():
-    id_str = request.args.get('id')
-    status = request.args.get('status')
+    id_str = request.args.get("id")
+    status = request.args.get("status")
     
     if not id_str:
         return jsonify({"error": "Missing 'id' parameter"}), 400
@@ -143,6 +148,8 @@ def projectList():
         projects = filtered_projects
         print("sdfsd ")
         print(projects)
+    else:
+        return jsonify({"error": "User does not exist"}), 409
        
     if not projects:
         return jsonify([]), 200
@@ -156,14 +163,14 @@ def projectList():
 
 
 
-'''
-PARAMETERS {
-}
+"""
+projectListAll() lists all active projects.
 
-RETURN {
-    dictionary of all projects
-}
-'''
+Returns:
+[
+    { ...list of active project details... }
+]
+"""
 @app.route('/project/listall', methods=['GET']) #tested
 def projectListAll():
     projects = Projects.query.filter_by(projectStatus='Active').all()
@@ -192,16 +199,17 @@ def projectListAll():
     return jsonify(project_list), 200
 
 
-'''
-PARAMETERS (query string)
-/project/details?projectId=PROJECTIDHERE
-PARAMETERS (query string)
-/project/details?projectId=PROJECTIDHERE
+"""
+projectDetails() retrieves details of a specific project.
 
-RETURN {
-    obj of project details
+Parameters:
+?projectId=PROJECTID
+
+Returns:
+{
+    ...project details...
 }
-'''
+"""
 @app.route('/project/details', methods=['GET']) #tested
 def projectDetails():    
     projectIdStr = request.args.get("projectId")
@@ -228,47 +236,38 @@ def projectDetails():
         "projectCategory": project.projectCategories,
         "projectObjectives": project.projectObjectives,
         "projectDescription": project.projectDescription,
-        "projectDescription": project.projectDescription,
         "projectStartDate": project.projectStartDate,
         "projectEndDate": project.projectEndDate,
-        "projectStatus": project.projectStatus,
         "projectStatus": project.projectStatus,
         "projectLocation": project.projectLocation,
         "professionalsWanted": project.professionalsWanted,
         "projectKeyResponsibilities": project.projectKeyResponsibilities,
         "projectSkills": project.projectSkills,
-        "projectSkills": project.projectSkills,
         "projectConfidentialInformation": project.projectConfidentialInformation,
-        "projectStatus": project.projectStatus,
-        "projectStatus": project.projectStatus,
         "listOfApplicants": project.listOfApplicants,
         "listOfProfessionals": project.listOfProfessionals,
         "listOfProjectRatings": project.listOfProjectRatings,
         "projectAvgRating": avg_rating,
     }
-    # return jsonify({"message": "hji"})
-    # return jsonify({"message": "hji"})
+
     return jsonify(project_details), 200
 
 
-'''
-PARAMETERS (query string)
-/project/search?query_string=SEARCHQUERY&catagory=CATAGORYNAME&catagory=CATAGORYNAME
-?
-PARAMETERS (query string)
-/project/search?query_string=SEARCHQUERY&catagory=CATAGORYNAME&catagory=CATAGORYNAME
-?
+"""
+projectSearch() searches for projects based on query parameters.
 
-RETURN {
-    dictionary of projects that match criteria
-}
-'''
+Parameters:
+?query=QUERY&categories=CATEGORIES&skills=SKILLS&location=LOCATION&creatorId=CREATORID
+
+Returns:
+[
+    { ...list of matching project details... }
+]
+"""
 # TO-DO filter by other things
 @app.route('/project/search', methods=['GET']) #tested
 def projectSearch():
     query_string = request.args.get("query", "")
-    # categories = set(request.args.getlist("category"))
-    # skills = set(request.args.getlist("skills"))
     categories = request.args.get("categories")
     skills = request.args.get("skills")
     location = request.args.get("location")
@@ -284,12 +283,6 @@ def projectSearch():
         regex_pattern = f".*{query_string}.*"
         query = query.filter(func.lower(Projects.projectName).op("REGEXP")(func.lower(regex_pattern)))
     
-    '''
-    # this does basically the same thing as the above one
-    if query_string:
-        query = query.filter(Projects.projectName.like(f"%{query_string}%"))
-    '''
-
     # filter by categories (substring matching)
     if categories:
         category_conditions = [
@@ -351,16 +344,21 @@ def projectSearch():
     return jsonify(projects_list), 200
 
 
-'''
-PARAMETERS {
-    professionalId,
-    projectId
+"""
+projectProfessionalApply() allows a professional to apply for a project.
+
+Takes in a JSON object:
+{
+    professionalId: string,
+    projectId: string
 }
 
-RETURN {
-    success message
+Returns:
+{
+    "success": "Professional added to applicants list",
+    "current_list": list of applicants
 }
-'''
+"""
 # get if they are pending or approved
 @app.route('/project/professional/apply', methods=['POST']) #tested
 def projectProfessionalApply():
@@ -369,7 +367,7 @@ def projectProfessionalApply():
     projectId = data.get("projectId")
     
     if professional_exists(professionalId) is None:
-        return jsonify({"error: Professional does not exist"}), 407
+        return jsonify({"error": "Professional does not exist"}), 409
     
     project = Projects.get_project_by_id(projectId)
     if project is None: 
@@ -396,16 +394,21 @@ def projectProfessionalApply():
     return "there is an error if you print this"
 
 
-'''
-PARAMETERS {
-    professionalId,
-    projectId
+"""
+projectProfessionalLeave() allows a professional to leave a project.
+
+Takes in a JSON object:
+{
+    professionalId: string,
+    projectId: string,
+    listType: string
 }
 
-RETURN {
-    success message
+Returns:
+{
+    "success": "Professional removed from <listType>."
 }
-'''
+"""
 @app.route('/project/professional/leave', methods=['POST']) #tested
 def projectProfessionalLeave():
     data = request.get_json()
@@ -431,16 +434,20 @@ def projectProfessionalLeave():
     return "there is an error if you print this"
 
 
-'''
-PARAMETERS {
-    professionalId,
-    projectId
+"""
+projectCompanyApprove() approves professionals for a project.
+
+Takes in a JSON object:
+{
+    professionalIds: list of strings,
+    projectId: string
 }
 
-RETURN {
-    success message
+Returns:
+{
+    "success": "Professional approved"
 }
-'''
+"""
 @app.route('/project/company/approve', methods=['POST']) #tested
 def projectCompanyApprove():
     data = request.get_json()
@@ -454,15 +461,15 @@ def projectCompanyApprove():
     for professionalId in professionalIds:
         professional = Projects.get_professional_by_id(professionalId)
         if professional is None:
-            return jsonify({"error": "Professional {professionalId} does not exist"}), 409
+            return jsonify({"error": "Professional does not exist"}), 409
         
         # Checks if the professional has already been approved
         if any(applicant['professionalId'] == professionalId for applicant in project.listOfProfessionals):
-            return jsonify({"error": "Professional {professionalId} already approved"}), 406
+            return jsonify({"error": "Professional already approved"}), 406
 
         # Check if the professional is not an applicant
         if not any(applicant['professionalId'] == professionalId for applicant in project.listOfApplicants):
-            return jsonify({"error": "Professional {professionalId} not an applicant"}), 405
+            return jsonify({"error": "Professional not an applicant"}), 405
         
         project.remove_from_list(professionalId, "listOfApplicants")
         project.add_to_list(professionalId, "listOfProfessionals", "Approved")
@@ -474,44 +481,62 @@ def projectCompanyApprove():
     return jsonify({"success": "Professional approved"}), 200
 
 
-'''
-PARAMETERS {
-    professionalId,
-    projectId
+"""
+projectCompanyReject() rejects professionals for a project.
+
+Takes in a JSON object:
+{
+    professionalIds: list of strings,
+    projectId: string
 }
 
-RETURN {
-    success message
+Returns:
+{
+    "success": "Status updated to Rejected"
 }
-'''
+"""
 @app.route('/project/company/reject', methods=['POST']) #tested
 def projectCompanyReject():
     data = request.get_json()
     professionalIds = data.get("professionalIds")
     projectId = data.get("projectId")
     
+    for professionalId in professionalIds:
+        professional = Projects.get_professional_by_id(professionalId)
+        if professional is None:
+            return jsonify({"error": "Professional does not exist"}), 409
+    
     project = Projects.get_project_by_id(projectId)
     if project is None:
         return jsonify({"error": "Project does not exist"}), 409
+    
+    # Check if the professional is not an applicant
+    if not any(applicant['professionalId'] == professionalId for applicant in project.listOfApplicants):
+        return jsonify({"error": "Professional not an applicant"}), 405
     
     new_status = "Rejected"
 
     for professionalId in professionalIds:
         result = project.set_status(professionalId, new_status)
         if not result:
-            return jsonify({"error": "Could not set status for professional with id {professionalId}"}), 404
+            return jsonify({"error": f"Could not set status for professional with id {professionalId}"}), 404
     
     return jsonify({"success": f"Status updated to {new_status}"}), 200
 
-'''
-PARAMETERS {
-    projectId
+
+"""
+projectComplete() marks a project as complete.
+
+Takes in a JSON object:
+{
+    projectId: string
 }
 
-RETURN {
-    success message
+Returns:
+{
+    "success": "Project status set to Complete"
 }
-'''
+"""
 @app.route('/project/company/complete', methods=['PUT']) #tested
 def projectComplete():
     data = request.get_json()
@@ -531,15 +556,19 @@ def projectComplete():
     return "there is an error if you print this"
 
 
-'''
-PARAMETERS {
-    projectId
+"""
+projectIncomplete() marks a project as incomplete.
+
+Takes in a JSON object:
+{
+    projectId: string
 }
 
-RETURN {
-    success message
+Returns:
+{
+    "success": "Project status set to incomplete"
 }
-'''
+"""
 @app.route('/project/company/incomplete', methods=['PUT']) #tested
 def projectIncomplete():
     data = request.get_json()
@@ -559,14 +588,17 @@ def projectIncomplete():
     return "there is an error if you print this"
 
 
-'''
-PARAMETERS (query string):
-/project/applicant/list?projectId=PROJECTIDHERE
+"""
+projectApplicantList() retrieves the list of applicants for a project.
 
-RETURN {
-    success message
-}
-'''
+Parameters:
+?projectId=PROJECTID
+
+Returns:
+[
+    { ...list of applicants... }
+]
+"""
 @app.route('/project/applicant/list', methods=['GET']) #tested
 def projectApplicantList():
     projectId = request.args.get("projectId")
@@ -594,14 +626,17 @@ def projectApplicantList():
     return jsonify(applicant_list), 200
 
 
-'''
-PARAMETERS (query string)
-/project/professional/list?projectId=PROJECTIDHERE
+"""
+projectProfessionalList() retrieves the list of professionals for a project.
 
-RETURN {
-    success message
-}
-'''
+Parameters:
+?projectId=PROJECTID
+
+Returns:
+[
+    { ...list of professionals... }
+]
+"""
 @app.route('/project/professional/list', methods=['GET']) #tested
 def projectProfessionalList():
     projectId = request.args.get("projectId")
@@ -625,15 +660,17 @@ def projectProfessionalList():
     return jsonify(professional_list), 200
 
 
-'''
-PARAMETERS (query string) {professionalId, projectId}
-/project/professional/status?professionalId=PROFESSIONALIDHERE&projectId=PROJECTIDHERE
+"""
+projectProfessionalStatus() retrieves the application status of a professional for a project.
 
+Parameters:
+?professionalId=PROFESSIONALID&projectId=PROJECTID
 
-RETURN {
-    success message
+Returns:
+{
+    "status": "Approved" | "Pending" | "Not applied"
 }
-'''
+"""
 @app.route('/project/professional/status', methods=['GET']) #tested
 def projectProfessionalStatus():
     professionalId = request.args.get("professionalId")
@@ -654,14 +691,17 @@ def projectProfessionalStatus():
     return jsonify({"status": "Not applied"}), 200
 
 
-'''
-PARAMETERS (query string) {professionalId, status}
-/project/professional/get/projects/from/status?professionalId=PROFESSIONALIDHERE&status=STATUSHERE
+"""
+getProfessionalProjectsFromStatus() retrieves projects for a professional based on status.
 
-Status can be either:
-status = {'Active', 'complete'}
+Parameters:
+?professionalId=PROFESSIONALID&status=STATUS
 
-'''
+Returns:
+[
+    { ...list of projects... }
+]
+"""
 @app.route('/project/professional/get/projects/from/status', methods=['GET'])
 def getProfessionalProjectsFromStatus():
     profIdStr = request.args.get("professionalId")
@@ -689,10 +729,18 @@ def getProfessionalProjectsFromStatus():
     
     return jsonify(project_dict), 200
 
-'''
-PARAMETERS (query string) {professionalId}
-/project/recommended?professionalId=PROFESSIONALIDHERE
-'''
+
+"""
+getRecommendedProjects() retrieves recommended projects for a professional.
+
+Parameters:
+?professionalId=PROFESSIONALID
+
+Returns:
+[
+    { ...list of recommended projects... }
+]
+"""
 @app.route('/project/recommended', methods=['GET'])
 def getRecommendedProjects():
     profIdStr = request.args.get("professionalId")

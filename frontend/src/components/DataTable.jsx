@@ -1,9 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
+import PropTypes from "prop-types";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
+/**
+ * Data Table is used as a table that shows data about users. It gets the rows
+ * and columns for the data table and on selection change and the 
+ * checkbox selection.
+ * 
+ * @param {*} param0 
+ * @returns 
+ */
 function DataTable({ rows, columns, onSelectionChange, checkboxSelection }) {
   const navigate = useNavigate();
 
@@ -48,6 +57,13 @@ function DataTable({ rows, columns, onSelectionChange, checkboxSelection }) {
       />
     </Paper>
   );
-}
+};
+
+DataTable.propTypes = {
+  rows: PropTypes.array,
+  columns: PropTypes.array,
+  onSelectionChange: PropTypes.func,
+  checkboxSelection: PropTypes.bool
+};
 
 export default DataTable;

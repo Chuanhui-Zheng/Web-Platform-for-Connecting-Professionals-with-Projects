@@ -1,7 +1,6 @@
-
 .PaginationBox {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-    padding-right: 10%;
+	display: flex;
+	justify-content: center;
+	margin-top: 10px;
+	padding-right: 10%;
 }
