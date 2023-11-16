@@ -38,7 +38,7 @@ def create_app():
     db.init_app(app)
     jwt.init_app(app)
 
-    CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
+    CORS(app)
 
     app.add_url_rule('/auth/register/company', 'authRegisterCompany', authRegisterCompany, methods=['POST'])
     app.add_url_rule('/auth/register/professional', 'authRegisterProfessional', authRegisterProfessional, methods=['POST'])
