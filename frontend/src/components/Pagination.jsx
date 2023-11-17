@@ -2,21 +2,11 @@ import React, { useState } from 'react';
 import { Grid2, Pagination, Box } from '@mui/material';
 import ReviewCard from './ReviewCard';
 import styles from "../styles/Pagination.module.css"
-import PropTypes from 'prop-types';
 
-/**
- * 
- * @param {*} param0 
- * @returns 
- * Component that creates pages for review cards
- * It displays a varying amount of reviews on a page
- * and has a pagination feature to change pages
- */
 const PaginationCards = ({reviews, type}) => {
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(3);  
 
-	// Change how many cards displayed on a page based on window size
   React.useEffect(() => {
     const updateItemsPerPage = () => {
       const width = window.innerWidth;
@@ -37,14 +27,12 @@ const PaginationCards = ({reviews, type}) => {
     return () => window.removeEventListener('resize', updateItemsPerPage);
   }, []);
 
-	const totalPages = Math.ceil(reviews.length / itemsPerPage);
+const totalPages = Math.ceil(reviews.length / itemsPerPage);
 
-	// Handle page change
   const handleChange = (event, value) => {
     setPage(value);
   };
   const currentItems = reviews.slice((page - 1) * itemsPerPage, page * itemsPerPage);
-
   return (
     <Box>
       <Grid2 container spacing={2}>
@@ -60,10 +48,5 @@ const PaginationCards = ({reviews, type}) => {
     </Box>
   );
 };
-
-PaginationCards.propTypes = {
-    reviews: PropTypes.object,
-    type: PropTypes.string,
-}
 
 export default PaginationCards;

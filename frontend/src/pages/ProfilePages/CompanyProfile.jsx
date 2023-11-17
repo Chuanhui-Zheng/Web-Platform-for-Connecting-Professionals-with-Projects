@@ -1,30 +1,24 @@
 import * as React from 'react';
 import ProfileHeader from "../../components/ProfileHeader";
 import styles from "../../styles/Professional/ProfessionalProfile.module.css"
-import ProjectCard1 from "../../components/DashboardCard";
+import ProjectCard1 from "../../components/ProjectCard1";
 import { Box, Typography } from '@mui/material';
 import { apiGet } from '../../api';
 import decodeJWT from "../../decodeJWT";
 import { getProjects } from '../../helpers';
 import Grid from '@mui/material/Grid2';
-import { useProfile } from '../../context/ProfileContext';
-import PropTypes from 'prop-types';
 
-/**
- * 
- * @param {*} param0 
- * @returns 
- * Company profile page that shows all the details of a company
- */
+import { useProfile } from '../../context/ProfileContext';
+
 const CompanyProfile = ({userId}) => {
 	const [userType, setUserType] = React.useState('');
 	const [ownUserId, setOwnUserId] = React.useState('');
 	const [ownProfile, setOwnProfile] = React.useState(true);
 	const [projects, setProjects] = React.useState([]);
+
 	const [companyDescription, setNewCompanyDescription] = React.useState(true);
 	const reloadProfile = useProfile();
 
-  // Check if viewing own profile
 	React.useEffect(() => {
 		const getToken = localStorage.getItem("token");
 		if (getToken != null) {
@@ -37,7 +31,6 @@ const CompanyProfile = ({userId}) => {
 		}
 	}, []);
 
-	// Get profile details
 	React.useEffect(() => {
 		if (ownUserId && userType) {
 				
@@ -63,7 +56,7 @@ const CompanyProfile = ({userId}) => {
 
 	return (
 		<>
-			<Box sx={{ width: '100%', bgcolor: '#F5F5F5',background: 'linear-gradient(to bottom, #F5F5F5, #F5F5F5)', borderRadius: '20px' }}>
+			<Box sx={{ width: '100%', minHeight: '2200px', bgcolor: '#F5F5F5',background: 'linear-gradient(to bottom, #F5F5F5, #F5F5F5)', borderRadius: '20px' }}>
 				<ProfileHeader userId={userId} userType="company" ownProfile={ownProfile}></ProfileHeader>
 				<div className={styles.ProfessionalProfileContent}>
 					<Typography variant="h5" sx={{ fontWeight: 'bold', mt:2, mb:1 }}>Summary</Typography>
@@ -85,10 +78,6 @@ const CompanyProfile = ({userId}) => {
 			</Box>
 		</>
 	);
-}
-
-CompanyProfile.propTypes = {
-    userId: PropTypes.string,
 }
 
 export default CompanyProfile;

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, IconButton, Box } from '@mui/material';
+import {
+  Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, IconButton, Box } from '@mui/material';
 import { apiGet, apiPut } from '../api';
 import { fileToDataUrl } from '../helpers';
 import { useHeader } from '../context/HeaderContext';
@@ -16,17 +17,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import styles from '../styles/FormDialog.module.css'
-import PropTypes from 'prop-types';
 
-/**
- * 
- * @param {*} param0 
- * @returns 
- * Component for creating form dialogs.
- * This is used to create the edit project and edit profile forms
- * The forms are pre-filled with pre-existing project/profile information
- * Upon submit, the form will update the user/project details
- */
 const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarToggle, snackBarMessage }) => {
   const [formData, setFormData] = useState({});
   const [showSnackbar, setShowSnackbar] = useState(false);
@@ -35,11 +26,14 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
   const { triggerProjectUpdate } = useProject();
   const [formConfigg, setFormConfigg] = useState([]);
   const [token, setToken] = React.useState('');
+  const [error, setError] = React.useState(false);
   const [fileName, setFileName] = React.useState('');
 
-  // Create the fields for the form based on whether it is a edit profile or edit project form
+  const toggleError = () => {
+    setError(!error);
+  }
+
   useEffect(() => {
-		// Set fields for edit professional profile
     if (userType === "professional") {
 			apiGet("/user/details/professional", `id=${userId}`)
 			.then((data) => {
@@ -72,7 +66,6 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
 					{ type: 'file', label: 'Profile Photo', name: 'professionalPhoto' },
         ])
     } else if (userType === "company") {
-			// Set fields for edit company profile
 			apiGet("/user/details/company", `id=${userId}`)
 			.then((data) => {
 				if (!data.error) {
@@ -100,7 +93,6 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
 				{ type: 'file', label: 'Company Logo', name: 'companyLogo' },
 			])
     } else if (userType === "project") {
-			// Set fields for edit project details
       apiGet("/project/details", `projectId=${userId}`)
       .then((data) => {
         if (!data.error) {
@@ -147,11 +139,8 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
     }
   }, []);    
 
-	/**
-	 * 
-	 * @param {*} e 
-	 * Handle input changes for text fields
-	 */
+
+  // Handle input changes for text fields
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -160,12 +149,7 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
     }));
   };
 
-	/**
-	 * 
-	 * @param {*} newValue 
-	 * @param {*} fieldName 
-	 * Handle input changes for date field
-	 */
+  // Handle input changes for date fields
   const handleDateChange = (newValue, fieldName) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -173,14 +157,10 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
     }));
   };
 
-	/**
-	 * 
-	 * @param {*} event 
-	 *  Handle input changes for files (photos)
-	 */
+  // Handle file input change
   const handleFileChange = (event) => {
-    const file = event.target.files[0]; 
-		// change file to a dataurl
+    const file = event.target.files[0]; // Get the first uploaded file
+
     fileToDataUrl(file).then((dataUrl) => {
 			if (userType === "professional") {
 				setFormData((prevData) => ({
@@ -201,12 +181,6 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
     });
   };
 
-	/**
-	 * 
-	 * @param {*} value 
-	 * @param {*} fieldName 
-	 * Handle input changes for category field
-	 */
   const handleCategoriesChange = (value, fieldName) => {
     setFormData((prevData) => ({
 			...prevData,
@@ -214,11 +188,6 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
     }));
   }
 
-	/**
-	 * 
-	 * @param {*} value 
-	 * Handle change of project status
-	 */
   const handleStatusChange = (value) => {
     setFormData((prevData) => ({
 			...prevData,
@@ -226,19 +195,13 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
     }));
   }
 
-	// Show snackbar on submit
   const toggleSnackbar = () => {
     setShowSnackbar((prev) => !prev);
   };
 
-	/**
-	 * 
-	 * @param {*} e 
-	 * Handle api calls when submit button is clicked
-	 */
   const handleSubmit = async (e) => {
+    console.log('Form submitted:', formData);
     e.preventDefault();
-		// Api call for edit professional profile
     if (userType === "professional") {
 			const {
 				professionalFullName,
@@ -277,7 +240,6 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
 				alert("Edit details are not valid.")
 			});
     } else if (userType === "company") {
-			// Api call for edit company profile
 			const {
 				companyName,
 				companyPassword,
@@ -286,7 +248,6 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
 				companyDescription,
 				companyLogo,
 			} = formData
-
 			apiPut("/edit/company", {
 				id: userId,
 				companyName: companyName,
@@ -309,7 +270,6 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
 				alert("Edit details are not valid.")
 			});
     }  else if (userType === "project") {
-			// Api call for edit project details
 			const {
 				projectName,
 				contactEmail,
@@ -366,7 +326,6 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
 					</IconButton>
         </DialogTitle>
         <DialogContent>
-				{/* Displaying fields that take up the half width / two fields in one row */}
         <div className={styles.twoColumnGrid}>
           {formConfigg.map((field) => {
             if (field.type != "textarea") {
@@ -427,19 +386,16 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
 												/>
 											</Button>
 											{fileName && (
-												<p style={{ marginTop: '8px', justifyContent: 'center', textAlign: 'center'}}>
-												Selected file: {fileName}
-												</p>
+												<p style={{ marginTop: '8px', justifyContent: 'center', textAlign: 'center'}}>Selected file: {fileName}</p>
 										)}
 										</Box>
 									);
 								default:
-									return null;
+								return null;
 							}
             }
           })}
         </div>
-				{/* Displaying fields that take up the whole width */}
         {formConfigg.map((field) => { 
 					if (field.type === 'textarea') {
 						return (
@@ -482,15 +438,5 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
     </>
   );
 };
-
-DynamicFormDialog.propTypes = {
-	open: PropTypes.bool,
-	onClose: PropTypes.func,
-	title: PropTypes.string,
-	userId: PropTypes.string,
-	userType: PropTypes.string,
-	snackbarToggle: PropTypes.func,
-	snackBarMessage: PropTypes.string,
-}
 
 export default DynamicFormDialog;

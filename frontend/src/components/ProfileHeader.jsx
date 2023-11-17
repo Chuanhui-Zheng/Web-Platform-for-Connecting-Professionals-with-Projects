@@ -10,17 +10,10 @@ import Avatar from '@mui/material/Avatar';
 import { apiGet } from '../api';
 import DynamicFormDialog from './FormDialog';
 import { useProfile } from '../context/ProfileContext';
-import PropTypes from 'prop-types';
 
-/**
- * 
- * @param {*} param0 
- * @returns 
- * Component that displays the profile header of a user
- * Displays the banner, name, contact details amd an edit profile button
- * Also displays a profile picture
- */
 const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
+	const [token, setToken] = React.useState('');
+
 	const [name, setNewName] = React.useState('');
 	const [email, setNewEmail] = React.useState('');
 	const [phoneNumber, setNewPhoneNumber] = React.useState('');
@@ -33,7 +26,6 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
 	const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 	const reloadProfile = useProfile();
 
-  // Get user details depending on user type
 	React.useEffect(() => {
 		if (userType === "company") {    
 			apiGet("/user/details/company", `id=${userId}`)
@@ -71,14 +63,12 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
 				alert("Profile fetch failed1.");
 			});
 		}
-	}, [refresh, reloadProfile]);
-  
-  // Opening edit profile dialog
+	}, [token, refresh, reloadProfile]);
+    
 	const handleOpenDialog = () => {
 		setIsDialogOpen(true);
 	};
 	
-  // Closing edit profile dialog
 	const handleCloseDialog = () => {
 		setIsDialogOpen(false);
 	};
@@ -87,9 +77,8 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
 		<div className={styles.Profile}> 
 			<div className={styles.ProfileFiller}></div>
 			<div className={styles.ProfileHeaderBar}>
-				<div className={styles.ProfileBanner}> 
-          <Typography  variant="h1" sx={{fontStyle: 'italic', fontWeight: 'bold', color:'#ebad8f', opacity: 0.6}}>PJ</Typography>
-        </div>
+				<div className={styles.ProfileBanner}> <Typography  variant="h1" sx={{fontStyle: 'italic', fontWeight: 'bold', color:'#ebad8f', opacity: 0.6}}>PJ</Typography> </div>
+
 				<div className={styles.ProfilePicAndEdit}>
 						<Avatar className={styles.ProfileHeaderProfilePic} src={photo} sx={{ bgcolor: '#ebad8f', width: '120px', height: '120px',  }}/>
 						{ownProfile ? <EditOutlinedIcon 
@@ -104,7 +93,7 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
 							<div className={styles.ProfileHeaderRating}>
 								<Typography variant="h5" sx={{fontWeight: '550'}}>{avgRating}</Typography>
 								<StarIcon sx={{ color: 'orange', fontSize: 25 , ml: 0.5 }}></StarIcon>
-								<Typography variant="h5" sx={{fontWeight: '350', color: '#617579', ml: 0.5}}>({numRatings})</Typography>
+								<Typography variant="h5" sx={{fontWeight: '350', color: 'lightgray', ml: 0.5}}>({numRatings})</Typography>
 							</div>
 						: <></>}
 					</div>
@@ -114,14 +103,11 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
 					</div>
 					<div className={styles.ProfileHeaderInfo}>
 						<WebAssetIcon  sx={{mt:0.3}}></WebAssetIcon>
-						{website ? <Typography variant="subtitle1" sx={{height: 26, ml:0.5}}>{website}</Typography>
-						:<Typography variant="subtitle1" sx={{height: 26, ml:0.5}}>No Website Added</Typography> }
-						
+						<Typography variant="subtitle1" sx={{height: 26, ml:0.5}}>{website}</Typography>
 					</div>
 					<div className={styles.ProfileHeaderInfo}>
 						<PhoneEnabledIcon  sx={{mt:0.3}}></PhoneEnabledIcon>
-						{phoneNumber ? <Typography variant="subtitle1" sx={{height: 2, ml:0.5}}>{phoneNumber}</Typography>
-						:<Typography variant="subtitle1" sx={{height: 2, ml:0.5}}>No Contact Number Added</Typography> }
+						<Typography variant="subtitle1" sx={{height: 2, ml:0.5}}>{phoneNumber}</Typography>
 					</div>
 				</div>
 			</div>
@@ -131,13 +117,6 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
 		</div>
 			
 	);
-}
-
-ProfileHeader.propTypes = {
-    userId: PropTypes.string,
-    userType: PropTypes.string,
-    ownProfile: PropTypes.bool,
-    refresh: PropTypes.bool,
 }
 
 export default ProfileHeader;
