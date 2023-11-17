@@ -88,7 +88,7 @@ PARAMETERS (query string) {id, status}:
 /project/list?id=USERID&status=STATUS
 
 Status for Company:
-status = {'Ative', 'Complete'}
+status = {'Active', 'Complete'}
 
 Status for professional:
 status = {'Pending', 'Approved', 'rejected'

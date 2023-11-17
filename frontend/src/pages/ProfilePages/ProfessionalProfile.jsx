@@ -128,10 +128,19 @@ const ProfessionalProfile = ( { userId } ) => {
                 ) : (
                     <div > No Projects Listed. Apply for a Project!</div>
                 )}
-            <Typography variant="h5" sx={{ fontWeight: 'bold', mt:3 }}>Certificates</Typography>
-            <Certificates certificates={certificates} ownProfile={ownProfile}></Certificates>
+            <Typography variant="h5" sx={{ fontWeight: 'bold', mt:3,mb:1  }}>Certificates</Typography>
+            {certificates.length > 0 ? (
+                <Certificates certificates={certificates} ownProfile={ownProfile}></Certificates>
+            ) : (
+                <div> No Certifications Available.</div>
+            )}
             <Typography variant="h5" sx={{ fontWeight: 'bold', mt:3, mb:1 }}>Reviews</Typography>
-            <PaginationCards reviews={ratings} type="professional" ></PaginationCards>
+            {console.log(ratings)}
+            {ratings.length > 0 ? (
+                <PaginationCards reviews={ratings} type="professional" ></PaginationCards>
+            ) : (
+                <div> No Reviews Available.</div>
+            )}
         </div>
         </Box>
         </>

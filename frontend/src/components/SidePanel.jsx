@@ -134,7 +134,6 @@ function SidePanel({ projectID, onSelectProject }) {
           </Stack>
           }
         </DrawerHeader>
-        <Divider />
         <Box sx={{ overflow: 'auto', width: '100%', marginTop:'10vh'}}>
         
         {open === false ? <div></div>: 

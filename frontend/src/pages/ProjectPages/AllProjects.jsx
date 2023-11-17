@@ -34,10 +34,7 @@ import { apiGet } from '../../api';
 import Header from '../../components/Header';
 import SearchBar from '../../components/SearchBar';
 import ProjectDetailWindow from '../../components/ProjectDetailWindow';
-import SideBar from '../../components/SideBar';
-
 import SidePanel from '../../components/SidePanel';
-import Dummy from '../../components/Dummy';
 
 const headerStyle = {
   display: 'flex',
