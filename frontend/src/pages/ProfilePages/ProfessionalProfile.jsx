@@ -77,12 +77,12 @@ const ProfessionalProfile = ( { userId } ) => {
 
 	return (
 		<>
-			<Box sx={{ width: '100%', minHeight: '1600px', bgcolor: '#F5F5F5', background: 'linear-gradient(to bottom, #F5F5F5, #F5F5F5)', borderRadius: '20px' }}>
+			<Box sx={{ width: '100%', minHeight: '1000px', bgcolor: '#F5F5F5', background: 'linear-gradient(to bottom, #F5F5F5, #F5F5F5)', borderRadius: '20px' }}>
 				<ProfileHeader userId={userId} userType="professional" ownProfile={ownProfile}></ProfileHeader>
 				<div className={styles.ProfessionalProfileContent}>
 				<Typography variant="h5" sx={{ fontWeight: 'bold', mt:2, mb:1 }}>Summary</Typography>
 					<div className={styles.ProfessionalProfileText}>
-						{professionalDescription}
+						{professionalDescription ? {professionalDescription} : <>No Description Added</> }
 					</div>
 					<Typography variant="h5" sx={{ fontWeight: 'bold', mt:3, mb:1 }}>Skills</Typography>
 					<div className={styles.ProfessionalProfileSkillsContainer}>
