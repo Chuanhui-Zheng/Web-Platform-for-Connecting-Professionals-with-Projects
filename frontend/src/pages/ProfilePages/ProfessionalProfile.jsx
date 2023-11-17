@@ -81,19 +81,24 @@ const ProfessionalProfile = ( { userId } ) => {
 				<ProfileHeader userId={userId} userType="professional" ownProfile={ownProfile}></ProfileHeader>
 				<div className={styles.ProfessionalProfileContent}>
 				<Typography variant="h5" sx={{ fontWeight: 'bold', mt:2, mb:1 }}>Summary</Typography>
-					<div className={styles.ProfessionalProfileText}>
-						{professionalDescription ? {professionalDescription} : <>No Description Added</> }
-					</div>
+						{professionalDescription ? 
+							<div className={styles.ProfessionalProfileText}>{professionalDescription}</div> 
+							:<div className={styles.ProfessionalProfileText}>No Description Added</div> 
+						}
 					<Typography variant="h5" sx={{ fontWeight: 'bold', mt:3, mb:1 }}>Skills</Typography>
-					<div className={styles.ProfessionalProfileSkillsContainer}>
-						{professionalSkills.map((skill, idx) => {
-							return (
-								<div key={idx} className={styles.ProfessionalProfileSkill}>
-									<BasicChips content={skill} />
-								</div>
-							)
-						})}
-					</div>
+						{professionalSkills.length > 0 ? (
+							<div className={styles.ProfessionalProfileSkillsContainer}>
+								{professionalSkills.map((skill, idx) => {
+									return (
+										<div key={idx} className={styles.ProfessionalProfileSkill}>
+											<BasicChips content={skill} />
+										</div>
+									)
+								})}
+							</div>
+						) : (
+							<div > No Skills Added</div>
+						)}
 					<Typography variant="h5" sx={{ fontWeight: 'bold', mt:3 }}>Projects</Typography>
 					<br></br>
 					{projects.length > 0 ? (
@@ -104,9 +109,9 @@ const ProfessionalProfile = ( { userId } ) => {
 								</Grid>
 							))}
 						</Grid>
-						) : (
-								<div > No Projects Listed. Apply for a Project!</div>
-						)}
+					) : (
+						<div > Currently No Projects Listed. </div>
+					)}
 					 <Typography variant="h5" sx={{ fontWeight: 'bold', mt:3,mb:1  }}>Certificates</Typography>
 					{certificates.length > 0 ? (
 						<Certificates certificates={certificates} ownProfile={ownProfile}></Certificates>

@@ -78,6 +78,7 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
 			<div className={styles.ProfileFiller}></div>
 			<div className={styles.ProfileHeaderBar}>
 				<div className={styles.ProfileBanner}> <Typography  variant="h1" sx={{fontStyle: 'italic', fontWeight: 'bold', color:'#ebad8f', opacity: 0.6}}>PJ</Typography> </div>
+
 				<div className={styles.ProfilePicAndEdit}>
 						<Avatar className={styles.ProfileHeaderProfilePic} src={photo} sx={{ bgcolor: '#ebad8f', width: '120px', height: '120px',  }}/>
 						{ownProfile ? <EditOutlinedIcon 
@@ -102,23 +103,14 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
 					</div>
 					<div className={styles.ProfileHeaderInfo}>
 						<WebAssetIcon  sx={{mt:0.3}}></WebAssetIcon>
-						<Typography variant="subtitle1" sx={{height: 26, ml:0.5}}>
-							{website ? (
-								{website}
-							) : (
-								<div> No Website Added</div>
-							)}
-						</Typography>
+						{website ? <Typography variant="subtitle1" sx={{height: 26, ml:0.5}}>{website}</Typography>
+						:<Typography variant="subtitle1" sx={{height: 26, ml:0.5}}>No Website Added</Typography> }
+						
 					</div>
 					<div className={styles.ProfileHeaderInfo}>
 						<PhoneEnabledIcon  sx={{mt:0.3}}></PhoneEnabledIcon>
-						<Typography variant="subtitle1" sx={{height: 2, ml:0.5}}>
-							{phoneNumber ? (
-								{phoneNumber}
-							) : (
-								<div> No Phone Number Added</div>
-							)}
-						</Typography>
+						{phoneNumber ? <Typography variant="subtitle1" sx={{height: 2, ml:0.5}}>{phoneNumber}</Typography>
+						:<Typography variant="subtitle1" sx={{height: 2, ml:0.5}}>No Contact Number Added</Typography> }
 					</div>
 				</div>
 			</div>
