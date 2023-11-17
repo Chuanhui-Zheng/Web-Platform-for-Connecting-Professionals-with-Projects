@@ -52,5 +52,3 @@ const RecommendedPopupModal = ({ titleText, recommended, toggleShowRecommended }
 }
 
 export default RecommendedPopupModal;
-
-# expanded-history-pass-091: maintainability refinement for the frontend visual polish surface.
