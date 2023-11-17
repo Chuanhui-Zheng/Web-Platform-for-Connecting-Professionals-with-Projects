@@ -25,4 +25,4 @@
 2. bash db_controller.sh <clear/init/test>
 
 
-<!-- expanded-history-pass-089: clearer Markdown structure and handoff detail for the Markdown documentation surface. -->
+<!-- history-polish-089: documentation pass for the Markdown documentation surface. This temporary refinement is intentionally represented as a standalone historical step. -->
