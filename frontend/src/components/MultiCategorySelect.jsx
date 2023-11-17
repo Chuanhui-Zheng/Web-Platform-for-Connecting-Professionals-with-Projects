@@ -7,7 +7,6 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
-import '../styles/EditForm.css'
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -19,11 +18,6 @@ const MenuProps = {
     },
   },
 };
-
-// const names = [
-//   'Software',
-//   'Construction',
-// ];
 
 function getStyles(name, personName, theme) {
   return {
@@ -50,7 +44,7 @@ export default function MultipleSelectCategoryChip( { set, names, label } ) {
 
   return (
     <div>
-      <FormControl className="formInput1" sx ={{mt: 1.5, mb:4, width:'100%'}}>
+      <FormControl sx ={{mt: 1.5, mb:4, width:'100%'}}>
         <InputLabel id="demo-multiple-chip-label">{label}</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
@@ -69,11 +63,7 @@ export default function MultipleSelectCategoryChip( { set, names, label } ) {
           MenuProps={MenuProps}
         >
           {names.map((name) => (
-            <MenuItem
-              key={name}
-              value={name}
-              style={getStyles(name, personName, theme)}
-            >
+            <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
               {name}
             </MenuItem>
           ))}

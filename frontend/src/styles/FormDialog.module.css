@@ -1,18 +1,18 @@
 .twoColumnGrid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
-    margin-bottom: 16px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
   }
 
   .CenterButton {
-    display:flex;
-    justify-content: center;
-    width:100%;
-    grid-column: 1/-1;
+  display:flex;
+  justify-content: center;
+  width:100%;
+  grid-column: 1/-1;
   }
 
 .Datepicker {
-    width: 100% !important;
-    min-width: 0 !important;
+  width: 100% !important;
+  min-width: 0 !important;
 }

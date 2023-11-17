@@ -19,7 +19,7 @@ import { styled } from '@mui/system';
 
 import decodeJWT from "../decodeJWT";
 import { apiGet } from '../api';
-import { useHeader } from '../HeaderContext';
+import { useHeader } from '../context/HeaderContext';
 
 function Header() {
     console.log("Render Header")

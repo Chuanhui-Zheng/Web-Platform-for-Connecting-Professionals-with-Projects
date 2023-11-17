@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom"
 import { apiGet, apiPost } from "../api";
 import DataTable from "./DataTable";
 import { ThumbDown, ThumbUp } from "@mui/icons-material";
-import { useProject } from '../ProjectContext';
+import { useProject } from '../context/ProjectContext';
 
 // Professional columns
 const professionalColumns = [

@@ -1,34 +1,33 @@
 .formContainer {
-    max-width: 90%;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f5f7fa;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
+	max-width: 90%;
+	margin: 0 auto;
+	padding: 20px;
+	background-color: #f5f7fa;
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
   
-  .formRow {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 16px;
-    
-  }
+.formRow {
+	display: flex;
+	gap: 20px;
+	margin-bottom: 16px;
+}
   
-  .formRow > * {
-    flex: 1;
-  }
+.formRow > * {
+	flex: 1;
+}
   
-  h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-align: center;
-  }
+h1 {
+	font-size: 24px;
+	margin-bottom: 20px;
+	text-align: center;
+}
   
-  textarea {
-    resize: none;
-  }
+textarea {
+	resize: none;
+}
 
 .buttonContainer {
-    display: flex;
-    justify-content: flex-end;
+	display: flex;
+	justify-content: flex-end;
 }

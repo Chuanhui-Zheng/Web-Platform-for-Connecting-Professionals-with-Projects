@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styles from"../../../styles/Professional/Dashboard.module.css";
+import styles from"../styles/Professional/Dashboard.module.css";
 import { useNavigate } from 'react-router-dom';
 import StarIcon from '@mui/icons-material/Star';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';

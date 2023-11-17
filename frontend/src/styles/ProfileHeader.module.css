@@ -1,77 +1,70 @@
  .Profile {
-    width: 100%;
-    /* background-color: blue; */
-    display: flex;
-    flex-direction: column;
-    align-items: center;    
- }
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;    
+}
 
 .ProfileHeaderBar {
-    width: 80%;
-    margin-top: px;
-    background-color: #F9F9F9;
-    height: 360px;
-    border-radius: 35px;
+  width: 80%;
+  margin-top: px;
+  background-color: #F9F9F9;
+  height: 360px;
+  border-radius: 35px;
 }
 
 .ProfileFiller {
-    height:35px;
+  height:35px;
 }
 
 .ProfileBanner {
-    height: 175px;
-    background-color: #eeebcc;
-    /* margin-top: 35px; */
-    border-radius: 35px;
-    display:flex;
-    justify-content: center;
-    align-items: center;
+  height: 175px;
+  background-color: #eeebcc;
+  border-radius: 35px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
 
 }
 
 .ProfilePicAndEdit {
-    /* background-color: white; */
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .ProfileHeaderProfilePic {
-    position: relative; 
-    top: -80px;
-    margin-left: 20px;
-    margin-bottom: -80px;
+  position: relative; 
+  top: -80px;
+  margin-left: 20px;
+  margin-bottom: -80px;
 }
 
 .ProfileHeaderContent {
-    padding-left: 10px;
-    /* background-color: white;
-    border-radius: 15px; */
+  padding-left: 10px;
 }
 
 .ProfileHeaderNameAndRating {
-    margin-top: 5px;
-    display: flex;
-    flex-direction: row;
-    /* background-color: brown; */
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
 }
 
 .ProfileHeaderRating {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-left: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 20px;
 }
 
 .ProfileHeaderName {
-    margin-left: 3vw;
-    margin-bottom: 0;
-    font-size: 2.8vw;
+  margin-left: 3vw;
+  margin-bottom: 0;
+  font-size: 2.8vw;
 }
 
 
 .ProfileHeaderInfo {
-    display: flex;
-    flex-direction: row;
-    /* background-color: blueviolet; */
+  display: flex;
+  flex-direction: row;
 }
