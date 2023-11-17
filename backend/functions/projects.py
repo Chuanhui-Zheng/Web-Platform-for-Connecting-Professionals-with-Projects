@@ -140,6 +140,9 @@ def projectList():
                 if any(int(app["professionalId"]) == int(id) for app in applicants):
                     filtered_projects.append(project)
 
+        projects = filtered_projects
+        print("sdfsd ")
+        print(projects)
     else:
         return jsonify({"error": "User does not exist"}), 409
        
@@ -625,6 +628,9 @@ def projectProfessionalList():
         professional_list.append({
             "professionalId": professional.professionalId,
             "professionalEmail": professional.professionalEmail,
+            "professionalSkills": professional.professionalSkills,
+            "professionalPhoneNumber": professional.professionalPhoneNumber,
+            "professionalFullName": professional.professionalFullName
         })
     
     return jsonify(professional_list), 200
