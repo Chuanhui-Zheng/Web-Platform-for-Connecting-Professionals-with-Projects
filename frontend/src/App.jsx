@@ -12,16 +12,12 @@ import AboutUs from "./pages/AboutUs"
 import NotFound from "./pages/ErrorPages/NotFound"
 import CreateProject from './pages/ProjectPages/CreateProject';
 import ProjectDetail from './pages/ProjectPages/ProjectDetail';
-import ProjectPage from './pages/ProjectPages/ProjectPage';
 import ProfilePage from './pages/ProfilePages/ProfilePage';
-// import ProtectedRoute from "./components/ProtectedRoute";
-import EditProfilePage from './pages/ProfilePages/EditProfilePage';
-import EditProject from './pages/ProjectPages/EditProject';
 import RateProfessional from './pages/RatingPages/RateProfessional';
 import Dashboard from './pages/Dashboard/Dashboard';
 import ReviewPage from "./pages/RatingPages/ReviewPage";
 import { PageContainer } from '@toolpad/core/PageContainer';
-import './App.css';
+import './styles/App.css';
 import { createGlobalStyle } from 'styled-components';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 
@@ -66,14 +62,11 @@ function App() {
             <Route path="/register" element={<RegisterAndLogout />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/dashboard/createproject" element={<CreateProject />} />
-            <Route path="/profile/:userId/edit" element={<EditProfilePage />} />
             <Route path="/allprojects" element={<AllProjects />} />
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="*" element={<NotFound />}></Route>
             <Route path="/profile/:userId" element={<ProfilePage />} />
             <Route path="/projectdetail/:projectID" element={<ProjectDetail />} />
-            <Route path="/projectpage/:projectID" element={<ProjectPage />} />
-            <Route path="/projectpage/:projectID/edit" element={<EditProject />} />
             <Route path="/project/:projectId/rate" element={<ReviewPage />} />
             {/* <Route path="/project/rate" element={<RateProfessional />} /> */}
           </Routes>

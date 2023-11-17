@@ -1,6 +1,6 @@
 import React from 'react';
-import TitleCard from '../../components/Professional/Dashboard/TitleCard.jsx'; 
-import ProjectCard from '../../components/Professional/Dashboard/ProjectCard.jsx';
+import TitleCard from '../../components/TitleCard.jsx'; 
+import ProjectCard from '../../components/ProjectCard.jsx';
 import styles from '../../styles/Professional/Dashboard.module.css'
 import { Box, Button, Paper, useTheme } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
@@ -16,10 +16,10 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Grid from '@mui/material/Grid2';
 import ListItem from '@mui/material/ListItem';
-import { useDashboard } from '../../DashboardContext.jsx';
+import { useDashboard } from '../../context/DashboardContext.jsx';
 import decodeJWT from '../../decodeJWT.js';
 import { getProfessionalProjectsFromStatus, getProjects } from '../../helpers.js';
-import ProjectCard1 from '../../components/Professional/Dashboard/ProjectCard1.jsx';
+import ProjectCard1 from '../../components/ProjectCard1.jsx';
 import { apiGet } from '../../api';
 
 const projectTitleStyle = {

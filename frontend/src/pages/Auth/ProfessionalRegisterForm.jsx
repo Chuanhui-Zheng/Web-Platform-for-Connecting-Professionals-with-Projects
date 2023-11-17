@@ -6,7 +6,7 @@ import VisuallyHiddenInput from "../../components/VisuallyHiddenInput";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { apiPost } from "../../api";
 import { useNavigate } from "react-router-dom";
-import { useHeader } from "../../HeaderContext"; 
+import { useHeader } from "../../context/HeaderContext"; 
 import RegistrationErrorMessage from "../../components/RegistrationErrorMessage";
 import { isValidEmail, isValidPassword, fileToDataUrl } from "../../helpers";
 import ErrorPopup from "../../components/ErrorPopup";

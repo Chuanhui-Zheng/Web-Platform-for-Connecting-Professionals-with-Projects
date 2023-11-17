@@ -38,7 +38,7 @@ import LoadingPage from "../pages/ErrorPages/LoadingPage";
 import ProjectApplicantList from './ProjectProfessionalList';
 import DialogContent from '@mui/material/DialogContent';
 import DynamicFormDialog from './FormDialog';
-import { useProject } from '../ProjectContext';
+import { useProject } from '../context/ProjectContext';
 import LinearProgress from '@mui/material/LinearProgress';
 import ErrorPopup from './ErrorPopup';
 
@@ -251,8 +251,9 @@ export default function ProjectDetailWindow({ projectID }) {
     }
   };
   
+  // Handle File upload for certificate
   const handleFileChange = (event) => {
-    const file = event.target.files[0]; // Get the first uploaded file
+    const file = event.target.files[0]; 
     fileToDataUrl(file).then((dataUrl) => {
       setCertificate(dataUrl);
     }).catch((error) => {
@@ -260,16 +261,15 @@ export default function ProjectDetailWindow({ projectID }) {
     });
   };
   
+  // Handle certificate upload api
   useEffect(() => {
     if (certificate) {
-      console.log("calling giveCert api", certificate);
       apiPost("/giveCertificate", {
         companyId: projectInfo.pCompanyId,
         professionalCertificate: certificate,
         projectId: projectID
       }).then((data) => {
         if (!data.error) {
-          console.log("give cert api", data);
           setSnackBarMessage('Certificate uploaded')
           setShowSnackbar(true);
         } else {

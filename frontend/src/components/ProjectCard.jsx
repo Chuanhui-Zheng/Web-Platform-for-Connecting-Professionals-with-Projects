@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 // import { Button } from '@mui/material';
 
 
-import styles from '../../../styles/Professional/Dashboard.module.css'
+import styles from '../styles/Professional/Dashboard.module.css'
 
 const ProjectCard  = ({ projectName, projectDescription, projectId }) => {
     const navigate = useNavigate();

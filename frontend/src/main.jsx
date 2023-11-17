@@ -1,10 +1,10 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
-import { HeaderProvider } from './HeaderContext.jsx'
-import { ProfileProvider } from './ProfileContext.jsx'
-import { ProjectProvider } from './ProjectContext.jsx'
-import { DashboardProvider } from './DashboardContext.jsx'
+import { HeaderProvider } from './context/HeaderContext.jsx'
+import { ProfileProvider } from './context/ProfileContext.jsx'
+import { ProjectProvider } from './context/ProjectContext.jsx'
+import { DashboardProvider } from './context/DashboardContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

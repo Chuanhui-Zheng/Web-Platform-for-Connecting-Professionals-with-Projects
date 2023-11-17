@@ -37,7 +37,6 @@ import ProjectDetailWindow from '../../components/ProjectDetailWindow';
 import SideBar from '../../components/SideBar';
 
 import SidePanel from '../../components/SidePanel';
-import Dummy from '../../components/Dummy';
 
 const headerStyle = {
   display: 'flex',
