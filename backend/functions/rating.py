@@ -40,13 +40,12 @@ def projectRateProject():
     if rating is None or rating < 1 or rating > 5:
         return jsonify({'message': 'Rating must be between 1 and 5'}), 409
     
-    project = Projects.get_project_by_id(projectId=projectId)
-    if project is None:
-        return jsonify({"error": "Project does not exist"}), 409
-    
     professional = Professional.get_professional_by_id(professionalId=professionalId)
     if professional is None:
         return jsonify({"error": "Professional User does not exist"}), 409
+    project = Projects.get_project_by_id(projectId=projectId)
+    if project is None:
+        return jsonify({"error": "Project does not exist"}), 409
     
     # check if professional is in this project
     stat = 0
@@ -56,7 +55,7 @@ def projectRateProject():
     if stat == 0:
         return jsonify({"error": "Professional User is not in this project"}), 409
     
-    if project.projectStatus == "incomplete":
+    if project.projectStatus == "Active":
         return jsonify({"error": "Project is not yet complete"}), 409
 
     # generate random unique ratingsId
@@ -105,6 +104,10 @@ def projectRateProfessional():
     if rating is None or rating < 1 or rating > 5:
         return jsonify({'message': 'Rating must be between 1 and 5'}), 409
     
+    professional = Professional.get_professional_by_id(professionalId=professionalId)
+    if professional is None:
+        return jsonify({"error": "Professional User does not exist"}), 409
+    
     project = Projects.get_project_by_id(projectId)
     if project is None:
         return jsonify({"error": "Project does not exist"}), 409
@@ -120,7 +123,7 @@ def projectRateProfessional():
     
     professional = Professional.get_professional_by_id(professionalId)
     
-    if project.projectStatus == "incomplete":
+    if project.projectStatus == "Active":
         return jsonify({"error": "Project is not yet complete"}), 409
     
     # generate random unique ratingsId
@@ -160,7 +163,10 @@ def professionalAchievement():
     professional = Professional.get_professional_by_id(professionalId)
     
     if not professional:
-        return jsonify({"error": "Professional not found"}), 404
+        return jsonify({"error": "Professional User does not exist"}), 409
+    
+    if len(professional.listOfProfessionalRatings) == 0:
+        return jsonify({"avg_rating": 'null', "listOfRatingId":[]}), 200
     
     sum_rating = 0
     listOfRatingId = []
@@ -169,8 +175,6 @@ def professionalAchievement():
         rating = dict["professionalRating"]
         sum_rating += rating
         listOfRatingId.append(dict["professionalRatingId"])
-    
-    if len(professional.listOfProfessionalRatings) == 0:
-        return jsonify({"avg_rating": 'null'}, {"listOfRatingId":listOfRatingId}), 200
+
     avg_rating = round(sum_rating/len(professional.listOfProfessionalRatings),1)
     return jsonify({"avg_rating": avg_rating}, {"listOfRatingId":listOfRatingId}), 200

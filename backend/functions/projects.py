@@ -100,8 +100,8 @@ RETURN {
 '''
 @app.route('/project/list', methods=['GET'])
 def projectList():
-    id_str = request.args.get('id')
-    status = request.args.get('status')
+    id_str = request.args.get("id")
+    status = request.args.get("status")
     
     if not id_str:
         return jsonify({"error": "Missing 'id' parameter"}), 400
@@ -140,9 +140,8 @@ def projectList():
                 if any(int(app["professionalId"]) == int(id) for app in applicants):
                     filtered_projects.append(project)
 
-        projects = filtered_projects
-        print("sdfsd ")
-        print(projects)
+    else:
+        return jsonify({"error": "User does not exist"}), 409
        
     if not projects:
         return jsonify([]), 200
@@ -369,7 +368,7 @@ def projectProfessionalApply():
     projectId = data.get("projectId")
     
     if professional_exists(professionalId) is None:
-        return jsonify({"error: Professional does not exist"}), 407
+        return jsonify({"error": "Professional does not exist"}), 409
     
     project = Projects.get_project_by_id(projectId)
     if project is None: 
@@ -454,15 +453,15 @@ def projectCompanyApprove():
     for professionalId in professionalIds:
         professional = Projects.get_professional_by_id(professionalId)
         if professional is None:
-            return jsonify({"error": "Professional {professionalId} does not exist"}), 409
+            return jsonify({"error": "Professional does not exist"}), 409
         
         # Checks if the professional has already been approved
         if any(applicant['professionalId'] == professionalId for applicant in project.listOfProfessionals):
-            return jsonify({"error": "Professional {professionalId} already approved"}), 406
+            return jsonify({"error": "Professional already approved"}), 406
 
         # Check if the professional is not an applicant
         if not any(applicant['professionalId'] == professionalId for applicant in project.listOfApplicants):
-            return jsonify({"error": "Professional {professionalId} not an applicant"}), 405
+            return jsonify({"error": "Professional not an applicant"}), 405
         
         project.remove_from_list(professionalId, "listOfApplicants")
         project.add_to_list(professionalId, "listOfProfessionals", "Approved")
@@ -490,16 +489,25 @@ def projectCompanyReject():
     professionalIds = data.get("professionalIds")
     projectId = data.get("projectId")
     
+    for professionalId in professionalIds:
+        professional = Projects.get_professional_by_id(professionalId)
+        if professional is None:
+            return jsonify({"error": "Professional does not exist"}), 409
+    
     project = Projects.get_project_by_id(projectId)
     if project is None:
         return jsonify({"error": "Project does not exist"}), 409
+    
+    # Check if the professional is not an applicant
+    if not any(applicant['professionalId'] == professionalId for applicant in project.listOfApplicants):
+        return jsonify({"error": "Professional not an applicant"}), 405
     
     new_status = "Rejected"
 
     for professionalId in professionalIds:
         result = project.set_status(professionalId, new_status)
         if not result:
-            return jsonify({"error": "Could not set status for professional with id {professionalId}"}), 404
+            return jsonify({"error": f"Could not set status for professional with id {professionalId}"}), 404
     
     return jsonify({"success": f"Status updated to {new_status}"}), 200
 
@@ -617,9 +625,6 @@ def projectProfessionalList():
         professional_list.append({
             "professionalId": professional.professionalId,
             "professionalEmail": professional.professionalEmail,
-            "professionalSkills": professional.professionalSkills,
-            "professionalPhoneNumber": professional.professionalPhoneNumber,
-            "professionalFullName": professional.professionalFullName
         })
     
     return jsonify(professional_list), 200
