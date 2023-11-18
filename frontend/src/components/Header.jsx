@@ -21,6 +21,11 @@ import decodeJWT from "../decodeJWT";
 import { apiGet } from '../api';
 import { useHeader } from '../context/HeaderContext';
 
+const dividerStyle = {
+    borderLeft: '1px solid #628388',
+    margin: '15px'
+};
+
 function Header() {
     console.log("Render Header")
     const navigate = useNavigate();
@@ -134,6 +139,7 @@ function Header() {
             <Typography
                 variant="h6"
                 onClick={() => { navigate('/') }}
+                sx={{cursor:'pointer'}}
             >
                <b> ProJector.</b>
             </Typography>
@@ -141,11 +147,32 @@ function Header() {
             <>
             <Box>
                 {
-                    userType != null && token ? <Button name="dashboard" color="inherit" onClick={() => { navigate('/dashboard') }} sx={{ textTransform: 'none' }}>Dashboard</Button>
+                    userType != null && token ? <>
+                    <Button name="dashboard" color="inherit" onClick={() => { navigate('/dashboard') }} 
+                    sx={{ textTransform: 'none',
+                        '&:hover': {
+                          color: '#f78e5b',
+                          transform: 'scale(1.2)',
+                        },
+                    }}>
+                        Dashboard
+                    </Button>
+                    <span style={dividerStyle}> </span></>
                     : <></>
                 }
-                <Button name="allProjects" color="inherit" onClick={() => { navigate('/allprojects') }} sx={{ textTransform: 'none' }}>Browse Projects</Button>
-                <Button name="aboutus" color="inherit" onClick={() => { navigate('/aboutus') }} sx={{ textTransform: 'none' }}>About Us</Button>
+                <Button name="allProjects" color="inherit" onClick={() => { navigate('/allprojects') }} sx={{ textTransform: 'none',
+                        '&:hover': {
+                          color: '#f78e5b',
+                          transform: 'scale(1.2)',
+                        },
+                    }}>Browse Projects</Button>
+                <span style={dividerStyle}> </span> 
+                <Button name="aboutus" color="inherit" onClick={() => { navigate('/aboutus') }} sx={{ textTransform: 'none',
+                        '&:hover': {
+                          color: '#f78e5b',
+                          transform: 'scale(1.2)',
+                        },
+                    }}>About Us</Button>
                 {/* <Button name="editprofessionalprofile" color="inherit" onClick={() => { navigate('editprofessionalprofile') }} sx={{ textTransform: 'none' }}>Edit Professional Profile</Button>
                 <Button name="editcompanyprofile" color="inherit" onClick={() => { navigate('editcompanyprofile') }} sx={{ textTransform: 'none' }}>Edit Company Profile</Button> */}
             </Box>
