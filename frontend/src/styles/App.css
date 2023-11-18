@@ -4,8 +4,6 @@
 }
 
 html {
-  /* min-width: 310px; */
-  /* background: #ff0000; */
   min-height:100vh;
 }
 
@@ -30,5 +28,3 @@ body {
   display: flex;
   flex-flow: column;
 }
-
-/* history-polish-097: temporary visual token refinement for the frontend visual polish surface; kept isolated so this historical commit has a reviewable diff. */

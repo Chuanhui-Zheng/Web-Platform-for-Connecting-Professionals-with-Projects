@@ -23,7 +23,7 @@ def editCompany():
     company.set_company_password(password)
     company.set_company_details(name, phone, website, description, logo)
 
-    return { "message": "hello" }, 200
+    return { "success": "Company details updated" }, 200
 
 
 @app.route('/edit/professional', methods=['PUT'])
@@ -49,7 +49,7 @@ def editProfessional():
     professional.set_professional_details(name, website, number, description, qualification, education, skills, photo)
     professional.set_professional_password(password)
 
-    return { "message": "asdfasdf", "password":password}, 200
+    return { "success": "Professional details updated" }, 200
 
 @app.route('/edit/project', methods=['PUT']) #tested
 def editProject():
@@ -63,4 +63,4 @@ def editProject():
     
     project.edit_project_details(data)
     
-    return jsonify({"updated": "professional details"}), 200
+    return jsonify({"success": "Project details updated"}), 200

@@ -12,7 +12,6 @@ import IconButton from '@mui/material/IconButton';
 import ListItem from '@mui/material/ListItem';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import Avatar from '@mui/material/Avatar';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -30,7 +29,6 @@ import decodeJWT from '../decodeJWT';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import VisuallyHiddenInput from "../components/VisuallyHiddenInput";
 import { fileToDataUrl } from '../helpers';
-import CustomisedRating from './CustomisedRating'; 
 import StarIcon from '@mui/icons-material/Star';
 import PaginationCards from './Pagination';
 import SnackbarAlert from './SnackbarAlert';
@@ -39,11 +37,11 @@ import ProjectApplicantList from './ProjectProfessionalList';
 import DialogContent from '@mui/material/DialogContent';
 import DynamicFormDialog from './FormDialog';
 import { useProject } from '../context/ProjectContext';
-import LinearProgress from '@mui/material/LinearProgress';
 import ErrorPopup from './ErrorPopup';
-
 import presentationscreen from '../assets/presentationscreen2.png';
-// Style compontents
+import PropTypes from 'prop-types';
+
+// Style components
 const headerStyle = {
   display: 'flex',
   alignItems: 'flex-end',
@@ -61,10 +59,6 @@ const secondaryStyle = {
 
 const imgStyle = {
   position:'absolute',
-  // top: '10',
-  // bottom: '',
-  // top: '40%',
-  // left: '10%',
 };
 
 const StyledChip = styled(Chip)({
@@ -79,7 +73,15 @@ const statusCompOptions = ['Active', 'Completed'];
 const statusProfOptions = ['Apply', 'Pending', 'Approved', 'Complete'];
 
 
-
+/**
+ * 
+ * @param {*} param0 
+ * @returns 
+ * Component that the details of a project
+ * This contins the project name, company, category, date range, location
+ * number of people, skills, status buttons, description, responsibilities
+ * objectives, contact and reviews
+ */
 
 export default function ProjectDetailWindow({ projectID }) {
   const navigate = useNavigate();
@@ -120,23 +122,17 @@ export default function ProjectDetailWindow({ projectID }) {
       const tokenData = decodeJWT(glob);
       setUserId(tokenData.userId)
       setUserType(tokenData.userType)
-      console.log(tokenData.userType)
     
     if (projectID) {
       setIsLoading(true);
-      console.log(projectID)
       apiGet("/project/details", `projectId=${projectID}`)
       .then((data) => {
-        console.log(data);
         if (!data.error) {
           setProjectInfo(data);
           setSkills(data.projectSkills)
           if (data.projectStatus === "Complete") {
             setIsCompleted(true)
           }
-          console.log("details:", data)
-          console.log("details:", data.listOfApplicants)
-          
           setSelectedIndex2(0)
 
           // STATUS: check if professional has applied
@@ -168,7 +164,6 @@ export default function ProjectDetailWindow({ projectID }) {
       .catch((err) => {
           setErrorMessage(err)
           toggleError()
-          // alert(err);
           console.error("Failed to fetch project:", err);
       }).finally(() => setIsLoading(false));
     }
@@ -178,14 +173,12 @@ export default function ProjectDetailWindow({ projectID }) {
 
     const handleMenuItemClick = (event, index) => {
       setSelectedIndex(index);
-      console.log(event)
       if (index == 1) {
         // complete project
         const projectId = projectID;
         apiPut("/project/company/complete", {projectId})
         .then((data) =>{
           if (!data.error) {
-            console.log(data)
             triggerProjectUpdate();
           } else {
             throw new Error("Project Complete Failed");
@@ -219,7 +212,6 @@ export default function ProjectDetailWindow({ projectID }) {
       apiPost("/project/professional/apply", { professionalId, projectId })
         .then((data) => {
           if (!data.error) {
-            console.log(data);
             setSnackBarMessage('Successfully applied to project')
             setShowSnackbar(true);
           } else {
@@ -237,7 +229,6 @@ export default function ProjectDetailWindow({ projectID }) {
       apiPost("/project/professional/leave", { professionalId, projectId })
         .then((data) => {
           if (!data.error) {
-            console.log(data);
           } else {
             throw new Error("Project leave Failed");
           }
@@ -296,7 +287,6 @@ export default function ProjectDetailWindow({ projectID }) {
   
   const companybuttons = [
     <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={handleOpenDialog}>Edit Project</Button>,
-    // <Button key="company-status">Project Status</Button>,`/profile/:${tokenData.userId}`
     <Button
       sx={{backgroundColor: "#21b6ae"}}
       key="companyStatus"
@@ -310,21 +300,19 @@ export default function ProjectDetailWindow({ projectID }) {
     >
       {statusCompOptions[selectedIndex]}<ArrowDropDownIcon />
     </Button>,
-    // <Button key="RateProjectBtn" sx={{ backgroundColor: "orange" }} onClick={() => navigate(`/project/${projectID}/rate`)}>Rate Project</Button>
-
   ];
   
   const professionalButtons = [
     <Button key="status" sx={{backgroundColor: "#21b6ae"}} onClick={handleApply}>{statusProfOptions[selectedIndex2]}</Button>
-    // <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={() => navigate(`/project/${projectID}/rate`)}>Rate Project</Button>
   ];
   
+  // check if project has been selected
   if (!projectInfo) {
     return (
       <Box sx={{width: '100%', height: '100%', background:'rgba(255,255,255, 0.3)', boxShadow: '0 4px 6px rgba(0,0,0,0.1)',border:'1px solid #fff' , borderRadius:'20px'}}><Box sx={{display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        height: '100vh', // Full viewport height
+        height: '100vh',
         textAlign: 'center', position: 'relative'}}>
         <img src={presentationscreen} style={imgStyle} />
         <Typography variant="h6" color="black" component="h1" position="relative" gutterBottom>
@@ -334,6 +322,7 @@ export default function ProjectDetailWindow({ projectID }) {
     );
   }
   
+  // check for projects all loaded
   if (isLoading) {
     return (
       <LoadingPage />
@@ -342,17 +331,18 @@ export default function ProjectDetailWindow({ projectID }) {
 
   return (
     <Box sx={{ width: '100%', bgcolor: '#F5F5F5', borderRadius: '20px' }}>
-
-
       <Box component="main" sx={{ flexGrow: 1, p: 3, width: '100%' }}>
         <div style={headerStyle}>
-          {/* <Avatar sx={{ width: 50, height: 50, mr:2 }} /> */}
           <Typography variant="h4" component="h1">
             <b>{projectInfo.projectName}</b>
           </Typography>
-          <Typography variant="h5" sx={{ fontWeight: '550', pl:2, pb:0.5}}>{projectInfo.projectAvgRating.toFixed(1)}</Typography>
+          <Typography variant="h5" sx={{ fontWeight: '550', pl:2, pb:0.5}}>
+            {projectInfo.projectAvgRating.toFixed(1)}
+          </Typography>
           <StarIcon sx={{ color: 'orange', fontSize: 25, mb:1, ml:0.3, mr:0.3}}></StarIcon>
-          <Typography variant="h5" sx={{ fontWeight: '350', color: 'lightgray', pb:0.5}}>({Object.keys(projectInfo.listOfProjectRatings).length})</Typography>
+          <Typography variant="h5" sx={{ fontWeight: '350', color: 'lightgray', pb:0.5}}>
+            ({Object.keys(projectInfo.listOfProjectRatings).length})
+          </Typography>
         </div>
   
         <Box style={secondaryStyle}>

@@ -7,23 +7,18 @@ import { apiPost } from "../../api";
 import { useHeader } from '../../context/HeaderContext';
 import ErrorPopup from '../../components/ErrorPopup';
 import InputAdornment from '@mui/material/InputAdornment';
-import FormHelperText from '@mui/material/FormHelperText';
-import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
 
 function Login() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: ""
   });
-
   const [errorMessage, setErrorMessage] = React.useState('');
   const [error, setError] = React.useState(false);
-
-  const navigate = useNavigate();
-  const [refresh, setRefresh] = React.useState(false);
   const { triggerHeaderUpdate } = useHeader();
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -61,7 +56,6 @@ function Login() {
         console.log("API response:", data); // Log the API response
         if (!data.error) {
           localStorage.setItem("token", data.token);
-          setRefresh((prev) => !prev);
           triggerHeaderUpdate();
           navigate("/dashboard");
         } else {

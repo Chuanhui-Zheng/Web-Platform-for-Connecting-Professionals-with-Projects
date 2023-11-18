@@ -1,6 +1,11 @@
 import { Typography, Box, List, ListItem, ListItemText, ListItemIcon } from "@mui/material";
-import CircleIcon from '@mui/icons-material/Circle'; // Import the dot icon
+import CircleIcon from '@mui/icons-material/Circle';
 
+/**
+ * 
+ * @returns 
+ * Compoent for registration error message.
+ */
 function RegistrationErrorMessage() {
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -10,13 +15,13 @@ function RegistrationErrorMessage() {
       <List>
         <ListItem>
           <ListItemIcon>
-            <CircleIcon sx={{ color: "red", fontSize: 8 }} /> {/* Small red dot */}
+            <CircleIcon sx={{ color: "red", fontSize: 8 }} />
           </ListItemIcon>
           <ListItemText primary="Must be a valid email" sx={{ color: "red" }} />
         </ListItem>
         <ListItem>
           <ListItemIcon>
-            <CircleIcon sx={{ color: "red", fontSize: 8 }} /> {/* Small red dot */}
+            <CircleIcon sx={{ color: "red", fontSize: 8 }} />
           </ListItemIcon>
           <ListItemText primary="Password must be at least 8 characters long with at least 1 upper case and at least 1 lower case character" sx={{ color: "red" }} />
         </ListItem>

@@ -30,6 +30,13 @@ const adminColumns = [
   { field: "adminEmail", headerName: "Email", flex: 1, minWidth: 100 },
 ];
 
+/**
+ * Dashboard for admins that includes multiple data tables of various users.
+ * It has 3 DataTables to show administrative information about professionals,
+ * companies and admins. It also has functionality to create another admin.
+ * 
+ * @returns 
+ */
 export default function AdminDashboard() {
   const [companyRows, setCompanyRows] = useState([]);
   const [professionalRows, setProfessionalRows] = useState([]);
@@ -40,7 +47,7 @@ export default function AdminDashboard() {
   const [createAdminOpen, setCreateAdminOpen] = useState(false);
   const [error, setError] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState('');
-  const [adminId, setAdminId] = useState(
+  const [adminId] = useState(
     decodeJWT(localStorage.getItem("token")).userId
   );
   const [createAdminDetails, setCreateAdminDetails] = useState({
@@ -302,9 +309,7 @@ export default function AdminDashboard() {
                 </Button>
               </>
             }
-          >
-  
-          </JEMMADialog>
+          />
         }
       </Box>
       {error && <ErrorPopup message={errorMessage} toggleError={toggleError}/>}

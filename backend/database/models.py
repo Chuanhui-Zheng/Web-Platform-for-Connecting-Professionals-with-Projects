@@ -223,6 +223,7 @@ class Admin(db.Model):
         
 class Projects(db.Model):
     __tablename__ = 'projects'
+    name = db.Column(db.String(), primary_key=True, default="projects")
     projectId = db.Column(db.String(), primary_key=True, default=create_id)
     pCompanyId = db.Column(db.String(), default="")
     projectName = db.Column(db.String(), default="")

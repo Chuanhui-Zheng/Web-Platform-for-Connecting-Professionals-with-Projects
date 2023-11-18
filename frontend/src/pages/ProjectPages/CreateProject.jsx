@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, TextField } from '@mui/material';
 import '../../styles/Company/CreateProject.css'
@@ -7,13 +6,14 @@ import MultipleSelectChip from '../../components/MultiSelect';
 import MultipleSelectCategoryChip from '../../components/MultiCategorySelect';
 import decodeJWT from "../../decodeJWT";
 import { useDashboard } from '../../context/DashboardContext';
+import { useNavigate } from 'react-router-dom';
 
-import {
-  useNavigate,
-} from 'react-router-dom';
-
-const CreateProject = (props) => {
-  console.log("create project page")
+/**
+ * 
+ * @returns 
+ * Create project page that allows company user to create a project
+ */
+const CreateProject = () => {
   const [projectName, setNewProjectName] = React.useState('');
   const [contactEmail, setNewContactEmail] = React.useState('');
   const [categories, setNewCategories] = React.useState([]);
@@ -26,19 +26,20 @@ const CreateProject = (props) => {
   const [projectDescription, setNewProjectDescription] = React.useState('');
   const [objectives, setNewObjectives] = React.useState('');
   const [confidentialInformation, setNewConfidentialInformation] = React.useState('');
-
   const navigate = useNavigate();
   const [ownUserId, setOwnUserId] = React.useState('');
   const { triggerDashboardUpdate } = useDashboard();
 
+  // Get userId
   React.useEffect(() => {
     const getToken = localStorage.getItem("token");
     if (getToken != null) {
-			const tokenData = decodeJWT(getToken);
-			setOwnUserId(tokenData.userId);
+        const tokenData = decodeJWT(getToken);
+        setOwnUserId(tokenData.userId);
     }
   }, []);
 
+  // Call create project api
   const handleSubmit = async (e) => {
     e.preventDefault();
     apiPost("/project/create", {
@@ -68,10 +69,12 @@ const CreateProject = (props) => {
     navigate('/dashboard', {state:{showSnackBar: true, message: 'Successfully created project'}})
   }
 
+	// Handle skills input
   const handleSkillsChange = (value) => {
     setNewSkills(typeof value === 'string' ? value.split(',') : value,)
   }
 
+	// Handle categories input
   const handleCategoriesChange = (value) => {
     setNewCategories(typeof value === 'string' ? value.split(',') : value,)
   }
@@ -126,10 +129,6 @@ const CreateProject = (props) => {
     </div>
     </>
   );
-}
-
-CreateProject.propTypes = {
-  token: PropTypes.string,
 }
 
 export default CreateProject;

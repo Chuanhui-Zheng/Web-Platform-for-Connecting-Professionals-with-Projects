@@ -1,9 +1,5 @@
-import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
-
 import Header from './components/Header';
-
-
 import Login from "./pages/Auth/Login"
 import Register from "./pages/Auth/Register"
 import Home from "./pages/Home"
@@ -13,13 +9,11 @@ import NotFound from "./pages/ErrorPages/NotFound"
 import CreateProject from './pages/ProjectPages/CreateProject';
 import ProjectDetail from './pages/ProjectPages/ProjectDetail';
 import ProfilePage from './pages/ProfilePages/ProfilePage';
-import RateProfessional from './pages/RatingPages/RateProfessional';
 import Dashboard from './pages/Dashboard/Dashboard';
 import ReviewPage from "./pages/RatingPages/ReviewPage";
 import { PageContainer } from '@toolpad/core/PageContainer';
 import './styles/App.css';
-import { createGlobalStyle } from 'styled-components';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme({  
   typography: {
@@ -38,10 +32,15 @@ function RegisterAndLogout() {
     return <Register />
 }
 
+/**
+ * App component for Projector platform.
+ * 
+ * @returns 
+ */
 function App() {
   return (
     <ThemeProvider theme={theme}>
-    <BrowserRouter>
+      <BrowserRouter>
         <Header />
         <PageContainer 
           className="container" 
@@ -52,8 +51,7 @@ function App() {
             margin: "0px", 
             paddingRight: { xs: "16px", sm: "25px", md: "60px" }, 
             paddingLeft: { xs: "16px", sm: "25px", md: "60px" },
-            paddingTop: { xs: "16px", sm: "25px", md: "60px" },
-            // backgroundColor: "white"
+            paddingTop: { xs: "100px", sm: "60px", md: "60px" },
           }}
         >
           <Routes>
@@ -69,10 +67,9 @@ function App() {
             <Route path="/profile/:userId" element={<ProfilePage />} />
             <Route path="/projectdetail/:projectID" element={<ProjectDetail />} />
             <Route path="/project/:projectId/rate" element={<ReviewPage />} />
-            {/* <Route path="/project/rate" element={<RateProfessional />} /> */}
           </Routes>
         </PageContainer>
-    </BrowserRouter>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }

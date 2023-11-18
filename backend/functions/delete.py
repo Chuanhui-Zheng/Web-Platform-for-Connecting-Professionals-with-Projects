@@ -9,6 +9,9 @@ def deleteProfessionals():
     userId = data.get("userId")
     professionalIds = data.get("professionalIds")
 
+    if professionalIds is None:
+        return jsonify({"error": "No professionalIds provided"}), 400
+    
     # If empty list, return nothing
     if len(professionalIds) == 0:
         return
@@ -43,6 +46,9 @@ def deleteCompanies():
     data = request.get_json()
     userId = data.get("userId")
     companyIds = data.get("companyIds")
+    
+    if companyIds is None:
+        return jsonify({"error": "No companyIds provided"}), 400
 
     # If empty list, return nothing
     if len(companyIds) == 0:
@@ -78,6 +84,9 @@ def deleteAdmins():
     adminId = data.get("adminId")
     deleteAdminIds = data.get("deleteAdminIds")
 
+    if deleteAdminIds is None:
+        return jsonify({"error": "No deleteAdminIds provided"}), 400
+    
     # If empty list, return nothing
     if len(deleteAdminIds) == 0:
         return

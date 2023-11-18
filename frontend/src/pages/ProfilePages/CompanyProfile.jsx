@@ -1,24 +1,30 @@
 import * as React from 'react';
 import ProfileHeader from "../../components/ProfileHeader";
 import styles from "../../styles/Professional/ProfessionalProfile.module.css"
-import ProjectCard1 from "../../components/ProjectCard1";
+import ProjectCard1 from "../../components/DashboardCard";
 import { Box, Typography } from '@mui/material';
 import { apiGet } from '../../api';
 import decodeJWT from "../../decodeJWT";
 import { getProjects } from '../../helpers';
 import Grid from '@mui/material/Grid2';
-
 import { useProfile } from '../../context/ProfileContext';
+import PropTypes from 'prop-types';
 
+/**
+ * 
+ * @param {*} param0 
+ * @returns 
+ * Company profile page that shows all the details of a company
+ */
 const CompanyProfile = ({userId}) => {
 	const [userType, setUserType] = React.useState('');
 	const [ownUserId, setOwnUserId] = React.useState('');
 	const [ownProfile, setOwnProfile] = React.useState(true);
 	const [projects, setProjects] = React.useState([]);
-
 	const [companyDescription, setNewCompanyDescription] = React.useState(true);
 	const reloadProfile = useProfile();
 
+  // Check if viewing own profile
 	React.useEffect(() => {
 		const getToken = localStorage.getItem("token");
 		if (getToken != null) {
@@ -31,6 +37,7 @@ const CompanyProfile = ({userId}) => {
 		}
 	}, []);
 
+	// Get profile details
 	React.useEffect(() => {
 		if (ownUserId && userType) {
 				
@@ -78,6 +85,10 @@ const CompanyProfile = ({userId}) => {
 			</Box>
 		</>
 	);
+}
+
+CompanyProfile.propTypes = {
+    userId: PropTypes.string,
 }
 
 export default CompanyProfile;
