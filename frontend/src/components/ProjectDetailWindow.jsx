@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { apiGet, apiPut, apiPost  } from '../api';
 import { styled } from '@mui/material/styles';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import List from '@mui/material/List';
-import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import ListItem from '@mui/material/ListItem';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import DateRangeIcon from '@mui/icons-material/DateRange';
@@ -23,7 +19,6 @@ import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
-import AppBar from '@mui/material/AppBar';
 import Chip from '@mui/material/Chip';
 import decodeJWT from '../decodeJWT';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -39,7 +34,6 @@ import DynamicFormDialog from './FormDialog';
 import { useProject } from '../context/ProjectContext';
 import ErrorPopup from './ErrorPopup';
 import presentationscreen from '../assets/presentationscreen2.png';
-import PropTypes from 'prop-types';
 
 // Style components
 const headerStyle = {
@@ -48,7 +42,8 @@ const headerStyle = {
   margin: '0px',
   padding: '10px 30px'
 };
-  
+
+// Styled components
 const secondaryStyle = {
   display: 'flex',
   justifyContent: 'space-between',
@@ -56,11 +51,12 @@ const secondaryStyle = {
   margin: '0px',
   padding: '0px 30px'
 };
-
+// Styled components
 const imgStyle = {
   position:'absolute',
 };
 
+// Styled components
 const StyledChip = styled(Chip)({
   margin: "4px",
   "&:hover": {
@@ -107,22 +103,34 @@ export default function ProjectDetailWindow({ projectID }) {
   const [error, setError] = React.useState(false);
   const { triggerProjectUpdate } = useProject();
 
+  /**
+   * Function to toggle the error status to show a popup.
+   */
   const toggleError = () => {
     setError(!error);
   }
 
+  /**
+   * Function to toggle the snackbar status to show a snackbar
+   */
   const toggleSnackbar = () => {
       setShowSnackbar(!showSnackBar)
   }
 
+  /**
+   * Use effect to get a projects details depending on the permissions of a user.
+   */
   useEffect(() => {
     const glob = localStorage.getItem('token');
     setToken(glob);
+
+    // Sets the user type
     if (glob != null) {
       const tokenData = decodeJWT(glob);
       setUserId(tokenData.userId)
       setUserType(tokenData.userType)
     
+    // If projectId is valid we load the project.
     if (projectID) {
       setIsLoading(true);
       apiGet("/project/details", `projectId=${projectID}`)
@@ -170,45 +178,64 @@ export default function ProjectDetailWindow({ projectID }) {
     }
   }, [projectID, reloadProject]); // Refetch details every time the project ID changes
 
+  /**
+   * 
+   * @param {*} event 
+   * @param {*} index 
+   * 
+   * Function to change the status of a project used by a company to change the status to complete
+   */
+  const handleMenuItemClick = (event, index) => {
+    setSelectedIndex(index);
+    if (index == 1) {
+      // complete project
+      const projectId = projectID;
+      apiPut("/project/company/complete", {projectId})
+      .then((data) =>{
+        if (!data.error) {
+          triggerProjectUpdate();
+        } else {
+          throw new Error("Project Complete Failed");
+        }
+      })
+      .catch((err) => {
+        setErrorMessage("Project Complete are not valid.");
+        toggleError();
+        return
+      });
+    }
+    setOpen(false);
+  };
 
-    const handleMenuItemClick = (event, index) => {
-      setSelectedIndex(index);
-      if (index == 1) {
-        // complete project
-        const projectId = projectID;
-        apiPut("/project/company/complete", {projectId})
-        .then((data) =>{
-          if (!data.error) {
-            triggerProjectUpdate();
-          } else {
-            throw new Error("Project Complete Failed");
-          }
-        })
-        .catch((err) => {
-          // alert("Project Complete are not valid.", err)
-          setErrorMessage("Project Complete are not valid.");
-          toggleError();
-          return
-        });
-      }
-      setOpen(false);
-    };
+  /**
+   * Function to toggle the status of a project.
+   */
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
 
-    const handleToggle = () => {
-      setOpen((prevOpen) => !prevOpen);
-    };
+  /**
+   * 
+   * @param {*} event 
+   * @returns 
+   * 
+   * Function to close the event on click away.
+   */
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+  };
 
-    const handleClose = (event) => {
-      if (anchorRef.current && anchorRef.current.contains(event.target)) {
-        return;
-      }
-    };
-
+  /**
+   * Function to handle a professional applying or leave a project.
+   */
   const handleApply = () => {
     const professionalId = userId;
     const projectId = projectID;
     if (selectedIndex === 0) {
       setSelectedIndex2(1);
+      // Calls the apply api to let a professional apply.
       apiPost("/project/professional/apply", { professionalId, projectId })
         .then((data) => {
           if (!data.error) {
@@ -222,9 +249,9 @@ export default function ProjectDetailWindow({ projectID }) {
           setErrorMessage("Already applied to project.");
           toggleError();
           return
-          // alert("Project Apply are not valid.", err);
         });
     } else {
+      // If a professional wants to leave calls the leave API.
       setSelectedIndex2(0);
       apiPost("/project/professional/leave", { professionalId, projectId })
         .then((data) => {
@@ -237,12 +264,14 @@ export default function ProjectDetailWindow({ projectID }) {
           setErrorMessage("Project leave are not valid.");
           toggleError();
           return
-          // alert("Project leave are not valid.", err);
         });
     }
   };
   
-  // Handle File upload for certificate
+  /**
+   * Handle File upload for certificate
+   * 
+   */ 
   const handleFileChange = (event) => {
     const file = event.target.files[0]; 
     fileToDataUrl(file).then((dataUrl) => {
@@ -252,7 +281,9 @@ export default function ProjectDetailWindow({ projectID }) {
     });
   };
   
-  // Handle certificate upload api
+  /**
+   * Handle certificatite upload API
+   */
   useEffect(() => {
     if (certificate) {
       apiPost("/giveCertificate", {
@@ -277,13 +308,19 @@ export default function ProjectDetailWindow({ projectID }) {
     }
   }, [certificate]);
 
+  /**
+   * Function to open dialog for editing a project
+   */
   const handleOpenDialog = () => {
     setIsDialogOpen(true);
   };
 
-    const handleCloseDialog = () => {
-        setIsDialogOpen(false);
-    };
+  /**
+   * Function to close dialog for editing a project.
+   */
+  const handleCloseDialog = () => {
+      setIsDialogOpen(false);
+  };
   
   const companybuttons = [
     <Button key="EditProjectBtn" sx={{backgroundColor: "orange"}} onClick={handleOpenDialog}>Edit Project</Button>,
@@ -302,6 +339,9 @@ export default function ProjectDetailWindow({ projectID }) {
     </Button>,
   ];
   
+  /**
+   * Button only for professionals to apply to a project
+   */
   const professionalButtons = [
     <Button key="status" sx={{backgroundColor: "#21b6ae"}} onClick={handleApply}>{statusProfOptions[selectedIndex2]}</Button>
   ];
@@ -431,69 +471,56 @@ export default function ProjectDetailWindow({ projectID }) {
         </Box>
         <DialogContent dividers>
         {userId === projectInfo.pCompanyId && !isCompleted ? 
-        <Box>
-          <Typography variant="h5" component="h2" gutterBottom>
-              Applicant List
-            </Typography>
-            
-          <ProjectApplicantList projectId={projectID} listType={'applicant'} toggleSnackbar={toggleSnackbar} setSnackBarMessage={setSnackBarMessage}/><br></br>
-        </Box> :<Box></Box>}
+          <Box>
+            <Typography variant="h5" component="h2" gutterBottom>
+                Applicant List
+              </Typography>
+              
+            <ProjectApplicantList projectId={projectID} listType={'applicant'} toggleSnackbar={toggleSnackbar} setSnackBarMessage={setSnackBarMessage}/><br></br>
+          </Box> :<Box></Box>
+        }
         {approved === true || (userType === 'company' && userId === projectInfo.pCompanyId) ? (
           <Box>
-          <Typography variant="h5" component="h2" gutterBottom>
-            Meet the Team
-          </Typography>
-          {/* <Box mb={8}>Currently No Members</Box> */}
-          <ProjectApplicantList projectId={projectID} listType={'professionals'}/><br></br>
-          <Box sx={{ width: '100%', bgcolor: '#E7CCCC', padding:'15px',margin:'20px 0px', borderRadius: '20px' }}> 
             <Typography variant="h5" component="h2" gutterBottom>
-              Confidential Information
+              Meet the Team
             </Typography>
-            <Typography color='text.secondary' sx={{ marginBottom: 2 }}>
-              {projectInfo.projectConfidentialInformation}
-            </Typography>
+            <ProjectApplicantList projectId={projectID} listType={'professionals'}/><br></br>
+            <Box sx={{ width: '100%', bgcolor: '#E7CCCC', padding:'15px',margin:'20px 0px', borderRadius: '20px' }}> 
+              <Typography variant="h5" component="h2" gutterBottom>
+                Confidential Information
+              </Typography>
+              <Typography color='text.secondary' sx={{ marginBottom: 2 }}>
+                {projectInfo.projectConfidentialInformation}
+              </Typography>
             </Box>
           </Box>
         ) : (
           <Box></Box>
         )}
         <Box sx={{ width: '100%', bgcolor: '#F1EEDB', padding:'15px',margin:'20px 0px', borderRadius: '20px' }}> 
-        <Typography variant="h5" component="h2" gutterBottom>
-          Project Description
-        </Typography>
-        <Typography color='text.secondary' sx={{ marginBottom: 2 }}>
-          {projectInfo.projectDescription}
-        </Typography>
+          <Typography variant="h5" component="h2" gutterBottom>
+            Project Description
+          </Typography>
+          <Typography color='text.secondary' sx={{ marginBottom: 2 }}>
+            {projectInfo.projectDescription}
+          </Typography>
         </Box>
         <Box sx={{ width: '100%', bgcolor: '#F1EEDB', padding:'15px',margin:'20px 0px', borderRadius: '20px' }}> 
-        <Typography variant="h5" component="h2" gutterBottom>
-          Key Responsibilities
-        </Typography >
-        {/* <List sx={{ listStyleType: 'disc', padding: '10px 40px' }}> */}
-          {/* <ListItem sx={{ display: 'list-item' }}>
-          check
-        </ListItem>
-        <ListItem sx={{ display: 'list-item' }}>
-          check
-        </ListItem>
-        <ListItem sx={{ display: 'list-item' }}>
-          check
-        </ListItem> */}
-          {/* <ListItem color='text.secondary'> */}
+          <Typography variant="h5" component="h2" gutterBottom>
+            Key Responsibilities
+          </Typography >
           <Typography color='text.secondary' sx={{ marginBottom: 2 }}>
-          {projectInfo.projectKeyResponsibilities}
-        </Typography>
-          {/* </ListItem>
-        </List> */}
+            {projectInfo.projectKeyResponsibilities}
+          </Typography>
         </Box>
         <Box sx={{ width: '100%', bgcolor: '#F1EEDB', padding:'15px', margin:'20px 0px', borderRadius: '20px' }}> 
-        <Typography variant="h5" component="h2" gutterBottom>
-          Objectives
-        </Typography>
+          <Typography variant="h5" component="h2" gutterBottom>
+            Objectives
+          </Typography>
         
-        <Typography color='text.secondary' sx={{ marginBottom: 2 }}>
-          {projectInfo.projectObjectives}
-        </Typography>
+          <Typography color='text.secondary' sx={{ marginBottom: 2 }}>
+            {projectInfo.projectObjectives}
+          </Typography>
         </Box>
         <Typography variant="h5" component="h2" gutterBottom>
           Contact: {projectInfo.contactEmail}
@@ -501,19 +528,17 @@ export default function ProjectDetailWindow({ projectID }) {
         <br></br>
         <Divider />
         <br></br>
-        {/* REVIEWS IMPLEMENTED HERE */}
         <Typography variant="h5" component="h2" gutterBottom>Reviews</Typography>
         <PaginationCards reviews={projectInfo.listOfProjectRatings} type="project"></PaginationCards>
         </DialogContent>
-        {/* EDIT PROJECT FORM DIALOG HERE */}
         <DynamicFormDialog
-            open={isDialogOpen}
-            onClose={handleCloseDialog}
-            userId={projectID}
-            userType="project"
-            title={`Edit Project`}
-            snackbarToggle={toggleSnackbar}
-            snackBarMessage={setSnackBarMessage}
+          open={isDialogOpen}
+          onClose={handleCloseDialog}
+          userId={projectID}
+          userType="project"
+          title={`Edit Project`}
+          snackbarToggle={toggleSnackbar}
+          snackBarMessage={setSnackBarMessage}
         />
       </Box>
       {showSnackBar && <SnackbarAlert message={snackBarMessage} toggleSuccess={toggleSnackbar} />}
