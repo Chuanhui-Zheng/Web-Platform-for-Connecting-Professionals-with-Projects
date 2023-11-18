@@ -13,17 +13,20 @@ CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 
 
 
-'''
-PARAMETERS {
-    projectId,
-    professionalCertificate,
+"""
+giveCertificate() assigns a certificate to all professionals involved in a completed project.
+
+Takes in a JSON object:
+{
+    projectId: int,
+    professionalCertificate: string
 }
 
-RETURN {
-    dictionary of all projects
+Returns: 
+{
+    success message
 }
-
-'''
+"""
 @app.route('/giveCertificate', methods=['POST'])
 def giveCertificate():
     
@@ -58,12 +61,17 @@ def giveCertificate():
     return jsonify({"success" : "Certificate given successfully"}), 200
 
 
-'''
-Parameters (query string) {id}:
-/profile/viewCertificate?id=USERID
+"""
+viewCertificate() retrieves all certificates for a given professional.
 
+Query string parameters:
+?id=USERID
 
-'''
+Returns:
+{
+    professionalCertifications: list of certificates
+}
+"""
 @app.route('/profile/viewCertificate', methods=['GET'])
 def viewCertificate():
     idStr = request.args.get('id')

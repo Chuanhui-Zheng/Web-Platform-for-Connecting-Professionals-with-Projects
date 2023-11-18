@@ -87,11 +87,6 @@ class Company(db.Model):
     @classmethod
     def get_company_by_id(cls, companyId):
         return cls.query.filter_by(companyId=companyId).first()
-    
-    # Gets the company based on id
-    @classmethod
-    def get_company_by_id(cls, companyId):
-        return cls.query.filter_by(companyId=companyId).first()
 
     def save_company(self):
         db.session.add(self)

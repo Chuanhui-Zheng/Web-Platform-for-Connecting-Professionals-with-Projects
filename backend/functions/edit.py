@@ -5,6 +5,26 @@ from flask_jwt_extended import decode_token
 
 app = Flask(__name__)
 
+
+"""
+editCompany() updates the details of an existing company.
+
+Takes in a JSON object:
+{
+    id: string,
+    companyPassword: string,
+    companyPhoneNumber: string,
+    companyWebsite: string,
+    companyName: string,
+    companyDescription: string,
+    companyLogo: string
+}
+
+Returns:
+{
+    "success": "Company details updated"
+}
+"""
 @app.route('/edit/company', methods=['PUT'])
 def editCompany():
     data = request.get_json()
@@ -26,6 +46,28 @@ def editCompany():
     return { "success": "Company details updated" }, 200
 
 
+"""
+editProfessional() updates the details of an existing professional.
+
+Takes in a JSON object:
+{
+    id: string,
+    professionalFullName: string,
+    professionalPassword: string,
+    professionalWebsite: string,
+    professionalPhoneNumber: string,
+    professionalDescription: string,
+    professionalQualifications: list of strings,
+    professionalEducation: string,
+    professionalSkills: list of strings,
+    professionalPhoto: string
+}
+
+Returns:
+{
+    "success": "Professional details updated"
+}
+"""
 @app.route('/edit/professional', methods=['PUT'])
 def editProfessional():
 
@@ -51,6 +93,21 @@ def editProfessional():
 
     return { "success": "Professional details updated" }, 200
 
+
+"""
+editProject() updates the details of an existing project.
+
+Takes in a JSON object:
+{
+    projectId: string,
+    ...additional project details to update...
+}
+
+Returns:
+{
+    "success": "Project details updated"
+}
+"""
 @app.route('/edit/project', methods=['PUT']) #tested
 def editProject():
     data = request.get_json()

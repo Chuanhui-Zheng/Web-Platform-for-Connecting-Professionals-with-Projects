@@ -15,19 +15,23 @@ def getProjectCompany(companyId):
 def professional_exists(professionalId):
     return Projects.get_professional_by_id(professionalId)
 
-'''
-PARAMETERS {
+
+"""
+projectRateProject() allows a professional to rate a completed project.
+
+Takes in a JSON object:
+{
     userId: string (of the reviewing professional),
     projectId: string,
     projectRating: int (1-5),
     projectReview: string
 }
 
-
-RETURN {
-    projectRatingId
+Returns:
+{
+    "projectRatingId": string
 }
-'''
+"""
 @app.route('/project/professional/rateProject', methods=['POST'])
 def projectRateProject():
     data = request.get_json()
@@ -79,18 +83,22 @@ def projectRateProject():
     return jsonify({"projectRatingId": new_rating['projectRatingId']}), 200
 
 
-'''
-PARAMETERS { 
-    userId: string (of participant receiving the rating)
-    professionalRatingProjectId: string,
-    professionalRating: int,
-    professionalReview: "string (for sprint3)"
+"""
+projectRateProfessional() allows a company to rate a professional for their participation in a project.
+
+Takes in a JSON object:
+{
+    userId: string (of the professional receiving the rating),
+    projectId: string,
+    professionalRating: int (1-5),
+    professionalReview: string
 }
 
-RETURN {
-    projectRatingId
+Returns:
+{
+    "professionalRatingId": string
 }
-'''
+"""
 @app.route('/project/company/rateProfessional', methods=['POST'])
 def projectRateProfessional():
     data = request.get_json()
@@ -149,16 +157,19 @@ def projectRateProfessional():
 
     return jsonify({"professionalRatingId": new_rating['professionalRatingId']}), 200
 
-'''
-PARAMETERS { 
-    professionalId
-}
 
-RETURN {
-    avg_rating: avg_rating,
-    listOfRatingId: list of rating id's
+"""
+professionalAchievement() retrieves a professional's average rating and list of rating IDs.
+
+Parameters:
+?professionalId=PROFESSIONALID
+
+Returns:
+{
+    "avg_rating": float,
+    "listOfRatingId": list of strings
 }
-'''
+"""
 @app.route('/user/details/professional/achievement', methods=['GET'])
 def professionalAchievement():
     professionalId = request.args.get('id')

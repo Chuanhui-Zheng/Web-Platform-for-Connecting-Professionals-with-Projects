@@ -4,7 +4,6 @@ from extensions import db, jwt
 from functions.auth import authRegisterCompany, authRegisterProfessional, login, logout
 from functions.notifications import getNotifications
 from functions.filter import getCategories, getSkills, getLocations
-from functions.profiles import editCompanyProfile, editProfessionalProfile, userDetails, professionalEditProfile
 from functions.edit import editCompany, editProfessional, editProject
 from functions.user import companyDetails, professionalDetails, getUserType
 from functions.admin import allCompanies, allProfessionals, allAdmins, createAdmin
@@ -45,10 +44,6 @@ def create_app():
     app.add_url_rule('/auth/login', 'login', login, methods=['POST'])
     app.add_url_rule('/auth/logout', 'logout', logout, methods=['POST'])
     app.add_url_rule('/notifications/get', 'getNotifications', getNotifications, methods=['GET'])
-    app.add_url_rule('/editcompanyprofile', 'editCompanyProfile', editCompanyProfile, methods=['PUT'])
-    app.add_url_rule('/editProfessionalProfile', 'editProfessionalProfile', editProfessionalProfile, methods=['PUT'])
-    app.add_url_rule('/user/details', 'userDetails', userDetails, methods=['GET'])
-    app.add_url_rule('/professional/editprofile', 'professionalEditProfile', professionalEditProfile, methods=['PUT'])
     
     app.add_url_rule('/edit/company', 'editCompany', editCompany, methods=['PUT'])
     app.add_url_rule('/edit/professional', 'editProfessional', editProfessional, methods=['PUT'])
