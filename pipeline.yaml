@@ -1,0 +1,9 @@
+stages:
+  - checks
+
+frontend-lint:
+  stage: checks
+  script:
+    - cd frontend
+    - npm install
+    - npm run lint
