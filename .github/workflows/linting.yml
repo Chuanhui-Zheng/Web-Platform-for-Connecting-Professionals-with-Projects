@@ -1,17 +1,18 @@
-name: Frontend Lint
+name: Linting
 
-on:
-  push:
-    branches:
-      - '**'
-  pull_request:
-    branches:
-      - '**'
+on: [push, pull_request]
 
 jobs:
-  frontend-lint:
+  build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./frontend
+    
+    steps:
     - name: Install dependencies and lint
-      run: |
-        cd frontend
-        npm install
-        npm run lint
+        run: |
+          cd frontend
+          npm install
+          npm run lint
