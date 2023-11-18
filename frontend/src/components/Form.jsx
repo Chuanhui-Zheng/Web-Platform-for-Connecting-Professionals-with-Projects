@@ -1,12 +1,17 @@
 import "../styles/Form.css"
 import { Button, Box } from "@mui/material";
+import PropTypes from "prop-types";
 
+/**
+ * Form component for authorisation functionality.
+ * It uses for input fields and has a button at the end.
+ * 
+ * @param {*} param0 
+ * @returns 
+ */
 function Form({ buttonName, handleSubmit, children }) {
   return (
     <Box 
-      // onSubmit={handleSubmit} 
-      // className="form-container"
-      // fullWidth
       display="flex"
       flexDirection="column"
       alignItems= "center"
@@ -25,6 +30,12 @@ function Form({ buttonName, handleSubmit, children }) {
       </Button>
     </Box>
   );
-}
+};
+
+Form.propTypes = {
+  buttonName: PropTypes.string,
+  handleSubmit: PropTypes.func,
+  children: PropTypes.node
+};
 
 export default Form

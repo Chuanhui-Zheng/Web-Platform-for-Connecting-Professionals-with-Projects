@@ -7,7 +7,13 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
+import PropTypes from 'prop-types';
 
+/** 
+ * This is a component taken from Material UI to display a input field that allows
+ * users to select multiple field. used for skills on the frontend 
+ * It will then set the fields in the parent form
+ */
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -19,11 +25,19 @@ const MenuProps = {
   },
 };
 
+// skills that can be selected
 const names = [
   'Coding',
   'Other',
 ];
 
+/**
+ * 
+ * @param {*} name 
+ * @param {*} personName 
+ * @param {*} theme 
+ * @returns 
+ */
 function getStyles(name, personName, theme) {
   return {
     fontWeight: personName.includes(name)
@@ -32,16 +46,26 @@ function getStyles(name, personName, theme) {
   };
 }
 
+/**
+ * 
+ * @param {*} param0 
+ * @returns 
+ * Can only set skills 
+ */
 export default function MultipleSelectChip( { set } ) {
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
 
+  /**
+   * 
+   * @param {*} event 
+   * Handle input field change
+   */
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
     setPersonName(
-      // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
     set(value)
@@ -76,4 +100,8 @@ export default function MultipleSelectChip( { set } ) {
       </FormControl>
     </div>
   );
+}
+
+MultipleSelectChip.propTypes = {
+	set: PropTypes.func,
 }

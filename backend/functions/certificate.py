@@ -33,6 +33,12 @@ def giveCertificate():
 
     currProject = Projects.get_project_by_id(projectId=projectId)
     newId = random.randint(1, 10000000)
+    
+    if not currProject:
+        return jsonify({"error": "Project does not exist"}), 400
+    
+    if currProject.projectStatus != "Complete":
+        return jsonify({"error": "Project is not completed"}), 400
 
     professionals = currProject.listOfProfessionals
 
@@ -49,7 +55,7 @@ def giveCertificate():
                 "professionalCertificateCompanyLogo": Company.get_company_by_id(companyId=currProject.pCompanyId).companyLogo
             })
         db.session.commit()
-    return jsonify({"message" : "worked"}), 200
+    return jsonify({"success" : "Certificate given successfully"}), 200
 
 
 '''
@@ -65,7 +71,7 @@ def viewCertificate():
     professional = Professional.query.filter(Professional.professionalId == id).first()
 
     if not professional:
-        return jsonify({"error": "Professional doesn't exist"}), 400
+        return jsonify({"error": "Professional does not exist"}), 400
     
 
     certificates = [cert for cert in professional.professionalCertificates] 
