@@ -3,8 +3,7 @@
 2. Open virtual environment using
    - python -m venv env
    - source env/Scripts/activate
-4. Run 
- - "pip3 install -r requirements.txt" (windows) 
+4. Run "pip3 install -r requirements.txt" (windows) 
 3. Run "flask shell"
 4. Now within flask shell:
  - Within flask shell, run "db.create_all()"
