@@ -170,7 +170,6 @@ const SearchBar = (props) => {
       .then(data => {
         if (!data.error) {
           setLocations(data);
-          console.log("location details:", data)
         } else {
             console.error("Error fetching locations:", data.error);
         }

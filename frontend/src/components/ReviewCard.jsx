@@ -23,18 +23,17 @@ const ReviewCard = ({ review, type, page }) => {
   
 	// Set review details based on review type
 	React.useEffect(() => {
-        console.log("review", review)
 		if (type === "professional") {
 			setName(review.projectCompany);
 			setProject(review.projectName);
 			setRating(review.professionalRating);
 			setReviewContent(review.professioanlRatingReview);
-            setPhoto(review.projectCompanyLogo);
+      setPhoto(review.projectCompanyLogo);
 		} else if (type === "project") {
 			setName(review.professionalName);
 			setRating(review.projectRating);
 			setReviewContent(review.projectRatingReview);
-            setPhoto(review.professionalPhoto)
+      setPhoto(review.professionalPhoto)
 		}
 			
 	}, [page]);

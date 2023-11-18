@@ -127,7 +127,6 @@ const ProfessionalProfile = ( { userId } ) => {
 						<div> No Certifications Available.</div>
 					)}
 					<Typography variant="h5" sx={{ fontWeight: 'bold', mt:3, mb:1 }}>Reviews</Typography>
-					{console.log(ratings)}
 					{ratings.length > 0 ? (
 						<PaginationCards reviews={ratings} type="professional" ></PaginationCards>
 					) : (
