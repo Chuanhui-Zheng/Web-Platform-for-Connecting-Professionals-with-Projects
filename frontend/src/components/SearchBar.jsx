@@ -162,7 +162,19 @@ export default function SearchBar(props) {
       setLoading(true);
       setLoading(false);
 
-      setLocations([...fetchedLocations]);
+      // setLocations([...fetchedLocations]);
+      apiGet('/get/locations',)
+      .then(data => {
+        if (!data.error) {
+          setLocations(data);
+          console.log("location details:", data)
+        } else {
+            console.error("Error fetching locations:", data.error);
+        }
+      })
+      .catch(err => {
+          console.error("Failed to get locations:", err);
+      });
     })();
   };
 

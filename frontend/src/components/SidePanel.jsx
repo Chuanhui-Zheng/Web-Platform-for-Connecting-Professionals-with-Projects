@@ -21,6 +21,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import SearchIcon from '@mui/icons-material/Search';
 
+console.log(window.innerWidth)
 const drawerWidth = '23%';
 const openedMixin = (theme) => ({
     width: drawerWidth,
@@ -129,7 +130,7 @@ function SidePanel({ projectID, onSelectProject }) {
           <Stack direction="row">
             <IconButton onClick={handleDrawerOpen}><SearchIcon /><ChevronRightIcon />  </IconButton>
           </Stack> : 
-          <Stack direction="row" sx={{width:'100%', marginTop:'7vh'}}>
+          <Stack direction="row" sx={{width:'100%', marginTop:'7vh', paddingTop: { xs: "40px", sm: "0px", md: "0px" },}}>
             <SearchBar allProjects={allProjects} setSearch={setSearch}> </SearchBar><IconButton onClick={handleDrawerClose}><ChevronLeftIcon/></IconButton>
           </Stack>
           }

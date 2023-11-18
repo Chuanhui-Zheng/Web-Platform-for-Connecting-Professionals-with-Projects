@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
-from database.models import Skills, Categories
+from database.models import Skills, Categories, Projects
 
 app = Flask(__name__)
 

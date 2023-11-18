@@ -52,8 +52,7 @@ function App() {
             margin: "0px", 
             paddingRight: { xs: "16px", sm: "25px", md: "60px" }, 
             paddingLeft: { xs: "16px", sm: "25px", md: "60px" },
-            paddingTop: { xs: "16px", sm: "25px", md: "60px" },
-            // backgroundColor: "white"
+            paddingTop: { xs: "100px", sm: "60px", md: "60px" },
           }}
         >
           <Routes>
