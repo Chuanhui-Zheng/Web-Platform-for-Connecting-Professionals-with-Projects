@@ -12,12 +12,14 @@ import { useProfile } from '../../context/ProfileContext';
 import ProjectCard1 from '../../components/ProjectCard1';
 import Grid from '@mui/material/Grid2';
 
+/*
+* Professional profile page that shows all the details of a professional
+*/
 const ProfessionalProfile = ( { userId } ) => {
     
 	const [ownUserId, setOwnUserId] = React.useState();
 	const [userType, setUserType] = React.useState('');
 	const [ownProfile, setOwnProfile] = React.useState(true);
-
 	const [professionalSkills, setProfessionalSkills] = React.useState([]);
 	const [professionalDescription, setProfessionalDescription] = React.useState('');
 	const [projects, setProjects] = React.useState([]);
@@ -25,6 +27,7 @@ const ProfessionalProfile = ( { userId } ) => {
 	const [ratings, setRatings] = React.useState([]);
 	const reloadProfile = useProfile();
 
+	// Check if viewing own profile
 	React.useEffect(() => {
 		const getToken = localStorage.getItem("token");
 		if (getToken != null) {
@@ -36,7 +39,8 @@ const ProfessionalProfile = ( { userId } ) => {
 			}
 		}
 	}, []);
-    
+  
+	// Get profile details and project details and certificates
 	React.useEffect(() => {
 		if (ownUserId && userType) {
 

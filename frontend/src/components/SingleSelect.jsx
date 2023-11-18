@@ -5,12 +5,16 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
+/*
+* MUI component that displays a single select input form
+* Used for the project status field in edit project
+*/
 export default function BasicSelect({set, names, label}) {
   const [age, setAge] = React.useState('');
 
+  // Handle field change and set the input in the parent 
   const handleChange = (event) => {
     setAge(event.target.value);
-    console.log()
     set(event.target.value)
   };
 

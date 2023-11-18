@@ -8,6 +8,11 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 
+/* 
+* This is a component taken from Material UI to display a input field that allows
+* users to select multiple field. used for category on the frontend 
+* It will then set the fields in the parent form
+*/
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -19,6 +24,7 @@ const MenuProps = {
   },
 };
 
+// MUI styles
 function getStyles(name, personName, theme) {
   return {
     fontWeight: personName.includes(name)
@@ -27,16 +33,20 @@ function getStyles(name, personName, theme) {
   };
 }
 
+/* Set function passed in from parent to set values on selection
+* names parameter to show what can be selected
+* label parameter for the label of the field
+*/
 export default function MultipleSelectCategoryChip( { set, names, label } ) {
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
-
+  
+  // when a user selects input, set field in parent
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
     setPersonName(
-      // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
     set(value)
