@@ -4,6 +4,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import PropTypes from 'prop-types';
 
 /**
  * 
@@ -44,4 +45,10 @@ export default function BasicSelect({set, names, label}) {
       </FormControl>
     </Box>
   );
+}
+
+BasicSelect.propTypes = {
+    set: PropTypes.func,
+    names: PropTypes.PropTypes.arrayOf(PropTypes.string),
+    label: PropTypes.string,
 }

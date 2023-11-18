@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Grid2, Pagination, Box } from '@mui/material';
 import ReviewCard from './ReviewCard';
 import styles from "../styles/Pagination.module.css"
+import PropTypes from 'prop-types';
 
 /**
  * 
@@ -59,5 +60,10 @@ const PaginationCards = ({reviews, type}) => {
     </Box>
   );
 };
+
+PaginationCards.propTypes = {
+    reviews: PropTypes.object,
+    type: PropTypes.string,
+}
 
 export default PaginationCards;

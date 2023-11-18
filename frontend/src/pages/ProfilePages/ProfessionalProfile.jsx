@@ -11,6 +11,7 @@ import PaginationCards from '../../components/Pagination';
 import { useProfile } from '../../context/ProfileContext';
 import ProjectCard1 from '../../components/ProjectCard1';
 import Grid from '@mui/material/Grid2';
+import PropTypes from 'prop-types';
 
 /**
  * 
@@ -136,6 +137,10 @@ const ProfessionalProfile = ( { userId } ) => {
 			</Box>
 		</>
 	);
+}
+
+ProfessionalProfile.propTypes = {
+    userId: PropTypes.string,
 }
 
 export default ProfessionalProfile;

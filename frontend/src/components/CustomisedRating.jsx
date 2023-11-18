@@ -1,10 +1,7 @@
-import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import Typography from '@mui/material/Typography';
+import PropTypes from 'prop-types';
 
 const StyledRating = styled(Rating)({
   '& .MuiRating-iconFilled': {
@@ -14,7 +11,12 @@ const StyledRating = styled(Rating)({
     color: '#cdc5c6',
   },
 });
-
+/**
+ * 
+ * @param {*} param0 
+ * @returns 
+ * Compoonent that displays rating to 5 stars
+ */
 export default function CustomisedRating({ value: initialValue }) {
   const value = initialValue
   return (
@@ -30,4 +32,6 @@ export default function CustomisedRating({ value: initialValue }) {
   );
 }
 
-
+CustomisedRating.propTypes = {
+	value: PropTypes.string,
+}

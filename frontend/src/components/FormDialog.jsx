@@ -16,6 +16,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import styles from '../styles/FormDialog.module.css'
+import PropTypes from 'prop-types';
 
 /**
  * 
@@ -481,5 +482,15 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
     </>
   );
 };
+
+DynamicFormDialog.propTypes = {
+	open: PropTypes.bool,
+	onClose: PropTypes.func,
+	title: PropTypes.string,
+	userId: PropTypes.string,
+	userType: PropTypes.string,
+	snackbarToggle: PropTypes.func,
+	snackBarMessage: PropTypes.string,
+}
 
 export default DynamicFormDialog;

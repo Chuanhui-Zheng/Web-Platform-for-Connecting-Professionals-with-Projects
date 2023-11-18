@@ -12,11 +12,10 @@ import CompanyProfile from './CompanyProfile';
 const ProfilePage = () => {
 	const params = useParams();
 	const [userType, setUserType] = React.useState('');
-	const [userId, setUserId] = React.useState(params.userId.replace(":",""));
 
     // Get user type of profile that is being viewed
 	React.useEffect(() => {
-		apiGet("/user/type", `id=${userId}`)
+		apiGet("/user/type", `id=${params.userId.replace(":","")}`)
 		.then((data) => {
 			if (!data.error) {
 				setUserType(data.type);

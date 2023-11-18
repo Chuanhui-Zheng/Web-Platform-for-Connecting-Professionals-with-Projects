@@ -1,4 +1,5 @@
-import React, { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext } from 'react';
+import PropTypes from 'prop-types';
 
 const ProjectContext = createContext();
 
@@ -20,4 +21,8 @@ export function ProjectProvider({ children }) {
       {children}
     </ProjectContext.Provider>
   );
+}
+
+ProjectProvider.propTypes = {
+    children: PropTypes.object,
 }

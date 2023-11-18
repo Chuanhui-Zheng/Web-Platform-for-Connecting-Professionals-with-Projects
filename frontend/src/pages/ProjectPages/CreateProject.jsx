@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, TextField } from '@mui/material';
 import '../../styles/Company/CreateProject.css'
@@ -130,10 +129,6 @@ const CreateProject = () => {
     </div>
     </>
   );
-}
-
-CreateProject.propTypes = {
-  token: PropTypes.string,
 }
 
 export default CreateProject;

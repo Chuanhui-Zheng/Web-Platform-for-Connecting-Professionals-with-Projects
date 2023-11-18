@@ -7,6 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
+import PropTypes from 'prop-types';
 
 /** 
  * This is a component taken from Material UI to display a input field that allows
@@ -96,4 +97,10 @@ export default function MultipleSelectCategoryChip( { set, names, label } ) {
       </FormControl>
     </div>
   );
+}
+
+MultipleSelectCategoryChip.propTypes = {
+	set: PropTypes.func,
+	names: PropTypes.arrayOf(PropTypes.string),
+	label: PropTypes.string,
 }

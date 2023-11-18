@@ -10,6 +10,7 @@ import Avatar from '@mui/material/Avatar';
 import { apiGet } from '../api';
 import DynamicFormDialog from './FormDialog';
 import { useProfile } from '../context/ProfileContext';
+import PropTypes from 'prop-types';
 
 /**
  * 
@@ -130,6 +131,13 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
 		</div>
 			
 	);
+}
+
+ProfileHeader.propTypes = {
+    userId: PropTypes.string,
+    userType: PropTypes.string,
+    ownProfile: PropTypes.bool,
+    refresh: PropTypes.bool,
 }
 
 export default ProfileHeader;

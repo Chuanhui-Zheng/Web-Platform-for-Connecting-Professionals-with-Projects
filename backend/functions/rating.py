@@ -68,7 +68,8 @@ def projectRateProject():
         'projectId': projectId,
         'projectRating': rating,
         'projectRatingReview': review,
-        'professionalName': professional.professionalFullName
+        'professionalName': professional.professionalFullName,
+        'professionalPhoto': professional.professionalPhoto
     }
     
     # append dictionary to this project rating list
@@ -138,7 +139,8 @@ def projectRateProfessional():
         'professionalRating': rating,
         'professioanlRatingReview': review,
         'projectName': project.projectName,
-        'projectCompany': Company.get_company_by_id(companyId=companyId).companyName
+        'projectCompany': Company.get_company_by_id(companyId=companyId).companyName,
+        'projectCompanyLogo': Company.get_company_by_id(companyId=companyId).companyLogo
     }
     
     # append dictionary to list

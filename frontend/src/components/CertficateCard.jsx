@@ -1,7 +1,7 @@
-import * as React from 'react';
 import { Divider, Avatar, Typography, Button } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import styles from '../styles/Professional/Certificate.module.css'
+import PropTypes from 'prop-types';
 
 /**
  * 
@@ -30,7 +30,7 @@ const Certificates  = ({ certificates, ownProfile }) => {
 							<div className={styles.CertificateContent} key={idx}>
 								<div className={styles.CertificateContentHolder} key={idx}>
 									<Avatar 
-										src={certificates.professionalCertificateCompanyLogo} 
+										src={cert.professionalCertificateCompanyLogo} 
 										key={idx}
 										sx={{ width: '60px', height: '60px', ml: '10px' }}
 										variant="square"
@@ -55,6 +55,12 @@ const Certificates  = ({ certificates, ownProfile }) => {
 			</div>
 		</>
 	)
+}
+
+Certificates.propTypes = {
+	certificates: PropTypes.object,
+	ownProfile: PropTypes.bool,
+
 }
 
 export default Certificates;

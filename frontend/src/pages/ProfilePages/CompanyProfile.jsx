@@ -8,6 +8,7 @@ import decodeJWT from "../../decodeJWT";
 import { getProjects } from '../../helpers';
 import Grid from '@mui/material/Grid2';
 import { useProfile } from '../../context/ProfileContext';
+import PropTypes from 'prop-types';
 
 /**
  * 
@@ -84,6 +85,10 @@ const CompanyProfile = ({userId}) => {
 			</Box>
 		</>
 	);
+}
+
+CompanyProfile.propTypes = {
+    userId: PropTypes.string,
 }
 
 export default CompanyProfile;
