@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
+import PropTypes from "prop-types";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
@@ -56,6 +57,13 @@ function DataTable({ rows, columns, onSelectionChange, checkboxSelection }) {
       />
     </Paper>
   );
-}
+};
+
+DataTable.propTypes = {
+  rows: PropTypes.array,
+  columns: PropTypes.array,
+  onSelectionChange: PropTypes.func,
+  checkboxSelection: PropTypes.bool
+};
 
 export default DataTable;

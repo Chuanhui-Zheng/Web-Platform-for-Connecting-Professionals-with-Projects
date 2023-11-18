@@ -1,4 +1,5 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
+import PropTypes from "prop-types";
 
 /**
  * Dialog used for multiple various pop-ups across the platform.
@@ -26,6 +27,12 @@ const JEMMADialog = ({ titleText, bodyChildren, actionChildren }) => {
       </DialogActions>
     </Dialog>
   );
+};
+
+JEMMADialog.propTypes = {
+  titleText: PropTypes.string,
+  bodyChildren: PropTypes.node,
+  actionChildren: PropTypes.node
 };
 
 export default JEMMADialog;

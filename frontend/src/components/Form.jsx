@@ -1,5 +1,6 @@
 import "../styles/Form.css"
 import { Button, Box } from "@mui/material";
+import PropTypes from "prop-types";
 
 /**
  * Form component for authorisation functionality.
@@ -29,6 +30,12 @@ function Form({ buttonName, handleSubmit, children }) {
       </Button>
     </Box>
   );
-}
+};
+
+Form.propTypes = {
+  buttonName: PropTypes.string,
+  handleSubmit: PropTypes.func,
+  children: PropTypes.node
+};
 
 export default Form
