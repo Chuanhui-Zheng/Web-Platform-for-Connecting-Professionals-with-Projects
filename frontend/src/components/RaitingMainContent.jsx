@@ -90,7 +90,6 @@ const RaitingMainContent = ({ selectedUser, projectId }) => {
         projectReview: professionalReview
       }).then((data) =>{
         if (!data.error) {
-          console.log('tard is a bitch')
           navigate('/dashboard', {state:{showSnackBar: true, message: 'Rated company'}})
         } else {
           throw new Error("Rate Project Failed");
@@ -107,7 +106,6 @@ const RaitingMainContent = ({ selectedUser, projectId }) => {
         professionalReview: professionalReview
       }).then((data) =>{
         if (!data.error) {
-          console.log('fucking bitch')
           navigate('/dashboard', {state:{showSnackBar: true, message: 'Rated professional'}})
         } else {
           throw new Error("Rate Project Failed");
