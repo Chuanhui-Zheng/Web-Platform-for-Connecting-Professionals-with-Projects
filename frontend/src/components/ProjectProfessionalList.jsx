@@ -1,6 +1,5 @@
-import { Box, Typography, Button, Grid, Card, CardContent, CardMedia, Avatar } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
 import { apiGet, apiPost } from "../api";
 import DataTable from "./DataTable";
 import { ThumbDown, ThumbUp } from "@mui/icons-material";
@@ -15,6 +14,11 @@ const professionalColumns = [
   { field: "professionalSkills", headerName: "Skills", flex: 1, minWidth: 100 }
 ];
 
+/**
+ * Component that is a wrapper around DataTable.jsx to show professionals on a project
+ * @param {*} param0 
+ * @returns 
+ */
 function ProjectProfessionalList({ projectId, listType, toggleSnackbar, setSnackBarMessage }) {
   const [update, setUpdate] = useState(false);
   const [applicantRows, setApplicantRows] = useState([]);

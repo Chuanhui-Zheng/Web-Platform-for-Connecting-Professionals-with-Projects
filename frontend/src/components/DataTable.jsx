@@ -4,6 +4,11 @@ import Paper from "@mui/material/Paper";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
+/**
+ * Data Table is used as a table that shows data about users
+ * @param {*} param0 
+ * @returns 
+ */
 function DataTable({ rows, columns, onSelectionChange, checkboxSelection }) {
   const navigate = useNavigate();
 

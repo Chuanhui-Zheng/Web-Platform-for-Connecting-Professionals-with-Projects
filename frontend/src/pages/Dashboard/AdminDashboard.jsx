@@ -30,6 +30,10 @@ const adminColumns = [
   { field: "adminEmail", headerName: "Email", flex: 1, minWidth: 100 },
 ];
 
+/**
+ * Dashboard for admins that includes multiple data tables of various users
+ * @returns 
+ */
 export default function AdminDashboard() {
   const [companyRows, setCompanyRows] = useState([]);
   const [professionalRows, setProfessionalRows] = useState([]);
@@ -302,9 +306,7 @@ export default function AdminDashboard() {
                 </Button>
               </>
             }
-          >
-  
-          </JEMMADialog>
+          />
         }
       </Box>
       {error && <ErrorPopup message={errorMessage} toggleError={toggleError}/>}

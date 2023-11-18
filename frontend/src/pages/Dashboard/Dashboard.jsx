@@ -4,7 +4,12 @@ import ProfessionalDashboard from "./ProfessionalDashboard";
 import CompanyDashboard from "./CompanyDashboard";
 import decodeJWT from "../../decodeJWT";
 import NoAccessPage from "../ErrorPages/NoAccessPage";
+import LoadingPage from "../ErrorPages/LoadingPage"
 
+/**
+ * Dashboard component that redirects a user to the correct dashboard page
+ * @returns 
+ */
 export default function Dashboard() {
   const [userType, setUserType] = useState(null);
 
@@ -22,9 +27,9 @@ export default function Dashboard() {
     }
   }, []);
 
+  // Set loading page
   if (userType === null) {
-    // Show a loading state or some placeholder until userType is determined
-    return <p>Loading...</p>;
+    return <LoadingPage />
   }
 
   return (

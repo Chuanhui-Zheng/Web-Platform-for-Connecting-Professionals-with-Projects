@@ -11,12 +11,14 @@ import { isValidEmail, isValidPassword, fileToDataUrl } from "../../helpers";
 import RegistrationErrorMessage from "../../components/RegistrationErrorMessage";
 import ErrorPopup from '../../components/ErrorPopup';
 import InputAdornment from '@mui/material/InputAdornment';
-import FormHelperText from '@mui/material/FormHelperText';
-import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
 
+/**
+ * Company Registeration Form
+ * @returns 
+ */
 function CompanyRegisterForm() {
   const [formData, setFormData] = useState({
     companyName: "",
@@ -44,6 +46,7 @@ function CompanyRegisterForm() {
   const navigate = useNavigate();
   const { triggerHeaderUpdate } = useHeader();
 
+  // Save form data on changes
   const onChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -58,16 +61,16 @@ function CompanyRegisterForm() {
 
   // Update file
   const handleFileChange = (event) => {
-    const file = event.target.files[0]; // Get the first uploaded file
+    // Get the first uploaded file
+    const file = event.target.files[0]; 
 
     fileToDataUrl(file).then((dataUrl) => {
       setFormData({
         ...formData,
         companyLogo: dataUrl
       });
-      console.log("File as data URL:", dataUrl);
     }).catch((error) => {
-      console.error("Error converting file to data URL:", error);
+      alert("Error converting file to data URL:", error);
     });
   };
 
@@ -95,7 +98,7 @@ function CompanyRegisterForm() {
       companyDescription
     } = formData
 
-    // const companyEmail = formData.companyEmail
+    // Register the company
     apiPost("/auth/register/company", { 
       companyName,
       companyEmail,

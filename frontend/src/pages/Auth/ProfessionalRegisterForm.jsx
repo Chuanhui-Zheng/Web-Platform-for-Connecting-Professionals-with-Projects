@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import Form from "../../components/Form"
-import { Button, TextField, Box } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import VisuallyHiddenInput from "../../components/VisuallyHiddenInput";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { apiPost } from "../../api";
@@ -11,16 +11,14 @@ import RegistrationErrorMessage from "../../components/RegistrationErrorMessage"
 import { isValidEmail, isValidPassword, fileToDataUrl } from "../../helpers";
 import ErrorPopup from "../../components/ErrorPopup";
 import IconButton from '@mui/material/IconButton';
-import Input from '@mui/material/Input';
-import FilledInput from '@mui/material/FilledInput';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
-import FormHelperText from '@mui/material/FormHelperText';
-import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
+/**
+ * Professional Registeration Form
+ * @returns 
+ */
 function ProfessionalRegisterForm() {
   const [formData, setFormData] = useState({
     professionalFullName: "",
@@ -44,6 +42,8 @@ function ProfessionalRegisterForm() {
   const handleMouseUpPassword = (event) => {
     event.preventDefault();
   };
+
+  // Save form data on changes
   const onChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -58,36 +58,28 @@ function ProfessionalRegisterForm() {
 
   // Update file
   const handleFileChange = (event) => {
-    const file = event.target.files[0]; // Get the first uploaded file
+    // Get the first uploaded file
+    const file = event.target.files[0]; 
 
     fileToDataUrl(file).then((dataUrl) => {
       setFormData({
         ...formData,
         professionalPhoto: dataUrl
       });
-      console.log("File as data URL:", dataUrl);
     }).catch((error) => {
-      console.error("Error converting file to data URL:", error);
+      alert("Error converting file to data URL:", error);
     });
   };
 
   // Submit registration
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const {
       professionalEmail,
       professionalPassword,
       professionalPhoto,
       professionalFullName
     } = formData
-
-    console.log(`professionalEmail = ${professionalEmail}`)
-    console.log(`professionalPassword = ${professionalPassword}`)
-    console.log(`isValidEmail(professionalEmail) = ${isValidEmail(professionalEmail)}`)
-    console.log(`isValidPassword(professionalPassword) = ${isValidPassword(professionalPassword)}`)
-    
-
     // Set that it is valid (by default)
     setIsValid(true)
 
@@ -97,7 +89,13 @@ function ProfessionalRegisterForm() {
       return;
     }
 
-    apiPost("/auth/register/professional", { professionalFullName, professionalEmail, professionalPassword, professionalPhoto })
+    // Register the professional
+    apiPost("/auth/register/professional", { 
+      professionalFullName, 
+      professionalEmail, 
+      professionalPassword, 
+      professionalPhoto 
+    })
       .then((data) => {
         if (!data.error) {
           localStorage.setItem("token", data.token);

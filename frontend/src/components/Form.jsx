@@ -1,12 +1,14 @@
 import "../styles/Form.css"
 import { Button, Box } from "@mui/material";
 
+/**
+ * Form component that uses children for input fieldss
+ * @param {*} param0 
+ * @returns 
+ */
 function Form({ buttonName, handleSubmit, children }) {
   return (
     <Box 
-      // onSubmit={handleSubmit} 
-      // className="form-container"
-      // fullWidth
       display="flex"
       flexDirection="column"
       alignItems= "center"

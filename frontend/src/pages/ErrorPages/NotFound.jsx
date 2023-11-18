@@ -1,3 +1,7 @@
+/**
+ * Page of not found error
+ * @returns 
+ */
 function NotFound() {
   return (
     <div>

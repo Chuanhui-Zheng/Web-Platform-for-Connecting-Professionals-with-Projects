@@ -1,5 +1,10 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 
+/**
+ * Dialog used for multiple various pop-ups across the platform
+ * @param {*} param0
+ * @returns 
+ */
 const JEMMADialog = ({ titleText, bodyChildren, actionChildren }) => {
   return (  
     <Dialog
