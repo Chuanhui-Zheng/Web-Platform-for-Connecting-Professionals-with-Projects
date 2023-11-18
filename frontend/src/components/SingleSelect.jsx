@@ -4,13 +4,21 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import PropTypes from 'prop-types';
 
+/**
+ * 
+ * @param {*} param0 
+ * @returns 
+ * MUI component that displays a single select input form
+ * Used for the project status field in edit project
+ */
 export default function BasicSelect({set, names, label}) {
   const [age, setAge] = React.useState('');
 
+  // Handle field change and set the input in the parent 
   const handleChange = (event) => {
     setAge(event.target.value);
-    console.log()
     set(event.target.value)
   };
 
@@ -37,4 +45,10 @@ export default function BasicSelect({set, names, label}) {
       </FormControl>
     </Box>
   );
+}
+
+BasicSelect.propTypes = {
+    set: PropTypes.func,
+    names: PropTypes.PropTypes.arrayOf(PropTypes.string),
+    label: PropTypes.string,
 }
