@@ -103,11 +103,14 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
 					</div>
 					<div className={styles.ProfileHeaderInfo}>
 						<WebAssetIcon  sx={{mt:0.3}}></WebAssetIcon>
-						<Typography variant="subtitle1" sx={{height: 26, ml:0.5}}>{website}</Typography>
+						{website ? <Typography variant="subtitle1" sx={{height: 26, ml:0.5}}>{website}</Typography>
+						:<Typography variant="subtitle1" sx={{height: 26, ml:0.5}}>No Website Added</Typography> }
+						
 					</div>
 					<div className={styles.ProfileHeaderInfo}>
 						<PhoneEnabledIcon  sx={{mt:0.3}}></PhoneEnabledIcon>
-						<Typography variant="subtitle1" sx={{height: 2, ml:0.5}}>{phoneNumber}</Typography>
+						{phoneNumber ? <Typography variant="subtitle1" sx={{height: 2, ml:0.5}}>{phoneNumber}</Typography>
+						:<Typography variant="subtitle1" sx={{height: 2, ml:0.5}}>No Contact Number Added</Typography> }
 					</div>
 				</div>
 			</div>

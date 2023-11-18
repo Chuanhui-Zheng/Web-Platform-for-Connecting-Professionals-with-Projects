@@ -52,7 +52,7 @@ export default function SearchBar(props) {
         setUserType(decoded.userType);
         if (decoded.userType === 'professional') {
           apiGet('/project/recommended', `professionalId=${decoded.userId}`)
-        .then(data => {
+          .then(data => {
             if (!data.error) {
                 setRecommended(data);
                 console.log("project details:", data)
@@ -88,7 +88,7 @@ export default function SearchBar(props) {
     //   item.projectCompany.toLowerCase().includes(value) || 
     //   item.projectDescription.toLowerCase().includes(value) 
     // );
-    // // console.log(filtered)
+    //   console.log(filtered)
   
 
     //   console.log(filtered);
@@ -125,28 +125,6 @@ export default function SearchBar(props) {
 
     console.log(resultsArray)
     console.log(filtered);
-    // setFilteredItems(filtered)
-
-    // Backend Call Search
-    // apiGet("/project/search", `query=${searchTerm}&category=${selCategories}`,).then((data) =>{
-    //     if (!data.error) {
-    //         console.log(data.message)
-    //         if (data.message === 'No projects found.') {
-    //           console.log('AHFSJ')
-    //           props.setSearch([]);
-
-    //         } else {
-    //           props.setSearch(data);
-    //         }
-    //     } else {
-    //         throw new Error("Search Project Failed");
-    //     }
-        
-    //     props.setSearch(filtered);
-    // })
-    // .catch(() => {
-    //     // alert("Project Search are not valid.")
-    // });
   }
 
   const handleOpen1 = (value) => {
@@ -156,12 +134,22 @@ export default function SearchBar(props) {
       // await sleep(1e3); // For demo purposes.
       setLoading(false);
 
-      setCategories([...fetchedCategories]);
+      apiGet('/get/categories',)
+      .then(data => {
+        if (!data.error) {
+            setCategories(data);
+            console.log("categories details:", data)
+        } else {
+            console.error("Error fetching categories:", data.error);
+        }
+      })
+      .catch(err => {
+          console.error("Failed to get categories:", err);
+      });
     })();
   };
 
   const handleClose1 = (event) => {
-   
     setOpen1(false);
     setCategories([]);
     console.log(event.target.textContent)
@@ -192,7 +180,18 @@ export default function SearchBar(props) {
       // await sleep(1e3); // For demo purposes.
       setLoading(false);
 
-      setSkills([...fetchedSkills]);
+      apiGet('/get/skills',)
+      .then(data => {
+        if (!data.error) {
+          setSkills(data);
+          console.log("skills details:", data)
+        } else {
+            console.error("Error fetching skills:", data.error);
+        }
+      })
+      .catch(err => {
+          console.error("Failed to get skills:", err);
+      });
     })();
   };
 
@@ -201,7 +200,6 @@ export default function SearchBar(props) {
     setSkills([]);
     console.log(event.target.textContent)
     setSelSkills(event.target.textContent);
-    
   };
 
   return (
@@ -220,9 +218,6 @@ export default function SearchBar(props) {
             <SearchIcon />
           </IconButton>
           <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-          {/* <IconButton color="primary" sx={{ p: '10px' }} aria-label="directions">
-            <FilterAltIcon /> sprint 3
-      </IconButton> */}
     </Paper>
     <Paper sx={{display:'flex'}}>
     
@@ -316,12 +311,12 @@ export default function SearchBar(props) {
       )}
     />
     </Paper>
-	   {(userType === 'professional') && <Button variant="contained" sx={{width: '100%'}} onClick={() => 
+	   {(userType === 'professional') && <Button variant="contained" sx={{width: '100%', backgroundColor:'#F29465'}} onClick={() => 
       {
         setShowRecommended(true)
         // console.log(recommended)
-    }}>View recommended</Button>}
-	{showRecommended && (
+      }}>View recommended</Button>}
+      {showRecommended && (
         <RecommendedPopupModal
           titleText={'View Recommended Projects'}
           recommended={recommended}

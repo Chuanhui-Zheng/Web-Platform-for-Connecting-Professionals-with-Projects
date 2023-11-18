@@ -35,6 +35,7 @@ const titleStyle = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    // fontSize: '20px',
     // border: '1px solid #fff',
     backgroundColour: 'white',
     margin: '0px',
