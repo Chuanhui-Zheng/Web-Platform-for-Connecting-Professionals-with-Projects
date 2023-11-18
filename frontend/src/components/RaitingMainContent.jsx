@@ -11,6 +11,7 @@ import {
 import { apiPost } from '../api';
 import { useNavigate } from "react-router-dom";
 import decodeJWT from '../decodeJWT';
+import PropTypes from 'prop-types';
 
 /**
  * 
@@ -19,7 +20,7 @@ import decodeJWT from '../decodeJWT';
  * 
  * Component for the raitings page's main content section.
  */
-function RaitingMainContent({ selectedUser, projectId }) {
+const RaitingMainContent = ({ selectedUser, projectId }) => {
   const navigate = useNavigate();
   const [rating, setRating] = React.useState(0);
   const [feedback, setFeedback] = React.useState('');
@@ -65,11 +66,9 @@ function RaitingMainContent({ selectedUser, projectId }) {
 
   /**
    * 
-   * @param {*} event 
-   * 
    * Saves the review content
    */
-  const handleReasonChange = (event) => {
+  const handleReasonChange = () => {
     const reviewConstruct = feedback
     setReview(reviewConstruct)
   };
@@ -90,14 +89,14 @@ function RaitingMainContent({ selectedUser, projectId }) {
         projectRating: rating,
         projectReview: professionalReview
       }).then((data) =>{
-          if (!data.error) {
-              navigate('/dashboard', {state:{showSnackBar: true, message: 'Rated company'}})
-          } else {
-              throw new Error("Rate Project Failed");
-          }
+        if (!data.error) {
+          navigate('/dashboard', {state:{showSnackBar: true, message: 'Rated company'}})
+        } else {
+          throw new Error("Rate Project Failed");
+        }
       })
       .catch((err) => {
-          alert(err)
+        alert(err)
       });
     } else {
       apiPost("/project/company/rateProfessional", {
@@ -106,14 +105,14 @@ function RaitingMainContent({ selectedUser, projectId }) {
         professionalRating: rating,
         professionalReview: professionalReview
       }).then((data) =>{
-          if (!data.error) {
-              navigate('/dashboard', {state:{showSnackBar: true, message: 'Rated professional'}})
-          } else {
-              throw new Error("Rate Project Failed");
-          }
+        if (!data.error) {
+          navigate('/dashboard', {state:{showSnackBar: true, message: 'Rated professional'}})
+        } else {
+          throw new Error("Rate Project Failed");
+        }
       })
       .catch((err) => {
-          alert(err)
+        alert(err)
       });
     }
   };
@@ -173,5 +172,10 @@ function RaitingMainContent({ selectedUser, projectId }) {
     </Card>
   );
 };
+
+RaitingMainContent.propTypes = {
+	selectedUser: PropTypes.any,
+	projectId: PropTypes.any,
+}
 
 export default RaitingMainContent;

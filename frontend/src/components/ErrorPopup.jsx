@@ -1,5 +1,6 @@
 import { Button, DialogContentText } from '@mui/material';
 import JEMMADialog from './JEMMADialog';
+import PropTypes from 'prop-types';
 
 /**
  * 
@@ -24,6 +25,11 @@ const ErrorPopup = ({ message, toggleError }) => {
       }
     />
   );
+}
+
+ErrorPopup.propTypes = {
+	message: PropTypes.string,
+	toggleError: PropTypes.object,
 }
 
 export default ErrorPopup;

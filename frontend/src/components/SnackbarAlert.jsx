@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import PropTypes from 'prop-types';
 
 /**
  * 
@@ -53,6 +54,11 @@ const SnackbarAlert = ({message, toggleSuccess}) => {
       </Snackbar>
     </div>
   );
+}
+
+SnackbarAlert.propTypes = {
+	message: PropTypes.string,
+	toggleSuccess: PropTypes.func,
 }
 
 export default SnackbarAlert;
