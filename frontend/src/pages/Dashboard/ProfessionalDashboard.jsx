@@ -52,7 +52,6 @@ const ProfessionalDashboard = () => {
 	 */
 	React.useEffect(() => {
 		if (location.state?.showSnackBar) {
-			console.log('cunt fucker')
 			setShowSnackbar(true);
 			setMessage(location.state.message);
 			navigate(location.pathname, { replace: true, state: {} });
