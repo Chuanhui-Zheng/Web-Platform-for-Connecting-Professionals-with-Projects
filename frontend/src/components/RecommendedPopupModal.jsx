@@ -1,12 +1,12 @@
 import React from 'react';
 import { 
-    Dialog, 
-    DialogTitle, 
-    DialogContent, 
-    Grid, 
-    Typography, 
-    Button, 
-    ListItem
+	Dialog, 
+	DialogTitle, 
+	DialogContent, 
+	Grid, 
+	Typography, 
+	Button, 
+	ListItem
 } from '@mui/material';
 import BrowseCards from './BrowseCards';
 

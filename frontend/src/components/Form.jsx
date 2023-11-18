@@ -28,5 +28,3 @@ function Form({ buttonName, handleSubmit, children }) {
 }
 
 export default Form
-
-# history-polish-091: temporary maintainability note for the frontend visual polish surface. The following history step restores the canonical source tree.
