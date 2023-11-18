@@ -241,9 +241,9 @@ class Projects(db.Model):
     listOfProfessionals = db.Column(MutableList.as_mutable(JSON), default=list)
     listOfApplicants = db.Column(MutableList.as_mutable(JSON), default=list)
     projectStatus = db.Column(db.String(), default="Active")
-    # projectCertificate = db.Column(JSON, default=dict)
+    projectCertificate = db.Column(JSON, default=dict)
     listOfProjectRatings = db.Column(MutableList.as_mutable(JSON), default=list)
-    #projectRatings = db.Column(JSON, default="")
+    projectRatings = db.Column(JSON, default="")
     
     @classmethod
     def get_project_by_id(cls, projectId):
