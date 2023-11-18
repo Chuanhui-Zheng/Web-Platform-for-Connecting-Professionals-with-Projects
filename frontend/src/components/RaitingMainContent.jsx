@@ -66,11 +66,9 @@ const RaitingMainContent = ({ selectedUser, projectId }) => {
 
   /**
    * 
-   * @param {*} event 
-   * 
    * Saves the review content
    */
-  const handleReasonChange = (event) => {
+  const handleReasonChange = () => {
     const reviewConstruct = feedback
     setReview(reviewConstruct)
   };
