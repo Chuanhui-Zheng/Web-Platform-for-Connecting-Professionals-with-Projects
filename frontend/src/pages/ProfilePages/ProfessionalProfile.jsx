@@ -12,9 +12,12 @@ import { useProfile } from '../../context/ProfileContext';
 import ProjectCard1 from '../../components/ProjectCard1';
 import Grid from '@mui/material/Grid2';
 
-/*
-* Professional profile page that shows all the details of a professional
-*/
+/**
+ * 
+ * @param {*} param0 
+ * @returns 
+ * Professional profile page that shows all the details of a professional
+ */
 const ProfessionalProfile = ( { userId } ) => {
     
 	const [ownUserId, setOwnUserId] = React.useState();

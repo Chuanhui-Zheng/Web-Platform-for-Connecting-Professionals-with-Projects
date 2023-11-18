@@ -9,6 +9,11 @@ import decodeJWT from "../../decodeJWT";
 import { useDashboard } from '../../context/DashboardContext';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * 
+ * @returns 
+ * Create project page that allows company user to create a project
+ */
 const CreateProject = () => {
   const [projectName, setNewProjectName] = React.useState('');
   const [contactEmail, setNewContactEmail] = React.useState('');

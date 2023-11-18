@@ -4,9 +4,12 @@ const HeaderContext = createContext();
 
 export const useHeader = () => useContext(HeaderContext);
 
-/*
-* Context file for Header to implement automatic header reload upon change
-*/
+/**
+ * 
+ * @param {*} param0 
+ * @returns 
+ * Context file for Header to implement automatic header reload upon change
+ */
 export function HeaderProvider({ children }) {
   const [reloadHeader, setReloadHeader] = useState(false);
 

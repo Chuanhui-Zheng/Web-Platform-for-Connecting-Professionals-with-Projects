@@ -3,11 +3,15 @@ import { Divider, Avatar, Typography, Button } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import styles from '../styles/Professional/Certificate.module.css'
 
-/* 
-* This is a component for creating cards to display a professional's certificate.
-* On the card, it displays the project name and company that the professional worked for
-* There is also a download button to download the certificate
-*/
+/**
+ * 
+ * @param {*} param0 
+ * @returns 
+ * 
+ * Component for creating cards to display a professional's certificate.
+ * On the card, it displays the project name and company that the professional worked for
+ * There is also a download button to download the certificate
+ */
 const Certificates  = ({ certificates, ownProfile }) => {
   // when the download button is clicked, the certificate is downloaded
 	const handleDownload = (cert) => {

@@ -3,11 +3,14 @@ import { Grid2, Pagination, Box } from '@mui/material';
 import ReviewCard from './ReviewCard';
 import styles from "../styles/Pagination.module.css"
 
-/* 
-* This is a component that creates pages for review cards
-* It displays a varying amount of reviews on a page
-* and has a pagination feature to change pages
-*/
+/**
+ * 
+ * @param {*} param0 
+ * @returns 
+ * Component that creates pages for review cards
+ * It displays a varying amount of reviews on a page
+ * and has a pagination feature to change pages
+ */
 const PaginationCards = ({reviews, type}) => {
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(3);  

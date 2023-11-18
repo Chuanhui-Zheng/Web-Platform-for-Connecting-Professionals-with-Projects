@@ -5,10 +5,13 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-/*
-* MUI component that displays a single select input form
-* Used for the project status field in edit project
-*/
+/**
+ * 
+ * @param {*} param0 
+ * @returns 
+ * MUI component that displays a single select input form
+ * Used for the project status field in edit project
+ */
 export default function BasicSelect({set, names, label}) {
   const [age, setAge] = React.useState('');
 

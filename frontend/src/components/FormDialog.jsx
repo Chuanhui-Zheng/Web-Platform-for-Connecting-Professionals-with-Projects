@@ -17,12 +17,15 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import styles from '../styles/FormDialog.module.css'
 
-/* 
-* This is a component for creating form dialogs.
-* This is used to create the edit project and edit profile forms
-* The forms are pre-filled with pre-existing project/profile information
-* Upon submit, the form will update the user/project details
-*/
+/**
+ * 
+ * @param {*} param0 
+ * @returns 
+ * Component for creating form dialogs.
+ * This is used to create the edit project and edit profile forms
+ * The forms are pre-filled with pre-existing project/profile information
+ * Upon submit, the form will update the user/project details
+ */
 const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarToggle, snackBarMessage }) => {
   const [formData, setFormData] = useState({});
   const [showSnackbar, setShowSnackbar] = useState(false);
@@ -143,8 +146,11 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
     }
   }, []);    
 
-
-  //  Handle input changes for text fields
+	/**
+	 * 
+	 * @param {*} e 
+	 * Handle input changes for text fields
+	 */
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -153,7 +159,12 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
     }));
   };
 
-  // Handle input changes for date field
+	/**
+	 * 
+	 * @param {*} newValue 
+	 * @param {*} fieldName 
+	 * Handle input changes for date field
+	 */
   const handleDateChange = (newValue, fieldName) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -161,7 +172,11 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
     }));
   };
 
-  // Handle input changes for files (photos)
+	/**
+	 * 
+	 * @param {*} event 
+	 *  Handle input changes for files (photos)
+	 */
   const handleFileChange = (event) => {
     const file = event.target.files[0]; 
 		// change file to a dataurl
@@ -185,7 +200,12 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
     });
   };
 
-	// Handle input changes for category field
+	/**
+	 * 
+	 * @param {*} value 
+	 * @param {*} fieldName 
+	 * Handle input changes for category field
+	 */
   const handleCategoriesChange = (value, fieldName) => {
     setFormData((prevData) => ({
 			...prevData,
@@ -193,7 +213,11 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
     }));
   }
 
-	// Handle change of project status
+	/**
+	 * 
+	 * @param {*} value 
+	 * Handle change of project status
+	 */
   const handleStatusChange = (value) => {
     setFormData((prevData) => ({
 			...prevData,
@@ -206,7 +230,11 @@ const DynamicFormDialog = ({ open, onClose, title, userId, userType, snackbarTog
     setShowSnackbar((prev) => !prev);
   };
 
-	// Handle api calls when submit button is clicked
+	/**
+	 * 
+	 * @param {*} e 
+	 * Handle api calls when submit button is clicked
+	 */
   const handleSubmit = async (e) => {
     e.preventDefault();
 		// Api call for edit professional profile

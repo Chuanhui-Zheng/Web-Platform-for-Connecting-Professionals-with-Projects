@@ -4,9 +4,11 @@ import { apiGet } from '../../api';
 import ProfessionalProfile from './ProfessionalProfile';
 import CompanyProfile from './CompanyProfile';
 
-/*
-* Profile Page that renders either a professional or company profile
-*/
+/**
+ * 
+ * @returns 
+ * Profile Page that renders either a professional or company profile
+ */
 const ProfilePage = () => {
 	const params = useParams();
 	const [userType, setUserType] = React.useState('');

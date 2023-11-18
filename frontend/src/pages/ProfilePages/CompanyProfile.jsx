@@ -9,9 +9,12 @@ import { getProjects } from '../../helpers';
 import Grid from '@mui/material/Grid2';
 import { useProfile } from '../../context/ProfileContext';
 
-/*
-* Company profile page that shows all the details of a company
-*/
+/**
+ * 
+ * @param {*} param0 
+ * @returns 
+ * Company profile page that shows all the details of a company
+ */
 const CompanyProfile = ({userId}) => {
 	const [userType, setUserType] = React.useState('');
 	const [ownUserId, setOwnUserId] = React.useState('');

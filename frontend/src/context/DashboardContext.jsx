@@ -4,9 +4,12 @@ const DashboardContext = createContext();
 
 export const useDashboard = () => useContext(DashboardContext);
 
-/*
-* Context file for dashboard to implement automatic dashboard reload upon change
-*/
+/**
+ * 
+ * @param {*} param0 
+ * @returns 
+ * Cntext file for dashboard to implement automatic dashboard reload upon change
+ */
 export function DashboardProvider({ children }) {
   const [reloadDashboard, setReloadDashboard] = useState(false);
 

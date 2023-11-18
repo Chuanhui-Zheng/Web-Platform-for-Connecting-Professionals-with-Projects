@@ -11,13 +11,15 @@ import { apiGet } from '../api';
 import DynamicFormDialog from './FormDialog';
 import { useProfile } from '../context/ProfileContext';
 
-/* 
-* This is a component that displays the profile header of a user
-* Displays the banner, name, contact details amd an edit profile button
-* Also displays a profile picture
-*/
+/**
+ * 
+ * @param {*} param0 
+ * @returns 
+ * Component that displays the profile header of a user
+ * Displays the banner, name, contact details amd an edit profile button
+ * Also displays a profile picture
+ */
 const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
-
 	const [name, setNewName] = React.useState('');
 	const [email, setNewEmail] = React.useState('');
 	const [phoneNumber, setNewPhoneNumber] = React.useState('');
