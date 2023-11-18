@@ -5,6 +5,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import ErrorIcon from '@mui/icons-material/Error';
+import PropTypes from 'prop-types';
 
 /**
  * 
@@ -29,6 +30,12 @@ function TitleCard(title, body, type) {
 			<div className={styles.dashboardCardBody}>{body}</div>
 		</button>
 	)
+}
+
+TitleCard.propTypes = {
+	title: PropTypes.string,
+	body: PropTypes.string,
+	type: PropTypes.string,
 }
 
 export default TitleCard;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import { apiGet } from '../api';
@@ -9,25 +9,23 @@ import InputBase from '@mui/material/InputBase';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
 import RecommendedPopupModal from './RecommendedPopupModal';
-function sleep(duration) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, duration);
-  });
-}
+import PropTypes from 'prop-types';
 
-const fetchedSkills = ["Coding","Other"]
-const fetchedCategories = ["Software", "Construction"];
 const fetchedLocations= ["Sydney", "Melbourne","Cairns","Perth","Adelaide","Brisbane"];
-export default function SearchBar(props) {
+
+/**
+ * 
+ * @param {*} props 
+ * @returns 
+ * 
+ * Component for search bar on the browse projects page
+ */
+const SearchBar = (props) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredItems, setFilteredItems] = useState(props.allProjects);
   const [open1, setOpen1] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
   const [open3, setOpen3] = React.useState(false);
@@ -44,6 +42,9 @@ export default function SearchBar(props) {
   const [userType, setUserType] = useState(null);
   const [recommended, setRecommended] = React.useState([]);
 
+  /**
+   * Use effect to initilise the user type and thus the content on the search bar.
+   */
   React.useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -54,14 +55,13 @@ export default function SearchBar(props) {
           apiGet('/project/recommended', `professionalId=${decoded.userId}`)
           .then(data => {
             if (!data.error) {
-                setRecommended(data);
-                console.log("project details:", data)
+              setRecommended(data);
             } else {
-                console.error("Error fetching project list:", data.error);
+              console.error("Error fetching project list:", data.error);
             }
         })
         .catch(err => {
-            console.error("Failed to fetch project list:", err);
+          console.error("Failed to fetch project list:", err);
         });
         }
       } else {
@@ -70,37 +70,36 @@ export default function SearchBar(props) {
     } else {
       setUserType("none");
     }
-
   }, []);
 
+  /**
+   * Function to toggle the recommended section for professionals,
+   */
   const toggleShowRecommended = () => {
     setShowRecommended(!showRecommended)
   }
 
+  /**
+   * 
+   * @param {*} event 
+   * 
+   * Function to keep track of the values being changed in the search bar.
+   */
   const handleSearchChange = (event) => {
     const value = event.target.value.toLowerCase();
     setSearchTerm(value);
-    //  depends if we want this to search each change
-    // Filter the items based on the search term
-    // console.log(props.allProjects)
-    // const filtered = props.allProjects.filter(item => 
-    //   item.projectName.toLowerCase().includes(value) ||     
-    //   item.projectCompany.toLowerCase().includes(value) || 
-    //   item.projectDescription.toLowerCase().includes(value) 
-    // );
-    //   console.log(filtered)
-  
-
-    //   console.log(filtered);
-    //   props.setSearch(filtered);
-    //   setFilteredItems(filtered)
   };
 
+  /**
+   * 
+   * @param {*} e 
+   * 
+   * Function to deal with the searching of projects.
+   */
   const handleSearch = async (e) => {
     e.preventDefault();
 
     // Filter the items based on the search term
-    console.log(props.allProjects)
     const filtered = props.allProjects.filter(item => 
       item.projectName.toLowerCase().includes(searchTerm) ||     
       item.projectCompany.toLowerCase().includes(searchTerm) || 
@@ -109,11 +108,9 @@ export default function SearchBar(props) {
 
     // Filter Select 
     const resultsArray = Object.values(filtered).filter(da => {
-      console.log(da.projectCategory, selCategories)
       const categoryMatches = da.projectCategory.includes(selCategories) || selCategories === '';
       const locationMatches = da.projectLocation === selLocation || selLocation === '';
       const skillMatches = da.projectSkills.includes(selSkills) || selSkills === '' ;
-      console.log(categoryMatches, locationMatches, skillMatches)
       return categoryMatches && locationMatches && skillMatches;
     })
 
@@ -122,23 +119,24 @@ export default function SearchBar(props) {
     } else {
       props.setSearch(resultsArray);
     }
-
-    console.log(resultsArray)
-    console.log(filtered);
   }
 
+  /**
+   * 
+   * @param {*} value 
+   * 
+   * Function to handle the catogies filter.
+   */
   const handleOpen1 = (value) => {
     setOpen1(true);
     (async () => {
       setLoading(true);
-      // await sleep(1e3); // For demo purposes.
       setLoading(false);
 
       apiGet('/get/categories',)
       .then(data => {
         if (!data.error) {
             setCategories(data);
-            console.log("categories details:", data)
         } else {
             console.error("Error fetching categories:", data.error);
         }
@@ -149,13 +147,24 @@ export default function SearchBar(props) {
     })();
   };
 
+  /**
+   * 
+   * @param {*} event 
+   * 
+   * Function to deal with the closing of the categories filter.
+   */
   const handleClose1 = (event) => {
     setOpen1(false);
     setCategories([]);
-    console.log(event.target.textContent)
     setSelCategories(event.target.textContent);
   };
 
+  /**
+   * 
+   * @param {*} value 
+   * 
+   * Functionto deal with loctions filter.
+   */
   const handleOpen2 = (value) => {
     setOpen2(true);
     (async () => {
@@ -178,25 +187,35 @@ export default function SearchBar(props) {
     })();
   };
 
+  /**
+   * 
+   * @param {*} event 
+   * 
+   * Function to close locations filter.
+   */
   const handleClose2 = (event) => {
     setOpen2(false);
     setLocations([]);
-    console.log(event.target.textContent)
     setSelLocation(event.target.textContent);
   };
 
+  /**
+   * 
+   * @param {*} value 
+   * 
+   * Function to deal withthe skills filter.
+   */
   const handleOpen3 = (value) => {
     setOpen3(true);
     (async () => {
       setLoading(true);
-      // await sleep(1e3); // For demo purposes.
       setLoading(false);
 
+      // gets all skills projects that match
       apiGet('/get/skills',)
       .then(data => {
         if (!data.error) {
           setSkills(data);
-          console.log("skills details:", data)
         } else {
             console.error("Error fetching skills:", data.error);
         }
@@ -207,29 +226,34 @@ export default function SearchBar(props) {
     })();
   };
 
+  /**
+   * 
+   * @param {*} event 
+   * 
+   * Function to deal with the closing of skills.
+   */
   const handleClose3 = (event) => {
     setOpen3(false);
     setSkills([]);
-    console.log(event.target.textContent)
     setSelSkills(event.target.textContent);
   };
 
   return (
     <Box sx={{width:'100%'}}>
     <Paper
-          component="form"
-          sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%', mt: 2 }}
-        >
-          <InputBase
-            sx={{ ml: 1, flex: 1 }}
-            placeholder="Search Projects"
-            inputProps={{ 'aria-label': 'search projects' }}
-            onChange={handleSearchChange}
-          />
-          <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={handleSearch}>
-            <SearchIcon />
-          </IconButton>
-          <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+      component="form"
+      sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%', mt: 2 }}
+    >
+      <InputBase
+        sx={{ ml: 1, flex: 1 }}
+        placeholder="Search Projects"
+        inputProps={{ 'aria-label': 'search projects' }}
+        onChange={handleSearchChange}
+      />
+      <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={handleSearch}>
+        <SearchIcon />
+      </IconButton>
+      <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
     </Paper>
     <Paper sx={{display:'flex'}}>
     
@@ -254,7 +278,6 @@ export default function SearchBar(props) {
               ...params.InputProps,
               endAdornment: (
                 <React.Fragment>
-                  {/* {loading ? <CircularProgress color="inherit" size={20} /> : null} */}
                   {params.InputProps.endAdornment}
                 </React.Fragment>
               ),
@@ -273,7 +296,6 @@ export default function SearchBar(props) {
       isOptionEqualToValue={(option, value) => option.title === value.title}
       getOptionLabel={(option) => option}
       options={locations}
-      // loading={loading}
       renderInput={(params) => (
         <TextField
           {...params}
@@ -326,7 +348,6 @@ export default function SearchBar(props) {
 	   {(userType === 'professional') && <Button variant="contained" sx={{width: '100%', backgroundColor:'#F29465'}} onClick={() => 
       {
         setShowRecommended(true)
-        // console.log(recommended)
       }}>View recommended</Button>}
       {showRecommended && (
         <RecommendedPopupModal
@@ -340,3 +361,10 @@ export default function SearchBar(props) {
   );
 
 }
+
+
+SearchBar.propTypes = {
+	props: PropTypes.any,
+}
+
+export default SearchBar

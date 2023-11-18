@@ -9,6 +9,7 @@ import {
 	ListItem
 } from '@mui/material';
 import BrowseCards from './BrowseCards';
+import PropTypes from 'prop-types';
 
 /**
  * 
@@ -49,6 +50,12 @@ const RecommendedPopupModal = ({ titleText, recommended, toggleShowRecommended }
 			</Button>
 		</Dialog>
 	);
+}
+
+RecommendedPopupModal.propTypes = {
+	titleText: PropTypes.string,
+	recommended: PropTypes.object,
+	toggleShowRecommended: PropTypes.func,
 }
 
 export default RecommendedPopupModal;

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Professional/Dashboard.module.css'
+import PropTypes from 'prop-types';
 
 /**
  * 
@@ -21,6 +22,12 @@ const ProjectCard  = ({ projectName, projectDescription, projectId }) => {
 			<p className={styles.projectDetails} onClick={() => { navigate(`/projectdetail/${projectId}`) }}>Project Details {'>'}</p>
 		</button>
 	)
+}
+
+ProjectCard.propTypes = {
+	projectName: PropTypes.string,
+	projectDescription: PropTypes.string,
+	projectId: PropTypes.any
 }
 
 export default ProjectCard;
