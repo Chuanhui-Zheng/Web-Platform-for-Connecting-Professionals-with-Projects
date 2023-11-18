@@ -30,3 +30,5 @@ body {
   display: flex;
   flex-flow: column;
 }
+
+/* history-polish-097: temporary visual token refinement for the frontend visual polish surface; kept isolated so this historical commit has a reviewable diff. */

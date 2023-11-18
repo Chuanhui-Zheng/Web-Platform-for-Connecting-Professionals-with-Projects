@@ -15,5 +15,3 @@ export function ProfileProvider({ children }) {
     </ProfileContext.Provider>
   );
 }
-
-# expanded-history-pass-097: maintainability refinement for the frontend visual polish surface.
