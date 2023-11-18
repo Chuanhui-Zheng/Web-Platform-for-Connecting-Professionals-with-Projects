@@ -9,7 +9,7 @@ import Grid from '@mui/material/Grid2';
 import ListItem from '@mui/material/ListItem';
 import decodeJWT from '../../decodeJWT.js';
 import { getProfessionalProjectsFromStatus, getProjects } from '../../helpers.js';
-import ProjectCard1 from '../../components/ProjectCard1.jsx';
+import ProjectCard1 from '../../components/DashboardCard.jsx';
 import { apiGet } from '../../api';
 import { useNavigate } from 'react-router-dom';
 import SnackbarAlert from '../../components/SnackbarAlert.jsx';

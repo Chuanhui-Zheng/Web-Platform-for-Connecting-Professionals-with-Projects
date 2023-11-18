@@ -15,8 +15,6 @@ import TextField from '@mui/material/TextField';
 import RecommendedPopupModal from './RecommendedPopupModal';
 import PropTypes from 'prop-types';
 
-const fetchedLocations= ["Sydney", "Melbourne","Cairns","Perth","Adelaide","Brisbane"];
-
 /**
  * 
  * @param {*} props 
@@ -123,11 +121,9 @@ const SearchBar = (props) => {
 
   /**
    * 
-   * @param {*} value 
-   * 
    * Function to handle the catogies filter.
    */
-  const handleOpen1 = (value) => {
+  const handleOpen1 = () => {
     setOpen1(true);
     (async () => {
       setLoading(true);
@@ -161,17 +157,27 @@ const SearchBar = (props) => {
 
   /**
    * 
-   * @param {*} value 
-   * 
    * Functionto deal with loctions filter.
    */
-  const handleOpen2 = (value) => {
+  const handleOpen2 = () => {
     setOpen2(true);
     (async () => {
       setLoading(true);
       setLoading(false);
 
-      setLocations([...fetchedLocations]);
+      // setLocations([...fetchedLocations]);
+      apiGet('/get/locations',)
+      .then(data => {
+        if (!data.error) {
+          setLocations(data);
+          console.log("location details:", data)
+        } else {
+            console.error("Error fetching locations:", data.error);
+        }
+      })
+      .catch(err => {
+          console.error("Failed to get locations:", err);
+      });
     })();
   };
 
@@ -189,11 +195,9 @@ const SearchBar = (props) => {
 
   /**
    * 
-   * @param {*} value 
-   * 
    * Function to deal withthe skills filter.
    */
-  const handleOpen3 = (value) => {
+  const handleOpen3 = () => {
     setOpen3(true);
     (async () => {
       setLoading(true);
@@ -353,6 +357,8 @@ const SearchBar = (props) => {
 
 SearchBar.propTypes = {
 	props: PropTypes.any,
+  setSearch: PropTypes.func,
+  allProjects: PropTypes.array,
 }
 
 export default SearchBar

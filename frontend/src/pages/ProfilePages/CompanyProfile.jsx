@@ -1,7 +1,7 @@
 import * as React from 'react';
 import ProfileHeader from "../../components/ProfileHeader";
 import styles from "../../styles/Professional/ProfessionalProfile.module.css"
-import ProjectCard1 from "../../components/ProjectCard1";
+import ProjectCard1 from "../../components/DashboardCard";
 import { Box, Typography } from '@mui/material';
 import { apiGet } from '../../api';
 import decodeJWT from "../../decodeJWT";

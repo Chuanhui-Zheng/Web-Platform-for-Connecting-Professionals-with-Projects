@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
-from database.models import Skills, Categories
+from database.models import Skills, Categories, Projects
 
 app = Flask(__name__)
 
@@ -17,3 +17,15 @@ def getCategories():
     categories = Categories.query.filter_by(name="categories").first()
     categoriesList = categories.listOfCategories
     return jsonify(categoriesList), 200
+
+# @app.route('/get/locations', methods=['GET'])
+# def getLocations():
+#     project = Projects.query.filter_by(name="projects").first()
+#     locations = project.projectLocation
+#     return jsonify(locations), 200
+
+@app.route('/get/locations', methods=['GET'])
+def getLocations():
+    projects = Projects.query.all()
+    locations = list({project.projectLocation for project in projects if project.projectLocation})
+    return jsonify(locations), 200

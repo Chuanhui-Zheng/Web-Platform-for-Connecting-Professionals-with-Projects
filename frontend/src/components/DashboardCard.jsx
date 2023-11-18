@@ -1,12 +1,11 @@
-import React from "react";
 import { Card, CardContent, Typography, Box, Chip, Button, CardMedia  } from "@mui/material";
 import { styled } from "@mui/system";
-// import { FaMapMarkerAlt, FaCalendarAlt } from "react-icons/fa";
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import GroupsIcon from '@mui/icons-material/Groups';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import { useNavigate } from "react-router-dom";
+import PropTypes from 'prop-types';
 
 const StyledCard = styled(Card)(({ theme }) => ({
   maxWidth: 345,
@@ -21,11 +20,6 @@ const StyledCard = styled(Card)(({ theme }) => ({
   }
 }));
 
-// const StyledCardMedia = styled(CardMedia)({
-//   height: 0,
-//   paddingTop: "56.25%", // 16:9 aspect ratio
-// });
-
 const StyledCardContent = styled(CardContent)({
   textAlign: "left",
   padding: 16,
@@ -38,7 +32,14 @@ const StyledChip = styled(Chip)({
   }
 });
 
-export default function ProjectCard1({project}) {
+/**
+ * 
+ * @param {*} param0 
+ * @returns 
+ * Component that displays the cards for dashboard,
+ * containting summarised information about a project.
+ */
+export default function DashboardCard({project}) {
   const navigate = useNavigate();
   return (
     <StyledCard tabIndex={0} aria-label="Project Description Card" sx={{width:'100%'}}>
@@ -53,28 +54,31 @@ export default function ProjectCard1({project}) {
         </Typography>
         <Box display="flex" alignItems="center" mb={1}>
           <BusinessCenterIcon style={{ marginRight: 8 }} />
-          {project.projectCategories.length == 0 ? <Typography variant="body2" color="textSecondary">
-          N/A
-          </Typography>: <Typography variant="body2" color="textSecondary">
-          {project.projectCategories}
+          {project.projectCategories.length == 0 ? 
+          <Typography variant="body2" color="textSecondary">
+            N/A
+          </Typography>
+          : 
+          <Typography variant="body2" color="textSecondary">
+            {project.projectCategories}
           </Typography>}
         </Box>
         <Box display="flex" alignItems="center" mb={1}>
           <DateRangeIcon style={{ marginRight: 8 }} />
           <Typography variant="body2" color="textSecondary">
-          {project.projectStartDate} - {project.projectEndDate}
+            {project.projectStartDate} - {project.projectEndDate}
           </Typography>
         </Box>
         <Box display="flex" alignItems="center" mb={1}>
           <LocationOnIcon style={{ marginRight: 8 }} />
           <Typography variant="body2" color="textSecondary">
-          {project.projectLocation || 'N/A'}
+            {project.projectLocation || 'N/A'}
           </Typography>
         </Box>
         <Box display="flex" alignItems="center" mb={1}>
           <GroupsIcon style={{ marginRight: 8 }} />
           <Typography variant="body2" color="textSecondary">
-          {project.professionalsWanted || 'N/A'}
+            {project.professionalsWanted || 'N/A'}
           </Typography>
         </Box>
         <Typography variant="body2" color="textSecondary" paragraph>
@@ -101,4 +105,6 @@ export default function ProjectCard1({project}) {
   );
 };
 
-// export default BrowseCards;
+DashboardCard.propTypes = {
+	project: PropTypes.object,
+}

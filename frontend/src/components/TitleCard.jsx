@@ -1,4 +1,3 @@
-import * as React from 'react';
 import styles from"../styles/Professional/Dashboard.module.css";
 import { useNavigate } from 'react-router-dom';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -14,7 +13,7 @@ import PropTypes from 'prop-types';
  * @param {*} type 
  * @returns 
  * 
- * Componet for title card 
+ * Component for title card 
  */
 function TitleCard(title, body, type) {
 	const navigate = useNavigate();
