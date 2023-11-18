@@ -77,23 +77,28 @@ const ProfessionalProfile = ( { userId } ) => {
 
 	return (
 		<>
-			<Box sx={{ width: '100%', minHeight: '1600px', bgcolor: '#F5F5F5', background: 'linear-gradient(to bottom, #F5F5F5, #F5F5F5)', borderRadius: '20px' }}>
+			<Box sx={{ width: '100%', minHeight: '1000px', bgcolor: '#F5F5F5', background: 'linear-gradient(to bottom, #F5F5F5, #F5F5F5)', borderRadius: '20px' }}>
 				<ProfileHeader userId={userId} userType="professional" ownProfile={ownProfile}></ProfileHeader>
 				<div className={styles.ProfessionalProfileContent}>
 				<Typography variant="h5" sx={{ fontWeight: 'bold', mt:2, mb:1 }}>Summary</Typography>
-					<div className={styles.ProfessionalProfileText}>
-						{professionalDescription}
-					</div>
+						{professionalDescription ? 
+							<div className={styles.ProfessionalProfileText}>{professionalDescription}</div> 
+							:<div className={styles.ProfessionalProfileText}>No Description Added</div> 
+						}
 					<Typography variant="h5" sx={{ fontWeight: 'bold', mt:3, mb:1 }}>Skills</Typography>
-					<div className={styles.ProfessionalProfileSkillsContainer}>
-						{professionalSkills.map((skill, idx) => {
-							return (
-								<div key={idx} className={styles.ProfessionalProfileSkill}>
-									<BasicChips content={skill} />
-								</div>
-							)
-						})}
-					</div>
+						{professionalSkills.length > 0 ? (
+							<div className={styles.ProfessionalProfileSkillsContainer}>
+								{professionalSkills.map((skill, idx) => {
+									return (
+										<div key={idx} className={styles.ProfessionalProfileSkill}>
+											<BasicChips content={skill} />
+										</div>
+									)
+								})}
+							</div>
+						) : (
+							<div > No Skills Added</div>
+						)}
 					<Typography variant="h5" sx={{ fontWeight: 'bold', mt:3 }}>Projects</Typography>
 					<br></br>
 					{projects.length > 0 ? (
@@ -104,13 +109,22 @@ const ProfessionalProfile = ( { userId } ) => {
 								</Grid>
 							))}
 						</Grid>
-						) : (
-								<div > No Projects Listed. Apply for a Project!</div>
-						)}
-					<Typography variant="h5" sx={{ fontWeight: 'bold', mt:3 }}>Certificates</Typography>
-					<Certificates certificates={certificates} ownProfile={ownProfile}></Certificates>
+					) : (
+						<div > Currently No Projects Listed. </div>
+					)}
+					 <Typography variant="h5" sx={{ fontWeight: 'bold', mt:3,mb:1  }}>Certificates</Typography>
+					{certificates.length > 0 ? (
+						<Certificates certificates={certificates} ownProfile={ownProfile}></Certificates>
+					) : (
+						<div> No Certifications Available.</div>
+					)}
 					<Typography variant="h5" sx={{ fontWeight: 'bold', mt:3, mb:1 }}>Reviews</Typography>
-					<PaginationCards reviews={ratings} type="professional" ></PaginationCards>
+					{console.log(ratings)}
+					{ratings.length > 0 ? (
+						<PaginationCards reviews={ratings} type="professional" ></PaginationCards>
+					) : (
+						<div> No Reviews Available.</div>
+					)}
 				</div>
 			</Box>
 		</>

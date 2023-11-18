@@ -74,6 +74,10 @@ def authRegisterProfessional():
     # Create token
     access_token = create_access_token(identity=professionalEmail, additional_claims=token_data)
 
+    # Send welcome notification
+    message = f"Welcome to ProJector! Edit your profile to get recommended projects!"
+    new_professional.add_notification(new_professional.professionalId, message)
+
     # Return the token
     return jsonify({ "token": access_token }), 201
 

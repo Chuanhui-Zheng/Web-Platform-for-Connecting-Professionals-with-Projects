@@ -1,6 +1,5 @@
 .ProfessionalProfileContent {
-	height: 50vh;
-	margin-left: 10%;
+    margin-left: 10%;
 }
 
 .ProfessionalProfileBodyTitle {
@@ -8,12 +7,12 @@
 }
 
 .ProfessionalProfileText {
-	background-color: #F9F9F9;
-	width: 90%;
-	color: #696969;
-	height: 35%;
-	border-radius: 35px;
-	padding: 10px 20px;
+    background-color: #F9F9F9;
+    width: 90%;
+    color: #696969;
+    height: 35%;
+    border-radius: 35px;
+    padding: 10px 20px;
 }
 
 .ProfessionalProfileSkillsContainer {

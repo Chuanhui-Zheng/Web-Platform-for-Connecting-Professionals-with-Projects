@@ -54,11 +54,11 @@ export default function BrowseCards({project}) {
         alt="Company Logo"
       /> */}
       <StyledCardContent>
-        <TruncateTypography sx={{height: "7vh"}} variant="h5" component="h2" gutterBottom>
+        <TruncateTypography sx={{height: "4vh"}} variant="h5" component="h2" gutterBottom>
           {project.projectName}
         </TruncateTypography>
         <Typography variant="body2" color="textSecondary">
-          {project.projectCompany} 
+         <b> {project.projectCompany} </b>
           </Typography>
         <Box display="flex" alignItems="center" mb={1}>
           <BusinessCenterIcon style={{ marginRight: 8 }} />

@@ -82,7 +82,7 @@ function SidePanel({ projectID, onSelectProject }) {
     // const [projectID, setSelectProjectID] = React.useState('');
     const [isLoading, setIsLoading] = React.useState(true);
     const [searchResults, setSearch] = React.useState([]);
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(true);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -129,12 +129,11 @@ function SidePanel({ projectID, onSelectProject }) {
           <Stack direction="row">
             <IconButton onClick={handleDrawerOpen}><SearchIcon /><ChevronRightIcon />  </IconButton>
           </Stack> : 
-          <Stack direction="row" sx={{width:'100%'}}>
+          <Stack direction="row" sx={{width:'100%', marginTop:'7vh'}}>
             <SearchBar allProjects={allProjects} setSearch={setSearch}> </SearchBar><IconButton onClick={handleDrawerClose}><ChevronLeftIcon/></IconButton>
           </Stack>
           }
         </DrawerHeader>
-        <Divider />
         <Box sx={{ overflow: 'auto', width: '100%', marginTop:'10vh'}}>
         
         {open === false ? <div></div>: 
