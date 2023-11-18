@@ -10,6 +10,12 @@ const teamMembers = [
   { name: 'Blair Zheng', role: 'Software Engineer', image: '' },
 ];
 
+/**
+ * 
+ * @returns 
+ * 
+ * Page containing details for the about us page.
+ */
 const AboutUs = () => {
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
