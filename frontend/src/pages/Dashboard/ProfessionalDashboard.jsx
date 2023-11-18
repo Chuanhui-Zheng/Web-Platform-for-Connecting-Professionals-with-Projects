@@ -19,7 +19,7 @@ import ListItem from '@mui/material/ListItem';
 import { useDashboard } from '../../context/DashboardContext.jsx';
 import decodeJWT from '../../decodeJWT.js';
 import { getProfessionalProjectsFromStatus, getProjects } from '../../helpers.js';
-import ProjectCard1 from '../../components/ProjectCard1.jsx';
+import ProjectCard1 from '../../components/DashboardCard.jsx';
 import { apiGet } from '../../api';
 
 const projectTitleStyle = {

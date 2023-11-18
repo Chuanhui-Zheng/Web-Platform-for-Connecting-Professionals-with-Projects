@@ -13,7 +13,7 @@ import ErrorIcon from '@mui/icons-material/Error';
  * @param {*} type 
  * @returns 
  * 
- * Componet for title card 
+ * Component for title card 
  */
 function TitleCard(title, body, type) {
 	const navigate = useNavigate();

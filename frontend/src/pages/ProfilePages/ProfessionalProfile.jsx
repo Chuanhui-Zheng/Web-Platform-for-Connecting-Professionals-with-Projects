@@ -9,7 +9,7 @@ import { getProjects } from '../../helpers';
 import Certificates from '../../components/CertficateCard';
 import PaginationCards from '../../components/Pagination';
 import { useProfile } from '../../context/ProfileContext';
-import ProjectCard1 from '../../components/ProjectCard1';
+import ProjectCard1 from '../../components/DashboardCard';
 import Grid from '@mui/material/Grid2';
 import PropTypes from 'prop-types';
 

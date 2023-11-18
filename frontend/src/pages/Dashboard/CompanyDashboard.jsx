@@ -16,7 +16,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 
-import ProjectCard1 from '../../components/ProjectCard1.jsx';
+import ProjectCard1 from '../../components/DashboardCard.jsx';
 import { getProjects } from '../../helpers.js';
 import decodeJWT from '../../decodeJWT.js';
 import SnackbarAlert from '../../components/SnackbarAlert.jsx';
