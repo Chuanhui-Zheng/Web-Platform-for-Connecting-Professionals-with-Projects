@@ -4,7 +4,9 @@ import styles from "../styles/Home.module.css";
 import SearchIcon from '@mui/icons-material/Search';
 import image from '../assets/projector2.png';
 
-// style and position layout for projector image
+/**
+ * Style component for image
+ */
 const imgStyle = {
   position:'absolute',
   width: '20%',
@@ -12,10 +14,9 @@ const imgStyle = {
 };
 
 /**
+ * Home page for Projector platform.
  * 
  * @returns 
- * 
- * Home Page for ProJector.
  */
 function Home() {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ function Home() {
             placeholder="Search for a Project Title or Company" 
           />
           <button className={styles.searchButton} onClick={()=>navigate('/allprojects')}>
-            <SearchIcon fontSize="medium"></SearchIcon>
+            <SearchIcon fontSize="medium" />
           </button>
         </div>
       </div>

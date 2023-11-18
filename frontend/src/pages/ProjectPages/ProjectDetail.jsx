@@ -7,9 +7,9 @@ import ProjectDetailWindow from '../../components/ProjectDetailWindow';
 import Header from '../../components/Header';
 
 /**
+ * Page displays the full project details in the window.
  * 
  * @returns 
- * Page displays the full project details in the window.
  */
 export default function ProjectDetail() {
   const { projectID } = useParams();
@@ -17,7 +17,7 @@ export default function ProjectDetail() {
 		<Box sx={{ display: 'flex' }}>
 			<CssBaseline />
 			<AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-				<Header></Header>
+				<Header />
 			</AppBar>
 			<ProjectDetailWindow projectID={projectID}/>
 		</Box>
