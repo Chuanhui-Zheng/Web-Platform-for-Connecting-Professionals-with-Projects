@@ -6,7 +6,7 @@
 4. Run "pip3 install -r requirements.txt" (windows) 
 3. Run "flask shell"
 4. Now within flask shell:
- - Within flask shell, run "db.create_all()"
+ - run "db.create_all()"
 5. Return to main directory (cd ..)
 6. docker-compose up --build
 
