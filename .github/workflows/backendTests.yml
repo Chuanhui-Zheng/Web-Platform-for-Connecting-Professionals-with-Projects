@@ -29,4 +29,4 @@ jobs:
 
       - name: Running test
         run: |
-          ./db_controller.sh test
+          bash db_controller.sh test
