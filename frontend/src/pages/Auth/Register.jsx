@@ -4,8 +4,11 @@ import { Box, FormControlLabel, Radio, RadioGroup, Typography } from "@mui/mater
 import ProfessionalRegisterForm from "./ProfessionalRegisterForm";
 
 /**
- * Registration page that opens form for professional or company
- * @returns
+ * Registration page component that renders a form for professional or company registration.
+ * Displays a radio button group for user type selection and conditionally renders
+ * the appropriate registration form based on the selection.
+ * 
+ * @returns {JSX.Element} The rendered Register component
  */
 function Register() {
   const [selectedUserType, setSelectedUserType] = useState("");

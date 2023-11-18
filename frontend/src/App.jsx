@@ -34,7 +34,8 @@ function RegisterAndLogout() {
 }
 
 /**
- * App component for Projector platform
+ * App component for Projector platform.
+ * 
  * @returns 
  */
 function App() {

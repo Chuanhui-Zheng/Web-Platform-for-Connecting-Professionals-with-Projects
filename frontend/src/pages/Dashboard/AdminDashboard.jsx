@@ -31,7 +31,10 @@ const adminColumns = [
 ];
 
 /**
- * Dashboard for admins that includes multiple data tables of various users
+ * Dashboard for admins that includes multiple data tables of various users.
+ * It has 3 DataTables to show administrative information about professionals,
+ * companies and admins. It also has functionality to create another admin.
+ * 
  * @returns 
  */
 export default function AdminDashboard() {

@@ -1,5 +1,6 @@
 /**
- * Page for no access error
+ * Page for situations where a user does not have access to the page.
+ * 
  * @returns 
  */
 export default function NoAccessPage() {

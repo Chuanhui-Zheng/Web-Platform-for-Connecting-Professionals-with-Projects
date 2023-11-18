@@ -1,5 +1,6 @@
 /**
- * Page of not found error
+ * Page for when the page is not found.
+ * 
  * @returns 
  */
 function NotFound() {

@@ -16,7 +16,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
 
 /**
- * Company Registeration Form
+ * Registeration form for companies to register on the platform.
+ * 
  * @returns 
  */
 function CompanyRegisterForm() {

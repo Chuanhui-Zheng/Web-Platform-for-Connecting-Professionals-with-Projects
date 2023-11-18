@@ -16,7 +16,8 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 /**
- * Professional Registeration Form
+ * Registeration form for progessionals to register on the platform.
+ * 
  * @returns 
  */
 function ProfessionalRegisterForm() {

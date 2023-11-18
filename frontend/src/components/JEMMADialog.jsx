@@ -1,7 +1,10 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 
 /**
- * Dialog used for multiple various pop-ups across the platform
+ * Dialog used for multiple various pop-ups across the platform.
+ * It gets titleText and uses it for the title. It gets a set of children for
+ * the body and another set for the actions.
+ * 
  * @param {*} param0
  * @returns 
  */

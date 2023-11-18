@@ -60,7 +60,6 @@ export function isValidPassword(password) {
 export async function getProjects(userId, status) {
   return apiGet("/project/list", `id=${userId}&status=${status}`)
     .then((data) => {
-      console.log(data)
       return data
     })
     .catch((error) => {

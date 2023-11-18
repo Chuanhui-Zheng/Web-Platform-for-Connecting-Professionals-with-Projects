@@ -1,7 +1,7 @@
 import { styled } from "@mui/material";
 
 /**
- * Styled component to visually hide input
+ * Styled component to visually hide input.
  */
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',

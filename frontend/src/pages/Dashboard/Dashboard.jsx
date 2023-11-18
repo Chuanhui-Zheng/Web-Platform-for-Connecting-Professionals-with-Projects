@@ -7,7 +7,9 @@ import NoAccessPage from "../ErrorPages/NoAccessPage";
 import LoadingPage from "../ErrorPages/LoadingPage"
 
 /**
- * Dashboard component that redirects a user to the correct dashboard page
+ * Dashboard component that returns the correct dashboard page for the 
+ * respective user type.
+ * 
  * @returns 
  */
 export default function Dashboard() {

@@ -15,7 +15,8 @@ const professionalColumns = [
 ];
 
 /**
- * Component that is a wrapper around DataTable.jsx to show professionals on a project
+ * Component that is shows professionals on a project from a DataTable.
+ * 
  * @param {*} param0 
  * @returns 
  */

@@ -94,7 +94,6 @@ function ProjectApplicantList() {
     apiGet("/project/applicant/list", `projectId=${projectId}`)
       .then((data) => {
         if (!data.error) {
-          console.log(JSON.stringify(data, null, 2));
           setProjectList(data)
         } else {
           throw new Error("Get Project Candidate List Failed");

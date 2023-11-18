@@ -1,5 +1,6 @@
 /**
- * Decode the JWT token to get the payload data
+ * Decode the JWT token to get the payload data.
+ * 
  * @param {*} token 
  * @returns 
  */

@@ -2,7 +2,9 @@ import "../styles/Form.css"
 import { Button, Box } from "@mui/material";
 
 /**
- * Form component that uses children for input fieldss
+ * Form component for authorisation functionality.
+ * It uses for input fields and has a button at the end.
+ * 
  * @param {*} param0 
  * @returns 
  */
