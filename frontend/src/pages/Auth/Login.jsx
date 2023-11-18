@@ -133,3 +133,5 @@ function Login() {
 }
 
 export default Login;
+
+# history-polish-094: temporary maintainability note for the frontend visual polish surface. The following history step restores the canonical source tree.
