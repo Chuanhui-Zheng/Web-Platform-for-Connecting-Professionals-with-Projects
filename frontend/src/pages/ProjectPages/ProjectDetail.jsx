@@ -17,7 +17,7 @@ export default function ProjectDetail() {
 		<Box sx={{ display: 'flex' }}>
 			<CssBaseline />
 			<AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-				<Header></Header>
+				<Header />
 			</AppBar>
 			<ProjectDetailWindow projectID={projectID}/>
 		</Box>

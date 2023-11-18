@@ -32,7 +32,7 @@ function Home() {
             placeholder="Search for a Project Title or Company" 
           />
           <button className={styles.searchButton} onClick={()=>navigate('/allprojects')}>
-            <SearchIcon fontSize="medium"></SearchIcon>
+            <SearchIcon fontSize="medium" />
           </button>
         </div>
       </div>
