@@ -134,7 +134,7 @@ function Header() {
     return (
         <Box sx={{backgroundColor: 'pink'}}>
             <CssBaseline />
-            <AppBar position="sticky" sx={{backgroundColor: "#344649",}}>
+            <AppBar position="fixed" sx={{backgroundColor: "#344649",}}>
             <Toolbar sx={{justifyContent: "space-between",  "@media (min-width: 0px)": { paddingRight: "25px", paddingLeft: "25px" },}}>
             <Typography
                 variant="h6"
