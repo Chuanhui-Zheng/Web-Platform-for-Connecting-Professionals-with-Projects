@@ -32,7 +32,7 @@ DEFAULT_PROJECTS = [
         "projectDescription": "Cutting edge new AI research project. Better than ChatGPT, could probably beat him in a 1v1.",
         "projectObjectives":"To create a better AI than ChatGPT",
         "projectCategories":["Software"],
-        "projectLocation": "North Ryde, 2113",
+        "projectLocation": "North Ryde",
         "projectSkills": ["Coding"]
     },
     {
@@ -40,7 +40,7 @@ DEFAULT_PROJECTS = [
         "projectDescription": "There's a chance for precipitation today because look at all the clouds in the sky.",
         "projectObjectives": "To create a bigger cloud than AWS",
         "projectCategories": ["Construction"],
-        "projectLocation": "Sydney, 2000",
+        "projectLocation": "Sydney",
         "projectSkills": ["Networks", "Coding"]
     },
     {
@@ -48,7 +48,7 @@ DEFAULT_PROJECTS = [
         "projectDescription": "Develop a system for identifying, analyzing, and mitigating cybersecurity threats.",
         "projectObjectives": "Enhance the company's cybersecurity resilience.",
         "projectCategories": ["Software", "Finance"],
-        "projectLocation": "Melbourne, 3000",
+        "projectLocation": "Melbourne",
         "projectSkills": ["Data Analysis", "Project Management"]
     },
     {
@@ -56,7 +56,7 @@ DEFAULT_PROJECTS = [
         "projectDescription": "A healthcare platform to streamline patient management and communication.",
         "projectObjectives": "Build a scalable system to support patient care.",
         "projectCategories": ["Healthcare", "Software"],
-        "projectLocation": "Brisbane, 4000",
+        "projectLocation": "Brisbane",
         "projectSkills": ["Coding", "Design"]
     },
     {
@@ -64,7 +64,7 @@ DEFAULT_PROJECTS = [
         "projectDescription": "Implement eco-friendly practices in construction and material usage.",
         "projectObjectives": "Reduce carbon footprint in construction processes.",
         "projectCategories": ["Construction"],
-        "projectLocation": "Perth, 6000",
+        "projectLocation": "Perth",
         "projectSkills": ["Project Management", "Design"]
     },
     {
@@ -72,7 +72,7 @@ DEFAULT_PROJECTS = [
         "projectDescription": "An interactive learning platform tailored for remote students.",
         "projectObjectives": "Improve accessibility and engagement in remote education.",
         "projectCategories": ["Education", "Software"],
-        "projectLocation": "Adelaide, 5000",
+        "projectLocation": "Adelaide",
         "projectSkills": ["Coding", "Design", "Data Analysis"]
     }
 ]
@@ -83,7 +83,7 @@ MORE_PROJECTS = [
         "projectDescription": "A project focused on leveraging IoT for real-time monitoring of agricultural activities.",
         "projectObjectives": "Increase crop yield and sustainability through precision farming technologies.",
         "projectCategories": ["Agriculture", "Technology"],
-        "projectLocation": "Orange, 2800",
+        "projectLocation": "Orange",
         "projectSkills": ["Data Analysis", "Project Management", "IoT"]
     },
     {
@@ -91,7 +91,7 @@ MORE_PROJECTS = [
         "projectDescription": "Develop a platform to provide financial literacy courses and tools for young adults.",
         "projectObjectives": "Promote financial independence and informed decision-making among youth.",
         "projectCategories": ["Finance", "Education"],
-        "projectLocation": "Canberra, 2600",
+        "projectLocation": "Canberra",
         "projectSkills": ["Coding", "Content Creation", "Data Analysis"]
     },
     {
@@ -99,7 +99,7 @@ MORE_PROJECTS = [
         "projectDescription": "An initiative to create a digital map of renewable energy resources across Australia.",
         "projectObjectives": "Help businesses and individuals identify local renewable energy opportunities.",
         "projectCategories": ["Energy", "Environment"],
-        "projectLocation": "Hobart, 7000",
+        "projectLocation": "Hobart",
         "projectSkills": ["Design", "Data Visualization", "Mapping"]
     }
 ]

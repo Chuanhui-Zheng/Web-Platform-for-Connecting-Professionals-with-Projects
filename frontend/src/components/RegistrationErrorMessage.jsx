@@ -1,6 +1,11 @@
 import { Typography, Box, List, ListItem, ListItemText, ListItemIcon } from "@mui/material";
 import CircleIcon from '@mui/icons-material/Circle'; // Import the dot icon
 
+/**
+ * 
+ * @returns 
+ * Compoent for registration error message.
+ */
 function RegistrationErrorMessage() {
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
