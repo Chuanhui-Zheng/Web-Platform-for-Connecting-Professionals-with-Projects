@@ -102,7 +102,7 @@ function ProjectProfessionalList({ projectId, listType, toggleSnackbar, setSnack
       .catch((data) => {
         alert(data.error)
       })
-  }, [update]);
+  }, [update, projectId]);
 
   return (
     <Box display="flex" flexDirection="column" gap="50px" >
