@@ -1,5 +1,4 @@
-import React from 'react';
-import { Container, Typography, Box, Grid, Card, CardContent, CardMedia, Avatar } from '@mui/material';
+import { Container, Typography, Box, Grid, Card, CardContent, Avatar } from '@mui/material';
 
 const teamMembers = [
   { name: 'Ce Min Pangastur', role: 'Product Owner', image: '' },

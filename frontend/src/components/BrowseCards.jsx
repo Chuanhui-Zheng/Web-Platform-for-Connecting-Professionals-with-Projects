@@ -1,4 +1,3 @@
-import React from "react";
 import { Card, CardContent, Typography, Box, Chip, Button } from "@mui/material";
 import { styled } from "@mui/system";
 import DateRangeIcon from '@mui/icons-material/DateRange';

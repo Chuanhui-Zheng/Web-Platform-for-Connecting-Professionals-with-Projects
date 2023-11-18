@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useParams } from "react-router-dom";
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';

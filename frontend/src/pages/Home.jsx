@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate } from 'react-router-dom';
 import styles from "../styles/Home.module.css";
 import SearchIcon from '@mui/icons-material/Search';
@@ -25,7 +24,7 @@ function Home() {
       <div className={styles.titleContainer}>
         <img src={image} style={imgStyle} />
         <h1 className={styles.title}>Find Your Dream Project Today!</h1>
-        <div class={styles.searchBar}>
+        <div className={styles.searchBar}>
           <input 
             type="text" 
             className={styles.search}

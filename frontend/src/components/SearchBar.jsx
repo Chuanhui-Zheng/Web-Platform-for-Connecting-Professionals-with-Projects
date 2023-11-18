@@ -15,8 +15,6 @@ import TextField from '@mui/material/TextField';
 import RecommendedPopupModal from './RecommendedPopupModal';
 import PropTypes from 'prop-types';
 
-const fetchedLocations= ["Sydney", "Melbourne","Cairns","Perth","Adelaide","Brisbane"];
-
 /**
  * 
  * @param {*} props 

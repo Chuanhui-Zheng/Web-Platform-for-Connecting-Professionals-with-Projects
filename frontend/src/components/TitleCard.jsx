@@ -1,4 +1,3 @@
-import * as React from 'react';
 import styles from"../styles/Professional/Dashboard.module.css";
 import { useNavigate } from 'react-router-dom';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';

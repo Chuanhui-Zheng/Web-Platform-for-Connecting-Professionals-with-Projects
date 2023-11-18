@@ -1,4 +1,3 @@
-import React from "react";
 import { Card, CardContent, Typography, Box, Chip, Button, CardMedia  } from "@mui/material";
 import { styled } from "@mui/system";
 import DateRangeIcon from '@mui/icons-material/DateRange';
@@ -6,6 +5,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import GroupsIcon from '@mui/icons-material/Groups';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import { useNavigate } from "react-router-dom";
+import PropTypes from 'prop-types';
 
 const StyledCard = styled(Card)(({ theme }) => ({
   maxWidth: 345,
@@ -104,3 +104,7 @@ export default function DashboardCard({project}) {
     </StyledCard>
   );
 };
+
+DashboardCard.propTypes = {
+	project: PropTypes.object,
+}
