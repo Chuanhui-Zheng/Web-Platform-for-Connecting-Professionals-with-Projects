@@ -121,11 +121,9 @@ const SearchBar = (props) => {
 
   /**
    * 
-   * @param {*} value 
-   * 
    * Function to handle the catogies filter.
    */
-  const handleOpen1 = (value) => {
+  const handleOpen1 = () => {
     setOpen1(true);
     (async () => {
       setLoading(true);
@@ -159,11 +157,9 @@ const SearchBar = (props) => {
 
   /**
    * 
-   * @param {*} value 
-   * 
    * Functionto deal with loctions filter.
    */
-  const handleOpen2 = (value) => {
+  const handleOpen2 = () => {
     setOpen2(true);
     (async () => {
       setLoading(true);
@@ -199,11 +195,9 @@ const SearchBar = (props) => {
 
   /**
    * 
-   * @param {*} value 
-   * 
    * Function to deal withthe skills filter.
    */
-  const handleOpen3 = (value) => {
+  const handleOpen3 = () => {
     setOpen3(true);
     (async () => {
       setLoading(true);
@@ -363,6 +357,8 @@ const SearchBar = (props) => {
 
 SearchBar.propTypes = {
 	props: PropTypes.any,
+  setSearch: PropTypes.func,
+  allProjects: PropTypes.array,
 }
 
 export default SearchBar

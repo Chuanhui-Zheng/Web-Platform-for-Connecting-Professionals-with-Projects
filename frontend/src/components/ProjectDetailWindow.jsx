@@ -34,6 +34,7 @@ import DynamicFormDialog from './FormDialog';
 import { useProject } from '../context/ProjectContext';
 import ErrorPopup from './ErrorPopup';
 import presentationscreen from '../assets/presentationscreen2.png';
+import PropTypes from 'prop-types';
 
 // Style components
 const headerStyle = {
@@ -92,7 +93,6 @@ export default function ProjectDetailWindow({ projectID }) {
   const [open, setOpen] = React.useState(false);
   const [isCompleted, setIsCompleted] = React.useState(false);
   const [certificate, setCertificate]= React.useState(null);
-  const [token, setToken]= React.useState('');
   const [approved, setApproved] = React.useState(false);
   const [pending, setPending] = React.useState(true);
   const [showSnackBar, setShowSnackbar] = React.useState(false);
@@ -122,7 +122,6 @@ export default function ProjectDetailWindow({ projectID }) {
    */
   useEffect(() => {
     const glob = localStorage.getItem('token');
-    setToken(glob);
 
     // Sets the user type
     if (glob != null) {
@@ -198,7 +197,7 @@ export default function ProjectDetailWindow({ projectID }) {
           throw new Error("Project Complete Failed");
         }
       })
-      .catch((err) => {
+      .catch(() => {
         setErrorMessage("Project Complete are not valid.");
         toggleError();
         return
@@ -245,7 +244,7 @@ export default function ProjectDetailWindow({ projectID }) {
             throw new Error("Project Apply Failed");
           }
         })
-        .catch((err) => {
+        .catch(() => {
           setErrorMessage("Already applied to project.");
           toggleError();
           return
@@ -255,12 +254,11 @@ export default function ProjectDetailWindow({ projectID }) {
       setSelectedIndex2(0);
       apiPost("/project/professional/leave", { professionalId, projectId })
         .then((data) => {
-          if (!data.error) {
-          } else {
+          if (data.error) {
             throw new Error("Project leave Failed");
           }
         })
-        .catch((err) => {
+        .catch(() => {
           setErrorMessage("Project leave are not valid.");
           toggleError();
           return
@@ -545,4 +543,8 @@ export default function ProjectDetailWindow({ projectID }) {
       {error && <ErrorPopup message={errorMessage} toggleError={toggleError}/>}
     </Box>
   );  
+}
+
+ProjectDetailWindow.propTypes = {
+	projectID: PropTypes.number,
 }

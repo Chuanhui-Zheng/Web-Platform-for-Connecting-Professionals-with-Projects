@@ -10,7 +10,6 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Logout from '@mui/icons-material/Logout';
 import NotificationImportantOutlinedIcon from '@mui/icons-material/NotificationImportantOutlined';
-import { styled } from '@mui/system';
 import decodeJWT from "../decodeJWT";
 import { apiGet } from '../api';
 import { useHeader } from '../context/HeaderContext';
@@ -35,13 +34,11 @@ function Header() {
   const [notifications, setNotifs] = React.useState(null);
   const [newNotif, setNewNotifs] = React.useState(false);
   const [userType, setUserType] = React.useState(null);
-  const [userId, setUserId] = React.useState(null);
   const [photo, setNewPhoto] = React.useState(null);
   const { reloadHeader } = useHeader();
   
   const open = Boolean(anchorEl);
   const openNotif = Boolean(anchor);
-  const id = open ? 'simple-popper' : undefined;
 
   // Profile menu handlers
   const handleClick = (event) => {
@@ -55,7 +52,7 @@ function Header() {
   const handleNotifs = (event) => {
     setAnchor(event.currentTarget);
   };
-  const handleNotifs2 = (event) => {
+  const handleNotifs2 = () => {
     setAnchor(null);
   };
 
@@ -73,7 +70,6 @@ function Header() {
     if (token != null) {
       const tokenData = decodeJWT(token);
       setUserType(tokenData.userType)
-      setUserId(tokenData.userId)
 
       if (tokenData.userType === 'professional') {
         apiGet('/notifications/get', `professionalId=${tokenData.userId}`)
@@ -323,37 +319,4 @@ function Header() {
     </Box>
   );
 }
-
-const grey = {
-  50: '#F3F6F9',
-  100: '#E5EAF2',
-  200: '#DAE2ED',
-  300: '#C7D0DD',
-  400: '#B0B8C4',
-  500: '#9DA8B7',
-  600: '#6B7A90',
-  700: '#434D5B',
-  800: '#303740',
-  900: '#1C2025',
-};
-
-const PopupBody = styled('div')(
-  ({ theme }) => `
-  width: max-content;
-  padding: 12px 16px;
-  margin: 8px;
-  border-radius: 8px;
-  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-  background-color: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-  box-shadow: ${
-    theme.palette.mode === 'dark'
-      ? `0px 4px 8px rgb(0 0 0 / 0.7)`
-      : `0px 4px 8px rgb(0 0 0 / 0.1)`
-  };
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 0.875rem;
-  z-index: 1;
-`,
-);
-
 export default Header;

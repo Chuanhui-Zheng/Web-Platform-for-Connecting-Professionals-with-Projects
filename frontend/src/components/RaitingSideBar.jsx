@@ -12,6 +12,7 @@ import {
   } from '@mui/material';
   import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { apiGet } from '../api';
+import PropTypes from 'prop-types';
 
 /**
  * 
@@ -20,7 +21,7 @@ import { apiGet } from '../api';
  * 
  * Component for raiting side bar.
  */
-function RaitingSideBar({professionals, projectName, onSelectUser }) {
+const RaitingSideBar = ({professionals, projectName, onSelectUser }) =>  {
 	const [professionalDetails, setProfessionalDetails] = useState({});
 	const [allProfessionals, setAllProfessionals] = useState([]);
 
@@ -87,7 +88,7 @@ function RaitingSideBar({professionals, projectName, onSelectUser }) {
 			<Typography variant='h7' sx={{marginLeft: 'auto', marginRight: 'auto'}}>Start Reviewing each Member</Typography>
 
 			<List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', marginLeft: 'auto', marginRight: 'auto'}}>
-				{allProfessionals.map((professional, idx) => {
+				{allProfessionals.map((professional) => {
 					const details = professionalDetails[professional.professionalId] || {};
 					return(
 						<ListItem key={professional.professionalId} alignItems="flex-start">
@@ -125,6 +126,12 @@ function RaitingSideBar({professionals, projectName, onSelectUser }) {
 			</List>
 		</Card>
 	); 
+}
+
+RaitingSideBar.propTypes = {
+	professionals: PropTypes.array,
+	projectName: PropTypes.string,
+	onSelectUser: PropTypes.func,
 }
 
 export default RaitingSideBar;
