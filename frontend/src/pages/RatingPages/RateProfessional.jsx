@@ -1,7 +1,7 @@
 import * as React from 'react';
 import RaitingMainContent from '../../components/RaitingMainContent';
 import RaitingSideBar from '../../components/RaitingSideBar';
-import {Typography, Box} from '@mui/material'
+import { Box} from '@mui/material'
 import { apiGet } from '../../api';
 
 /**
@@ -16,7 +16,7 @@ function RateProfessional() {
 	const [professionals, setProfessionals] = React.useState([]);
 	const [projectName, setProjectName] = React.useState('');
 	const [selectedUser, setSelectUserID] = React.useState(null);
-	const [selectName, setSelectName] = React.useState(null);
+	const selectName = null;
 
 	/**
 	 * Getting the project Id from the URL.
@@ -62,5 +62,5 @@ function RateProfessional() {
 		</div>
 	);
 };
-  
-  export default RateProfessional;
+
+export default RateProfessional;
