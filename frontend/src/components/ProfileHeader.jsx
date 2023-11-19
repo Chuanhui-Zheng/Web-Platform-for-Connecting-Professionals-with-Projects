@@ -104,7 +104,7 @@ const ProfileHeader = ({userId, userType, ownProfile, refresh}) => {
 							<div className={styles.ProfileHeaderRating}>
 								<Typography variant="h5" sx={{fontWeight: '550'}}>{avgRating}</Typography>
 								<StarIcon sx={{ color: 'orange', fontSize: 25 , ml: 0.5 }}></StarIcon>
-								<Typography variant="h5" sx={{fontWeight: '350', color: 'lightgray', ml: 0.5}}>({numRatings})</Typography>
+								<Typography variant="h5" sx={{fontWeight: '350', color: '#617579', ml: 0.5}}>({numRatings})</Typography>
 							</div>
 						: <></>}
 					</div>

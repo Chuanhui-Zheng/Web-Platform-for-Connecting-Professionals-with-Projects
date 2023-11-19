@@ -1,0 +1,2 @@
+.content-stack { display: flex; flex-direction: column; gap: 20px; }
+.content-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
