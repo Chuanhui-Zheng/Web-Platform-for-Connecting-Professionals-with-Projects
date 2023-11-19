@@ -378,7 +378,7 @@ export default function ProjectDetailWindow({ projectID }) {
             {projectInfo.projectAvgRating.toFixed(1)}
           </Typography>
           <StarIcon sx={{ color: 'orange', fontSize: 25, mb:1, ml:0.3, mr:0.3}}></StarIcon>
-              <Typography variant="h5" sx={{ fontWeight: '350', color: '#617579', pb:0.5}}>
+          <Typography variant="h5" sx={{ fontWeight: '350', color: 'lightgray', pb:0.5}}>
             ({Object.keys(projectInfo.listOfProjectRatings).length})
           </Typography>
         </div>

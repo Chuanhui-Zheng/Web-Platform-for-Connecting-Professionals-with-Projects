@@ -120,13 +120,13 @@ function SidePanel({ projectID, onSelectProject }) {
 
 	// check if all projects listings are loaded
 	if (isLoading) {
-			return <Box sx={{width: '100%', height: '100%', background:'rgba(255,255,255, 0.94)', boxShadow: '0 18px 45px rgba(23,59,66,0.12)',border:'1px solid rgba(23,59,66,0.14)' , borderRadius:'20px', color: '#173b42'}}>
+			return <Box sx={{width: '100%', height: '100%', background:'rgba(255,255,255, 0.3)', boxShadow: '0 4px 6px rgba(0,0,0,0.1)',border:'1px solid #fff' , borderRadius:'20px'}}>
 				<Box sx={{display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
 				height: '100vh',
 				textAlign: 'center'}}>
-					<Typography variant="h6" sx={{ color: '#173b42' }} component="h1" gutterBottom>
+					<Typography variant="h6" color="white" component="h1" gutterBottom>
 						Loading projects...
 						<LinearProgress color="success" />
 					</Typography>
