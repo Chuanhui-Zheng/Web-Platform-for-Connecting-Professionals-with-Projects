@@ -162,6 +162,11 @@ For the complete route registration, see [`backend/app.py`](backend/app.py).
 
 The application is cross-platform: React/Vite and Flask do not depend on macOS. Only the virtual-environment activation and environment-variable commands differ between shells. Use Python 3.11 or newer and Node.js 18 or newer.
 
+| Platform | Backend environment | Frontend install | Seed command |
+| --- | --- | --- | --- |
+| macOS / Linux | `source .venv/bin/activate` | `npm install` | `bash db_controller.sh init` |
+| Windows PowerShell | `.\\.venv\\Scripts\\Activate.ps1` | `npm install` | `python db_init.py` |
+
 ### macOS / Linux
 
 #### 1. Start the backend
