@@ -27,7 +27,7 @@ function ProfessionalRegisterForm() {
     professionalPassword: "",
     professionalPhoto: ""
   });
-  const [validationErrors, setValidationErrors] = useState({ email: false, password: false });
+  const [isValid, setIsValid] = useState(true);
   const [errorMessage, setErrorMessage] = React.useState('');
   const [error, setError] = React.useState(false);
   const navigate = useNavigate();
@@ -81,11 +81,12 @@ function ProfessionalRegisterForm() {
       professionalPhoto,
       professionalFullName
     } = formData
-    const emailError = !isValidEmail(professionalEmail);
-    const passwordError = !isValidPassword(professionalPassword);
-    setValidationErrors({ email: emailError, password: passwordError });
+    // Set that it is valid (by default)
+    setIsValid(true)
 
-    if (emailError || passwordError) {
+    // Check if valid email
+    if (!isValidEmail(professionalEmail) || !isValidPassword(professionalPassword)) {
+      setIsValid(false);
       return;
     }
 
@@ -117,10 +118,11 @@ function ProfessionalRegisterForm() {
         buttonName="Register"
         handleSubmit={handleSubmit}
     >
-        <RegistrationErrorMessage
-          emailError={validationErrors.email}
-          passwordError={validationErrors.password}
-        />
+        {isValid ? 
+          <></>
+          :
+          <RegistrationErrorMessage />
+        }
         <TextField
           variant="filled"
           margin="normal"

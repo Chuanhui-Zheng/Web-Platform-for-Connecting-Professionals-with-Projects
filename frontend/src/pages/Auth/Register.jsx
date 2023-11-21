@@ -29,18 +29,18 @@ function Register() {
         justifyContent="center"
         alignItems="center" flexDirection="column" 
         sx={{
-          border:'1px solid rgba(23,59,66,0.14)',
+          border:'1px solid #fff',
           width:'auto',
           borderRadius:'35px',
           padding:'27px 10px',
           textAlign:'center',
-          background:'rgba(255,255,255,0.94)', 
+          background:'rgba(255,255,255,0.3)', 
           zIndex:'1',
           boxShadow: '0 4px 6px rgba(0,0,0,0.1)', 
           backdropFilter:'blur(29px)'
         }}
       >
-      <Typography variant='h4' sx={{ color: '#173b42' }} fontWeight={600}>
+      <Typography variant='h4' color="white" fontWeight={500}>
         Register
       </Typography>
       <br />      
@@ -49,15 +49,10 @@ function Register() {
         aria-labelledby="demo-row-radio-buttons-group-label"
         name="row-radio-buttons-group"
         onChange={handleUserType}
-        sx={{
-          color: '#173b42',
-          '& .MuiFormControlLabel-label': { color: '#173b42', fontWeight: 500 },
-          '& .MuiRadio-root': { color: '#617579' },
-          '& .Mui-checked': { color: '#d66d42' },
-        }}
+        sx={{color:'white'}}
       >
-        <FormControlLabel sx={{ color: '#173b42' }} value="professional" control={<Radio />} label="Professional" />
-        <FormControlLabel sx={{ color: '#173b42' }} value="company" control={<Radio />} label="Company" />
+        <FormControlLabel value="professional" control={<Radio />} label="Professional" />
+        <FormControlLabel value="company" control={<Radio />} label="Company" />
       </RadioGroup>
       
       {selectedUserType === "company" 

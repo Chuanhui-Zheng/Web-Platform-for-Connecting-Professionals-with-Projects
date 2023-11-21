@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask
 from flask_cors import CORS
 from extensions import db, jwt
 from functions.auth import authRegisterCompany, authRegisterProfessional, login, logout
@@ -33,22 +33,11 @@ def create_app():
     app = Flask(__name__)
 
     app.config.from_prefixed_env()
-    app.config.setdefault('JSON_SORT_KEYS', False)
-    app.config.setdefault('MAX_CONTENT_LENGTH', 4 * 1024 * 1024)
 
     db.init_app(app)
     jwt.init_app(app)
 
     CORS(app)
-
-    @app.get('/health')
-    def health_check():
-        """Return a small readiness response for local and container checks."""
-        return jsonify({"status": "ok", "service": "projector-api", "version": "local"})
-
-    @app.errorhandler(404)
-    def handle_not_found(error):
-        return jsonify({"error": "Route not found", "path": error.description}), 404
 
     app.add_url_rule('/auth/register/company', 'authRegisterCompany', authRegisterCompany, methods=['POST'])
     app.add_url_rule('/auth/register/professional', 'authRegisterProfessional', authRegisterProfessional, methods=['POST'])

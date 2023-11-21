@@ -30,7 +30,7 @@ function CompanyRegisterForm() {
     companyLogo: "",
     companyDescription: ""
   });
-  const [validationErrors, setValidationErrors] = useState({ email: false, password: false });
+  const [isValid, setIsValid] = useState(true);
   const [errorMessage, setErrorMessage] = React.useState('');
   const [error, setError] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(true);
@@ -80,11 +80,12 @@ function CompanyRegisterForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const emailError = !isValidEmail(formData.companyEmail);
-    const passwordError = !isValidPassword(formData.companyPassword);
-    setValidationErrors({ email: emailError, password: passwordError });
+    // Set that it is valid (by default)
+    setIsValid(true)
 
-    if (emailError || passwordError) {
+    // Check if valid email
+    if (!isValidEmail(formData.companyEmail) || !isValidPassword(formData.companyPassword)) {
+      setIsValid(false);
       return;
     }
 
@@ -129,10 +130,11 @@ function CompanyRegisterForm() {
         buttonName="Register"
         handleSubmit={handleSubmit}
       >
-        <RegistrationErrorMessage
-          emailError={validationErrors.email}
-          passwordError={validationErrors.password}
-        />
+        {isValid ? 
+          <></>
+          :
+          <RegistrationErrorMessage />
+        }
         <TextField
           variant="filled"
           margin="normal"
