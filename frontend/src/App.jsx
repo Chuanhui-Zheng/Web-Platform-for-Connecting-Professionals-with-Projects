@@ -13,9 +13,21 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import ReviewPage from "./pages/RatingPages/ReviewPage";
 import { PageContainer } from '@toolpad/core/PageContainer';
 import './styles/App.css';
+import './styles/Polish.css';
+import './styles/Motion.css';
+import './styles/Responsive.css';
+import './styles/Layout.css';
+import './styles/Feedback.css';
+import './styles/Forms.css';
+import './styles/Surfaces.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme({  
+  palette: {
+    primary: { main: '#3b7c84' },
+    secondary: { main: '#f29465' },
+    text: { primary: '#173b42', secondary: '#617579' },
+  },
   typography: {
     fontFamily: 
       '"Poppins", sans-serif',

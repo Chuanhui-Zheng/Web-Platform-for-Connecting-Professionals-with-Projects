@@ -1,0 +1,2 @@
+.hover-rise { transition: transform 160ms ease, box-shadow 160ms ease; }
+.hover-rise:hover { transform: translateY(-3px); box-shadow: var(--shadow-soft); }
